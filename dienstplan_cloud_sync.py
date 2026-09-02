@@ -7,7 +7,7 @@ waehlt je Kalenderwoche die aktuellste Fassung (hoechste "n. Aenderung"),
 sucht darin nach einem Namen und schreibt zwei ICS-Kalenderdateien nach
 docs/<SLUG>/:
 
-  dienst.ics  -> nur "Dienst: ..."-Wochen
+  dienst.ics  -> Wochen mit Schiffszuordnung ("Dienst auf ...")
   frei.ics    -> Freie Tage / Urlaub / Abwesend
 
 Diese Dateien werden von GitHub Pages veroeffentlicht. Google Kalender
@@ -168,13 +168,52 @@ def parse_date_range(pdf):
     return d_from, d_to
 
 
+def column_pairs(table):
+    """
+    (x0, x1) je Spaltenpaar (Rang + Name), abgeleitet aus der Zeile mit den
+    meisten Zellen. Kopfzeilen taugen dafuer nicht: In den Besatzungslisten
+    reicht die erkannte Kopfzeile teils nicht ueber die volle Tabellenbreite.
+    """
+    widest = max(table.rows, key=lambda r: sum(1 for c in r.cells if c))
+    cells = widest.cells
+    pairs = {}
+    for i in range(0, len(cells), 2):
+        left = cells[i]
+        right = cells[i + 1] if i + 1 < len(cells) else None
+        if left and right:
+            pairs[i] = (left[0], right[2])
+        elif left:
+            pairs[i] = (left[0], left[2])
+    return pairs
+
+
+def headers_in_band(page, table, top, bottom, pairs):
+    """
+    Ueberschriften einer Kopfzeile ueber die x-Position der Woerter zuordnen
+    statt ueber die Zellen. Die letzte Spalte einer Besatzungsliste liegt
+    haeufig ausserhalb der von pdfplumber erkannten Kopfzeile; ihr Text ginge
+    sonst verloren und die Woche endete als "UNBEKANNT".
+    """
+    x0, x1 = table.bbox[0], table.bbox[2]
+    band = page.crop((x0, max(top - 1, 0), x1, min(bottom + 1, page.height)))
+    found = {}
+    for word in sorted(band.extract_words(), key=lambda w: w["x0"]):
+        center = (word["x0"] + word["x1"]) / 2
+        for index, (left, right) in pairs.items():
+            if left <= center <= right:
+                found[index] = (found.get(index, "") + " " + word["text"]).strip()
+                break
+    return found
+
+
 def find_status_for_name(pdf, target_name_fragment):
     hits = []
     for page in pdf.pages:
         for table in page.find_tables():
             rows = table.extract()
+            pairs = column_pairs(table)
             headers = {}
-            for row in rows:
+            for row, meta in zip(rows, table.rows):
                 ncols = len(row)
                 is_header = True
                 any_text = False
@@ -188,10 +227,11 @@ def find_status_for_name(pdf, target_name_fragment):
                 if not any_text:
                     continue
                 if is_header:
-                    for i in range(0, ncols, 2):
-                        even = (row[i] or "").strip()
-                        if even:
-                            headers[i] = even
+                    # Jeder Block bringt eigene Ueberschriften mit; die alten
+                    # duerfen nicht stehen bleiben.
+                    headers = headers_in_band(
+                        page, table, meta.bbox[1], meta.bbox[3], pairs
+                    )
                     continue
                 for i in range(0, ncols, 2):
                     name_cell = row[i + 1].strip() if i + 1 < ncols and row[i + 1] else ""
@@ -269,12 +309,13 @@ def category_to_summary(category):
     if "ABWESEND" in upper:
         return "Abwesend"
     if upper == "UNBEKANNT":
-        return "Dienstplan: unbekannt (bitte PDF pruefen)"
-    return f"Dienst: {category}"
+        return "Besatzungsliste: Spalte unklar (bitte PDF pruefen)"
+    return f"Dienst auf {category}"
 
 
 def is_dienst(summary):
-    return summary.startswith("Dienst: ")
+    """Unklare Faelle bewusst zum Dienst zaehlen - dort fallen sie auf."""
+    return summary.startswith("Dienst auf ") or summary.startswith("Besatzungsliste:")
 
 
 def prune_state(state, weeks):
