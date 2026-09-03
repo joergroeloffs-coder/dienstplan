@@ -443,7 +443,10 @@ def main():
     state = add_placeholder_weeks(state, weeks_to_check)
     save_state(state)
 
-    print(f"\nDienst-Termine: {len(dienst_events)}, Frei-Termine: {len(frei_events)}")
+    print(
+        f"\nDienst-Termine: {len(dienst_events)}, Frei-Termine: {len(frei_events)}, "
+        f"Vermutungen: {len(prognose_events)}"
+    )
     print(f"changed={str(changed).lower()}")
 
 
