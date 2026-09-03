@@ -59,7 +59,7 @@ def build_body(key, entry):
     d_from = date.fromisoformat(entry["date_from"])
     d_to = date.fromisoformat(entry["date_to"])
     summary = entry["summary"]
-    is_dienst = summary.startswith("Dienst: ")
+    is_dienst = summary.startswith("Dienst auf ") or summary.startswith("Besatzungsliste:")
     year, week = key.split("-W")
     stand = entry.get("mtime") or "unbekannt"
     return {
