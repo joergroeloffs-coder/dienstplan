@@ -75,5 +75,45 @@
     "revision": 1,
     "sequence": 0,
     "summary": "Freie Tage"
+  },
+  "2026-W41": {
+    "category": null,
+    "date_from": null,
+    "date_to": null,
+    "file": null,
+    "mtime": null,
+    "nachbar_links": null,
+    "sequence": 0,
+    "summary": null
+  },
+  "2026-W42": {
+    "category": null,
+    "date_from": null,
+    "date_to": null,
+    "file": null,
+    "mtime": null,
+    "nachbar_links": null,
+    "sequence": 0,
+    "summary": null
+  },
+  "2026-W43": {
+    "category": null,
+    "date_from": null,
+    "date_to": null,
+    "file": null,
+    "mtime": null,
+    "nachbar_links": null,
+    "sequence": 0,
+    "summary": null
+  },
+  "2026-W44": {
+    "category": null,
+    "date_from": null,
+    "date_to": null,
+    "file": null,
+    "mtime": null,
+    "nachbar_links": null,
+    "sequence": 0,
+    "summary": null
   }
 }
