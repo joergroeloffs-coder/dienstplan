@@ -364,7 +364,8 @@ def main():
     index = fetch_index(session)
     print(f"Verzeichnislisting: {len(index)} Kalenderwochen gefunden\n")
 
-    for iso_year, iso_week in iso_weeks_to_check(WEEKS_BACK, WEEKS_AHEAD):
+    weeks_to_check = list(iso_weeks_to_check(WEEKS_BACK, WEEKS_AHEAD))
+    for iso_year, iso_week in weeks_to_check:
         key = f"{iso_year}-W{iso_week:02d}"
         found = index.get((iso_year, iso_week))
         if not found:
