@@ -44,6 +44,37 @@ COLOR_FREI = "10"
 DRY_RUN = os.environ.get("DRY_RUN") == "1"
 
 
+
+SCHIFFE = [
+    "NORDERAUE",
+    "SCHLESWIG - HOLSTEIN",
+    "UTHLANDE",
+    "NORDFRIESLAND",
+    "HILLIGENLEI",
+]
+
+
+def _norm(text):
+    return "".join(c for c in (text or "").upper() if c.isalnum())
+
+
+_SCHIFFE_NORM = {_norm(s): s for s in SCHIFFE}
+
+
+def _ist_schiff(kategorie):
+    return _norm(kategorie) in _SCHIFFE_NORM
+
+
+def _next_week_key(key):
+    year, week = key.split("-W")
+    try:
+        monday = date.fromisocalendar(int(year), int(week), 1) + timedelta(days=7)
+    except ValueError:
+        return None
+    y, w, _ = monday.isocalendar()
+    return f"{y}-W{w:02d}"
+
+
 def event_id_for(key):
     year, week = key.split("-W")
     return f"dienstplan{year}{int(week):02d}"
@@ -79,6 +110,56 @@ def build_body(key, entry):
         },
     }
 
+
+
+def build_prognose_bodies(state):
+    """Erzeugt Google-Calendar-Bodies fuer Vorhersagen."""
+    bodies = {}
+    for key, entry in sorted(state.items()):
+        if not entry.get("date_to"):
+            continue
+        cat = entry.get("category") or ""
+        if _ist_schiff(cat):
+            continue
+        links = entry.get("nachbar_links")
+        if not _ist_schiff(links or ""):
+            continue
+        folge = _next_week_key(key)
+        if not folge:
+            continue
+        folge_entry = state.get(folge, {})
+        if folge_entry.get("date_from"):
+            continue
+        schiff = _SCHIFFE_NORM[_norm(links)]
+        d_from = date.fromisoformat(entry["date_to"])
+        d_to = d_from + timedelta(days=7)
+        year, week = key.split("-W")
+        stand = entry.get("mtime") or "unbekannt"
+        eid = f"prognose{folge.replace('-W', '')}"
+        bodies[eid] = {
+            "id": eid,
+            "summary": f"Voraussichtlich Dienst auf {schiff}",
+            "start": {"date": d_from.isoformat()},
+            "end": {"date": (d_to + timedelta(days=1)).isoformat()},
+            "description": (
+                f"Unbestaetigte Vermutung\n"
+                f"In KW {int(week)}/{year} stand {schiff} links neben der eigenen Spalte.\n"
+                f"Stand: {stand}"
+            ),
+            "colorId": COLOR_DIENST,
+            "transparency": "opaque",
+            "status": "tentative",
+            "reminders": {"useDefault": False},
+            "extendedProperties": {
+                "private": {
+                    MARKER_KEY: MARKER_VALUE,
+                    "week": folge,
+                    "type": "prognose",
+                    "mtime": stand,
+                }
+            },
+        }
+    return bodies
 
 def load_credentials():
     raw = os.environ.get("GOOGLE_SA_KEY_B64")
@@ -138,6 +219,12 @@ def main():
             continue
         body = build_body(key, entry)
         desired[body["id"]] = body
+
+    # Vorhersagen hinzufuegen
+    prognosen = build_prognose_bodies(state)
+    desired.update(prognosen)
+    if prognosen:
+        print(f"Vermutungen: {len(prognosen)}")
 
     service = build("calendar", "v3", credentials=load_credentials(), cache_discovery=False)
 
