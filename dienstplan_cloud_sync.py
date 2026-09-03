@@ -7,9 +7,8 @@ waehlt je Kalenderwoche die aktuellste Fassung (hoechste "n. Aenderung"),
 sucht darin nach einem Namen und schreibt zwei ICS-Kalenderdateien nach
 docs/<SLUG>/:
 
-  dienst.ics          -> Wochen mit Schiffszuordnung ("Dienst auf ...")
-  frei.ics            -> Freie Tage / Urlaub / Abwesend
-  voraussichtlich.ics -> unbestaetigte Vermutung fuer die Folgewoche
+  dienst.ics  -> Wochen mit Schiffszuordnung ("Dienst auf ...")
+  frei.ics    -> Freie Tage / Urlaub / Abwesend
 
 Diese Dateien werden von GitHub Pages veroeffentlicht. Google Kalender
 (und darueber auch die Handy-Kalender-Apps) abonnieren die Adresse per
@@ -47,7 +46,6 @@ STATE_PATH = HERE / "state.json"
 
 DIENST_ICS_PATH = OUTPUT_DIR / "dienst.ics"
 FREI_ICS_PATH = OUTPUT_DIR / "frei.ics"
-PROGNOSE_ICS_PATH = OUTPUT_DIR / "voraussichtlich.ics"
 
 BASE_URL = "https://faehre2.de/fileadmin/wdr/Schiffe/Besatzungslisten"
 INDEX_URL = BASE_URL + "/"
@@ -57,19 +55,6 @@ WEEKS_BACK = int(os.environ.get("WDR_WEEKS_BACK", "2"))
 WEEKS_AHEAD = int(os.environ.get("WDR_WEEKS_AHEAD", "8"))
 # Wie lange alte Wochen im Kalender stehen bleiben, bevor sie entfallen.
 PRUNE_WEEKS = int(os.environ.get("WDR_PRUNE_WEEKS", "12"))
-
-# Schreibweise wie in der Besatzungsliste. Der Vergleich laeuft normalisiert,
-# also ohne Ruecksicht auf Gross-/Kleinschreibung, Leerzeichen und Bindestriche.
-# Bewusst eine Positivliste: Taucht kuenftig eine neue Kategorie auf
-# ("Lehrgang", "Werft"), entsteht daraus keine falsche Vorhersage, sondern gar
-# keine - der harmlose Fehler.
-SCHIFFE = [
-    "NORDERAUE",
-    "SCHLESWIG - HOLSTEIN",
-    "UTHLANDE",
-    "NORDFRIESLAND",
-    "HILLIGENLEI",
-]
 
 KNOWN_RANKS = {
     "NK", "NEO", "TLM", "TWB", "TWO", "GSM", "NWB", "NWB*", "AZ", "NW",
@@ -97,17 +82,6 @@ FILE_RE = re.compile(
     r"^(\d{1,2})KW(\d{4})(?:[ _]+(\d+)\.\s*\S*nderung)?\.pdf$",
     re.IGNORECASE,
 )
-
-
-def norm(text):
-    return "".join(c for c in (text or "").upper() if c.isalnum())
-
-
-SCHIFFE_NORM = {norm(s): s for s in SCHIFFE}
-
-
-def ist_schiff(kategorie):
-    return norm(kategorie) in SCHIFFE_NORM
 
 
 def load_state():
@@ -264,8 +238,7 @@ def find_status_for_name(pdf, target_name_fragment):
                     if target_name_fragment.lower() in name_cell.lower():
                         rank_cell = (row[i] or "").strip()
                         category = headers.get(i, "UNBEKANNT")
-                        links = headers.get(i - 2) if i >= 2 else None
-                        hits.append((category, rank_cell, name_cell, links))
+                        hits.append((category, rank_cell, name_cell))
     return hits
 
 
@@ -312,66 +285,6 @@ def build_vevent(iso_year, iso_week, entry):
     )
 
 
-def next_week_key(key):
-    """'2026-W39' -> '2026-W40', ueber den Jahreswechsel hinweg."""
-    year, week = key.split("-W")
-    try:
-        monday = date.fromisocalendar(int(year), int(week), 1) + timedelta(days=7)
-    except ValueError:
-        return None
-    y, w, _ = monday.isocalendar()
-    return f"{y}-W{w:02d}"
-
-
-def build_prognose_vevent(key, entry, schiff):
-    """
-    Vermutung fuer die Folgewoche: Wer in einer Freie-Tage-Spalte rechts neben
-    einem Schiff steht, faehrt erfahrungsgemaess in der Folgewoche auf diesem
-    Schiff. Unbestaetigt - deshalb eigener Kalender, eigene UID und STATUS
-    TENTATIVE. Als belegt markiert, damit die Woche nicht faelschlich wie
-    Freizeit aussieht.
-    """
-    d_from = date.fromisoformat(entry["date_to"])
-    d_to = d_from + timedelta(days=7)
-    folge = next_week_key(key)
-    uid = f"prognose-{folge}@wdr-besatzungsliste"
-    stamp = ics_stamp(entry.get("mtime"))
-    quelle = key.replace("-W", "/KW ")
-    return (
-        "BEGIN:VEVENT\r\n"
-        f"UID:{uid}\r\n"
-        f"DTSTAMP:{stamp}\r\n"
-        f"LAST-MODIFIED:{stamp}\r\n"
-        f"SEQUENCE:{entry.get('sequence', 0)}\r\n"
-        f"DTSTART;VALUE=DATE:{d_from.strftime('%Y%m%d')}\r\n"
-        f"DTEND;VALUE=DATE:{(d_to + timedelta(days=1)).strftime('%Y%m%d')}\r\n"
-        f"SUMMARY:{ics_escape('Voraussichtlich Dienst auf ' + schiff)}\r\n"
-        "STATUS:TENTATIVE\r\n"
-        "TRANSP:OPAQUE\r\n"
-        f"DESCRIPTION:Unbestaetigte Vermutung. In {ics_escape(quelle)} stand "
-        f"{ics_escape(schiff)} links neben der eigenen Spalte.\r\n"
-        "END:VEVENT\r\n"
-    )
-
-
-def build_prognosen(state):
-    """Vermutungen nur fuer Wochen, zu denen noch keine echte Liste vorliegt."""
-    events = []
-    for key, entry in sorted(state.items()):
-        if not entry.get("date_to"):
-            continue
-        if ist_schiff(entry.get("category", "")):
-            continue  # eigene Woche ist bereits ein Einsatz
-        links = entry.get("nachbar_links")
-        if not ist_schiff(links or ""):
-            continue  # links steht kein Schiff - Regel greift nicht
-        folge = next_week_key(key)
-        if not folge or folge in state:
-            continue  # echte Liste vorhanden, die gilt
-        events.append(build_prognose_vevent(key, entry, SCHIFFE_NORM[norm(links)]))
-    return events
-
-
 def wrap_calendar(vevents, name):
     return (
         "BEGIN:VCALENDAR\r\n"
@@ -413,6 +326,24 @@ def prune_state(state, weeks):
         if date_to and date.fromisoformat(date_to) < cutoff:
             del state[key]
             print(f"{key}: aus dem Kalender entfernt (aelter als {weeks} Wochen)")
+
+
+def add_placeholder_weeks(state, weeks_to_check):
+    """Fuer Wochen ohne PDF Platzhalter anlegen, damit Vorhersagen dort landen."""
+    for jahr, kw in weeks_to_check:
+        key = f"{jahr}-W{kw:02d}"
+        if key not in state:
+            state[key] = {
+                "category": None,
+                "summary": None,
+                "date_from": None,
+                "date_to": None,
+                "file": None,
+                "mtime": None,
+                "nachbar_links": None,
+                "sequence": 0,
+            }
+    return state
 
 
 def main():
@@ -472,7 +403,7 @@ def main():
                 "Datumszeile im PDF nicht gefunden, kein Kalendereintrag"
             )
 
-        category, rank, name_cell, links = hits[0]
+        category, rank, name_cell = hits[0]
         entry = {
             "date_from": d_from.isoformat() if d_from else None,
             "date_to": d_to.isoformat() if d_to else None,
@@ -481,7 +412,6 @@ def main():
             "file": filename,
             "mtime": mtime,
             "revision": revision,
-            "nachbar_links": links,
             "sequence": (prev.get("sequence", 0) + 1) if prev else 0,
         }
         state[key] = entry
@@ -509,16 +439,10 @@ def main():
     FREI_ICS_PATH.write_text(
         wrap_calendar(frei_events, "Frei"), encoding="utf-8", newline=""
     )
-    prognose_events = build_prognosen(state)
-    PROGNOSE_ICS_PATH.write_text(
-        wrap_calendar(prognose_events, "Voraussichtlich"), encoding="utf-8", newline=""
-    )
+    state = add_placeholder_weeks(state, weeks_to_check)
     save_state(state)
 
-    print(
-        f"\nDienst-Termine: {len(dienst_events)}, Frei-Termine: {len(frei_events)}, "
-        f"Vermutungen: {len(prognose_events)}"
-    )
+    print(f"\nDienst-Termine: {len(dienst_events)}, Frei-Termine: {len(frei_events)}")
     print(f"changed={str(changed).lower()}")
 
 
