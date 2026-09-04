@@ -200,6 +200,10 @@ def needs_update(existing, body):
         return True
     if existing.get("end", {}).get("date") != body["end"]["date"]:
         return True
+    if existing.get("colorId") != body.get("colorId"):
+        return True
+    if existing.get("transparency") != body.get("transparency"):
+        return True
     old = existing.get("extendedProperties", {}).get("private", {})
     new = body["extendedProperties"]["private"]
     return old.get("mtime") != new.get("mtime") or old.get("revision") != new.get("revision")
@@ -289,4 +293,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-                                      
