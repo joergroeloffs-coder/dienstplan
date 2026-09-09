@@ -21,6 +21,7 @@ Zugangsdaten kommen aus den Umgebungsvariablen WDR_USER / WDR_PASS
 (als GitHub Actions Secrets hinterlegt), nicht aus einer lokalen Datei.
 """
 
+import colorsys
 import json
 import os
 import re
@@ -104,6 +105,55 @@ SCHIFFE_NORM = {norm(s): s for s in SCHIFFE}
 
 def ist_schiff(kategorie):
     return norm(kategorie) in SCHIFFE_NORM
+
+
+# Manche Kolleginnen und Kollegen werden in Urlaub/Freie-Tage-Bloecken mit
+# der Farbe des Schiffs hinterlegt, auf dem sie voraussichtlich als
+# naechstes fahren (auch als Hinweis "faehrt auf demselben Schiff weiter",
+# wenn die Faerbung in der eigenen Schiffsspalte auftaucht). Der Farbton
+# der Fahrplaner ist nicht pixelgenau reproduzierbar, daher Vergleich ueber
+# den Hue-Winkel mit Toleranz statt exaktem RGB-Abgleich.
+HUE_TOLERANCE_DEGREES = 20
+
+
+def fill_rects(page):
+    """Farbig gefuellte Flaechen einer Seite, ohne die duennen Rahmenlinien
+    der Tabelle (die pdfplumber ebenfalls als 'rects' mit Fuellfarbe meldet)."""
+    return [
+        r
+        for r in page.rects
+        if (r["x1"] - r["x0"]) > 3
+        and (r["bottom"] - r["top"]) > 3
+        and r.get("non_stroking_color")
+    ]
+
+
+def color_at(rects, x, y):
+    """Fuellfarbe am Punkt (x, y); bei Ueberlappung die kleinste (spezifischste)
+    Flaeche."""
+    best, best_area = None, None
+    for r in rects:
+        if r["x0"] <= x <= r["x1"] and r["top"] <= y <= r["bottom"]:
+            area = (r["x1"] - r["x0"]) * (r["bottom"] - r["top"])
+            if best_area is None or area < best_area:
+                best, best_area = r, area
+    return best["non_stroking_color"] if best else None
+
+
+def cell_hue(color):
+    """Hue-Winkel (0-360) einer Fuellfarbe, oder None bei fehlender Farbe
+    oder zu geringer Saettigung (Grau/Weiss - kein auswertbarer Farbton)."""
+    if not color or len(color) < 3:
+        return None
+    h, s, _v = colorsys.rgb_to_hsv(color[0], color[1], color[2])
+    return h * 360 if s >= 0.15 else None
+
+
+def hues_close(a, b, tolerance=HUE_TOLERANCE_DEGREES):
+    if a is None or b is None:
+        return False
+    diff = abs(a - b) % 360
+    return min(diff, 360 - diff) <= tolerance
 
 
 def load_state():
@@ -228,9 +278,43 @@ def headers_in_band(page, table, top, bottom, pairs):
     return found
 
 
+def farbe_fuer_namen(words, rects, ship_hue, xrange, row_bbox, fragment):
+    """Schiff, dessen Kopf-Farbton zur Fuellfarbe der Namenszelle passt, oder
+    None. `ship_hue` ist eine {schiffsname: hue}-Zuordnung fuer die gesamte
+    Seite - die Faerbung eines Namens kann sich auf ein Schiff in einem
+    anderen Tabellenblock derselben Seite beziehen (z.B. Urlaubsspalte neben
+    Besatzungsliste)."""
+    if not xrange or not ship_hue:
+        return None
+    x0, x1 = xrange
+    row_top, row_bottom = row_bbox[1], row_bbox[3]
+    nachname = fragment.split(",")[0].strip().lower()
+    own_hue = None
+    for word in words:
+        if (
+            nachname in word["text"].lower()
+            and x0 <= word["x0"] <= x1
+            and row_top - 1 <= word["top"] <= row_bottom + 1
+        ):
+            cx = (word["x0"] + word["x1"]) / 2
+            cy = (word["top"] + word["bottom"]) / 2
+            own_hue = cell_hue(color_at(rects, cx, cy))
+            break
+    if own_hue is None:
+        return None
+    for schiff, hue in ship_hue.items():
+        if hues_close(own_hue, hue):
+            return schiff
+    return None
+
+
 def find_status_for_name(pdf, target_name_fragment):
     hits = []
     for page in pdf.pages:
+        rects = fill_rects(page)
+        words = page.extract_words()
+        ship_hue = {}
+        row_bands = []
         for table in page.find_tables():
             rows = table.extract()
             pairs = column_pairs(table)
@@ -254,14 +338,31 @@ def find_status_for_name(pdf, target_name_fragment):
                     headers = headers_in_band(
                         page, table, meta.bbox[1], meta.bbox[3], pairs
                     )
+                    for idx, header_text in headers.items():
+                        if idx not in pairs or not ist_schiff(header_text):
+                            continue
+                        x0, x1 = pairs[idx]
+                        cx = (x0 + x1) / 2
+                        cy = (meta.bbox[1] + meta.bbox[3]) / 2
+                        hue = cell_hue(color_at(rects, cx, cy))
+                        if hue is not None:
+                            ship_hue[SCHIFFE_NORM[norm(header_text)]] = hue
                     continue
-                for i in range(0, ncols, 2):
-                    name_cell = row[i + 1].strip() if i + 1 < ncols and row[i + 1] else ""
-                    if target_name_fragment.lower() in name_cell.lower():
-                        rank_cell = (row[i] or "").strip()
-                        category = headers.get(i, "UNBEKANNT")
-                        links = headers.get(i - 2) if i >= 2 else None
-                        hits.append((category, rank_cell, name_cell, links))
+                row_bands.append((row, meta, pairs, headers))
+
+        for row, meta, pairs, headers in row_bands:
+            ncols = len(row)
+            for i in range(0, ncols, 2):
+                name_cell = row[i + 1].strip() if i + 1 < ncols and row[i + 1] else ""
+                if target_name_fragment.lower() in name_cell.lower():
+                    rank_cell = (row[i] or "").strip()
+                    category = headers.get(i, "UNBEKANNT")
+                    links = headers.get(i - 2) if i >= 2 else None
+                    farbe = farbe_fuer_namen(
+                        words, rects, ship_hue, pairs.get(i), meta.bbox,
+                        target_name_fragment,
+                    )
+                    hits.append((category, rank_cell, name_cell, links, farbe))
     return hits
 
 
@@ -319,13 +420,23 @@ def next_week_key(key):
     return f"{y}-W{w:02d}"
 
 
-def build_prognose_vevent(key, entry, schiff):
+def build_prognose_vevent(key, entry, schiff, grund):
     d_from = date.fromisoformat(entry["date_to"])
     d_to = d_from + timedelta(days=7)
     folge = next_week_key(key)
     uid = f"prognose-{folge}@wdr-besatzungsliste"
     stamp = ics_stamp(entry.get("mtime"))
     quelle = key.replace("-W", "/KW ")
+    if grund == "farbe":
+        hinweis = (
+            f"Eigener Name in {ics_escape(quelle)} farblich wie "
+            f"{ics_escape(schiff)} hinterlegt."
+        )
+    else:
+        hinweis = (
+            f"In {ics_escape(quelle)} stand {ics_escape(schiff)} links "
+            "neben der eigenen Spalte."
+        )
     return (
         "BEGIN:VEVENT\r\n"
         f"UID:{uid}\r\n"
@@ -337,8 +448,7 @@ def build_prognose_vevent(key, entry, schiff):
         f"SUMMARY:{ics_escape('Voraussichtlich Dienst auf ' + schiff)}\r\n"
         "STATUS:TENTATIVE\r\n"
         "TRANSP:OPAQUE\r\n"
-        f"DESCRIPTION:Unbestaetigte Vermutung. In {ics_escape(quelle)} stand "
-        f"{ics_escape(schiff)} links neben der eigenen Spalte.\r\n"
+        f"DESCRIPTION:Unbestaetigte Vermutung. {hinweis}\r\n"
         "END:VEVENT\r\n"
     )
 
@@ -348,18 +458,26 @@ def build_prognosen(state):
     for key, entry in sorted(state.items()):
         if not entry.get("date_to"):
             continue
-        if ist_schiff(entry.get("category", "") or ""):
-            continue
-        links = entry.get("nachbar_links")
-        if not ist_schiff(links or ""):
-            continue
         folge = next_week_key(key)
         if not folge:
             continue
         folge_entry = state.get(folge, {})
         if folge_entry.get("date_from"):
             continue  # echte Liste vorhanden
-        events.append(build_prognose_vevent(key, entry, SCHIFFE_NORM[norm(links)]))
+
+        farbe = entry.get("farbe_schiff")
+        if ist_schiff(farbe or ""):
+            schiff = SCHIFFE_NORM[norm(farbe)]
+            events.append(build_prognose_vevent(key, entry, schiff, "farbe"))
+            continue
+
+        if ist_schiff(entry.get("category", "") or ""):
+            continue
+        links = entry.get("nachbar_links")
+        if not ist_schiff(links or ""):
+            continue
+        schiff = SCHIFFE_NORM[norm(links)]
+        events.append(build_prognose_vevent(key, entry, schiff, "nachbar"))
     return events
 
 
@@ -375,6 +493,7 @@ def add_placeholder_weeks(state, weeks_to_check):
                 "file": None,
                 "mtime": None,
                 "nachbar_links": None,
+                "farbe_schiff": None,
                 "sequence": 0,
             }
     return state
@@ -481,7 +600,7 @@ def main():
                 "Datumszeile im PDF nicht gefunden, kein Kalendereintrag"
             )
 
-        category, rank, name_cell, links = hits[0]
+        category, rank, name_cell, links, farbe = hits[0]
         entry = {
             "date_from": d_from.isoformat() if d_from else None,
             "date_to": d_to.isoformat() if d_to else None,
@@ -491,6 +610,7 @@ def main():
             "mtime": mtime,
             "revision": revision,
             "nachbar_links": links,
+            "farbe_schiff": farbe,
             "sequence": (prev.get("sequence", 0) + 1) if prev else 0,
         }
         state[key] = entry
