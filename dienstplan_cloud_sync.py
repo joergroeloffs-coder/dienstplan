@@ -7,8 +7,11 @@ waehlt je Kalenderwoche die aktuellste Fassung (hoechste "n. Aenderung"),
 sucht darin nach einem Namen und schreibt zwei ICS-Kalenderdateien nach
 docs/<SLUG>/:
 
-  dienst.ics  -> Wochen mit Schiffszuordnung ("Dienst auf ...")
-  frei.ics    -> Freie Tage / Urlaub / Abwesend
+  dienst.ics        -> Wochen mit Schiffszuordnung ("Dienst auf ...")
+  frei.ics          -> Freie Tage / Urlaub / Abwesend
+  voraussichtlich.ics -> unbestaetigte Vermutungen fuer die Folgewoche,
+                         abgeleitet aus Nachbarspalte, Farbmarkierung und
+                         fehlender Farbmarkierung (siehe build_prognosen)
 
 Diese Dateien werden von GitHub Pages veroeffentlicht. Google Kalender
 (und darueber auch die Handy-Kalender-Apps) abonnieren die Adresse per
@@ -453,6 +456,32 @@ def build_prognose_vevent(key, entry, schiff, grund):
     )
 
 
+def build_prognose_frei_vevent(key, entry):
+    d_from = date.fromisoformat(entry["date_to"])
+    d_to = d_from + timedelta(days=7)
+    folge = next_week_key(key)
+    uid = f"prognose-frei-{folge}@wdr-besatzungsliste"
+    stamp = ics_stamp(entry.get("mtime"))
+    quelle = key.replace("-W", "/KW ")
+    kategorie = entry.get("category", "") or "?"
+    return (
+        "BEGIN:VEVENT\r\n"
+        f"UID:{uid}\r\n"
+        f"DTSTAMP:{stamp}\r\n"
+        f"LAST-MODIFIED:{stamp}\r\n"
+        f"SEQUENCE:{entry.get('sequence', 0)}\r\n"
+        f"DTSTART;VALUE=DATE:{d_from.strftime('%Y%m%d')}\r\n"
+        f"DTEND;VALUE=DATE:{(d_to + timedelta(days=1)).strftime('%Y%m%d')}\r\n"
+        f"SUMMARY:{ics_escape('Voraussichtlich frei')}\r\n"
+        "STATUS:TENTATIVE\r\n"
+        "TRANSP:TRANSPARENT\r\n"
+        f"DESCRIPTION:Unbestaetigte Vermutung. In {ics_escape(quelle)} Dienst "
+        f"auf {ics_escape(kategorie)} ohne Farbmarkierung des eigenen Namens "
+        "- voraussichtlich abgeloest.\r\n"
+        "END:VEVENT\r\n"
+    )
+
+
 def build_prognosen(state):
     events = []
     for key, entry in sorted(state.items()):
@@ -471,8 +500,16 @@ def build_prognosen(state):
             events.append(build_prognose_vevent(key, entry, schiff, "farbe"))
             continue
 
-        if ist_schiff(entry.get("category", "") or ""):
+        kategorie = entry.get("category", "") or ""
+        if ist_schiff(kategorie):
+            # Dienst diese Woche, aber kein Farbhinweis auf Fortsetzung:
+            # voraussichtlich Abloesung -> naechste Woche frei. Gilt nicht
+            # fuer Az (Auszubildende bleiben fest einem Schiff zugeteilt und
+            # rotieren nicht woechentlich).
+            if (entry.get("rang") or "").upper() != "AZ":
+                events.append(build_prognose_frei_vevent(key, entry))
             continue
+
         links = entry.get("nachbar_links")
         if not ist_schiff(links or ""):
             continue
@@ -494,6 +531,7 @@ def add_placeholder_weeks(state, weeks_to_check):
                 "mtime": None,
                 "nachbar_links": None,
                 "farbe_schiff": None,
+                "rang": None,
                 "sequence": 0,
             }
     return state
@@ -611,6 +649,7 @@ def main():
             "revision": revision,
             "nachbar_links": links,
             "farbe_schiff": farbe,
+            "rang": rank,
             "sequence": (prev.get("sequence", 0) + 1) if prev else 0,
         }
         state[key] = entry
