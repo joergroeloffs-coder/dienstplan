@@ -77,14 +77,15 @@
     "summary": "Freie Tage"
   },
   "2026-W41": {
-    "category": null,
-    "date_from": null,
-    "date_to": null,
-    "file": null,
-    "mtime": null,
-    "nachbar_links": null,
-    "sequence": 0,
-    "summary": null
+    "category": "UTHLANDE",
+    "date_from": "2026-10-02",
+    "date_to": "2026-10-09",
+    "file": "41KW2026.pdf",
+    "mtime": "2026-09-09 05:51",
+    "nachbar_links": "Freie Tage",
+    "revision": 0,
+    "sequence": 1,
+    "summary": "Dienst auf UTHLANDE"
   },
   "2026-W42": {
     "category": null,
