@@ -365,10 +365,14 @@ def main():
 
     angelegt = geaendert = geloescht = unveraendert = 0
 
+    def start_label(body):
+        start = body["start"]
+        return start.get("date") or start.get("dateTime", "?")
+
     for event_id, body in sorted(desired.items()):
         current = existing.get(event_id)
         if current is None:
-            print(f"neu:       {body['summary']} ({body['start']['date']})")
+            print(f"neu:       {body['summary']} ({start_label(body)})")
             if not DRY_RUN:
                 try:
                     service.events().insert(calendarId=calendar_id, body=body).execute()
@@ -380,7 +384,7 @@ def main():
                     ).execute()
             angelegt += 1
         elif needs_update(current, body):
-            print(f"geaendert: {body['summary']} ({body['start']['date']})")
+            print(f"geaendert: {body['summary']} ({start_label(body)})")
             if not DRY_RUN:
                 service.events().update(
                     calendarId=calendar_id, eventId=event_id, body=body

@@ -352,14 +352,18 @@ def parse_fahrplan_pdf(pdf):
             texte = [w["text"] for w in zeile]
             if texte[:1] == ["Dienstplan"]:
                 kw = texte[2] if len(texte) > 2 else None
-                match = (
-                    FAHRPLAN_WOCHENTAG_DATUM_RE.match(texte[3])
-                    if len(texte) > 3 else None
-                )
+                # Wochentag+Datum stehen mal als ein zusammenhaengender
+                # Token ("Freitag31.07.2026"), mal auf mehrere Woerter
+                # verteilt - deshalb Suche im zusammengefuegten Rest der
+                # Zeile statt Annahme einer festen Tokenposition.
+                rest = "".join(texte[3:])
+                match = FAHRPLAN_WOCHENTAG_DATUM_RE.search(rest)
                 datum = match.group(2) if match else None
                 spalten_x = None
                 continue
-            if texte and texte[0].startswith("Wittdün") and len(texte) >= 4:
+            # "Wittd" statt "Wittdün", um unempfindlich gegen abweichende
+            # Umlaut-Kodierung zu sein.
+            if texte and "Wittd" in texte[0] and len(texte) >= 4:
                 spalten_x = [w["x0"] for w in zeile[:4]]
                 continue
             if texte and (texte[0] == "HW" or texte[0].startswith(("HW", "NW"))):
@@ -910,6 +914,18 @@ def main():
             abfahrten = fahrplan_cache[filename]
             eigene = build_abfahrt_vevents(abfahrten, entry["category"])
             abfahrt_events.extend(eigene)
+            if not abfahrten:
+                print(
+                    f"  Warnung: {filename} lieferte gar keine Abfahrten - "
+                    "Seitenstruktur (Kopfzeile/Datum) vermutlich abweichend, "
+                    "PDF-Aufbau pruefen"
+                )
+            elif not eigene:
+                andere_schiffe = sorted({a["schiff"] for a in abfahrten})
+                print(
+                    f"  Warnung: {filename} hat Abfahrten, aber keine fuer "
+                    f"'{entry['category']}' (gefunden: {', '.join(andere_schiffe)})"
+                )
             print(
                 f"  KW {iso_week}/{iso_year}: {len(eigene)} Abfahrten "
                 f"({entry['category']}, aus {filename})"
