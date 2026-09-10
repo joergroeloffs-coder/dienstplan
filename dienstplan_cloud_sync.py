@@ -12,6 +12,9 @@ docs/<SLUG>/:
   voraussichtlich.ics -> unbestaetigte Vermutungen fuer die Folgewoche,
                          abgeleitet aus Nachbarspalte, Farbmarkierung und
                          fehlender Farbmarkierung (siehe build_prognosen)
+  abfahrten.ics     -> einzelne Abfahrtszeiten des eigenen Schiffs in
+                       Dienstwochen, aus den Fahrplan-PDFs unter
+                       Dienstplan-FAL/ (siehe build_abfahrt_vevents)
 
 Diese Dateien werden von GitHub Pages veroeffentlicht. Google Kalender
 (und darueber auch die Handy-Kalender-Apps) abonnieren die Adresse per
@@ -51,9 +54,13 @@ STATE_PATH = HERE / "state.json"
 DIENST_ICS_PATH = OUTPUT_DIR / "dienst.ics"
 FREI_ICS_PATH = OUTPUT_DIR / "frei.ics"
 PROGNOSE_ICS_PATH = OUTPUT_DIR / "voraussichtlich.ics"
+ABFAHRTEN_ICS_PATH = OUTPUT_DIR / "abfahrten.ics"
 
 BASE_URL = "https://faehre2.de/fileadmin/wdr/Schiffe/Besatzungslisten"
 INDEX_URL = BASE_URL + "/"
+
+FAHRPLAN_BASE_URL = "https://faehre2.de/fileadmin/wdr/Dienstplan-FAL"
+FAHRPLAN_INDEX_URL = FAHRPLAN_BASE_URL + "/"
 
 TARGET_NAME = os.environ.get("WDR_NAME_FRAGMENT", "Roeloffs")
 WEEKS_BACK = int(os.environ.get("WDR_WEEKS_BACK", "2"))
@@ -97,6 +104,32 @@ SCHIFFE = [
     "NORDFRIESLAND",
     "HILLIGENLEI",
 ]
+
+# "32._KW_FAL.pdf" oder "38._KW_FAL_FW.pdf" (FW = vermutlich Winterfahrplan-
+# Variante). Anders als die Besatzungslisten tragen die Fahrplan-Dateien
+# keine Jahreszahl im Namen - die Zuordnung zum Jahr erfolgt daher ueber das
+# Aenderungsdatum aus dem Verzeichnislisting, siehe find_fahrplan_eintrag().
+# Toleranter als FILE_RE, weil die genaue Namenskonvention hier nicht aus
+# einem echten Verzeichnislisting bestaetigt werden konnte (nur aus
+# einzelnen, per Hand hochgeladenen Beispieldateien).
+FAHRPLAN_FILE_RE = re.compile(
+    r"^(\d{1,2})\D*KW\D*FAL\D*\.pdf$", re.IGNORECASE
+)
+
+# Schiffskuerzel in den Fahrplan-PDFs - unabhaengig von SCHIFFE_NORM, weil
+# die Buchstaben nicht mit den Anfangsbuchstaben der Schiffsnamen
+# uebereinstimmen (vom Nutzer bestaetigt). HILLIGENLEI kommt in den
+# Fahrplaenen nicht vor.
+FAHRPLAN_SCHIFF_KUERZEL = {
+    "N": "NORDFRIESLAND",
+    "NA": "NORDERAUE",
+    "S": "SCHLESWIG - HOLSTEIN",
+    "U": "UTHLANDE",
+}
+
+FAHRPLAN_ROUTEN = ["Wittdün-Wyk", "Wyk-Dagebüll", "Dagebüll-Wyk", "Wyk-Wittdün"]
+FAHRPLAN_ZEIT_RE = re.compile(r"^\d{1,2}:\d{2}$")
+FAHRPLAN_WOCHENTAG_DATUM_RE = re.compile(r"^([A-Za-zÄÖÜäöüß]+)(\d{2}\.\d{2}\.\d{4})$")
 
 
 def norm(text):
@@ -229,6 +262,191 @@ def fetch_index(session):
     if not best:
         sys.exit("Keine auswertbaren Dateinamen im Verzeichnislisting gefunden.")
     return best
+
+
+def fetch_fahrplan_index(session):
+    """
+    Liest das Verzeichnislisting der Fahrplan-PDFs.
+
+    Rueckgabe: Liste von (kw, mtime, href, dateiname). Anders als bei den
+    Besatzungslisten gibt es hier kein Jahr im Dateinamen und keine erkennbare
+    Revisionsnummerierung - mehrere Eintraege mit derselben KW sind moeglich
+    (z.B. aus Vorjahren, falls das Verzeichnis nicht aufgeraeumt wird). Die
+    Auswahl der richtigen Datei erfolgt in find_fahrplan_eintrag() ueber die
+    Naehe des Aenderungsdatums zur gesuchten Kalenderwoche.
+    """
+    resp = session.get(FAHRPLAN_INDEX_URL, timeout=30)
+    if resp.status_code == 401:
+        sys.exit("HTTP 401: WDR_USER / WDR_PASS falsch oder abgelaufen (Fahrplan).")
+    if resp.status_code == 403:
+        sys.exit("HTTP 403: Zugriff auf das Fahrplan-Verzeichnis verweigert.")
+    resp.raise_for_status()
+
+    entries = []
+    for href, mtime in ROW_RE.findall(resp.text):
+        name = safe_decode_href(href)
+        m = FAHRPLAN_FILE_RE.match(name)
+        if not m:
+            continue
+        entries.append((int(m.group(1)), mtime or "", href, name))
+    return entries
+
+
+def find_fahrplan_eintrag(entries, jahr, kw):
+    """Der Eintrag mit passender KW, dessen Aenderungsdatum am naechsten am
+    Montag der gesuchten Kalenderwoche liegt."""
+    kandidaten = [e for e in entries if e[0] == kw]
+    if not kandidaten:
+        return None
+    ziel = date.fromisocalendar(jahr, kw, 1)
+
+    def distanz(eintrag):
+        try:
+            mtime_datum = datetime.strptime(eintrag[1], "%Y-%m-%d %H:%M").date()
+        except (ValueError, TypeError):
+            return timedelta(days=9999)
+        return abs(mtime_datum - ziel)
+
+    return min(kandidaten, key=distanz)
+
+
+def fahrplan_rows_from_words(words, toleranz=2.5):
+    """Gruppiert Woerter einer Fahrplan-Seite zu Zeilen anhand der y-Position."""
+    zeilen = []
+    for wort in sorted(words, key=lambda w: (w["top"], w["x0"])):
+        if zeilen and abs(zeilen[-1][0]["top"] - wort["top"]) <= toleranz:
+            zeilen[-1].append(wort)
+        else:
+            zeilen.append([wort])
+    for zeile in zeilen:
+        zeile.sort(key=lambda w: w["x0"])
+    return zeilen
+
+
+def fahrplan_spalte_fuer(x0, spalten_x):
+    """Route, deren Spaltenanfang am naechsten an x0 liegt."""
+    return min(range(len(spalten_x)), key=lambda i: abs(x0 - spalten_x[i]))
+
+
+def parse_fahrplan_pdf(pdf):
+    """
+    Liest alle Abfahrten aus einem Fahrplan-PDF.
+
+    Jede Seite enthaelt mehrere Tagesbloecke, erkennbar an der Zeile
+    "Dienstplan KW <n> <Wochentag><Datum>", gefolgt von der Routen-
+    Kopfzeile ("Wittdün-Wyk Wyk-Dagebüll Dagebüll-Wyk Wyk-Wittdün") und
+    einer Tidenzeile ("HW ... NW..."), die uebersprungen wird. Die Route
+    einer Abfahrt ergibt sich aus der x-Position der Uhrzeit, nicht aus der
+    Reihenfolge der Woerter in der Zeile (siehe fahrplan_spalte_fuer).
+
+    Rueckgabe: Liste von Dicts mit kw, datum (DD.MM.YYYY), zeit (HH:MM),
+    schiff, route, direkt (bool), vorlaeufig (bool, aus Klammer-Notation).
+    """
+    ergebnisse = []
+    for page in pdf.pages:
+        zeilen = fahrplan_rows_from_words(page.extract_words())
+        kw = None
+        datum = None
+        spalten_x = None
+        for zeile in zeilen:
+            texte = [w["text"] for w in zeile]
+            if texte[:1] == ["Dienstplan"]:
+                kw = texte[2] if len(texte) > 2 else None
+                match = (
+                    FAHRPLAN_WOCHENTAG_DATUM_RE.match(texte[3])
+                    if len(texte) > 3 else None
+                )
+                datum = match.group(2) if match else None
+                spalten_x = None
+                continue
+            if texte and texte[0].startswith("Wittdün") and len(texte) >= 4:
+                spalten_x = [w["x0"] for w in zeile[:4]]
+                continue
+            if texte and (texte[0] == "HW" or texte[0].startswith(("HW", "NW"))):
+                continue
+            if not (spalten_x and kw and datum):
+                continue
+
+            k = 0
+            while k < len(zeile):
+                wort = zeile[k]
+                vorlaeufig = False
+                if wort["text"] == "(":
+                    if k + 1 >= len(zeile):
+                        break
+                    zeit_text = zeile[k + 1]["text"]
+                    zeit_x0 = wort["x0"]
+                    k += 3  # "(" Uhrzeit ")"
+                    vorlaeufig = True
+                elif FAHRPLAN_ZEIT_RE.match(wort["text"]):
+                    zeit_text = wort["text"]
+                    zeit_x0 = wort["x0"]
+                    k += 1
+                else:
+                    k += 1
+                    continue
+                direkt = False
+                if k < len(zeile) and zeile[k]["text"] == "dir":
+                    direkt = True
+                    k += 1
+                if k < len(zeile) and zeile[k]["text"] in FAHRPLAN_SCHIFF_KUERZEL:
+                    schiff = FAHRPLAN_SCHIFF_KUERZEL[zeile[k]["text"]]
+                    spalte = fahrplan_spalte_fuer(zeit_x0, spalten_x)
+                    ergebnisse.append({
+                        "kw": kw,
+                        "datum": datum,
+                        "zeit": zeit_text,
+                        "schiff": schiff,
+                        "route": FAHRPLAN_ROUTEN[spalte],
+                        "direkt": direkt,
+                        "vorlaeufig": vorlaeufig,
+                    })
+                    k += 1
+    return ergebnisse
+
+
+def build_abfahrt_vevent(eintrag):
+    tag, monat, jahr = eintrag["datum"].split(".")
+    stunde, minute = eintrag["zeit"].split(":")
+    start = datetime(int(jahr), int(monat), int(tag), int(stunde), int(minute))
+    ende = start + timedelta(minutes=15)
+    ascii_route = (
+        eintrag["route"]
+        .replace("ü", "ue").replace("ä", "ae").replace("ö", "oe")
+        .replace("ß", "ss")
+    )
+    uid_route = "".join(c for c in ascii_route if c.isalnum())
+    uid = (
+        f"abfahrt-{start.strftime('%Y%m%dT%H%M')}-{uid_route}"
+        "@wdr-fahrplan"
+    )
+    zusaetze = []
+    if eintrag["direkt"]:
+        zusaetze.append("Direktfahrt")
+    if eintrag["vorlaeufig"]:
+        zusaetze.append("vorläufig")
+    zusatz_text = f" ({', '.join(zusaetze)})" if zusaetze else ""
+    # Floatende Ortszeit (keine TZID/Z) - Quelle und Kalender-Nutzer sind
+    # beide in derselben Zeitzone (Europe/Berlin), eine UTC-Umrechnung
+    # wuerde nur eine unnoetige Fehlerquelle bei der Sommerzeit einbauen.
+    return (
+        "BEGIN:VEVENT\r\n"
+        f"UID:{uid}\r\n"
+        f"DTSTAMP:{FALLBACK_STAMP}\r\n"
+        f"DTSTART:{start.strftime('%Y%m%dT%H%M%S')}\r\n"
+        f"DTEND:{ende.strftime('%Y%m%dT%H%M%S')}\r\n"
+        f"SUMMARY:{ics_escape('Abfahrt ' + eintrag['route'] + zusatz_text)}\r\n"
+        f"DESCRIPTION:{ics_escape(eintrag['schiff'])}\\, KW {ics_escape(eintrag['kw'])}\r\n"
+        "END:VEVENT\r\n"
+    )
+
+
+def build_abfahrt_vevents(abfahrten, schiff):
+    return [
+        build_abfahrt_vevent(eintrag)
+        for eintrag in abfahrten
+        if norm(eintrag["schiff"]) == norm(schiff)
+    ]
 
 
 def parse_date_range(pdf):
@@ -662,6 +880,41 @@ def main():
 
     prune_state(state, PRUNE_WEEKS)
 
+    abfahrt_events = []
+    dienst_wochen = [
+        (int(key.split("-W")[0]), int(key.split("-W")[1]), entry)
+        for key, entry in state.items()
+        if ist_schiff(entry.get("category", "") or "")
+        and (int(key.split("-W")[0]), int(key.split("-W")[1])) in weeks_to_check
+    ]
+    if dienst_wochen:
+        fahrplan_index = fetch_fahrplan_index(session)
+        print(f"\nFahrplan-Verzeichnislisting: {len(fahrplan_index)} Dateien gefunden")
+        fahrplan_cache = {}
+        for iso_year, iso_week, entry in dienst_wochen:
+            gefunden = find_fahrplan_eintrag(fahrplan_index, iso_year, iso_week)
+            if not gefunden:
+                print(f"  KW {iso_week}/{iso_year}: kein Fahrplan gefunden")
+                continue
+            _, mtime, href, filename = gefunden
+            if filename not in fahrplan_cache:
+                resp = session.get(f"{FAHRPLAN_BASE_URL}/{href}", timeout=30)
+                if resp.status_code != 200 or resp.content[:4] != b"%PDF":
+                    print(
+                        f"  Warnung: Fahrplan {filename} -> "
+                        f"HTTP {resp.status_code}, uebersprungen"
+                    )
+                    continue
+                with pdfplumber.open(BytesIO(resp.content)) as pdf:
+                    fahrplan_cache[filename] = parse_fahrplan_pdf(pdf)
+            abfahrten = fahrplan_cache[filename]
+            eigene = build_abfahrt_vevents(abfahrten, entry["category"])
+            abfahrt_events.extend(eigene)
+            print(
+                f"  KW {iso_week}/{iso_year}: {len(eigene)} Abfahrten "
+                f"({entry['category']}, aus {filename})"
+            )
+
     dienst_events, frei_events = [], []
     for key, entry in sorted(state.items()):
         if not entry.get("date_from") or not entry.get("date_to"):
@@ -682,11 +935,14 @@ def main():
     PROGNOSE_ICS_PATH.write_text(
         wrap_calendar(prognose_events, "Voraussichtlich"), encoding="utf-8", newline=""
     )
+    ABFAHRTEN_ICS_PATH.write_text(
+        wrap_calendar(abfahrt_events, "Abfahrten"), encoding="utf-8", newline=""
+    )
     save_state(state)
 
     print(
         f"\nDienst-Termine: {len(dienst_events)}, Frei-Termine: {len(frei_events)}, "
-        f"Vermutungen: {len(prognose_events)}"
+        f"Vermutungen: {len(prognose_events)}, Abfahrten: {len(abfahrt_events)}"
     )
     print(f"changed={str(changed).lower()}")
 
