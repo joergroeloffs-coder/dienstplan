@@ -7,12 +7,15 @@ waehlt je Kalenderwoche die aktuellste Fassung (hoechste "n. Aenderung"),
 sucht darin nach einem Namen und schreibt zwei ICS-Kalenderdateien nach
 docs/<SLUG>/:
 
-  dienst.ics        -> Wochen mit Schiffszuordnung ("Dienst auf ...").
-                       Die Beschreibung enthaelt zusaetzlich als Text alle
-                       Abfahrtszeiten des eigenen Schiffs in dieser Woche,
-                       aus den Fahrplan-PDFs unter Dienstplan-FAL/ (siehe
-                       format_abfahrten_text) - keine eigenen Kalender-
-                       termine dafuer, nur eine Anmerkung am Dienst-Termin.
+  dienst.ics        -> Wochen mit Schiffszuordnung ("Dienst auf ..."). Bei
+                       Dienstwochen mit Fahrplan-Daten ein Termin je Tag
+                       statt einem Termin fuer die Woche, dessen
+                       Beschreibung nur die Abfahrten des eigenen Schiffs
+                       an diesem Tag enthaelt (aus den Fahrplan-PDFs unter
+                       Dienstplan-FAL/, siehe gruppiere_abfahrten_pro_tag
+                       und build_tages_vevents) - keine eigenen, farbigen
+                       Kalendertermine je Abfahrt, nur eine Anmerkung am
+                       jeweiligen Tages-Termin.
   frei.ics          -> Freie Tage / Urlaub / Abwesend
   voraussichtlich.ics -> unbestaetigte Vermutungen fuer die Folgewoche,
                          abgeleitet aus Nachbarspalte, Farbmarkierung und
@@ -413,29 +416,38 @@ def parse_fahrplan_pdf(pdf):
     return ergebnisse
 
 
-def format_abfahrten_text(abfahrten, schiff):
-    """Abfahrten des eigenen Schiffs als reiner Text (chronologisch), zum
-    Anhaengen an die Beschreibung des Dienst-Termins - bewusst keine
-    eigenen Kalendertermine dafuer (auf Nutzerwunsch: nur eine Anmerkung,
-    keine zusaetzlichen, farbigen Termine)."""
+def gruppiere_abfahrten_pro_tag(abfahrten, schiff):
+    """Abfahrten des eigenen Schiffs als reiner Text (chronologisch),
+    gruppiert nach Kalendertag (Schluessel "DD.MM.YYYY") - fuer je einen
+    Tages-Termin statt einem Wochen-Termin: ein Termin, der die ganze
+    Woche umspannt, zeigt in Google Calendar an jedem Tag dieselbe
+    (komplette) Beschreibung an, das ist hier explizit nicht gewuenscht.
+    Bewusst keine eigenen Kalendertermine je Abfahrt (auf Nutzerwunsch:
+    nur eine Anmerkung, keine zusaetzlichen, farbigen Termine)."""
     eigene = [a for a in abfahrten if norm(a["schiff"]) == norm(schiff)]
 
     def sortierschluessel(a):
-        tag = datetime.strptime(a["datum"], "%d.%m.%Y")
         stunde, minute = a["zeit"].split(":")
-        return (tag, int(stunde), int(minute))
+        return (int(stunde), int(minute))
 
-    eigene.sort(key=sortierschluessel)
-    zeilen = []
+    pro_tag = {}
     for a in eigene:
-        zusaetze = []
-        if a["direkt"]:
-            zusaetze.append("direkt")
-        if a["vorlaeufig"]:
-            zusaetze.append("vorl.")
-        zusatz_text = f" ({', '.join(zusaetze)})" if zusaetze else ""
-        zeilen.append(f"{a['datum']} {a['zeit']} {a['route']}{zusatz_text}")
-    return "\n".join(zeilen)
+        pro_tag.setdefault(a["datum"], []).append(a)
+
+    ergebnis = {}
+    for tag_str, eintraege in pro_tag.items():
+        eintraege.sort(key=sortierschluessel)
+        zeilen = []
+        for a in eintraege:
+            zusaetze = []
+            if a["direkt"]:
+                zusaetze.append("direkt")
+            if a["vorlaeufig"]:
+                zusaetze.append("vorl.")
+            zusatz_text = f" ({', '.join(zusaetze)})" if zusaetze else ""
+            zeilen.append(f"{a['zeit']} {a['route']}{zusatz_text}")
+        ergebnis[tag_str] = "\n".join(zeilen)
+    return ergebnis
 
 
 def parse_date_range(pdf):
@@ -608,9 +620,6 @@ def build_vevent(iso_year, iso_week, entry):
         f"KW {iso_week}/{iso_year}\\, Stand: {ics_escape(stand)}\\, "
         f"Datei: {ics_escape(entry.get('file', '?'))}"
     )
-    abfahrten_text = entry.get("abfahrten_text")
-    if abfahrten_text:
-        beschreibung += "\\n\\nAbfahrten:\\n" + ics_escape(abfahrten_text)
     return (
         "BEGIN:VEVENT\r\n"
         f"UID:{uid}\r\n"
@@ -623,6 +632,47 @@ def build_vevent(iso_year, iso_week, entry):
         f"DESCRIPTION:{beschreibung}\r\n"
         "END:VEVENT\r\n"
     )
+
+
+def build_tages_vevents(iso_year, iso_week, entry):
+    """Ein Termin je Kalendertag statt einem Termin fuer die ganze Woche -
+    nur wenn Abfahrten-Daten vorliegen (entry['abfahrten_pro_tag']). Ein
+    wochenumspannender Termin zeigt in Google Calendar an jedem Tag
+    dieselbe (komplette) Beschreibung; mit Tages-Terminen sieht man an
+    jedem Tag nur dessen eigene Abfahrten."""
+    d_from = date.fromisoformat(entry["date_from"])
+    d_to = date.fromisoformat(entry["date_to"])
+    stamp = ics_stamp(entry.get("mtime"))
+    stand = entry.get("mtime") or "unbekannt"
+    pro_tag = entry.get("abfahrten_pro_tag") or {}
+    events = []
+    tag = d_from
+    while tag < d_to:
+        uid = (
+            f"dienstplan-{iso_year}-W{iso_week:02d}-{tag.strftime('%Y%m%d')}"
+            "@wdr-besatzungsliste"
+        )
+        beschreibung = (
+            f"KW {iso_week}/{iso_year}\\, Stand: {ics_escape(stand)}\\, "
+            f"Datei: {ics_escape(entry.get('file', '?'))}"
+        )
+        tages_abfahrten = pro_tag.get(tag.strftime("%d.%m.%Y"))
+        if tages_abfahrten:
+            beschreibung += "\\n\\nAbfahrten:\\n" + ics_escape(tages_abfahrten)
+        events.append(
+            "BEGIN:VEVENT\r\n"
+            f"UID:{uid}\r\n"
+            f"DTSTAMP:{stamp}\r\n"
+            f"LAST-MODIFIED:{stamp}\r\n"
+            f"SEQUENCE:{entry.get('sequence', 0)}\r\n"
+            f"DTSTART;VALUE=DATE:{tag.strftime('%Y%m%d')}\r\n"
+            f"DTEND;VALUE=DATE:{(tag + timedelta(days=1)).strftime('%Y%m%d')}\r\n"
+            f"SUMMARY:{ics_escape(entry['summary'])}\r\n"
+            f"DESCRIPTION:{beschreibung}\r\n"
+            "END:VEVENT\r\n"
+        )
+        tag += timedelta(days=1)
+    return events
 
 
 def next_week_key(key):
@@ -890,7 +940,7 @@ def main():
             gefunden = find_fahrplan_eintrag(fahrplan_index, iso_year, iso_week)
             if not gefunden:
                 print(f"  KW {iso_week}/{iso_year}: kein Fahrplan gefunden")
-                entry.pop("abfahrten_text", None)
+                entry.pop("abfahrten_pro_tag", None)
                 continue
             _, mtime, href, filename = gefunden
             if filename not in fahrplan_cache:
@@ -904,16 +954,16 @@ def main():
                 with pdfplumber.open(BytesIO(resp.content)) as pdf:
                     fahrplan_cache[filename] = parse_fahrplan_pdf(pdf)
             abfahrten = fahrplan_cache[filename]
-            text = format_abfahrten_text(abfahrten, entry["category"])
-            entry["abfahrten_text"] = text
-            anzahl = text.count("\n") + 1 if text else 0
+            pro_tag = gruppiere_abfahrten_pro_tag(abfahrten, entry["category"])
+            entry["abfahrten_pro_tag"] = pro_tag
+            anzahl = sum(text.count("\n") + 1 for text in pro_tag.values())
             if not abfahrten:
                 print(
                     f"  Warnung: {filename} lieferte gar keine Abfahrten - "
                     "Seitenstruktur (Kopfzeile/Datum) vermutlich abweichend, "
                     "PDF-Aufbau pruefen"
                 )
-            elif not text:
+            elif not pro_tag:
                 andere_schiffe = sorted({a["schiff"] for a in abfahrten})
                 print(
                     f"  Warnung: {filename} hat Abfahrten, aber keine fuer "
@@ -922,7 +972,8 @@ def main():
             else:
                 abfahrten_wochen_text += 1
             print(
-                f"  KW {iso_week}/{iso_year}: {anzahl} Abfahrten als Anmerkung "
+                f"  KW {iso_week}/{iso_year}: {anzahl} Abfahrten auf "
+                f"{len(pro_tag)} Tage verteilt als Anmerkung "
                 f"({entry['category']}, aus {filename})"
             )
 
@@ -934,9 +985,12 @@ def main():
         if not entry.get("date_from") or not entry.get("date_to"):
             continue
         iso_year, iso_week = key.split("-W")
-        vevent = build_vevent(int(iso_year), int(iso_week), entry)
+        if entry.get("abfahrten_pro_tag"):
+            vevents = build_tages_vevents(int(iso_year), int(iso_week), entry)
+        else:
+            vevents = [build_vevent(int(iso_year), int(iso_week), entry)]
         target = dienst_events if is_dienst(entry["summary"]) else frei_events
-        target.append(vevent)
+        target.extend(vevents)
 
     DIENST_ICS_PATH.write_text(
         wrap_calendar(dienst_events, "Dienst"), encoding="utf-8", newline=""
