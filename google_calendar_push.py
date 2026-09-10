@@ -117,7 +117,12 @@ def build_tages_bodies(key, entry):
     nur wenn Abfahrten-Daten vorliegen (entry['abfahrten_pro_tag']), analog
     zu build_tages_vevents() in dienstplan_cloud_sync.py: ein wochen-
     umspannender Termin zeigt in Google Calendar an jedem Tag dieselbe
-    (komplette) Beschreibung an, das ist hier explizit nicht gewuenscht."""
+    (komplette) Beschreibung an, das ist hier explizit nicht gewuenscht.
+
+    date_to ist der letzte Tag an Bord (der Freitag der Ablösung) und
+    zaehlt mit dazu - ebenso wie beim bisherigen Wochen-Termin, dessen
+    end-Datum bewusst auf date_to + 1 Tag gesetzt war, um genau diesen Tag
+    als letzten Kalendertag noch einzuschliessen."""
     d_from = date.fromisoformat(entry["date_from"])
     d_to = date.fromisoformat(entry["date_to"])
     summary = entry["summary"]
@@ -127,7 +132,7 @@ def build_tages_bodies(key, entry):
     pro_tag = entry.get("abfahrten_pro_tag") or {}
     bodies = {}
     tag = d_from
-    while tag < d_to:
+    while tag <= d_to:
         eid = f"{event_id_for(key)}{tag.strftime('%m%d')}"
         beschreibung = (
             f"KW {int(week)}/{year}\n"

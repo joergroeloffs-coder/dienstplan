@@ -639,7 +639,12 @@ def build_tages_vevents(iso_year, iso_week, entry):
     nur wenn Abfahrten-Daten vorliegen (entry['abfahrten_pro_tag']). Ein
     wochenumspannender Termin zeigt in Google Calendar an jedem Tag
     dieselbe (komplette) Beschreibung; mit Tages-Terminen sieht man an
-    jedem Tag nur dessen eigene Abfahrten."""
+    jedem Tag nur dessen eigene Abfahrten.
+
+    date_to ist der letzte Tag an Bord (der Freitag der Ablösung) und
+    zaehlt mit dazu - ebenso wie beim bisherigen Wochen-Termin, dessen
+    DTEND bewusst auf date_to + 1 Tag gesetzt war, um genau diesen Tag als
+    letzten Kalendertag noch einzuschliessen."""
     d_from = date.fromisoformat(entry["date_from"])
     d_to = date.fromisoformat(entry["date_to"])
     stamp = ics_stamp(entry.get("mtime"))
@@ -647,7 +652,7 @@ def build_tages_vevents(iso_year, iso_week, entry):
     pro_tag = entry.get("abfahrten_pro_tag") or {}
     events = []
     tag = d_from
-    while tag < d_to:
+    while tag <= d_to:
         uid = (
             f"dienstplan-{iso_year}-W{iso_week:02d}-{tag.strftime('%Y%m%d')}"
             "@wdr-besatzungsliste"
