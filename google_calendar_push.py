@@ -92,9 +92,6 @@ def build_body(key, entry):
         f"Stand: {stand}\n"
         f"Datei: {entry.get('file', '?')}"
     )
-    abfahrten_text = entry.get("abfahrten_text")
-    if abfahrten_text:
-        beschreibung += "\n\nAbfahrten:\n" + abfahrten_text
     return {
         "id": event_id_for(key),
         "summary": summary,
@@ -113,6 +110,53 @@ def build_body(key, entry):
             }
         },
     }
+
+
+def build_tages_bodies(key, entry):
+    """Ein Termin je Kalendertag statt einem Termin fuer die ganze Woche -
+    nur wenn Abfahrten-Daten vorliegen (entry['abfahrten_pro_tag']), analog
+    zu build_tages_vevents() in dienstplan_cloud_sync.py: ein wochen-
+    umspannender Termin zeigt in Google Calendar an jedem Tag dieselbe
+    (komplette) Beschreibung an, das ist hier explizit nicht gewuenscht."""
+    d_from = date.fromisoformat(entry["date_from"])
+    d_to = date.fromisoformat(entry["date_to"])
+    summary = entry["summary"]
+    is_dienst = summary.startswith("Dienst auf ") or summary.startswith("Besatzungsliste:")
+    year, week = key.split("-W")
+    stand = entry.get("mtime") or "unbekannt"
+    pro_tag = entry.get("abfahrten_pro_tag") or {}
+    bodies = {}
+    tag = d_from
+    while tag < d_to:
+        eid = f"{event_id_for(key)}{tag.strftime('%m%d')}"
+        beschreibung = (
+            f"KW {int(week)}/{year}\n"
+            f"Stand: {stand}\n"
+            f"Datei: {entry.get('file', '?')}"
+        )
+        tages_abfahrten = pro_tag.get(tag.strftime("%d.%m.%Y"))
+        if tages_abfahrten:
+            beschreibung += "\n\nAbfahrten:\n" + tages_abfahrten
+        bodies[eid] = {
+            "id": eid,
+            "summary": summary,
+            "start": {"date": tag.isoformat()},
+            "end": {"date": (tag + timedelta(days=1)).isoformat()},
+            "description": beschreibung,
+            "colorId": COLOR_DIENST if is_dienst else COLOR_FREI,
+            "transparency": "transparent" if not is_dienst else "opaque",
+            "reminders": {"useDefault": False},
+            "extendedProperties": {
+                "private": {
+                    MARKER_KEY: MARKER_VALUE,
+                    "week": key,
+                    "revision": str(entry.get("revision", 0)),
+                    "mtime": stand,
+                }
+            },
+        }
+        tag += timedelta(days=1)
+    return bodies
 
 
 
@@ -267,8 +311,11 @@ def main():
     for key, entry in state.items():
         if not entry.get("date_from") or not entry.get("date_to"):
             continue
-        body = build_body(key, entry)
-        desired[body["id"]] = body
+        if entry.get("abfahrten_pro_tag"):
+            desired.update(build_tages_bodies(key, entry))
+        else:
+            body = build_body(key, entry)
+            desired[body["id"]] = body
 
     # Vorhersagen hinzufuegen
     prognosen = build_prognose_bodies(state)
