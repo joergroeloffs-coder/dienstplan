@@ -112,17 +112,40 @@ def build_body(key, entry):
 
 
 
+def _prognose_body(eid, folge, summary, hinweis, colorId, transparency, stand):
+    d_from = date.fromisoformat(folge["_d_from"])
+    d_to = d_from + timedelta(days=7)
+    return {
+        "id": eid,
+        "summary": summary,
+        "start": {"date": d_from.isoformat()},
+        "end": {"date": (d_to + timedelta(days=1)).isoformat()},
+        "description": f"Unbestaetigte Vermutung\n{hinweis}\nStand: {stand}",
+        "colorId": colorId,
+        "transparency": transparency,
+        "status": "tentative",
+        "reminders": {"useDefault": False},
+        "extendedProperties": {
+            "private": {
+                MARKER_KEY: MARKER_VALUE,
+                "week": folge["_key"],
+                "type": "prognose",
+                "mtime": stand,
+            }
+        },
+    }
+
+
 def build_prognose_bodies(state):
-    """Erzeugt Google-Calendar-Bodies fuer Vorhersagen."""
+    """Erzeugt Google-Calendar-Bodies fuer Vorhersagen.
+
+    Deckt dieselben drei Regeln ab wie build_prognosen() in
+    dienstplan_cloud_sync.py: Farbmarkierung (Vorrang), Ablösung ohne
+    Farbmarkierung (ausser bei Az) und die alte Nachbarspalten-Heuristik.
+    """
     bodies = {}
     for key, entry in sorted(state.items()):
         if not entry.get("date_to"):
-            continue
-        cat = entry.get("category") or ""
-        if _ist_schiff(cat):
-            continue
-        links = entry.get("nachbar_links")
-        if not _ist_schiff(links or ""):
             continue
         folge = _next_week_key(key)
         if not folge:
@@ -130,35 +153,45 @@ def build_prognose_bodies(state):
         folge_entry = state.get(folge, {})
         if folge_entry.get("date_from"):
             continue
-        schiff = _SCHIFFE_NORM[_norm(links)]
-        d_from = date.fromisoformat(entry["date_to"])
-        d_to = d_from + timedelta(days=7)
+
         year, week = key.split("-W")
         stand = entry.get("mtime") or "unbekannt"
         eid = f"prognose{folge.replace('-W', '')}"
-        bodies[eid] = {
-            "id": eid,
-            "summary": f"Voraussichtlich Dienst auf {schiff}",
-            "start": {"date": d_from.isoformat()},
-            "end": {"date": (d_to + timedelta(days=1)).isoformat()},
-            "description": (
-                f"Unbestaetigte Vermutung\n"
-                f"In KW {int(week)}/{year} stand {schiff} links neben der eigenen Spalte.\n"
-                f"Stand: {stand}"
-            ),
-            "colorId": COLOR_DIENST,
-            "transparency": "opaque",
-            "status": "tentative",
-            "reminders": {"useDefault": False},
-            "extendedProperties": {
-                "private": {
-                    MARKER_KEY: MARKER_VALUE,
-                    "week": folge,
-                    "type": "prognose",
-                    "mtime": stand,
-                }
-            },
-        }
+        ctx = {"_key": folge, "_d_from": entry["date_to"]}
+
+        farbe = entry.get("farbe_schiff")
+        if _ist_schiff(farbe or ""):
+            schiff = _SCHIFFE_NORM[_norm(farbe)]
+            bodies[eid] = _prognose_body(
+                eid, ctx, f"Voraussichtlich Dienst auf {schiff}",
+                f"Eigener Name in KW {int(week)}/{year} farblich wie "
+                f"{schiff} hinterlegt.",
+                COLOR_DIENST, "opaque", stand,
+            )
+            continue
+
+        kategorie = entry.get("category") or ""
+        if _ist_schiff(kategorie):
+            if (entry.get("rang") or "").upper() != "AZ":
+                bodies[eid] = _prognose_body(
+                    eid, ctx, "Voraussichtlich frei",
+                    f"In KW {int(week)}/{year} Dienst auf {kategorie} ohne "
+                    "Farbmarkierung des eigenen Namens - voraussichtlich "
+                    "abgeloest.",
+                    COLOR_FREI, "transparent", stand,
+                )
+            continue
+
+        links = entry.get("nachbar_links")
+        if not _ist_schiff(links or ""):
+            continue
+        schiff = _SCHIFFE_NORM[_norm(links)]
+        bodies[eid] = _prognose_body(
+            eid, ctx, f"Voraussichtlich Dienst auf {schiff}",
+            f"In KW {int(week)}/{year} stand {schiff} links neben der "
+            "eigenen Spalte.",
+            COLOR_DIENST, "opaque", stand,
+        )
     return bodies
 
 def load_credentials():
