@@ -7,14 +7,16 @@ waehlt je Kalenderwoche die aktuellste Fassung (hoechste "n. Aenderung"),
 sucht darin nach einem Namen und schreibt zwei ICS-Kalenderdateien nach
 docs/<SLUG>/:
 
-  dienst.ics        -> Wochen mit Schiffszuordnung ("Dienst auf ...")
+  dienst.ics        -> Wochen mit Schiffszuordnung ("Dienst auf ...").
+                       Die Beschreibung enthaelt zusaetzlich als Text alle
+                       Abfahrtszeiten des eigenen Schiffs in dieser Woche,
+                       aus den Fahrplan-PDFs unter Dienstplan-FAL/ (siehe
+                       format_abfahrten_text) - keine eigenen Kalender-
+                       termine dafuer, nur eine Anmerkung am Dienst-Termin.
   frei.ics          -> Freie Tage / Urlaub / Abwesend
   voraussichtlich.ics -> unbestaetigte Vermutungen fuer die Folgewoche,
                          abgeleitet aus Nachbarspalte, Farbmarkierung und
                          fehlender Farbmarkierung (siehe build_prognosen)
-  abfahrten.ics     -> einzelne Abfahrtszeiten des eigenen Schiffs in
-                       Dienstwochen, aus den Fahrplan-PDFs unter
-                       Dienstplan-FAL/ (siehe build_abfahrt_vevents)
 
 Diese Dateien werden von GitHub Pages veroeffentlicht. Google Kalender
 (und darueber auch die Handy-Kalender-Apps) abonnieren die Adresse per
@@ -54,7 +56,9 @@ STATE_PATH = HERE / "state.json"
 DIENST_ICS_PATH = OUTPUT_DIR / "dienst.ics"
 FREI_ICS_PATH = OUTPUT_DIR / "frei.ics"
 PROGNOSE_ICS_PATH = OUTPUT_DIR / "voraussichtlich.ics"
-ABFAHRTEN_ICS_PATH = OUTPUT_DIR / "abfahrten.ics"
+# Alte, nicht mehr erzeugte Datei - wird geloescht statt fortgeschrieben,
+# siehe main().
+ALTE_ABFAHRTEN_ICS_PATH = OUTPUT_DIR / "abfahrten.ics"
 
 BASE_URL = "https://faehre2.de/fileadmin/wdr/Schiffe/Besatzungslisten"
 INDEX_URL = BASE_URL + "/"
@@ -409,48 +413,29 @@ def parse_fahrplan_pdf(pdf):
     return ergebnisse
 
 
-def build_abfahrt_vevent(eintrag):
-    tag, monat, jahr = eintrag["datum"].split(".")
-    stunde, minute = eintrag["zeit"].split(":")
-    start = datetime(int(jahr), int(monat), int(tag), int(stunde), int(minute))
-    ende = start + timedelta(minutes=15)
-    ascii_route = (
-        eintrag["route"]
-        .replace("ü", "ue").replace("ä", "ae").replace("ö", "oe")
-        .replace("ß", "ss")
-    )
-    uid_route = "".join(c for c in ascii_route if c.isalnum())
-    uid = (
-        f"abfahrt-{start.strftime('%Y%m%dT%H%M')}-{uid_route}"
-        "@wdr-fahrplan"
-    )
-    zusaetze = []
-    if eintrag["direkt"]:
-        zusaetze.append("Direktfahrt")
-    if eintrag["vorlaeufig"]:
-        zusaetze.append("vorläufig")
-    zusatz_text = f" ({', '.join(zusaetze)})" if zusaetze else ""
-    # Floatende Ortszeit (keine TZID/Z) - Quelle und Kalender-Nutzer sind
-    # beide in derselben Zeitzone (Europe/Berlin), eine UTC-Umrechnung
-    # wuerde nur eine unnoetige Fehlerquelle bei der Sommerzeit einbauen.
-    return (
-        "BEGIN:VEVENT\r\n"
-        f"UID:{uid}\r\n"
-        f"DTSTAMP:{FALLBACK_STAMP}\r\n"
-        f"DTSTART:{start.strftime('%Y%m%dT%H%M%S')}\r\n"
-        f"DTEND:{ende.strftime('%Y%m%dT%H%M%S')}\r\n"
-        f"SUMMARY:{ics_escape('Abfahrt ' + eintrag['route'] + zusatz_text)}\r\n"
-        f"DESCRIPTION:{ics_escape(eintrag['schiff'])}\\, KW {ics_escape(eintrag['kw'])}\r\n"
-        "END:VEVENT\r\n"
-    )
+def format_abfahrten_text(abfahrten, schiff):
+    """Abfahrten des eigenen Schiffs als reiner Text (chronologisch), zum
+    Anhaengen an die Beschreibung des Dienst-Termins - bewusst keine
+    eigenen Kalendertermine dafuer (auf Nutzerwunsch: nur eine Anmerkung,
+    keine zusaetzlichen, farbigen Termine)."""
+    eigene = [a for a in abfahrten if norm(a["schiff"]) == norm(schiff)]
 
+    def sortierschluessel(a):
+        tag = datetime.strptime(a["datum"], "%d.%m.%Y")
+        stunde, minute = a["zeit"].split(":")
+        return (tag, int(stunde), int(minute))
 
-def build_abfahrt_vevents(abfahrten, schiff):
-    return [
-        build_abfahrt_vevent(eintrag)
-        for eintrag in abfahrten
-        if norm(eintrag["schiff"]) == norm(schiff)
-    ]
+    eigene.sort(key=sortierschluessel)
+    zeilen = []
+    for a in eigene:
+        zusaetze = []
+        if a["direkt"]:
+            zusaetze.append("direkt")
+        if a["vorlaeufig"]:
+            zusaetze.append("vorl.")
+        zusatz_text = f" ({', '.join(zusaetze)})" if zusaetze else ""
+        zeilen.append(f"{a['datum']} {a['zeit']} {a['route']}{zusatz_text}")
+    return "\n".join(zeilen)
 
 
 def parse_date_range(pdf):
@@ -619,6 +604,13 @@ def build_vevent(iso_year, iso_week, entry):
     uid = f"dienstplan-{iso_year}-W{iso_week:02d}@wdr-besatzungsliste"
     stamp = ics_stamp(entry.get("mtime"))
     stand = entry.get("mtime") or "unbekannt"
+    beschreibung = (
+        f"KW {iso_week}/{iso_year}\\, Stand: {ics_escape(stand)}\\, "
+        f"Datei: {ics_escape(entry.get('file', '?'))}"
+    )
+    abfahrten_text = entry.get("abfahrten_text")
+    if abfahrten_text:
+        beschreibung += "\\n\\nAbfahrten:\\n" + ics_escape(abfahrten_text)
     return (
         "BEGIN:VEVENT\r\n"
         f"UID:{uid}\r\n"
@@ -628,8 +620,7 @@ def build_vevent(iso_year, iso_week, entry):
         f"DTSTART;VALUE=DATE:{dtstart}\r\n"
         f"DTEND;VALUE=DATE:{dtend}\r\n"
         f"SUMMARY:{ics_escape(entry['summary'])}\r\n"
-        f"DESCRIPTION:KW {iso_week}/{iso_year}\\, Stand: {ics_escape(stand)}\\, "
-        f"Datei: {ics_escape(entry.get('file', '?'))}\r\n"
+        f"DESCRIPTION:{beschreibung}\r\n"
         "END:VEVENT\r\n"
     )
 
@@ -884,7 +875,7 @@ def main():
 
     prune_state(state, PRUNE_WEEKS)
 
-    abfahrt_events = []
+    abfahrten_wochen_text = 0
     dienst_wochen = [
         (int(key.split("-W")[0]), int(key.split("-W")[1]), entry)
         for key, entry in state.items()
@@ -899,6 +890,7 @@ def main():
             gefunden = find_fahrplan_eintrag(fahrplan_index, iso_year, iso_week)
             if not gefunden:
                 print(f"  KW {iso_week}/{iso_year}: kein Fahrplan gefunden")
+                entry.pop("abfahrten_text", None)
                 continue
             _, mtime, href, filename = gefunden
             if filename not in fahrplan_cache:
@@ -912,24 +904,30 @@ def main():
                 with pdfplumber.open(BytesIO(resp.content)) as pdf:
                     fahrplan_cache[filename] = parse_fahrplan_pdf(pdf)
             abfahrten = fahrplan_cache[filename]
-            eigene = build_abfahrt_vevents(abfahrten, entry["category"])
-            abfahrt_events.extend(eigene)
+            text = format_abfahrten_text(abfahrten, entry["category"])
+            entry["abfahrten_text"] = text
+            anzahl = text.count("\n") + 1 if text else 0
             if not abfahrten:
                 print(
                     f"  Warnung: {filename} lieferte gar keine Abfahrten - "
                     "Seitenstruktur (Kopfzeile/Datum) vermutlich abweichend, "
                     "PDF-Aufbau pruefen"
                 )
-            elif not eigene:
+            elif not text:
                 andere_schiffe = sorted({a["schiff"] for a in abfahrten})
                 print(
                     f"  Warnung: {filename} hat Abfahrten, aber keine fuer "
                     f"'{entry['category']}' (gefunden: {', '.join(andere_schiffe)})"
                 )
+            else:
+                abfahrten_wochen_text += 1
             print(
-                f"  KW {iso_week}/{iso_year}: {len(eigene)} Abfahrten "
+                f"  KW {iso_week}/{iso_year}: {anzahl} Abfahrten als Anmerkung "
                 f"({entry['category']}, aus {filename})"
             )
+
+    if ALTE_ABFAHRTEN_ICS_PATH.exists():
+        ALTE_ABFAHRTEN_ICS_PATH.unlink()
 
     dienst_events, frei_events = [], []
     for key, entry in sorted(state.items()):
@@ -951,14 +949,12 @@ def main():
     PROGNOSE_ICS_PATH.write_text(
         wrap_calendar(prognose_events, "Voraussichtlich"), encoding="utf-8", newline=""
     )
-    ABFAHRTEN_ICS_PATH.write_text(
-        wrap_calendar(abfahrt_events, "Abfahrten"), encoding="utf-8", newline=""
-    )
     save_state(state)
 
     print(
         f"\nDienst-Termine: {len(dienst_events)}, Frei-Termine: {len(frei_events)}, "
-        f"Vermutungen: {len(prognose_events)}, Abfahrten: {len(abfahrt_events)}"
+        f"Vermutungen: {len(prognose_events)}, "
+        f"Wochen mit Abfahrten-Anmerkung: {abfahrten_wochen_text}"
     )
     print(f"changed={str(changed).lower()}")
 
