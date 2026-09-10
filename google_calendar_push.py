@@ -21,10 +21,8 @@ Sie sind an der privaten Eigenschaft app=dienstplan-sync erkennbar.
 
 import base64
 import binascii
-import hashlib
 import json
 import os
-import re
 import sys
 from datetime import date, timedelta
 from pathlib import Path
@@ -35,10 +33,6 @@ from googleapiclient.errors import HttpError
 
 HERE = Path(__file__).resolve().parent
 STATE_PATH = HERE / "state.json"
-
-# Muss mit SLUG/ABFAHRTEN_ICS_PATH aus dienstplan_cloud_sync.py uebereinstimmen.
-ABFAHRTEN_ICS_PATH = HERE / "docs" / "kal-76a4a349015c4272fe03f77806423a4b" / "abfahrten.ics"
-TIMEZONE = "Europe/Berlin"
 
 SCOPES = ["https://www.googleapis.com/auth/calendar.events"]
 MARKER_KEY = "app"
@@ -93,16 +87,20 @@ def build_body(key, entry):
     is_dienst = summary.startswith("Dienst auf ") or summary.startswith("Besatzungsliste:")
     year, week = key.split("-W")
     stand = entry.get("mtime") or "unbekannt"
+    beschreibung = (
+        f"KW {int(week)}/{year}\n"
+        f"Stand: {stand}\n"
+        f"Datei: {entry.get('file', '?')}"
+    )
+    abfahrten_text = entry.get("abfahrten_text")
+    if abfahrten_text:
+        beschreibung += "\n\nAbfahrten:\n" + abfahrten_text
     return {
         "id": event_id_for(key),
         "summary": summary,
         "start": {"date": d_from.isoformat()},
         "end": {"date": (d_to + timedelta(days=1)).isoformat()},
-        "description": (
-            f"KW {int(week)}/{year}\n"
-            f"Stand: {stand}\n"
-            f"Datei: {entry.get('file', '?')}"
-        ),
+        "description": beschreibung,
         "colorId": COLOR_DIENST if is_dienst else COLOR_FREI,
         "transparency": "transparent" if not is_dienst else "opaque",
         "reminders": {"useDefault": False},
@@ -201,68 +199,6 @@ def build_prognose_bodies(state):
     return bodies
 
 
-_VEVENT_RE = re.compile(r"BEGIN:VEVENT\r?\n(.*?)END:VEVENT", re.S)
-_FIELD_RE = re.compile(r"^([A-Z]+)[^:]*:(.*)$")
-_DT_RE = re.compile(r"^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})$")
-
-
-def _ics_unescape(text):
-    return (
-        text.replace("\\,", ",").replace("\\;", ";")
-        .replace("\\n", "\n").replace("\\\\", "\\")
-    )
-
-
-def _iso_datetime(value):
-    m = _DT_RE.match(value or "")
-    if not m:
-        return None
-    y, mo, d, h, mi, s = m.groups()
-    return f"{y}-{mo}-{d}T{h}:{mi}:{s}"
-
-
-def build_abfahrt_bodies():
-    """Liest die von dienstplan_cloud_sync.py im selben Lauf geschriebene
-    abfahrten.ics und baut daraus Google-Calendar-Bodies. Kein eigener
-    PDF-Download/-Parse hier - vermeidet eine zweite, potenziell
-    abweichende Kopie der Fahrplan-Logik (siehe PR "Google-Calendar-Push:
-    Prognoseregeln nachziehen")."""
-    if not ABFAHRTEN_ICS_PATH.exists():
-        return {}
-    text = ABFAHRTEN_ICS_PATH.read_text(encoding="utf-8")
-    bodies = {}
-    for block in _VEVENT_RE.findall(text):
-        felder = {}
-        for line in block.strip().splitlines():
-            m = _FIELD_RE.match(line)
-            if m:
-                felder[m.group(1)] = m.group(2)
-        uid = felder.get("UID")
-        start_iso = _iso_datetime(felder.get("DTSTART"))
-        end_iso = _iso_datetime(felder.get("DTEND"))
-        if not (uid and start_iso and end_iso):
-            continue
-        # Google-Event-IDs duerfen nur "a"-"v" und Ziffern enthalten
-        # (base32hex, RFC2938) - Routennamen wie "Wyk"/"Wittdün" enthalten
-        # "w"/"y" und sind daher nicht direkt als ID verwendbar.
-        eid = "abf" + hashlib.sha1(uid.encode("utf-8")).hexdigest()[:24]
-        bodies[eid] = {
-            "id": eid,
-            "summary": _ics_unescape(felder.get("SUMMARY", "")),
-            "start": {"dateTime": start_iso, "timeZone": TIMEZONE},
-            "end": {"dateTime": end_iso, "timeZone": TIMEZONE},
-            "description": _ics_unescape(felder.get("DESCRIPTION", "")),
-            "reminders": {"useDefault": False},
-            "extendedProperties": {
-                "private": {
-                    MARKER_KEY: MARKER_VALUE,
-                    "type": "abfahrt",
-                }
-            },
-        }
-    return bodies
-
-
 def load_credentials():
     raw = os.environ.get("GOOGLE_SA_KEY_B64")
     if not raw:
@@ -312,6 +248,8 @@ def needs_update(existing, body):
         return True
     if existing.get("transparency") != body.get("transparency"):
         return True
+    if existing.get("description") != body.get("description"):
+        return True
     old = existing.get("extendedProperties", {}).get("private", {})
     new = body["extendedProperties"]["private"]
     return old.get("mtime") != new.get("mtime") or old.get("revision") != new.get("revision")
@@ -337,12 +275,6 @@ def main():
     desired.update(prognosen)
     if prognosen:
         print(f"Vermutungen: {len(prognosen)}")
-
-    # Abfahrten des eigenen Schiffs in Dienstwochen
-    abfahrten = build_abfahrt_bodies()
-    desired.update(abfahrten)
-    if abfahrten:
-        print(f"Abfahrten: {len(abfahrten)}")
 
     service = build("calendar", "v3", credentials=load_credentials(), cache_discovery=False)
 
