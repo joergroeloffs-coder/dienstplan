@@ -87,6 +87,16 @@ SUMMARY:Dienst auf UTHLANDE
 DESCRIPTION:KW 36/2026\, Stand: 2026-09-02 17:17\, Datei: 36KW2026 5. Änderung.pdf\n\nAbfahrten:\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün
 END:VEVENT
 BEGIN:VEVENT
+UID:dienstplan-2026-W36-20260904@wdr-besatzungsliste
+DTSTAMP:20260902T171700Z
+LAST-MODIFIED:20260902T171700Z
+SEQUENCE:0
+DTSTART;VALUE=DATE:20260904
+DTEND;VALUE=DATE:20260905
+SUMMARY:Dienst auf UTHLANDE
+DESCRIPTION:KW 36/2026\, Stand: 2026-09-02 17:17\, Datei: 36KW2026 5. Änderung.pdf\n\nAbfahrten:\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün
+END:VEVENT
+BEGIN:VEVENT
 UID:dienstplan-2026-W38-20260911@wdr-besatzungsliste
 DTSTAMP:20260910T045300Z
 LAST-MODIFIED:20260910T045300Z
@@ -153,6 +163,16 @@ LAST-MODIFIED:20260910T045300Z
 SEQUENCE:1
 DTSTART;VALUE=DATE:20260917
 DTEND;VALUE=DATE:20260918
+SUMMARY:Dienst auf SCHLESWIG - HOLSTEIN
+DESCRIPTION:KW 38/2026\, Stand: 2026-09-10 04:53\, Datei: 38KW2026 3. Änderung.pdf\n\nAbfahrten:\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün
+END:VEVENT
+BEGIN:VEVENT
+UID:dienstplan-2026-W38-20260918@wdr-besatzungsliste
+DTSTAMP:20260910T045300Z
+LAST-MODIFIED:20260910T045300Z
+SEQUENCE:1
+DTSTART;VALUE=DATE:20260918
+DTEND;VALUE=DATE:20260919
 SUMMARY:Dienst auf SCHLESWIG - HOLSTEIN
 DESCRIPTION:KW 38/2026\, Stand: 2026-09-10 04:53\, Datei: 38KW2026 3. Änderung.pdf\n\nAbfahrten:\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün
 END:VEVENT
