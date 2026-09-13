@@ -98,92 +98,92 @@ DESCRIPTION:KW 36/2026\, Stand: 2026-09-02 17:17\, Datei: 36KW2026 5. Änderung.
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W38-20260911@wdr-besatzungsliste
-DTSTAMP:20260910T045300Z
-LAST-MODIFIED:20260910T045300Z
-SEQUENCE:1
+DTSTAMP:20260913T195100Z
+LAST-MODIFIED:20260913T195100Z
+SEQUENCE:2
 DTSTART;VALUE=DATE:20260911
 DTEND;VALUE=DATE:20260912
 SUMMARY:Dienst auf SCHLESWIG - HOLSTEIN
-DESCRIPTION:KW 38/2026\, Stand: 2026-09-10 04:53\, Datei: 38KW2026 3. Änderung.pdf\n\nAbfahrten:\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk
+DESCRIPTION:KW 38/2026\, Stand: 2026-09-13 19:51\, Datei: 38KW2026 4. Änderung.pdf\n\nAbfahrten:\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W38-20260912@wdr-besatzungsliste
-DTSTAMP:20260910T045300Z
-LAST-MODIFIED:20260910T045300Z
-SEQUENCE:1
+DTSTAMP:20260913T195100Z
+LAST-MODIFIED:20260913T195100Z
+SEQUENCE:2
 DTSTART;VALUE=DATE:20260912
 DTEND;VALUE=DATE:20260913
 SUMMARY:Dienst auf SCHLESWIG - HOLSTEIN
-DESCRIPTION:KW 38/2026\, Stand: 2026-09-10 04:53\, Datei: 38KW2026 3. Änderung.pdf\n\nAbfahrten:\n6:00 Wyk-Dagebüll\n7:15 Dagebüll-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk (direkt)\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:30 Dagebüll-Wyk (direkt)\n18:15 Wittdün-Wyk (direkt)\n20:00 Dagebüll-Wyk\n20:55 Wyk-Wittdün
+DESCRIPTION:KW 38/2026\, Stand: 2026-09-13 19:51\, Datei: 38KW2026 4. Änderung.pdf\n\nAbfahrten:\n6:00 Wyk-Dagebüll\n7:15 Dagebüll-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk (direkt)\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:30 Dagebüll-Wyk (direkt)\n18:15 Wittdün-Wyk (direkt)\n20:00 Dagebüll-Wyk\n20:55 Wyk-Wittdün
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W38-20260913@wdr-besatzungsliste
-DTSTAMP:20260910T045300Z
-LAST-MODIFIED:20260910T045300Z
-SEQUENCE:1
+DTSTAMP:20260913T195100Z
+LAST-MODIFIED:20260913T195100Z
+SEQUENCE:2
 DTSTART;VALUE=DATE:20260913
 DTEND;VALUE=DATE:20260914
 SUMMARY:Dienst auf SCHLESWIG - HOLSTEIN
-DESCRIPTION:KW 38/2026\, Stand: 2026-09-10 04:53\, Datei: 38KW2026 3. Änderung.pdf\n\nAbfahrten:\n7:10 Wittdün-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk (direkt)\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:31 Dagebüll-Wyk (direkt)\n18:15 Wittdün-Wyk (direkt)\n20:00 Dagebüll-Wyk\n20:55 Wyk-Wittdün
+DESCRIPTION:KW 38/2026\, Stand: 2026-09-13 19:51\, Datei: 38KW2026 4. Änderung.pdf\n\nAbfahrten:\n7:10 Wittdün-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk (direkt)\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:31 Dagebüll-Wyk (direkt)\n18:15 Wittdün-Wyk (direkt)\n20:00 Dagebüll-Wyk\n20:55 Wyk-Wittdün
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W38-20260914@wdr-besatzungsliste
-DTSTAMP:20260910T045300Z
-LAST-MODIFIED:20260910T045300Z
-SEQUENCE:1
+DTSTAMP:20260913T195100Z
+LAST-MODIFIED:20260913T195100Z
+SEQUENCE:2
 DTSTART;VALUE=DATE:20260914
 DTEND;VALUE=DATE:20260915
 SUMMARY:Dienst auf SCHLESWIG - HOLSTEIN
-DESCRIPTION:KW 38/2026\, Stand: 2026-09-10 04:53\, Datei: 38KW2026 3. Änderung.pdf\n\nAbfahrten:\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün
+DESCRIPTION:KW 38/2026\, Stand: 2026-09-13 19:51\, Datei: 38KW2026 4. Änderung.pdf\n\nAbfahrten:\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W38-20260915@wdr-besatzungsliste
-DTSTAMP:20260910T045300Z
-LAST-MODIFIED:20260910T045300Z
-SEQUENCE:1
+DTSTAMP:20260913T195100Z
+LAST-MODIFIED:20260913T195100Z
+SEQUENCE:2
 DTSTART;VALUE=DATE:20260915
 DTEND;VALUE=DATE:20260916
 SUMMARY:Dienst auf SCHLESWIG - HOLSTEIN
-DESCRIPTION:KW 38/2026\, Stand: 2026-09-10 04:53\, Datei: 38KW2026 3. Änderung.pdf\n\nAbfahrten:\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün
+DESCRIPTION:KW 38/2026\, Stand: 2026-09-13 19:51\, Datei: 38KW2026 4. Änderung.pdf\n\nAbfahrten:\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W38-20260916@wdr-besatzungsliste
-DTSTAMP:20260910T045300Z
-LAST-MODIFIED:20260910T045300Z
-SEQUENCE:1
+DTSTAMP:20260913T195100Z
+LAST-MODIFIED:20260913T195100Z
+SEQUENCE:2
 DTSTART;VALUE=DATE:20260916
 DTEND;VALUE=DATE:20260917
 SUMMARY:Dienst auf SCHLESWIG - HOLSTEIN
-DESCRIPTION:KW 38/2026\, Stand: 2026-09-10 04:53\, Datei: 38KW2026 3. Änderung.pdf\n\nAbfahrten:\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün
+DESCRIPTION:KW 38/2026\, Stand: 2026-09-13 19:51\, Datei: 38KW2026 4. Änderung.pdf\n\nAbfahrten:\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W38-20260917@wdr-besatzungsliste
-DTSTAMP:20260910T045300Z
-LAST-MODIFIED:20260910T045300Z
-SEQUENCE:1
+DTSTAMP:20260913T195100Z
+LAST-MODIFIED:20260913T195100Z
+SEQUENCE:2
 DTSTART;VALUE=DATE:20260917
 DTEND;VALUE=DATE:20260918
 SUMMARY:Dienst auf SCHLESWIG - HOLSTEIN
-DESCRIPTION:KW 38/2026\, Stand: 2026-09-10 04:53\, Datei: 38KW2026 3. Änderung.pdf\n\nAbfahrten:\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün
+DESCRIPTION:KW 38/2026\, Stand: 2026-09-13 19:51\, Datei: 38KW2026 4. Änderung.pdf\n\nAbfahrten:\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W38-20260918@wdr-besatzungsliste
-DTSTAMP:20260910T045300Z
-LAST-MODIFIED:20260910T045300Z
-SEQUENCE:1
+DTSTAMP:20260913T195100Z
+LAST-MODIFIED:20260913T195100Z
+SEQUENCE:2
 DTSTART;VALUE=DATE:20260918
 DTEND;VALUE=DATE:20260919
 SUMMARY:Dienst auf SCHLESWIG - HOLSTEIN
-DESCRIPTION:KW 38/2026\, Stand: 2026-09-10 04:53\, Datei: 38KW2026 3. Änderung.pdf\n\nAbfahrten:\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün
+DESCRIPTION:KW 38/2026\, Stand: 2026-09-13 19:51\, Datei: 38KW2026 4. Änderung.pdf\n\nAbfahrten:\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W41@wdr-besatzungsliste
-DTSTAMP:20260909T055100Z
-LAST-MODIFIED:20260909T055100Z
-SEQUENCE:1
+DTSTAMP:20260913T200400Z
+LAST-MODIFIED:20260913T200400Z
+SEQUENCE:2
 DTSTART;VALUE=DATE:20261002
 DTEND;VALUE=DATE:20261010
 SUMMARY:Dienst auf UTHLANDE
-DESCRIPTION:KW 41/2026\, Stand: 2026-09-09 05:51\, Datei: 41KW2026.pdf
+DESCRIPTION:KW 41/2026\, Stand: 2026-09-13 20:04\, Datei: 41KW2026 1. Änderung.pdf
 END:VEVENT
 END:VCALENDAR
