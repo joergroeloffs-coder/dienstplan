@@ -294,6 +294,15 @@ class FahrplanApp(tk.Tk):
                 f"Vorschau: {schiff}, KW {benutzte_kw}/{jahr} "
                 f"(Quelle {filename}, Stand {mtime}). Pruefen und senden."
             )
+        except SystemExit as exc:
+            meldung = str(exc.code) if exc.code else "Unbekannter Fehler beim Laden."
+            if "401" in meldung or "403" in meldung:
+                # Vermutlich falsche/abgelaufene WDR-Zugangsdaten - erneut abfragen lassen.
+                self.config_data.pop("wdr_user", None)
+                self.config_data.pop("wdr_pass", None)
+                speichere_config(self.config_data)
+            messagebox.showerror("Fehler", meldung)
+            self.status_var.set(f"Fehler: {meldung}")
         except Exception as exc:
             messagebox.showerror("Fehler", str(exc))
             self.status_var.set(f"Fehler: {exc}")
