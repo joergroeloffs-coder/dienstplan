@@ -13,9 +13,19 @@ Fassung verschickt - kein taeglicher Mail-Spam bei unveraendertem Plan.
 Zeitraum das heutige Datum enthaelt, sonst die naechste bevorstehende.
 
 Umgebungsvariablen:
-  WDR_USER / WDR_PASS               Zugang zum Fahrplan-Verzeichnis
-  GMAIL_USER / GMAIL_APP_PASSWORD   Absender (App-Passwort, kein normales Passwort)
-  MAIL_TO                           Empfaengeradresse
+  WDR_USER / WDR_PASS      Zugang zum Fahrplan-Verzeichnis
+  SMTP_HOST                z.B. smtp.web.de oder smtp.gmail.com
+  SMTP_PORT                587 (STARTTLS, ueblich) oder 465 (SSL) -
+                           optional, Default 587
+  SMTP_USER / SMTP_PASSWORD  Absender-Zugangsdaten. Bei Gmail ein
+                           App-Passwort (myaccount.google.com/apppasswords,
+                           erfordert 2FA), bei web.de das normale
+                           Passwort, sofern unter "E-Mail-Einstellungen ->
+                           Sicherheit -> POP3/IMAP-Zugang" der externe
+                           Zugriff freigeschaltet ist - sonst schlaegt die
+                           Anmeldung genauso fehl wie bei Gmail ohne
+                           App-Passwort.
+  MAIL_TO                  Empfaengeradresse
 """
 
 import io
@@ -113,7 +123,7 @@ def markiere_pdf(pdf_bytes, abfahrten, schiff):
     return ausgabe.getvalue()
 
 
-def sende_mail(empfaenger, absender, app_passwort, betreff, text, pdf_bytes, dateiname):
+def sende_mail(host, port, empfaenger, absender, passwort, betreff, text, pdf_bytes, dateiname):
     msg = EmailMessage()
     msg["Subject"] = betreff
     msg["From"] = absender
@@ -122,20 +132,31 @@ def sende_mail(empfaenger, absender, app_passwort, betreff, text, pdf_bytes, dat
     msg.add_attachment(
         pdf_bytes, maintype="application", subtype="pdf", filename=dateiname
     )
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
-        smtp.login(absender, app_passwort)
-        smtp.send_message(msg)
+    if port == 465:
+        with smtplib.SMTP_SSL(host, port) as smtp:
+            smtp.login(absender, passwort)
+            smtp.send_message(msg)
+    else:
+        # 587 (ueblich fuer web.de u.a.) oder ein anderer Port: erst
+        # unverschluesselt verbinden, dann per STARTTLS absichern.
+        with smtplib.SMTP(host, port) as smtp:
+            smtp.starttls()
+            smtp.login(absender, passwort)
+            smtp.send_message(msg)
 
 
 def main():
     wdr_user = os.environ.get("WDR_USER")
     wdr_pass = os.environ.get("WDR_PASS")
-    gmail_user = os.environ.get("GMAIL_USER")
-    gmail_pass = os.environ.get("GMAIL_APP_PASSWORD")
+    smtp_host = os.environ.get("SMTP_HOST")
+    smtp_port = int(os.environ.get("SMTP_PORT") or 587)
+    smtp_user = os.environ.get("SMTP_USER")
+    smtp_pass = os.environ.get("SMTP_PASSWORD")
     mail_to = os.environ.get("MAIL_TO")
-    if not all([wdr_user, wdr_pass, gmail_user, gmail_pass, mail_to]):
+    if not all([wdr_user, wdr_pass, smtp_host, smtp_user, smtp_pass, mail_to]):
         sys.exit(
-            "Fehlt: WDR_USER / WDR_PASS / GMAIL_USER / GMAIL_APP_PASSWORD / MAIL_TO."
+            "Fehlt: WDR_USER / WDR_PASS / SMTP_HOST / SMTP_USER / "
+            "SMTP_PASSWORD / MAIL_TO."
         )
 
     if not STATE_PATH.exists():
@@ -187,7 +208,7 @@ def main():
         f"Quelle: {filename}, Stand {mtime}.\n"
     )
     sende_mail(
-        mail_to, gmail_user, gmail_pass, betreff, text,
+        smtp_host, smtp_port, mail_to, smtp_user, smtp_pass, betreff, text,
         markiertes_pdf, f"Fahrplan_KW{kw}_{schiff}_markiert.pdf",
     )
     print(f"Mail verschickt an {mail_to} ({filename}, Stand {mtime}).")
