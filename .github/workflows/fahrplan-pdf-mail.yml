@@ -2,11 +2,11 @@ name: Fahrplan-PDF markieren und mailen
 
 on:
   schedule:
-    # Taeglich 16:05 Uhr Europe/Berlin. Cron ist UTC-fest; 14:05 UTC
-    # entspricht 16:05 Uhr waehrend der Sommerzeit (CEST, UTC+2). Nach der
-    # Umstellung auf Winterzeit (CET, UTC+1) laeuft der Job dann faktisch
-    # um 15:05 Uhr - bei Bedarf auf "5 15 * * *" umstellen.
-    - cron: "5 14 * * *"
+    # Stuendlich zur Minute 5. Verschickt trotzdem nur bei Erstlauf oder
+    # Aenderung des Fahrplan-PDFs (siehe fahrplan_mail_state.json) - die
+    # stuendliche Pruefung selbst loest keine Mail aus, wenn sich nichts
+    # geaendert hat.
+    - cron: "5 * * * *"
 
   workflow_dispatch: {}
 
