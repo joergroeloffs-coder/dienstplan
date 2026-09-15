@@ -350,7 +350,7 @@ def parse_fahrplan_pdf(pdf):
     schiff, route, direkt (bool), vorlaeufig (bool, aus Klammer-Notation).
     """
     ergebnisse = []
-    for page in pdf.pages:
+    for seite_nr, page in enumerate(pdf.pages):
         zeilen = fahrplan_rows_from_words(page.extract_words())
         kw = None
         datum = None
@@ -401,7 +401,8 @@ def parse_fahrplan_pdf(pdf):
                     direkt = True
                     k += 1
                 if k < len(zeile) and zeile[k]["text"] in FAHRPLAN_SCHIFF_KUERZEL:
-                    schiff = FAHRPLAN_SCHIFF_KUERZEL[zeile[k]["text"]]
+                    schiff_wort = zeile[k]
+                    schiff = FAHRPLAN_SCHIFF_KUERZEL[schiff_wort["text"]]
                     spalte = fahrplan_spalte_fuer(zeit_x0, spalten_x)
                     ergebnisse.append({
                         "kw": kw,
@@ -411,6 +412,11 @@ def parse_fahrplan_pdf(pdf):
                         "route": FAHRPLAN_ROUTEN[spalte],
                         "direkt": direkt,
                         "vorlaeufig": vorlaeufig,
+                        "seite": seite_nr,
+                        "bbox": (
+                            wort["x0"], wort["top"],
+                            schiff_wort["x1"], schiff_wort["bottom"],
+                        ),
                     })
                     k += 1
     return ergebnisse

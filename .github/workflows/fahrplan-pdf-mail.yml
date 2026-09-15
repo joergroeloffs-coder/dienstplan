@@ -1,0 +1,54 @@
+name: Fahrplan-PDF markieren und mailen
+
+on:
+  schedule:
+    # Taeglich 16:05 Uhr Europe/Berlin. Cron ist UTC-fest; 14:05 UTC
+    # entspricht 16:05 Uhr waehrend der Sommerzeit (CEST, UTC+2). Nach der
+    # Umstellung auf Winterzeit (CET, UTC+1) laeuft der Job dann faktisch
+    # um 15:05 Uhr - bei Bedarf auf "5 15 * * *" umstellen.
+    - cron: "5 14 * * *"
+
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fahrplan-pdf-mail
+  cancel-in-progress: false
+
+jobs:
+  mail:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Fahrplan pruefen und ggf. markiert verschicken
+        env:
+          WDR_USER: ${{ secrets.WDR_USER }}
+          WDR_PASS: ${{ secrets.WDR_PASS }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+        run: python fahrplan_pdf_mail.py
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "dienstplan-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A fahrplan_mail_state.json
+          if git diff --quiet --cached; then
+            echo "Keine Aenderungen."
+            exit 0
+          fi
+          git commit -m "Fahrplan-Mail-Status aktualisiert"
+          git pull --rebase --autostash
+          git push
