@@ -4,17 +4,33 @@
   "departureSpeedThresholdKmh": 3,
   "stations": [
     {
-      "id": "beispielhafen",
-      "name": "Beispielhafen (Platzhalter - bitte anpassen)",
-      "lat": 54.0000,
-      "lon": 10.0000,
+      "id": "dagebuell",
+      "name": "Dagebüll",
+      "lat": 54.726238,
+      "lon": 8.678464,
       "arrival": {
         "radiusMeters": 500,
-        "text": "In Kürze legen wir im Beispielhafen an. Bitte begeben Sie sich an Deck."
-      },
-      "departure": {
-        "radiusMeters": 200,
-        "text": "Wir legen jetzt im Beispielhafen ab. Bitte nehmen Sie Platz."
+        "text": "In Kürze legen wir in Dagebüll an. Bitte begeben Sie sich an Deck."
+      }
+    },
+    {
+      "id": "wyk-auf-foehr",
+      "name": "Wyk auf Föhr",
+      "lat": 54.691797,
+      "lon": 8.584753,
+      "arrival": {
+        "radiusMeters": 500,
+        "text": "In Kürze legen wir in Wyk auf Föhr an. Bitte begeben Sie sich an Deck."
+      }
+    },
+    {
+      "id": "wittduen-auf-amrum",
+      "name": "Wittdün auf Amrum",
+      "lat": 54.635560,
+      "lon": 8.423644,
+      "arrival": {
+        "radiusMeters": 500,
+        "text": "In Kürze legen wir in Wittdün auf Amrum an. Bitte begeben Sie sich an Deck."
       }
     }
   ]

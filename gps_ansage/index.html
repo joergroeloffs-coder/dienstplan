@@ -105,7 +105,7 @@ function renderStations() {
       <div>Distanz: <span class="dist">–</span> m</div>
       <div>
         <span class="badge arrivalBadge far">Einlaufen: bereit</span>
-        <span class="badge departureBadge far">Ablegen: bereit</span>
+        <span class="badge departureBadge far">${s.departure ? 'Ablegen: bereit' : 'Ablegen: nicht konfiguriert'}</span>
       </div>
       <div class="log"></div>
     `;
@@ -137,6 +137,9 @@ function evaluateStation(stationCfg, distance, speedKmh) {
     arrivalBadge.textContent = distance <= arrRadius * hyst ? 'Einlaufen: nähert sich' : 'Einlaufen: bereit';
     arrivalBadge.className = 'badge ' + (distance <= arrRadius * hyst ? 'armed' : 'far') + ' arrivalBadge';
   }
+
+  // Ablegen ist optional: Stationen ohne "departure" werden nur auf Einlaufen geprüft.
+  if (!stationCfg.departure) { st.lastDistance = distance; return; }
 
   // Ablegen: Bewegungserkennung. Erst "angedockt" erkennen (nah + langsam),
   // dann Ablegen erkennen wenn Geschwindigkeit über Schwelle steigt.
