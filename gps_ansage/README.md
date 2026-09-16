@@ -11,11 +11,17 @@ Web-App für automatische Bordansagen auf Basis der GPS-Position (Einlaufen/Able
 
 ## Konfiguration (`stations.json`)
 
-- `stations`: Liste der Häfen/Stationen mit `lat`/`lon`, Ansagetexten und Radien.
+- `stations`: Liste der Häfen/Stationen mit `lat`/`lon`, Einlaufen-Ansagetext/-Radius und optional Ablegetext.
 - `arrival.radiusMeters`: Ab dieser Entfernung zum Hafen wird die Einlaufen-Ansage ausgelöst.
-- `departure.radiusMeters`: Umkreis, in dem "Anliegen" erkannt wird (Voraussetzung für Ablege-Erkennung).
-- `departureSpeedThresholdKmh`: Geschwindigkeit, ab der (nach Stillstand im Hafen) das Ablegen erkannt wird.
-- `hysteresisFactor`: Verhindert Mehrfachauslösung durch GPS-Schwankungen am Radius-Rand.
+- `departure.text`: Ansagetext beim Ablegen von dieser Station (wird über Positionsabgleich zugeordnet, siehe unten). Fehlt er, wird `departureDetection.genericText` verwendet.
+- `hysteresisFactor`: Verhindert Mehrfachauslösung durch GPS-Schwankungen am Radius-Rand (gilt für Einlaufen).
+- `departureDetection`: globale Ablege-Erkennung (nicht pro Station, siehe unten):
+  - `stableRadiusMeters` (Default 20): Umkreis, in dem das Schiff als "still liegend" gilt.
+  - `stableDurationMinutes` (Default 7): So lange muss das Schiff innerhalb von `stableRadiusMeters` bleiben, damit die Position als Ablege-Anker gilt ("angelegt").
+  - `departureRadiusMeters` (Default 50): Entfernung vom Anker, ab der ein Ablegen erkannt wird.
+  - `departureWindowMinutes` (Default 2): Diese Entfernung muss innerhalb dieses Zeitfensters erreicht werden – sonst gilt es als langsames Wegdriften statt echtem Ablegen, und es wird nichts ausgelöst.
+  - `stationMatchRadiusMeters` (Default 300): Umkreis, in dem der erkannte Ablege-Anker einer konfigurierten Station zugeordnet wird (für den passenden Ansagetext).
+  - `genericText`: Fallback-Ansagetext, falls der Anker keiner Station zugeordnet werden kann.
 
 **Wichtig:** Die Koordinaten in `stations.json` sind Platzhalter und müssen durch die echten Hafenpositionen der Wikingerdampfschiffsreederei ersetzt werden. Ebenso sind die Ansagetexte nur Beispiele.
 
@@ -33,7 +39,7 @@ Benötigt Internetzugang zum Laden der Kartenkacheln (OpenStreetMap) und der Lea
 ## Funktionsweise
 
 - **Einlaufen**: klassische Geofence-Annäherung — sobald die Distanz zum Hafen den Annäherungsradius unterschreitet, wird die Ansage einmalig abgespielt. Erst wenn das Schiff die Zone wieder deutlich verlässt, wird der Trigger erneut "scharf geschaltet" (Hysterese).
-- **Ablegen**: Bewegungserkennung. Das Schiff muss zunächst nahe der Hafenposition und (nahezu) im Stillstand erkannt werden ("liegt an"). Erst wenn danach die Geschwindigkeit über den definierten Schwellwert steigt, wird die Ablege-Ansage ausgelöst — unabhängig von der Uhrzeit.
+- **Ablegen**: dynamische Anker-Erkennung, unabhängig von vorgegebenen Koordinaten. Bleibt das Schiff länger als `stableDurationMinutes` innerhalb von `stableRadiusMeters` an einer Position, gilt diese Position als Ablege-Anker ("angelegt"). Entfernt sich das Schiff danach innerhalb von `departureWindowMinutes` um mehr als `departureRadiusMeters` von diesem Anker, wird die Ablege-Ansage ausgelöst. Entfernt es sich stattdessen langsam über einen längeren Zeitraum (z.B. Drift durch Tide/Wind), wird nichts ausgelöst und die Erkennung setzt sich zurück.
 - **Sprachausgabe**: über die Web Speech API (geräteeigene TTS-Engine des Browsers/Betriebssystems), funktioniert offline.
 
 ## Testmodus

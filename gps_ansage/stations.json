@@ -1,7 +1,14 @@
 {
   "language": "de-DE",
   "hysteresisFactor": 1.5,
-  "departureSpeedThresholdKmh": 3,
+  "departureDetection": {
+    "stableRadiusMeters": 20,
+    "stableDurationMinutes": 7,
+    "departureRadiusMeters": 50,
+    "departureWindowMinutes": 2,
+    "stationMatchRadiusMeters": 300,
+    "genericText": "Wir legen jetzt ab. Bitte nehmen Sie Platz."
+  },
   "stations": [
     {
       "id": "dagebuell",
@@ -11,6 +18,9 @@
       "arrival": {
         "radiusMeters": 100,
         "text": "In Kürze legen wir in Dagebüll an. Bitte begeben Sie sich an Deck."
+      },
+      "departure": {
+        "text": "Wir legen jetzt in Dagebüll ab. Bitte nehmen Sie Platz."
       }
     },
     {
@@ -21,6 +31,9 @@
       "arrival": {
         "radiusMeters": 100,
         "text": "In Kürze legen wir in Wyk auf Föhr an. Bitte begeben Sie sich an Deck."
+      },
+      "departure": {
+        "text": "Wir legen jetzt in Wyk auf Föhr ab. Bitte nehmen Sie Platz."
       }
     },
     {
@@ -31,6 +44,9 @@
       "arrival": {
         "radiusMeters": 100,
         "text": "In Kürze legen wir in Wittdün auf Amrum an. Bitte begeben Sie sich an Deck."
+      },
+      "departure": {
+        "text": "Wir legen jetzt in Wittdün auf Amrum ab. Bitte nehmen Sie Platz."
       }
     }
   ]
