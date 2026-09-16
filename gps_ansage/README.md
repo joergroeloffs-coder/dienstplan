@@ -11,9 +11,9 @@ Web-App für automatische Bordansagen auf Basis der GPS-Position (Einlaufen/Able
 
 ## Konfiguration (`stations.json`)
 
-- `stations`: Liste der Häfen/Stationen mit `lat`/`lon`, Einlaufen-Ansagetext/-Radius und optional Ablegetext.
+- `textTemplates.arrival` / `textTemplates.departure`: gemeinsame Ansage-Vorlagen für alle Stationen. Platzhalter `{hafen}` wird automatisch durch den Stationsnamen ersetzt. Damit reicht es, die Formulierung einmal festzulegen – neue Häfen brauchen keinen eigenen Text.
+- `stations`: Liste der Häfen/Stationen mit `lat`/`lon` und Einlaufen-Radius. `arrival.text` bzw. `departure.text` sind optional und überschreiben die Vorlage nur für diese eine Station (z.B. Sonderansage).
 - `arrival.radiusMeters`: Ab dieser Entfernung zum Hafen wird die Einlaufen-Ansage ausgelöst.
-- `departure.text`: Ansagetext beim Ablegen von dieser Station (wird über Positionsabgleich zugeordnet, siehe unten). Fehlt er, wird `departureDetection.genericText` verwendet.
 - `hysteresisFactor`: Verhindert Mehrfachauslösung durch GPS-Schwankungen am Radius-Rand (gilt für Einlaufen).
 - `departureDetection`: globale Ablege-Erkennung (nicht pro Station, siehe unten):
   - `stableRadiusMeters` (Default 20): Umkreis, in dem das Schiff als "still liegend" gilt.

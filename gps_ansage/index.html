@@ -76,6 +76,26 @@ function haversineMeters(lat1, lon1, lat2, lon2) {
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 }
 
+// Ersetzt Platzhalter wie {hafen} in einer Textvorlage.
+function renderTemplate(template, vars) {
+  return template.replace(/\{(\w+)\}/g, (_, key) => (vars[key] ?? ''));
+}
+
+function arrivalText(stationCfg) {
+  if (stationCfg.arrival.text) return stationCfg.arrival.text;
+  const tpl = (state.config.textTemplates || {}).arrival;
+  return tpl ? renderTemplate(tpl, { hafen: stationCfg.name }) : `Wir nähern uns ${stationCfg.name}.`;
+}
+
+function departureText(stationCfg) {
+  if (stationCfg && stationCfg.departure && stationCfg.departure.text) return stationCfg.departure.text;
+  if (stationCfg) {
+    const tpl = (state.config.textTemplates || {}).departure;
+    if (tpl) return renderTemplate(tpl, { hafen: stationCfg.name });
+  }
+  return departureConfig().genericText;
+}
+
 function speak(text) {
   if (!('speechSynthesis' in window)) {
     alert('Sprachausgabe wird von diesem Browser nicht unterstützt.');
@@ -124,8 +144,9 @@ function evaluateArrival(stationCfg, distance) {
   const arrRadius = stationCfg.arrival.radiusMeters;
 
   if (distance <= arrRadius && st.armedArrival) {
-    speak(stationCfg.arrival.text);
-    log(el.querySelector('.log'), 'Einlaufen-Ansage ausgelöst: ' + stationCfg.arrival.text);
+    const text = arrivalText(stationCfg);
+    speak(text);
+    log(el.querySelector('.log'), 'Einlaufen-Ansage ausgelöst: ' + text);
     st.armedArrival = false;
     arrivalBadge.textContent = 'Einlaufen: ausgelöst';
     arrivalBadge.className = 'badge triggered arrivalBadge';
@@ -224,8 +245,7 @@ function processDeparture(lat, lon, t) {
   const wasNearRecently = dep.buffer.some(entry => entry.distance <= cfg.stableRadius);
 
   if (d > cfg.departureRadius && wasNearRecently) {
-    const text = (dep.matchedStation && dep.matchedStation.departure && dep.matchedStation.departure.text)
-      || cfg.genericText;
+    const text = departureText(dep.matchedStation);
     speak(text);
     log(logEl, 'Ablege-Ansage ausgelöst: ' + text);
     resetDepartureTracking({ lat, lon, t });
