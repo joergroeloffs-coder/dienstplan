@@ -38,6 +38,12 @@
 <h2>Einlaufen</h2>
 <div id="stations"></div>
 
+<h2>Manuelle Zusatzansagen</h2>
+<div class="station">
+  <button id="autodeckBtn">Autodeck-Freigabe ansagen</button>
+  <div class="log" id="secondaryLog"></div>
+</div>
+
 <h2>Ablegen</h2>
 <div class="station" id="departurePanel">
   <span class="badge far" id="departureGlobalBadge">Ablegen: bereit</span>
@@ -353,6 +359,16 @@ function bindTestInputs() {
 document.getElementById('startBtn').addEventListener('click', startTracking);
 document.getElementById('stopBtn').addEventListener('click', stopTracking);
 document.getElementById('testTtsBtn').addEventListener('click', () => speak('Dies ist ein Test der Sprachausgabe.'));
+document.getElementById('autodeckBtn').addEventListener('click', () => {
+  const text = (state.config.secondaryAnnouncements || {}).autodeckFreigabe;
+  const el = document.getElementById('secondaryLog');
+  if (text) {
+    speak(text);
+    log(el, 'Autodeck-Freigabe ausgelöst: ' + text);
+  } else {
+    log(el, 'Kein Text für Autodeck-Freigabe hinterlegt.');
+  }
+});
 
 loadConfig().then(bindTestInputs);
 </script>

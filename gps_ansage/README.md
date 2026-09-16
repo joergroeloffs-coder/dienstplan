@@ -24,6 +24,7 @@ Web-App für automatische Bordansagen auf Basis der GPS-Position (Einlaufen/Able
   - `departureWindowMinutes` (Default 2): Diese Entfernung muss innerhalb dieses Zeitfensters erreicht werden – sonst gilt es als langsames Wegdriften statt echtem Ablegen, und es wird nichts ausgelöst.
   - `stationMatchRadiusMeters` (Default 300): Umkreis, in dem der erkannte Ablege-Anker einer konfigurierten Station zugeordnet wird (für den passenden Ansagetext).
   - `genericText`: Fallback-Ansagetext, falls der Anker keiner Station zugeordnet werden kann.
+- `secondaryAnnouncements`: manuell auslösbare Zusatzansagen, unabhängig von GPS (z.B. `autodeckFreigabe` – Crew drückt im UI einen eigenen Button, sobald das Autodeck zum Verlassen freigegeben werden soll).
 
 **Wichtig:** Die Koordinaten in `stations.json` sind Platzhalter und müssen durch die echten Hafenpositionen der Wikingerdampfschiffsreederei ersetzt werden. Ebenso sind die Ansagetexte nur Beispiele.
 
