@@ -23,6 +23,8 @@
   .test-box label { display: block; font-size: 0.8rem; margin-top: 0.4rem; }
   input[type=number] { width: 100%; padding: 0.4rem; box-sizing: border-box; }
   input[type=range] { width: 100%; }
+  select.berthSelect { width: 100%; padding: 0.4rem; margin-top: 0.4rem; background: #1c232b; color: #eee; border: 1px solid #333; border-radius: 4px; }
+  .berthLabel { font-size: 0.8rem; color: #aaa; display: block; margin-top: 0.5rem; }
 </style>
 </head>
 <body>
@@ -81,10 +83,14 @@ function renderTemplate(template, vars) {
   return template.replace(/\{(\w+)\}/g, (_, key) => (vars[key] ?? ''));
 }
 
-function arrivalText(stationCfg) {
-  if (stationCfg.arrival.text) return stationCfg.arrival.text;
-  const tpl = (state.config.textTemplates || {}).arrival;
-  return tpl ? renderTemplate(tpl, { hafen: stationCfg.name }) : `Wir nähern uns ${stationCfg.name}.`;
+// Liefert den Einlaufen-Ansagetext für den aktuell ausgewählten Anleger-Typ
+// (mit/ohne Seitenausstieg). Reihenfolge: stationsspezifischer Text >
+// globale Vorlage > null (= kein Text hinterlegt, keine Ansage möglich).
+function arrivalText(stationCfg, berthType) {
+  const stationOverride = (stationCfg.arrival.texts || {})[berthType];
+  if (stationOverride) return renderTemplate(stationOverride, { hafen: stationCfg.name });
+  const tpl = ((state.config.textTemplates || {}).arrival || {})[berthType];
+  return tpl ? renderTemplate(tpl, { hafen: stationCfg.name }) : null;
 }
 
 function departureText(stationCfg) {
@@ -111,7 +117,7 @@ async function loadConfig() {
   const res = await fetch('stations.json', { cache: 'no-store' });
   state.config = await res.json();
   state.config.stations.forEach(s => {
-    state.stations[s.id] = { armedArrival: true, lastDistance: null };
+    state.stations[s.id] = { armedArrival: true, lastDistance: null, berthType: 'ohneSeitenausstieg' };
   });
   resetDepartureTracking(null);
   renderStations();
@@ -128,8 +134,16 @@ function renderStations() {
       <h3>${s.name}</h3>
       <div>Distanz: <span class="dist">–</span> m</div>
       <span class="badge arrivalBadge far">Einlaufen: bereit</span>
+      <label class="berthLabel">Anleger für die nächste Ankunft</label>
+      <select class="berthSelect" data-station="${s.id}">
+        <option value="ohneSeitenausstieg">Ohne Seitenausstieg</option>
+        <option value="mitSeitenausstieg">Mit Seitenausstieg</option>
+      </select>
       <div class="log"></div>
     `;
+    div.querySelector('.berthSelect').addEventListener('change', e => {
+      state.stations[s.id].berthType = e.target.value;
+    });
     container.appendChild(div);
   });
 }
@@ -144,9 +158,13 @@ function evaluateArrival(stationCfg, distance) {
   const arrRadius = stationCfg.arrival.radiusMeters;
 
   if (distance <= arrRadius && st.armedArrival) {
-    const text = arrivalText(stationCfg);
-    speak(text);
-    log(el.querySelector('.log'), 'Einlaufen-Ansage ausgelöst: ' + text);
+    const text = arrivalText(stationCfg, st.berthType);
+    if (text) {
+      speak(text);
+      log(el.querySelector('.log'), 'Einlaufen-Ansage ausgelöst: ' + text);
+    } else {
+      log(el.querySelector('.log'), `Kein Ansagetext für Anleger "${st.berthType}" hinterlegt – keine Ansage abgespielt.`);
+    }
     st.armedArrival = false;
     arrivalBadge.textContent = 'Einlaufen: ausgelöst';
     arrivalBadge.className = 'badge triggered arrivalBadge';

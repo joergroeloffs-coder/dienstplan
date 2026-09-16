@@ -11,9 +11,11 @@ Web-App für automatische Bordansagen auf Basis der GPS-Position (Einlaufen/Able
 
 ## Konfiguration (`stations.json`)
 
-- `textTemplates.arrival` / `textTemplates.departure`: gemeinsame Ansage-Vorlagen für alle Stationen. Platzhalter `{hafen}` wird automatisch durch den Stationsnamen ersetzt. Damit reicht es, die Formulierung einmal festzulegen – neue Häfen brauchen keinen eigenen Text.
-- `stations`: Liste der Häfen/Stationen mit `lat`/`lon` und Einlaufen-Radius. `arrival.text` bzw. `departure.text` sind optional und überschreiben die Vorlage nur für diese eine Station (z.B. Sonderansage).
+- `textTemplates.arrival`: Objekt mit einer Vorlage je Anleger-Typ – `ohneSeitenausstieg` und `mitSeitenausstieg`. Platzhalter `{hafen}` wird automatisch durch den Stationsnamen ersetzt. Fehlt eine Vorlage (z.B. `mitSeitenausstieg: null`), wird für Stationen ohne eigenen Text keine Ansage abgespielt (siehe Log-Hinweis).
+- `textTemplates.departure`: eine gemeinsame Ablege-Vorlage für alle Stationen (aktuell keine Anleger-Typ-Unterscheidung).
+- `stations`: Liste der Häfen/Stationen mit `lat`/`lon` und Einlaufen-Radius. `arrival.texts.<berthType>` überschreibt pro Station die globale Vorlage für einen bestimmten Anleger-Typ (z.B. weil der Hafen eine eigene Formulierung braucht). `departure.text` überschreibt entsprechend die Ablege-Vorlage.
 - `arrival.radiusMeters`: Ab dieser Entfernung zum Hafen wird die Einlaufen-Ansage ausgelöst.
+- **Anleger-Typ-Auswahl (mit/mit Seitenausstieg)**: GPS kann die beiden Anleger je Hafen nicht unterscheiden, da sie zu nah beieinander liegen. Im UI wählt die Crew daher pro Station manuell per Dropdown "Ohne Seitenausstieg" / "Mit Seitenausstieg", bevor der Hafen angelaufen wird. Die Automatik löst weiterhin per GPS aus, spielt aber den zur Auswahl passenden Text.
 - `hysteresisFactor`: Verhindert Mehrfachauslösung durch GPS-Schwankungen am Radius-Rand (gilt für Einlaufen).
 - `departureDetection`: globale Ablege-Erkennung (nicht pro Station, siehe unten):
   - `stableRadiusMeters` (Default 20): Umkreis, in dem das Schiff als "still liegend" gilt.
@@ -48,6 +50,7 @@ Im UI gibt es einen Testmodus mit manueller Eingabe von Position und Geschwindig
 
 ## Offene Punkte / nächste Schritte
 
-- Echte Hafenkoordinaten und Ansagetexte eintragen.
+- Ansagetext "Mit Seitenausstieg" für Dagebüll noch nicht definiert (aktuell nur für Wyk auf Föhr und Wittdün auf Amrum hinterlegt).
+- Ansagetexte für Ablegen (Vorlage gilt bisher pauschal, keine Anleger-Typ-Unterscheidung) ggf. noch anpassen.
 - Weitere "Begebenheiten" (über Einlaufen/Ablegen hinaus) als zusätzliche Einträge in `stations.json` bzw. als eigener Ereignistyp ergänzen, sobald definiert.
-- Test auf echtem Android-Gerät/Schiff zur Kalibrierung von Radien und Geschwindigkeitsschwelle.
+- Test auf echtem Android-Gerät/Schiff zur Kalibrierung von Radien und Zeitfenstern.
