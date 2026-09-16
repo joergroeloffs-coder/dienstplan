@@ -538,6 +538,10 @@ def farbe_fuer_namen(words, rects, ship_hue, xrange, row_bbox, fragment):
 
 def find_status_for_name(pdf, target_name_fragment):
     hits = []
+    # Kopfzeilen bleiben ueber Tabellen-/Seitengrenzen hinweg gueltig: manche
+    # Bloecke sind Fortsetzungen ohne eigene Kopfzeile - ohne das wuerden
+    # deren Zeilen (Spalte "UNBEKANNT") stillschweigend uebersprungen.
+    headers = {}
     for page in pdf.pages:
         rects = fill_rects(page)
         words = page.extract_words()
@@ -546,7 +550,6 @@ def find_status_for_name(pdf, target_name_fragment):
         for table in page.find_tables():
             rows = table.extract()
             pairs = column_pairs(table)
-            headers = {}
             for row, meta in zip(rows, table.rows):
                 ncols = len(row)
                 is_header = True
