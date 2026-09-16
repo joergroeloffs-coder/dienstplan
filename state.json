@@ -117,14 +117,17 @@
     "summary": "Dienst auf UTHLANDE"
   },
   "2026-W42": {
-    "category": null,
-    "date_from": null,
-    "date_to": null,
-    "file": null,
-    "mtime": null,
-    "nachbar_links": null,
-    "sequence": 0,
-    "summary": null
+    "category": "Freie Tage",
+    "date_from": "2026-10-09",
+    "date_to": "2026-10-16",
+    "farbe_schiff": null,
+    "file": "42KW2026.pdf",
+    "mtime": "2026-09-16 07:56",
+    "nachbar_links": "UTHLANDE",
+    "rang": "NEO",
+    "revision": 0,
+    "sequence": 1,
+    "summary": "Freie Tage"
   },
   "2026-W43": {
     "category": null,
