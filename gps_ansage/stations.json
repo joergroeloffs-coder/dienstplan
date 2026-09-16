@@ -3,7 +3,7 @@
   "hysteresisFactor": 1.5,
   "textTemplates": {
     "arrival": {
-      "ohneSeitenausstieg": "In Kürze legen wir in {hafen} an. Bitte begeben Sie sich an Deck.",
+      "ohneSeitenausstieg": "Sehr geehrte Fahrgäste, in Kürze erreichen wir den Hafen von {hafen}. Die Pkw-Fahrer bitten wir jetzt schon mal zu den Fahrzeugen. Fußgänger müssen wir leider bitten, das Schiff hier auch über das Autodeck zu verlassen. Wir wünschen einen angenehmen Aufenthalt und sagen auf Wiedersehen. Ende der Durchsage.",
       "mitSeitenausstieg": null
     },
     "departure": "Wir legen jetzt in {hafen} ab. Bitte nehmen Sie Platz."
