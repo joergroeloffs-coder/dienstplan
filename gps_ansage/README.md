@@ -19,6 +19,17 @@ Web-App für automatische Bordansagen auf Basis der GPS-Position (Einlaufen/Able
 
 **Wichtig:** Die Koordinaten in `stations.json` sind Platzhalter und müssen durch die echten Hafenpositionen der Wikingerdampfschiffsreederei ersetzt werden. Ebenso sind die Ansagetexte nur Beispiele.
 
+## Referenzpunkte per Karte setzen (`karte.html`)
+
+Statt Koordinaten manuell zu suchen: `gps_ansage/karte.html` im Browser öffnen (funktioniert auch direkt als Datei, keine `fetch`-Abhängigkeit). Zeigt eine OpenStreetMap-Karte, zentriert auf das nordfriesische Wattenmeer.
+
+1. Auf die Karte klicken → setzt einen Referenzpunkt (Marker ist verschiebbar).
+2. In der Tabelle darunter Name sowie Annäherungs-/Ablege-Radius je Punkt eintragen.
+3. "JSON exportieren" klicken → erzeugt ein fertiges `stations.json`-Gerüst (Texte sind Platzhalter nach Schema "In Kürze legen wir in … an." bzw. "Wir legen jetzt in … ab.").
+4. Per "In Zwischenablage kopieren" übernehmen und in `stations.json` einfügen, Texte final anpassen.
+
+Benötigt Internetzugang zum Laden der Kartenkacheln (OpenStreetMap) und der Leaflet-Bibliothek (CDN).
+
 ## Funktionsweise
 
 - **Einlaufen**: klassische Geofence-Annäherung — sobald die Distanz zum Hafen den Annäherungsradius unterschreitet, wird die Ansage einmalig abgespielt. Erst wenn das Schiff die Zone wieder deutlich verlässt, wird der Trigger erneut "scharf geschaltet" (Hysterese).

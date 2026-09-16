@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Referenzpunkte – Nordfriesisches Wattenmeer</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<style>
+  html, body { margin: 0; padding: 0; background: #101418; color: #eee; font-family: system-ui, sans-serif; }
+  #map { width: 100%; height: 60vh; }
+  .panel { padding: 0.75rem; }
+  h1 { font-size: 1.1rem; margin: 0.5rem 0.75rem; }
+  .hint { font-size: 0.8rem; color: #aaa; margin: 0 0.75rem 0.5rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  th, td { border-bottom: 1px solid #333; padding: 0.35rem; text-align: left; }
+  input[type=text], input[type=number] { width: 100%; box-sizing: border-box; padding: 0.3rem; background: #1c232b; color: #eee; border: 1px solid #333; border-radius: 4px; }
+  select { width: 100%; padding: 0.3rem; background: #1c232b; color: #eee; border: 1px solid #333; border-radius: 4px; }
+  button { padding: 0.5rem 0.9rem; border-radius: 6px; border: none; background: #2b6; color: #032; font-weight: bold; margin: 0.5rem 0.75rem 0.5rem 0; cursor: pointer; }
+  button.secondary { background: #444; color: #eee; }
+  button.danger { background: #a33; color: #fee; padding: 0.25rem 0.5rem; margin: 0; }
+  textarea { width: 100%; min-height: 220px; box-sizing: border-box; background: #0c0f12; color: #9f9; font-family: monospace; font-size: 0.8rem; border: 1px solid #333; border-radius: 6px; padding: 0.5rem; }
+</style>
+</head>
+<body>
+<h1>Referenzpunkte setzen – Nordfriesisches Wattenmeer</h1>
+<p class="hint">Auf die Karte klicken, um einen Referenzpunkt (Hafen/Anleger) zu setzen. Anschließend Name, Ereignistyp und Radius eintragen. Unten kann das Ergebnis als JSON für <code>stations.json</code> exportiert werden.</p>
+
+<div id="map"></div>
+
+<div class="panel">
+  <table id="pointsTable">
+    <thead>
+      <tr>
+        <th>Name / ID</th>
+        <th>Lat</th>
+        <th>Lon</th>
+        <th>Radius Einlaufen (m)</th>
+        <th>Radius Ablegen (m)</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="pointsBody"></tbody>
+  </table>
+
+  <button id="exportBtn">JSON exportieren</button>
+  <button id="clearBtn" class="secondary">Alle Punkte löschen</button>
+
+  <textarea id="output" readonly placeholder="Hier erscheint das exportierte JSON…"></textarea>
+  <button id="copyBtn" class="secondary">In Zwischenablage kopieren</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+// Zentrum: Nordfriesisches Wattenmeer (ungefähr Höhe Husum/Amrum/Föhr)
+const map = L.map('map').setView([54.62, 8.55], 10);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 18,
+  attribution: '&copy; OpenStreetMap-Mitwirkende'
+}).addTo(map);
+
+let points = [];
+let counter = 1;
+
+function slugify(text) {
+  return text.toLowerCase()
+    .replace(/[äöüß]/g, m => ({ä:'ae', ö:'oe', ü:'ue', ß:'ss'}[m]))
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '') || 'punkt';
+}
+
+function addPoint(lat, lon) {
+  const id = 'p' + (counter++);
+  const point = {
+    id,
+    name: 'Neuer Punkt',
+    lat,
+    lon,
+    arrivalRadius: 500,
+    departureRadius: 200,
+    marker: null
+  };
+  point.marker = L.marker([lat, lon], { draggable: true }).addTo(map)
+    .bindPopup(`Punkt wird unten in der Liste benannt.`);
+  point.marker.on('dragend', () => {
+    const pos = point.marker.getLatLng();
+    point.lat = pos.lat;
+    point.lon = pos.lng;
+    renderTable();
+  });
+  points.push(point);
+  renderTable();
+}
+
+function removePoint(id) {
+  const p = points.find(p => p.id === id);
+  if (p) { map.removeLayer(p.marker); }
+  points = points.filter(p => p.id !== id);
+  renderTable();
+}
+
+function renderTable() {
+  const tbody = document.getElementById('pointsBody');
+  tbody.innerHTML = '';
+  points.forEach(p => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="text" value="${p.name}" data-field="name" /></td>
+      <td>${p.lat.toFixed(5)}</td>
+      <td>${p.lon.toFixed(5)}</td>
+      <td><input type="number" value="${p.arrivalRadius}" min="10" step="10" data-field="arrivalRadius" /></td>
+      <td><input type="number" value="${p.departureRadius}" min="10" step="10" data-field="departureRadius" /></td>
+      <td><button class="danger" data-remove="${p.id}">✕</button></td>
+    `;
+    tr.querySelectorAll('input').forEach(input => {
+      input.addEventListener('input', e => {
+        const field = e.target.dataset.field;
+        const val = field.includes('Radius') ? parseFloat(e.target.value) : e.target.value;
+        p[field] = val;
+        if (field === 'name') {
+          p.marker.bindPopup(p.name);
+        }
+      });
+    });
+    tr.querySelector('[data-remove]').addEventListener('click', () => removePoint(p.id));
+    tbody.appendChild(tr);
+  });
+}
+
+map.on('click', e => addPoint(e.latlng.lat, e.latlng.lng));
+
+document.getElementById('exportBtn').addEventListener('click', () => {
+  const config = {
+    language: 'de-DE',
+    hysteresisFactor: 1.5,
+    departureSpeedThresholdKmh: 3,
+    stations: points.map(p => ({
+      id: slugify(p.name) || p.id,
+      name: p.name,
+      lat: Number(p.lat.toFixed(6)),
+      lon: Number(p.lon.toFixed(6)),
+      arrival: {
+        radiusMeters: p.arrivalRadius,
+        text: `In Kürze legen wir in ${p.name} an. Bitte begeben Sie sich an Deck.`
+      },
+      departure: {
+        radiusMeters: p.departureRadius,
+        text: `Wir legen jetzt in ${p.name} ab. Bitte nehmen Sie Platz.`
+      }
+    }))
+  };
+  document.getElementById('output').value = JSON.stringify(config, null, 2);
+});
+
+document.getElementById('copyBtn').addEventListener('click', async () => {
+  const output = document.getElementById('output');
+  output.select();
+  try {
+    await navigator.clipboard.writeText(output.value);
+  } catch (e) {
+    document.execCommand('copy');
+  }
+});
+
+document.getElementById('clearBtn').addEventListener('click', () => {
+  points.forEach(p => map.removeLayer(p.marker));
+  points = [];
+  renderTable();
+  document.getElementById('output').value = '';
+});
+</script>
+</body>
+</html>
