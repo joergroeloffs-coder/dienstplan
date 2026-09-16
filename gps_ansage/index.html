@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fähr-Ansageautomatik</title>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 0; padding: 1rem; background: #101418; color: #eee; }
+  h1 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+  .status { padding: 0.5rem; border-radius: 6px; background: #1c232b; margin-bottom: 1rem; }
+  .station { border: 1px solid #333; border-radius: 8px; padding: 0.75rem; margin-bottom: 0.75rem; background: #161b20; }
+  .station h2 { margin: 0 0 0.25rem 0; font-size: 1rem; }
+  .badge { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 10px; font-size: 0.75rem; margin-right: 0.3rem; }
+  .badge.far { background: #333; }
+  .badge.armed { background: #2b5; color: #032; }
+  .badge.docked { background: #b83; color: #210; }
+  .badge.triggered { background: #555; }
+  .log { font-size: 0.8rem; color: #9c9; white-space: pre-wrap; max-height: 6rem; overflow-y: auto; }
+  button { padding: 0.6rem 1rem; border-radius: 6px; border: none; background: #2b6; color: #032; font-weight: bold; margin-right: 0.5rem; margin-bottom: 0.5rem; }
+  button.secondary { background: #444; color: #eee; }
+  .test-box { border: 1px dashed #555; border-radius: 8px; padding: 0.75rem; margin-top: 1rem; }
+  .test-box label { display: block; font-size: 0.8rem; margin-top: 0.4rem; }
+  input[type=number] { width: 100%; padding: 0.4rem; box-sizing: border-box; }
+  input[type=range] { width: 100%; }
+</style>
+</head>
+<body>
+<h1>Fähr-Ansageautomatik (GPS)</h1>
+<div class="status" id="globalStatus">GPS wird gestartet…</div>
+
+<button id="startBtn">GPS-Tracking starten</button>
+<button id="stopBtn" class="secondary">Stoppen</button>
+<button id="testTtsBtn" class="secondary">TTS testen</button>
+
+<div id="stations"></div>
+
+<div class="test-box">
+  <strong>Testmodus (manuelle Position/Geschwindigkeit)</strong>
+  <label>Aktiv <input type="checkbox" id="testMode"></label>
+  <label>Breitengrad (lat)</label>
+  <input type="number" id="testLat" step="0.0001" value="54.0000">
+  <label>Längengrad (lon)</label>
+  <input type="number" id="testLon" step="0.0001" value="10.0000">
+  <label>Geschwindigkeit (km/h): <span id="testSpeedVal">0</span></label>
+  <input type="range" id="testSpeed" min="0" max="30" step="0.5" value="0">
+</div>
+
+<script>
+const state = {
+  config: null,
+  stations: {}, // id -> {armedArrival, docked, armedDeparture, lastDistance}
+  watchId: null,
+  lastFix: null, // {lat, lon, t}
+};
+
+function log(stationEl, msg) {
+  const el = stationEl.querySelector('.log');
+  const ts = new Date().toLocaleTimeString();
+  el.textContent = `[${ts}] ${msg}\n` + el.textContent;
+}
+
+function haversineMeters(lat1, lon1, lat2, lon2) {
+  const R = 6371000;
+  const toRad = d => d * Math.PI / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function speak(text) {
+  if (!('speechSynthesis' in window)) {
+    alert('Sprachausgabe wird von diesem Browser nicht unterstützt.');
+    return;
+  }
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = state.config.language || 'de-DE';
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utter);
+}
+
+async function loadConfig() {
+  const res = await fetch('stations.json', { cache: 'no-store' });
+  state.config = await res.json();
+  state.config.stations.forEach(s => {
+    state.stations[s.id] = {
+      armedArrival: true,
+      docked: false,
+      armedDeparture: true,
+      lastDistance: null,
+    };
+  });
+  renderStations();
+}
+
+function renderStations() {
+  const container = document.getElementById('stations');
+  container.innerHTML = '';
+  state.config.stations.forEach(s => {
+    const div = document.createElement('div');
+    div.className = 'station';
+    div.id = 'station-' + s.id;
+    div.innerHTML = `
+      <h2>${s.name}</h2>
+      <div>Distanz: <span class="dist">–</span> m</div>
+      <div>
+        <span class="badge arrivalBadge far">Einlaufen: bereit</span>
+        <span class="badge departureBadge far">Ablegen: bereit</span>
+      </div>
+      <div class="log"></div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function evaluateStation(stationCfg, distance, speedKmh) {
+  const st = state.stations[stationCfg.id];
+  const el = document.getElementById('station-' + stationCfg.id);
+  el.querySelector('.dist').textContent = distance.toFixed(1);
+  const hyst = state.config.hysteresisFactor || 1.5;
+  const arrivalBadge = el.querySelector('.arrivalBadge');
+  const departureBadge = el.querySelector('.departureBadge');
+
+  // Arrival: geofence-Annäherung mit Hysterese
+  const arrRadius = stationCfg.arrival.radiusMeters;
+  if (distance <= arrRadius && st.armedArrival) {
+    speak(stationCfg.arrival.text);
+    log(el, 'Einlaufen-Ansage ausgelöst: ' + stationCfg.arrival.text);
+    st.armedArrival = false;
+    arrivalBadge.textContent = 'Einlaufen: ausgelöst';
+    arrivalBadge.className = 'badge triggered arrivalBadge';
+  } else if (distance > arrRadius * hyst && !st.armedArrival) {
+    st.armedArrival = true;
+    arrivalBadge.textContent = 'Einlaufen: bereit';
+    arrivalBadge.className = 'badge far arrivalBadge';
+  } else if (st.armedArrival) {
+    arrivalBadge.textContent = distance <= arrRadius * hyst ? 'Einlaufen: nähert sich' : 'Einlaufen: bereit';
+    arrivalBadge.className = 'badge ' + (distance <= arrRadius * hyst ? 'armed' : 'far') + ' arrivalBadge';
+  }
+
+  // Ablegen: Bewegungserkennung. Erst "angedockt" erkennen (nah + langsam),
+  // dann Ablegen erkennen wenn Geschwindigkeit über Schwelle steigt.
+  const depRadius = stationCfg.departure.radiusMeters;
+  const speedThreshold = state.config.departureSpeedThresholdKmh || 3;
+  const dockSpeedLimit = 1; // km/h, gilt als "liegt still"
+
+  if (distance <= depRadius && speedKmh <= dockSpeedLimit && st.armedDeparture) {
+    if (!st.docked) {
+      st.docked = true;
+      departureBadge.textContent = 'Ablegen: liegt an';
+      departureBadge.className = 'badge docked departureBadge';
+    }
+  }
+
+  if (st.docked && st.armedDeparture && speedKmh >= speedThreshold) {
+    speak(stationCfg.departure.text);
+    log(el, 'Ablege-Ansage ausgelöst: ' + stationCfg.departure.text);
+    st.armedDeparture = false;
+    st.docked = false;
+    departureBadge.textContent = 'Ablegen: ausgelöst';
+    departureBadge.className = 'badge triggered departureBadge';
+  }
+
+  if (!st.armedDeparture && distance > depRadius * hyst) {
+    st.armedDeparture = true;
+    st.docked = false;
+    departureBadge.textContent = 'Ablegen: bereit';
+    departureBadge.className = 'badge far departureBadge';
+  }
+
+  st.lastDistance = distance;
+}
+
+function computeSpeedKmh(lat, lon, timestamp, reportedSpeedMs) {
+  if (typeof reportedSpeedMs === 'number' && !isNaN(reportedSpeedMs)) {
+    return reportedSpeedMs * 3.6;
+  }
+  if (state.lastFix) {
+    const dt = (timestamp - state.lastFix.t) / 1000;
+    if (dt > 0) {
+      const d = haversineMeters(state.lastFix.lat, state.lastFix.lon, lat, lon);
+      return (d / dt) * 3.6;
+    }
+  }
+  return 0;
+}
+
+function handlePosition(lat, lon, timestamp, reportedSpeedMs) {
+  const speedKmh = computeSpeedKmh(lat, lon, timestamp, reportedSpeedMs);
+  document.getElementById('globalStatus').textContent =
+    `Position: ${lat.toFixed(5)}, ${lon.toFixed(5)} | Geschwindigkeit: ${speedKmh.toFixed(1)} km/h`;
+  state.config.stations.forEach(s => {
+    const distance = haversineMeters(lat, lon, s.lat, s.lon);
+    evaluateStation(s, distance, speedKmh);
+  });
+  state.lastFix = { lat, lon, t: timestamp };
+}
+
+function startTracking() {
+  if (document.getElementById('testMode').checked) {
+    document.getElementById('globalStatus').textContent = 'Testmodus aktiv – manuelle Werte werden verwendet.';
+    return;
+  }
+  if (!('geolocation' in navigator)) {
+    document.getElementById('globalStatus').textContent = 'Geolocation wird nicht unterstützt.';
+    return;
+  }
+  state.watchId = navigator.geolocation.watchPosition(
+    pos => handlePosition(pos.coords.latitude, pos.coords.longitude, pos.timestamp, pos.coords.speed),
+    err => { document.getElementById('globalStatus').textContent = 'GPS-Fehler: ' + err.message; },
+    { enableHighAccuracy: true, maximumAge: 2000, timeout: 10000 }
+  );
+}
+
+function stopTracking() {
+  if (state.watchId !== null) {
+    navigator.geolocation.clearWatch(state.watchId);
+    state.watchId = null;
+  }
+  document.getElementById('globalStatus').textContent = 'Tracking gestoppt.';
+}
+
+// Testmodus: manuelle Eingaben live auswerten
+function bindTestInputs() {
+  const latInput = document.getElementById('testLat');
+  const lonInput = document.getElementById('testLon');
+  const speedInput = document.getElementById('testSpeed');
+  const speedVal = document.getElementById('testSpeedVal');
+
+  function applyTestFix() {
+    if (!document.getElementById('testMode').checked) return;
+    const lat = parseFloat(latInput.value);
+    const lon = parseFloat(lonInput.value);
+    const speedKmh = parseFloat(speedInput.value);
+    speedVal.textContent = speedKmh;
+    document.getElementById('globalStatus').textContent =
+      `[Test] Position: ${lat.toFixed(5)}, ${lon.toFixed(5)} | Geschwindigkeit: ${speedKmh.toFixed(1)} km/h`;
+    state.config.stations.forEach(s => {
+      const distance = haversineMeters(lat, lon, s.lat, s.lon);
+      evaluateStation(s, distance, speedKmh);
+    });
+  }
+
+  [latInput, lonInput, speedInput].forEach(inp => inp.addEventListener('input', applyTestFix));
+}
+
+document.getElementById('startBtn').addEventListener('click', startTracking);
+document.getElementById('stopBtn').addEventListener('click', stopTracking);
+document.getElementById('testTtsBtn').addEventListener('click', () => speak('Dies ist ein Test der Sprachausgabe.'));
+
+loadConfig().then(bindTestInputs);
+</script>
+</body>
+</html>

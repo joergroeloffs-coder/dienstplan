@@ -1,0 +1,21 @@
+{
+  "language": "de-DE",
+  "hysteresisFactor": 1.5,
+  "departureSpeedThresholdKmh": 3,
+  "stations": [
+    {
+      "id": "beispielhafen",
+      "name": "Beispielhafen (Platzhalter - bitte anpassen)",
+      "lat": 54.0000,
+      "lon": 10.0000,
+      "arrival": {
+        "radiusMeters": 500,
+        "text": "In Kürze legen wir im Beispielhafen an. Bitte begeben Sie sich an Deck."
+      },
+      "departure": {
+        "radiusMeters": 200,
+        "text": "Wir legen jetzt im Beispielhafen ab. Bitte nehmen Sie Platz."
+      }
+    }
+  ]
+}
