@@ -94,9 +94,13 @@ def main():
         iso_datum = datum_zu_iso(a["datum"])
         if not iso_datum:
             continue
+        # Uhrzeit auf "HH:MM" normalisieren (im PDF kommt z.B. "7:15" ohne
+        # fuehrende Null vor) - sonst sortiert "7:15" als Text hinter "18:40".
+        stunde, minute = a["zeit"].split(":")
+        zeit_normalisiert = f"{int(stunde):02d}:{minute}"
         schiffe.setdefault(a["schiff"], []).append({
             "datum": iso_datum,
-            "zeit": a["zeit"],
+            "zeit": zeit_normalisiert,
             "route": a["route"],
             "direkt": a["direkt"],
             "vorlaeufig": a["vorlaeufig"],
