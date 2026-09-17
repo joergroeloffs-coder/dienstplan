@@ -1,0 +1,48 @@
+name: Fahrplan-Export fuer GPS-Ansageautomatik
+
+on:
+  schedule:
+    # Stuendlich zur Minute 20 - deckt sich mit den anderen Fahrplan-Jobs.
+    - cron: "20 * * * *"
+
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fahrplan-export-gps
+  cancel-in-progress: false
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Fahrplan als JSON exportieren
+        env:
+          WDR_USER: ${{ secrets.WDR_USER }}
+          WDR_PASS: ${{ secrets.WDR_PASS }}
+        run: python fahrplan_export_gps.py
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "dienstplan-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A fahrplan_schedule.json
+          if git diff --quiet --cached; then
+            echo "Keine Aenderungen."
+            exit 0
+          fi
+          git commit -m "Fahrplan-Export fuer GPS-Ansageautomatik aktualisiert"
+          git pull --rebase --autostash
+          git push
