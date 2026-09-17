@@ -1,0 +1,4626 @@
+{
+  "generated_at": "2026-09-17T06:55:24+00:00",
+  "quellen": [
+    {
+      "datei": "38. KW FAL - FW.pdf",
+      "jahr": 2026,
+      "kw": 38,
+      "stand": "2026-09-08 07:46"
+    },
+    {
+      "datei": "39. KW FAL.pdf",
+      "jahr": 2026,
+      "kw": 39,
+      "stand": "2026-09-15 07:58"
+    }
+  ],
+  "schiffe": {
+    "NORDERAUE": [
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "10:35"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:05"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "14:05"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "17:40"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "5:00"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "5:55"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:10"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "10:40"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "11:50"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": true,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "13:00"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "14:45"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "17:40"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "8:25"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "10:40"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "11:50"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": true,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "13:00"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "14:45"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "17:40"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "20:00"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "8:25"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "10:50"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:35"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "13:45"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:05"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "16:00"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "17:25"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "18:40"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "5:00"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "8:15"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:30"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "10:50"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:35"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "13:45"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:05"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "5:00"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "8:15"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:30"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "10:50"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:35"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "13:45"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:05"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "8:15"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:30"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "10:50"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:35"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "13:45"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:05"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "16:00"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "17:25"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "18:40"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "8:15"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:30"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "10:50"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "10:50"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:35"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:35"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "13:45"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "13:45"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:05"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:05"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "16:00"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "16:00"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "17:25"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "17:25"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "18:40"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "18:40"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "20:00"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "20:00"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "20:55"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "20:55"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "5:00"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "5:00"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "8:15"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "8:15"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:30"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:30"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "10:40"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "11:50"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": true,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "13:00"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "18:00"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "8:25"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "10:40"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "11:50"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": true,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "13:00"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "18:00"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "20:00"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "8:25"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "10:50"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:35"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "13:45"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:05"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "16:00"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "17:25"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "18:40"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "5:00"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "8:15"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:30"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "10:50"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:35"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "13:45"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:05"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "16:00"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "17:25"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "18:40"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "5:00"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "8:15"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:30"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "10:50"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:35"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "13:45"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:05"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "16:00"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "17:25"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "18:40"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "5:00"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "8:15"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:30"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "10:50"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:35"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "13:45"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:05"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "16:00"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "17:25"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "18:40"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "5:00"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "8:15"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:30"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "10:50"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:35"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "13:45"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:05"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "16:00"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "17:25"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "18:40"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "20:00"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "20:55"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "5:00"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "8:15"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:30"
+      }
+    ],
+    "NORDFRIESLAND": [
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "10:50"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:35"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "13:45"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:05"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "16:00"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "17:25"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "18:40"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "20:00"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "20:55"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:10"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "10:50"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:00"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "13:20"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "14:35"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "15:35"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "16:45"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "18:00"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "20:00"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "21:00"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:10"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "10:50"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:00"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "13:20"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "14:35"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "15:35"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "16:45"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "18:00"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "10:50"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:35"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "13:45"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:05"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "10:50"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:35"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "13:45"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:05"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "16:00"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "17:25"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "18:40"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "10:50"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:35"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "13:45"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:05"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "16:00"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "17:25"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "18:40"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "5:00"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "10:50"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:35"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "13:45"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:05"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "5:00"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "10:50"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "10:50"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:35"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:35"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "13:45"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "13:45"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:05"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:05"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "18:00"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "18:00"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "10:50"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:35"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "13:45"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:05"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "18:00"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "18:40"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": true,
+        "zeit": "20:00"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "10:50"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:35"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "13:45"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:05"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "18:00"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "18:40"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": true,
+        "zeit": "20:00"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "10:50"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:35"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "13:45"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:05"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      }
+    ],
+    "SCHLESWIG - HOLSTEIN": [
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "10:40"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "11:50"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": true,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "13:00"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "18:00"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "8:25"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "10:35"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:05"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "14:05"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": true,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "18:15"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "20:00"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "20:55"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "10:35"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:05"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "14:05"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": true,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "16:31"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "18:15"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "20:00"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "20:55"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:10"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "10:40"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "11:50"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": true,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "13:00"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "18:00"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "8:25"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "10:40"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "11:50"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": true,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "13:00"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "18:00"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "8:25"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "10:40"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "11:50"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": true,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "13:00"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "18:00"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "8:25"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "10:40"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "11:50"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": true,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "13:00"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "18:00"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "8:25"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "10:40"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "10:40"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "11:50"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "11:50"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": true,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "13:00"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": true,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "13:00"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "18:00"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "18:00"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "8:25"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "8:25"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "10:35"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:05"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "14:05"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "17:40"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:10"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "10:50"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:35"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "13:45"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:05"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "16:00"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "17:25"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "18:40"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "20:00"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "20:55"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "8:15"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:30"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "10:40"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "11:50"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": true,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "13:00"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "18:00"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "8:25"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "10:40"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "11:50"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": true,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "13:00"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "18:00"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "8:25"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "10:40"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "11:50"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": true,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "13:00"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "18:00"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "8:25"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "10:40"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "11:50"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": true,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "13:00"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "18:00"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "8:25"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "10:40"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "11:50"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": true,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "13:00"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "18:00"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "8:25"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      }
+    ],
+    "UTHLANDE": [
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "11:35"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "12:45"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": true,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "14:05"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:55"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "18:00"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "8:15"
+      },
+      {
+        "datum": "2026-09-11",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:30"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "10:40"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "11:50"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "13:00"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "14:15"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:30"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "16:40"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "18:00"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "5:30"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": true,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-12",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:00"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "10:40"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "11:50"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "13:00"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "14:15"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:30"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "16:40"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "18:00"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "20:00"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "5:30"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": true,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-13",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:00"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "10:35"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:05"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "14:05"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "17:40"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "5:00"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:10"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-14",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "10:35"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:05"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "14:05"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "17:40"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "5:00"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:10"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-15",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "10:35"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:05"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "14:05"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "17:40"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "5:00"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:10"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-16",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "10:35"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:05"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "14:05"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "17:40"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "5:00"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:10"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-17",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "10:35"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "10:35"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:05"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:05"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "14:05"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "14:05"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "17:40"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "17:40"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "5:00"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "5:00"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:10"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:10"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-18",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "10:50"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:35"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "13:45"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "15:05"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "16:00"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "17:25"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "18:40"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "20:00"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "20:55"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "6:00"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:15"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "8:15"
+      },
+      {
+        "datum": "2026-09-19",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:30"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "10:35"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:05"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "14:05"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "17:40"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "7:10"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-20",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "10:35"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:05"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "14:05"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "17:40"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "5:00"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:10"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-21",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "10:35"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:05"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "14:05"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "17:40"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "5:00"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:10"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-22",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "10:35"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:05"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "14:05"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "17:40"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "5:00"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:10"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-23",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "10:35"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:05"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "14:05"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "17:40"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "5:00"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:10"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-24",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Wyk-Wittdün",
+        "vorlaeufig": false,
+        "zeit": "10:35"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": true,
+        "route": "Wittdün-Wyk",
+        "vorlaeufig": false,
+        "zeit": "12:05"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "14:05"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "15:15"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "16:30"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "17:40"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "19:00"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "5:00"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "6:10"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Wyk-Dagebüll",
+        "vorlaeufig": false,
+        "zeit": "8:20"
+      },
+      {
+        "datum": "2026-09-25",
+        "direkt": false,
+        "route": "Dagebüll-Wyk",
+        "vorlaeufig": false,
+        "zeit": "9:35"
+      }
+    ]
+  }
+}
