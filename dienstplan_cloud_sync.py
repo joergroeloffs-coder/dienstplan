@@ -724,6 +724,9 @@ def build_tages_vevents(iso_year, iso_week, entry):
             f"KW {iso_week}/{iso_year}\\, Stand: {ics_escape(stand)}\\, "
             f"Datei: {ics_escape(entry.get('file', '?'))}"
         )
+        tages_abfahrten = pro_tag.get(tag.strftime("%d.%m.%Y"))
+        if tages_abfahrten:
+            beschreibung += "\\n\\nAbfahrten:\\n" + ics_escape(tages_abfahrten)
         besatzung_text = entry.get("besatzung_text")
         if besatzung_text:
             beschreibung += "\\n\\nBesatzung:\\n" + ics_escape(besatzung_text)
@@ -732,9 +735,6 @@ def build_tages_vevents(iso_year, iso_week, entry):
             beschreibung += (
                 "\\n\\nVorwoche (steigt aus):\\n" + ics_escape(vorgaenger_text)
             )
-        tages_abfahrten = pro_tag.get(tag.strftime("%d.%m.%Y"))
-        if tages_abfahrten:
-            beschreibung += "\\n\\nAbfahrten:\\n" + ics_escape(tages_abfahrten)
         events.append(
             "BEGIN:VEVENT\r\n"
             f"UID:{uid}\r\n"
