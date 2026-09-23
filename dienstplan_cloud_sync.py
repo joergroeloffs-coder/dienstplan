@@ -1054,6 +1054,9 @@ def main():
         besatzung_text = format_besatzung_text(besatzung)
         if besatzung_text:
             entry["besatzung_text"] = besatzung_text
+            # SEQUENCE erhoehen, sonst erkennen Kalender-Apps (Google/Apple/
+            # Outlook) die inhaltliche Aenderung nicht und zeigen sie nie an.
+            entry["sequence"] = entry.get("sequence", 0) + 1
             changed = True
             print(f"KW {key}: eigene Besatzung nachgetragen (Backfill)")
 
@@ -1080,6 +1083,7 @@ def main():
         vorgaenger_text = format_besatzung_text(vorgaenger)
         if vorgaenger_text:
             entry["vorgaenger_text"] = vorgaenger_text
+            entry["sequence"] = entry.get("sequence", 0) + 1
             changed = True
             print(f"KW {key}: Vorwoche-Besatzung nachgetragen (Backfill)")
 
