@@ -8,7 +8,7 @@
     "mtime": "2026-08-15 16:42",
     "nachbar_links": "Freie Tage",
     "revision": 2,
-    "sequence": 0,
+    "sequence": 1,
     "summary": "Dienst auf UTHLANDE",
     "vorgaenger_text": "NK Krauledat, Norbert bis 11.08.\nNEO Kohn, Otis\nTLM Trost, Adrian\nGSM Sievers, Jon\nNWB Allwörden, André von\nNW Bohn, Hauke\nNWB* Moths, Holger"
   },
@@ -43,7 +43,7 @@
     "mtime": "2026-09-02 17:17",
     "nachbar_links": "Freie Tage",
     "revision": 5,
-    "sequence": 0,
+    "sequence": 1,
     "summary": "Dienst auf UTHLANDE",
     "vorgaenger_text": "NK Krauledat, Norbert\nNK Stier, Falk\nNEO Kohn, Otis\nTLM Trost, Adrian\nGSM Sievers, Jon\nNWB Allwörden, André von\nNW Bohn, Hauke\nNWB* Moths, Holger"
   },
@@ -81,7 +81,7 @@
     "nachbar_links": "Freie Tage",
     "rang": "NEO",
     "revision": 4,
-    "sequence": 2,
+    "sequence": 3,
     "summary": "Dienst auf SCHLESWIG - HOLSTEIN",
     "vorgaenger_text": "NK Hinrichsen, Jesper\nNEO Schäfer, Hagen\nTLM Kohn, Marco\nGSM Sievers, Jon\nNWB Porath, Ingo\nNW Bohn, Hauke\nNW Spangenberg, Jan Tim\nNWB* Moths, Holger\nAz Döhmen, Simon"
   },
@@ -122,7 +122,7 @@
     "nachbar_links": "Freie Tage",
     "rang": "NEO",
     "revision": 2,
-    "sequence": 3,
+    "sequence": 4,
     "summary": "Dienst auf UTHLANDE",
     "vorgaenger_text": "NK Krauledat, Norbert\nNEO Hacht, Ole von\nTLM Petersen, Lukas\nGSM Romischke, Willi\nNW Bohn, Hauke\nNWB Woydack, Ole\nNWB* Anders, Frank\nAz Skora, Josse"
   },
@@ -150,7 +150,7 @@
     "nachbar_links": null,
     "rang": "NEO",
     "revision": 0,
-    "sequence": 1,
+    "sequence": 2,
     "summary": "Dienst auf NORDFRIESLAND",
     "vorgaenger_text": "NK Hellmann, Johann-Eck\nNEO Hacht, Ole von\nTLM Adam, Matthies\nTWB Peters, Harro\nNWB Hansen, Kay\nNW Bohn, Hauke\nNWB* Schulz, Uwe"
   },
