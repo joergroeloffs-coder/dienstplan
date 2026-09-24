@@ -99,17 +99,19 @@
     "summary": "Freie Tage"
   },
   "2026-W40": {
+    "besatzung_text": null,
     "category": "Freie Tage",
     "date_from": "2026-09-25",
     "date_to": "2026-10-02",
     "farbe_schiff": null,
-    "file": "40KW2026 2. Änderung.pdf",
-    "mtime": "2026-09-20 17:31",
+    "file": "40KW2026 3. Änderung.pdf",
+    "mtime": "2026-09-24 19:42",
     "nachbar_links": "UTHLANDE",
     "rang": "NEO",
-    "revision": 2,
-    "sequence": 1,
-    "summary": "Freie Tage"
+    "revision": 3,
+    "sequence": 2,
+    "summary": "Freie Tage",
+    "vorgaenger_text": null
   },
   "2026-W41": {
     "besatzung_text": "NK Stier, Falk\nNEO Roeloffs, Jörg\nTLM Trost, Adrian\nGSM Peters, Olaf\nNWB Petersen, Ralf\nNWB Fabrizius, Philipp\nNWB* Moths, Holger\nAz Skora, Josse",
