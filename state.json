@@ -114,19 +114,19 @@
     "vorgaenger_text": null
   },
   "2026-W41": {
-    "besatzung_text": "NK Stier, Falk\nNEO Roeloffs, Jörg\nTLM Trost, Adrian\nGSM Peters, Olaf\nNWB Petersen, Ralf\nNWB Fabrizius, Philipp\nNWB* Moths, Holger\nAz Skora, Josse",
+    "besatzung_text": "NK Stier, Falk\nNEO Roeloffs, Jörg\nTLM Petersen, Lukas\nGSM Peters, Olaf\nNWB Petersen, Ralf\nNWB Fabrizius, Philipp\nNWB* Moths, Holger\nAz Skora, Josse",
     "category": "UTHLANDE",
     "date_from": "2026-10-02",
     "date_to": "2026-10-09",
     "farbe_schiff": null,
-    "file": "41KW2026 2. Änderung.pdf",
-    "mtime": "2026-09-20 17:44",
+    "file": "41KW2026 3. Änderung.pdf",
+    "mtime": "2026-09-27 10:29",
     "nachbar_links": "Freie Tage",
     "rang": "NEO",
-    "revision": 2,
-    "sequence": 4,
+    "revision": 3,
+    "sequence": 5,
     "summary": "Dienst auf UTHLANDE",
-    "vorgaenger_text": "NK Krauledat, Norbert\nNEO Hacht, Ole von\nTLM Petersen, Lukas\nGSM Romischke, Willi\nNW Bohn, Hauke\nNWB Woydack, Ole\nNWB* Anders, Frank\nAz Skora, Josse"
+    "vorgaenger_text": "NK Krauledat, Norbert\nNEO Hacht, Ole von\nTLM Trost, Adrian\nGSM Romischke, Willi\nNW Bohn, Hauke\nNWB Woydack, Ole\nNWB* Anders, Frank\nAz Skora, Josse"
   },
   "2026-W42": {
     "category": "Freie Tage",
