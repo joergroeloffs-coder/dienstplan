@@ -169,14 +169,19 @@
     "vorgaenger_text": "NK Hellmann, Johann-Eck\nNEO Hacht, Ole von\nTLM Andresen, Dieter\nTWB Peters, Harro\nNWB Hansen, Kay\nNW Bohn, Hauke\nNWB* Schulz, Uwe"
   },
   "2026-W44": {
-    "category": null,
-    "date_from": null,
-    "date_to": null,
-    "file": null,
-    "mtime": null,
-    "nachbar_links": null,
-    "sequence": 0,
-    "summary": null
+    "besatzung_text": null,
+    "category": "Freie Tage",
+    "date_from": "2026-10-23",
+    "date_to": "2026-10-30",
+    "farbe_schiff": null,
+    "file": "44KW2026.pdf",
+    "mtime": "2026-09-29 20:34",
+    "nachbar_links": "NORDFRIESLAND",
+    "rang": "NEO",
+    "revision": 0,
+    "sequence": 1,
+    "summary": "Freie Tage",
+    "vorgaenger_text": null
   },
   "2026-W45": {
     "category": null,
