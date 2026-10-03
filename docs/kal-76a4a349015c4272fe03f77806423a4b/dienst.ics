@@ -104,7 +104,7 @@ SEQUENCE:3
 DTSTART;VALUE=DATE:20260911
 DTEND;VALUE=DATE:20260912
 SUMMARY:Dienst auf SCHLESWIG - HOLSTEIN
-DESCRIPTION:KW 38/2026\, Stand: 2026-09-13 19:51\, Datei: 38KW2026 4. Änderung.pdf\n\nAbfahrten:\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n\nBesatzung:\nNK Hellmann\, Johann-Eck\nNEO Roeloffs\, Jörg\nTLM Erichsen\, Torge\nGSM Christiansen\, Timo\nNWB Matthiesen\, Stephan\nNW Spangenberg\, Jan Tim\nNWB* Müller\, Jan\nAz Döhmen\, Simon\n\nVorwoche (steigt aus):\nNK Hinrichsen\, Jesper\nNEO Schäfer\, Hagen\nTLM Kohn\, Marco\nGSM Sievers\, Jon\nNWB Porath\, Ingo\nNW Bohn\, Hauke\nNW Spangenberg\, Jan Tim\nNWB* Moths\, Holger\nAz Döhmen\, Simon
+DESCRIPTION:KW 38/2026\, Stand: 2026-09-13 19:51\, Datei: 38KW2026 4. Änderung.pdf\n\nAbfahrten:\nHW 3:04 / NW 9:31\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n\nBesatzung:\nNK Hellmann\, Johann-Eck\nNEO Roeloffs\, Jörg\nTLM Erichsen\, Torge\nGSM Christiansen\, Timo\nNWB Matthiesen\, Stephan\nNW Spangenberg\, Jan Tim\nNWB* Müller\, Jan\nAz Döhmen\, Simon\n\nVorwoche (steigt aus):\nNK Hinrichsen\, Jesper\nNEO Schäfer\, Hagen\nTLM Kohn\, Marco\nGSM Sievers\, Jon\nNWB Porath\, Ingo\nNW Bohn\, Hauke\nNW Spangenberg\, Jan Tim\nNWB* Moths\, Holger\nAz Döhmen\, Simon
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W38-20260912@wdr-besatzungsliste
@@ -114,7 +114,7 @@ SEQUENCE:3
 DTSTART;VALUE=DATE:20260912
 DTEND;VALUE=DATE:20260913
 SUMMARY:Dienst auf SCHLESWIG - HOLSTEIN
-DESCRIPTION:KW 38/2026\, Stand: 2026-09-13 19:51\, Datei: 38KW2026 4. Änderung.pdf\n\nAbfahrten:\n6:00 Wyk-Dagebüll\n7:15 Dagebüll-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk (direkt)\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:30 Dagebüll-Wyk (direkt)\n18:15 Wittdün-Wyk (direkt)\n20:00 Dagebüll-Wyk\n20:55 Wyk-Wittdün\n\nBesatzung:\nNK Hellmann\, Johann-Eck\nNEO Roeloffs\, Jörg\nTLM Erichsen\, Torge\nGSM Christiansen\, Timo\nNWB Matthiesen\, Stephan\nNW Spangenberg\, Jan Tim\nNWB* Müller\, Jan\nAz Döhmen\, Simon\n\nVorwoche (steigt aus):\nNK Hinrichsen\, Jesper\nNEO Schäfer\, Hagen\nTLM Kohn\, Marco\nGSM Sievers\, Jon\nNWB Porath\, Ingo\nNW Bohn\, Hauke\nNW Spangenberg\, Jan Tim\nNWB* Moths\, Holger\nAz Döhmen\, Simon
+DESCRIPTION:KW 38/2026\, Stand: 2026-09-13 19:51\, Datei: 38KW2026 4. Änderung.pdf\n\nAbfahrten:\nHW 3:48\n6:00 Wyk-Dagebüll\n7:15 Dagebüll-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk (direkt)\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:30 Dagebüll-Wyk (direkt)\n18:15 Wittdün-Wyk (direkt)\n20:00 Dagebüll-Wyk\n20:55 Wyk-Wittdün\n\nBesatzung:\nNK Hellmann\, Johann-Eck\nNEO Roeloffs\, Jörg\nTLM Erichsen\, Torge\nGSM Christiansen\, Timo\nNWB Matthiesen\, Stephan\nNW Spangenberg\, Jan Tim\nNWB* Müller\, Jan\nAz Döhmen\, Simon\n\nVorwoche (steigt aus):\nNK Hinrichsen\, Jesper\nNEO Schäfer\, Hagen\nTLM Kohn\, Marco\nGSM Sievers\, Jon\nNWB Porath\, Ingo\nNW Bohn\, Hauke\nNW Spangenberg\, Jan Tim\nNWB* Moths\, Holger\nAz Döhmen\, Simon
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W38-20260913@wdr-besatzungsliste
@@ -124,7 +124,7 @@ SEQUENCE:3
 DTSTART;VALUE=DATE:20260913
 DTEND;VALUE=DATE:20260914
 SUMMARY:Dienst auf SCHLESWIG - HOLSTEIN
-DESCRIPTION:KW 38/2026\, Stand: 2026-09-13 19:51\, Datei: 38KW2026 4. Änderung.pdf\n\nAbfahrten:\n7:10 Wittdün-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk (direkt)\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:31 Dagebüll-Wyk (direkt)\n18:15 Wittdün-Wyk (direkt)\n20:00 Dagebüll-Wyk\n20:55 Wyk-Wittdün\n\nBesatzung:\nNK Hellmann\, Johann-Eck\nNEO Roeloffs\, Jörg\nTLM Erichsen\, Torge\nGSM Christiansen\, Timo\nNWB Matthiesen\, Stephan\nNW Spangenberg\, Jan Tim\nNWB* Müller\, Jan\nAz Döhmen\, Simon\n\nVorwoche (steigt aus):\nNK Hinrichsen\, Jesper\nNEO Schäfer\, Hagen\nTLM Kohn\, Marco\nGSM Sievers\, Jon\nNWB Porath\, Ingo\nNW Bohn\, Hauke\nNW Spangenberg\, Jan Tim\nNWB* Moths\, Holger\nAz Döhmen\, Simon
+DESCRIPTION:KW 38/2026\, Stand: 2026-09-13 19:51\, Datei: 38KW2026 4. Änderung.pdf\n\nAbfahrten:\nHW 4:25\n7:10 Wittdün-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk (direkt)\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:31 Dagebüll-Wyk (direkt)\n18:15 Wittdün-Wyk (direkt)\n20:00 Dagebüll-Wyk\n20:55 Wyk-Wittdün\n\nBesatzung:\nNK Hellmann\, Johann-Eck\nNEO Roeloffs\, Jörg\nTLM Erichsen\, Torge\nGSM Christiansen\, Timo\nNWB Matthiesen\, Stephan\nNW Spangenberg\, Jan Tim\nNWB* Müller\, Jan\nAz Döhmen\, Simon\n\nVorwoche (steigt aus):\nNK Hinrichsen\, Jesper\nNEO Schäfer\, Hagen\nTLM Kohn\, Marco\nGSM Sievers\, Jon\nNWB Porath\, Ingo\nNW Bohn\, Hauke\nNW Spangenberg\, Jan Tim\nNWB* Moths\, Holger\nAz Döhmen\, Simon
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W38-20260914@wdr-besatzungsliste
@@ -134,7 +134,7 @@ SEQUENCE:3
 DTSTART;VALUE=DATE:20260914
 DTEND;VALUE=DATE:20260915
 SUMMARY:Dienst auf SCHLESWIG - HOLSTEIN
-DESCRIPTION:KW 38/2026\, Stand: 2026-09-13 19:51\, Datei: 38KW2026 4. Änderung.pdf\n\nAbfahrten:\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün\n\nBesatzung:\nNK Hellmann\, Johann-Eck\nNEO Roeloffs\, Jörg\nTLM Erichsen\, Torge\nGSM Christiansen\, Timo\nNWB Matthiesen\, Stephan\nNW Spangenberg\, Jan Tim\nNWB* Müller\, Jan\nAz Döhmen\, Simon\n\nVorwoche (steigt aus):\nNK Hinrichsen\, Jesper\nNEO Schäfer\, Hagen\nTLM Kohn\, Marco\nGSM Sievers\, Jon\nNWB Porath\, Ingo\nNW Bohn\, Hauke\nNW Spangenberg\, Jan Tim\nNWB* Moths\, Holger\nAz Döhmen\, Simon
+DESCRIPTION:KW 38/2026\, Stand: 2026-09-13 19:51\, Datei: 38KW2026 4. Änderung.pdf\n\nAbfahrten:\nHW 4:57\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün\n\nBesatzung:\nNK Hellmann\, Johann-Eck\nNEO Roeloffs\, Jörg\nTLM Erichsen\, Torge\nGSM Christiansen\, Timo\nNWB Matthiesen\, Stephan\nNW Spangenberg\, Jan Tim\nNWB* Müller\, Jan\nAz Döhmen\, Simon\n\nVorwoche (steigt aus):\nNK Hinrichsen\, Jesper\nNEO Schäfer\, Hagen\nTLM Kohn\, Marco\nGSM Sievers\, Jon\nNWB Porath\, Ingo\nNW Bohn\, Hauke\nNW Spangenberg\, Jan Tim\nNWB* Moths\, Holger\nAz Döhmen\, Simon
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W38-20260915@wdr-besatzungsliste
@@ -144,7 +144,7 @@ SEQUENCE:3
 DTSTART;VALUE=DATE:20260915
 DTEND;VALUE=DATE:20260916
 SUMMARY:Dienst auf SCHLESWIG - HOLSTEIN
-DESCRIPTION:KW 38/2026\, Stand: 2026-09-13 19:51\, Datei: 38KW2026 4. Änderung.pdf\n\nAbfahrten:\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün\n\nBesatzung:\nNK Hellmann\, Johann-Eck\nNEO Roeloffs\, Jörg\nTLM Erichsen\, Torge\nGSM Christiansen\, Timo\nNWB Matthiesen\, Stephan\nNW Spangenberg\, Jan Tim\nNWB* Müller\, Jan\nAz Döhmen\, Simon\n\nVorwoche (steigt aus):\nNK Hinrichsen\, Jesper\nNEO Schäfer\, Hagen\nTLM Kohn\, Marco\nGSM Sievers\, Jon\nNWB Porath\, Ingo\nNW Bohn\, Hauke\nNW Spangenberg\, Jan Tim\nNWB* Moths\, Holger\nAz Döhmen\, Simon
+DESCRIPTION:KW 38/2026\, Stand: 2026-09-13 19:51\, Datei: 38KW2026 4. Änderung.pdf\n\nAbfahrten:\nHW 5:26\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün\n\nBesatzung:\nNK Hellmann\, Johann-Eck\nNEO Roeloffs\, Jörg\nTLM Erichsen\, Torge\nGSM Christiansen\, Timo\nNWB Matthiesen\, Stephan\nNW Spangenberg\, Jan Tim\nNWB* Müller\, Jan\nAz Döhmen\, Simon\n\nVorwoche (steigt aus):\nNK Hinrichsen\, Jesper\nNEO Schäfer\, Hagen\nTLM Kohn\, Marco\nGSM Sievers\, Jon\nNWB Porath\, Ingo\nNW Bohn\, Hauke\nNW Spangenberg\, Jan Tim\nNWB* Moths\, Holger\nAz Döhmen\, Simon
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W38-20260916@wdr-besatzungsliste
@@ -154,7 +154,7 @@ SEQUENCE:3
 DTSTART;VALUE=DATE:20260916
 DTEND;VALUE=DATE:20260917
 SUMMARY:Dienst auf SCHLESWIG - HOLSTEIN
-DESCRIPTION:KW 38/2026\, Stand: 2026-09-13 19:51\, Datei: 38KW2026 4. Änderung.pdf\n\nAbfahrten:\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün\n\nBesatzung:\nNK Hellmann\, Johann-Eck\nNEO Roeloffs\, Jörg\nTLM Erichsen\, Torge\nGSM Christiansen\, Timo\nNWB Matthiesen\, Stephan\nNW Spangenberg\, Jan Tim\nNWB* Müller\, Jan\nAz Döhmen\, Simon\n\nVorwoche (steigt aus):\nNK Hinrichsen\, Jesper\nNEO Schäfer\, Hagen\nTLM Kohn\, Marco\nGSM Sievers\, Jon\nNWB Porath\, Ingo\nNW Bohn\, Hauke\nNW Spangenberg\, Jan Tim\nNWB* Moths\, Holger\nAz Döhmen\, Simon
+DESCRIPTION:KW 38/2026\, Stand: 2026-09-13 19:51\, Datei: 38KW2026 4. Änderung.pdf\n\nAbfahrten:\nHW 5:55 / NW 0:23\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün\n\nBesatzung:\nNK Hellmann\, Johann-Eck\nNEO Roeloffs\, Jörg\nTLM Erichsen\, Torge\nGSM Christiansen\, Timo\nNWB Matthiesen\, Stephan\nNW Spangenberg\, Jan Tim\nNWB* Müller\, Jan\nAz Döhmen\, Simon\n\nVorwoche (steigt aus):\nNK Hinrichsen\, Jesper\nNEO Schäfer\, Hagen\nTLM Kohn\, Marco\nGSM Sievers\, Jon\nNWB Porath\, Ingo\nNW Bohn\, Hauke\nNW Spangenberg\, Jan Tim\nNWB* Moths\, Holger\nAz Döhmen\, Simon
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W38-20260917@wdr-besatzungsliste
@@ -164,7 +164,7 @@ SEQUENCE:3
 DTSTART;VALUE=DATE:20260917
 DTEND;VALUE=DATE:20260918
 SUMMARY:Dienst auf SCHLESWIG - HOLSTEIN
-DESCRIPTION:KW 38/2026\, Stand: 2026-09-13 19:51\, Datei: 38KW2026 4. Änderung.pdf\n\nAbfahrten:\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün\n\nBesatzung:\nNK Hellmann\, Johann-Eck\nNEO Roeloffs\, Jörg\nTLM Erichsen\, Torge\nGSM Christiansen\, Timo\nNWB Matthiesen\, Stephan\nNW Spangenberg\, Jan Tim\nNWB* Müller\, Jan\nAz Döhmen\, Simon\n\nVorwoche (steigt aus):\nNK Hinrichsen\, Jesper\nNEO Schäfer\, Hagen\nTLM Kohn\, Marco\nGSM Sievers\, Jon\nNWB Porath\, Ingo\nNW Bohn\, Hauke\nNW Spangenberg\, Jan Tim\nNWB* Moths\, Holger\nAz Döhmen\, Simon
+DESCRIPTION:KW 38/2026\, Stand: 2026-09-13 19:51\, Datei: 38KW2026 4. Änderung.pdf\n\nAbfahrten:\nHW 6:24 / NW 0:49\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün\n\nBesatzung:\nNK Hellmann\, Johann-Eck\nNEO Roeloffs\, Jörg\nTLM Erichsen\, Torge\nGSM Christiansen\, Timo\nNWB Matthiesen\, Stephan\nNW Spangenberg\, Jan Tim\nNWB* Müller\, Jan\nAz Döhmen\, Simon\n\nVorwoche (steigt aus):\nNK Hinrichsen\, Jesper\nNEO Schäfer\, Hagen\nTLM Kohn\, Marco\nGSM Sievers\, Jon\nNWB Porath\, Ingo\nNW Bohn\, Hauke\nNW Spangenberg\, Jan Tim\nNWB* Moths\, Holger\nAz Döhmen\, Simon
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W38-20260918@wdr-besatzungsliste
@@ -174,7 +174,7 @@ SEQUENCE:3
 DTSTART;VALUE=DATE:20260918
 DTEND;VALUE=DATE:20260919
 SUMMARY:Dienst auf SCHLESWIG - HOLSTEIN
-DESCRIPTION:KW 38/2026\, Stand: 2026-09-13 19:51\, Datei: 38KW2026 4. Änderung.pdf\n\nAbfahrten:\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün\n\nBesatzung:\nNK Hellmann\, Johann-Eck\nNEO Roeloffs\, Jörg\nTLM Erichsen\, Torge\nGSM Christiansen\, Timo\nNWB Matthiesen\, Stephan\nNW Spangenberg\, Jan Tim\nNWB* Müller\, Jan\nAz Döhmen\, Simon\n\nVorwoche (steigt aus):\nNK Hinrichsen\, Jesper\nNEO Schäfer\, Hagen\nTLM Kohn\, Marco\nGSM Sievers\, Jon\nNWB Porath\, Ingo\nNW Bohn\, Hauke\nNW Spangenberg\, Jan Tim\nNWB* Moths\, Holger\nAz Döhmen\, Simon
+DESCRIPTION:KW 38/2026\, Stand: 2026-09-13 19:51\, Datei: 38KW2026 4. Änderung.pdf\n\nAbfahrten:\nHW 6:51 / NW 1:14\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün\n\nBesatzung:\nNK Hellmann\, Johann-Eck\nNEO Roeloffs\, Jörg\nTLM Erichsen\, Torge\nGSM Christiansen\, Timo\nNWB Matthiesen\, Stephan\nNW Spangenberg\, Jan Tim\nNWB* Müller\, Jan\nAz Döhmen\, Simon\n\nVorwoche (steigt aus):\nNK Hinrichsen\, Jesper\nNEO Schäfer\, Hagen\nTLM Kohn\, Marco\nGSM Sievers\, Jon\nNWB Porath\, Ingo\nNW Bohn\, Hauke\nNW Spangenberg\, Jan Tim\nNWB* Moths\, Holger\nAz Döhmen\, Simon
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W41-20261002@wdr-besatzungsliste
@@ -184,7 +184,7 @@ SEQUENCE:5
 DTSTART;VALUE=DATE:20261002
 DTEND;VALUE=DATE:20261003
 SUMMARY:Dienst auf UTHLANDE
-DESCRIPTION:KW 41/2026\, Stand: 2026-09-27 10:29\, Datei: 41KW2026 3. Änderung.pdf\n\nAbfahrten:\n5:00 Wyk-Dagebüll\n6:10 Dagebüll-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk (direkt)\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:30 Dagebüll-Wyk\n17:40 Wyk-Dagebüll\n19:00 Dagebüll-Wyk\n\nBesatzung:\nNK Stier\, Falk\nNEO Roeloffs\, Jörg\nTLM Petersen\, Lukas\nGSM Peters\, Olaf\nNWB Petersen\, Ralf\nNWB Fabrizius\, Philipp\nNWB* Moths\, Holger\nAz Skora\, Josse\n\nVorwoche (steigt aus):\nNK Krauledat\, Norbert\nNEO Hacht\, Ole von\nTLM Trost\, Adrian\nGSM Romischke\, Willi\nNW Bohn\, Hauke\nNWB Woydack\, Ole\nNWB* Anders\, Frank\nAz Skora\, Josse
+DESCRIPTION:KW 41/2026\, Stand: 2026-09-27 10:29\, Datei: 41KW2026 3. Änderung.pdf\n\nAbfahrten:\nHW 6:09 / NW 0:35 / HW 18:38 / NW 12:51\n5:00 Wyk-Dagebüll\n6:10 Dagebüll-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk (direkt)\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:30 Dagebüll-Wyk\n17:40 Wyk-Dagebüll\n19:00 Dagebüll-Wyk\n\nBesatzung:\nNK Stier\, Falk\nNEO Roeloffs\, Jörg\nTLM Petersen\, Lukas\nGSM Peters\, Olaf\nNWB Petersen\, Ralf\nNWB Fabrizius\, Philipp\nNWB* Moths\, Holger\nAz Skora\, Josse\n\nVorwoche (steigt aus):\nNK Krauledat\, Norbert\nNEO Hacht\, Ole von\nTLM Trost\, Adrian\nGSM Romischke\, Willi\nNW Bohn\, Hauke\nNWB Woydack\, Ole\nNWB* Anders\, Frank\nAz Skora\, Josse
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W41-20261003@wdr-besatzungsliste
@@ -194,7 +194,7 @@ SEQUENCE:5
 DTSTART;VALUE=DATE:20261003
 DTEND;VALUE=DATE:20261004
 SUMMARY:Dienst auf UTHLANDE
-DESCRIPTION:KW 41/2026\, Stand: 2026-09-27 10:29\, Datei: 41KW2026 3. Änderung.pdf\n\nAbfahrten:\n6:00 Wyk-Dagebüll\n7:15 Dagebüll-Wyk\n8:15 Wyk-Wittdün\n9:30 Wittdün-Wyk\n10:50 Wyk-Dagebüll\n12:35 Dagebüll-Wyk\n13:45 Wyk-Dagebüll\n15:05 Dagebüll-Wyk\n16:00 Wyk-Wittdün\n17:25 Wittdün-Wyk\n18:40 Wyk-Dagebüll\n20:00 Dagebüll-Wyk\n20:55 Wyk-Wittdün\n\nBesatzung:\nNK Stier\, Falk\nNEO Roeloffs\, Jörg\nTLM Petersen\, Lukas\nGSM Peters\, Olaf\nNWB Petersen\, Ralf\nNWB Fabrizius\, Philipp\nNWB* Moths\, Holger\nAz Skora\, Josse\n\nVorwoche (steigt aus):\nNK Krauledat\, Norbert\nNEO Hacht\, Ole von\nTLM Trost\, Adrian\nGSM Romischke\, Willi\nNW Bohn\, Hauke\nNWB Woydack\, Ole\nNWB* Anders\, Frank\nAz Skora\, Josse
+DESCRIPTION:KW 41/2026\, Stand: 2026-09-27 10:29\, Datei: 41KW2026 3. Änderung.pdf\n\nAbfahrten:\nHW 6:51 / NW 1:12 / HW 19:27 / NW 13:36\n6:00 Wyk-Dagebüll\n7:15 Dagebüll-Wyk\n8:15 Wyk-Wittdün\n9:30 Wittdün-Wyk\n10:50 Wyk-Dagebüll\n12:35 Dagebüll-Wyk\n13:45 Wyk-Dagebüll\n15:05 Dagebüll-Wyk\n16:00 Wyk-Wittdün\n17:25 Wittdün-Wyk\n18:40 Wyk-Dagebüll\n20:00 Dagebüll-Wyk\n20:55 Wyk-Wittdün\n\nBesatzung:\nNK Stier\, Falk\nNEO Roeloffs\, Jörg\nTLM Petersen\, Lukas\nGSM Peters\, Olaf\nNWB Petersen\, Ralf\nNWB Fabrizius\, Philipp\nNWB* Moths\, Holger\nAz Skora\, Josse\n\nVorwoche (steigt aus):\nNK Krauledat\, Norbert\nNEO Hacht\, Ole von\nTLM Trost\, Adrian\nGSM Romischke\, Willi\nNW Bohn\, Hauke\nNWB Woydack\, Ole\nNWB* Anders\, Frank\nAz Skora\, Josse
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W41-20261004@wdr-besatzungsliste
@@ -204,7 +204,7 @@ SEQUENCE:5
 DTSTART;VALUE=DATE:20261004
 DTEND;VALUE=DATE:20261005
 SUMMARY:Dienst auf UTHLANDE
-DESCRIPTION:KW 41/2026\, Stand: 2026-09-27 10:29\, Datei: 41KW2026 3. Änderung.pdf\n\nAbfahrten:\n7:10 Wittdün-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk (direkt)\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:30 Dagebüll-Wyk\n17:40 Wyk-Dagebüll\n19:00 Dagebüll-Wyk\n\nBesatzung:\nNK Stier\, Falk\nNEO Roeloffs\, Jörg\nTLM Petersen\, Lukas\nGSM Peters\, Olaf\nNWB Petersen\, Ralf\nNWB Fabrizius\, Philipp\nNWB* Moths\, Holger\nAz Skora\, Josse\n\nVorwoche (steigt aus):\nNK Krauledat\, Norbert\nNEO Hacht\, Ole von\nTLM Trost\, Adrian\nGSM Romischke\, Willi\nNW Bohn\, Hauke\nNWB Woydack\, Ole\nNWB* Anders\, Frank\nAz Skora\, Josse
+DESCRIPTION:KW 41/2026\, Stand: 2026-09-27 10:29\, Datei: 41KW2026 3. Änderung.pdf\n\nAbfahrten:\nHW 7:45 / NW 1:58 / HW 20:33 / NW 14:34\n7:10 Wittdün-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk (direkt)\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:30 Dagebüll-Wyk\n17:40 Wyk-Dagebüll\n19:00 Dagebüll-Wyk\n\nBesatzung:\nNK Stier\, Falk\nNEO Roeloffs\, Jörg\nTLM Petersen\, Lukas\nGSM Peters\, Olaf\nNWB Petersen\, Ralf\nNWB Fabrizius\, Philipp\nNWB* Moths\, Holger\nAz Skora\, Josse\n\nVorwoche (steigt aus):\nNK Krauledat\, Norbert\nNEO Hacht\, Ole von\nTLM Trost\, Adrian\nGSM Romischke\, Willi\nNW Bohn\, Hauke\nNWB Woydack\, Ole\nNWB* Anders\, Frank\nAz Skora\, Josse
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W41-20261005@wdr-besatzungsliste
@@ -214,7 +214,7 @@ SEQUENCE:5
 DTSTART;VALUE=DATE:20261005
 DTEND;VALUE=DATE:20261006
 SUMMARY:Dienst auf UTHLANDE
-DESCRIPTION:KW 41/2026\, Stand: 2026-09-27 10:29\, Datei: 41KW2026 3. Änderung.pdf\n\nAbfahrten:\n5:00 Wyk-Dagebüll\n6:10 Dagebüll-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk (direkt)\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:30 Dagebüll-Wyk\n17:40 Wyk-Dagebüll\n19:00 Dagebüll-Wyk\n\nBesatzung:\nNK Stier\, Falk\nNEO Roeloffs\, Jörg\nTLM Petersen\, Lukas\nGSM Peters\, Olaf\nNWB Petersen\, Ralf\nNWB Fabrizius\, Philipp\nNWB* Moths\, Holger\nAz Skora\, Josse\n\nVorwoche (steigt aus):\nNK Krauledat\, Norbert\nNEO Hacht\, Ole von\nTLM Trost\, Adrian\nGSM Romischke\, Willi\nNW Bohn\, Hauke\nNWB Woydack\, Ole\nNWB* Anders\, Frank\nAz Skora\, Josse
+DESCRIPTION:KW 41/2026\, Stand: 2026-09-27 10:29\, Datei: 41KW2026 3. Änderung.pdf\n\nAbfahrten:\nHW 8:59 / NW 3:03 / HW 21:58 / NW 15:55\n5:00 Wyk-Dagebüll\n6:10 Dagebüll-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk (direkt)\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:30 Dagebüll-Wyk\n17:40 Wyk-Dagebüll\n19:00 Dagebüll-Wyk\n\nBesatzung:\nNK Stier\, Falk\nNEO Roeloffs\, Jörg\nTLM Petersen\, Lukas\nGSM Peters\, Olaf\nNWB Petersen\, Ralf\nNWB Fabrizius\, Philipp\nNWB* Moths\, Holger\nAz Skora\, Josse\n\nVorwoche (steigt aus):\nNK Krauledat\, Norbert\nNEO Hacht\, Ole von\nTLM Trost\, Adrian\nGSM Romischke\, Willi\nNW Bohn\, Hauke\nNWB Woydack\, Ole\nNWB* Anders\, Frank\nAz Skora\, Josse
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W41-20261006@wdr-besatzungsliste
@@ -224,7 +224,7 @@ SEQUENCE:5
 DTSTART;VALUE=DATE:20261006
 DTEND;VALUE=DATE:20261007
 SUMMARY:Dienst auf UTHLANDE
-DESCRIPTION:KW 41/2026\, Stand: 2026-09-27 10:29\, Datei: 41KW2026 3. Änderung.pdf\n\nAbfahrten:\n5:00 Wyk-Dagebüll\n6:10 Dagebüll-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk (direkt)\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:30 Dagebüll-Wyk\n17:40 Wyk-Dagebüll\n19:00 Dagebüll-Wyk\n\nBesatzung:\nNK Stier\, Falk\nNEO Roeloffs\, Jörg\nTLM Petersen\, Lukas\nGSM Peters\, Olaf\nNWB Petersen\, Ralf\nNWB Fabrizius\, Philipp\nNWB* Moths\, Holger\nAz Skora\, Josse\n\nVorwoche (steigt aus):\nNK Krauledat\, Norbert\nNEO Hacht\, Ole von\nTLM Trost\, Adrian\nGSM Romischke\, Willi\nNW Bohn\, Hauke\nNWB Woydack\, Ole\nNWB* Anders\, Frank\nAz Skora\, Josse
+DESCRIPTION:KW 41/2026\, Stand: 2026-09-27 10:29\, Datei: 41KW2026 3. Änderung.pdf\n\nAbfahrten:\nHW 10:31 / NW 4:29 / HW 23:34 / NW 17:31\n5:00 Wyk-Dagebüll\n6:10 Dagebüll-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk (direkt)\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:30 Dagebüll-Wyk\n17:40 Wyk-Dagebüll\n19:00 Dagebüll-Wyk\n\nBesatzung:\nNK Stier\, Falk\nNEO Roeloffs\, Jörg\nTLM Petersen\, Lukas\nGSM Peters\, Olaf\nNWB Petersen\, Ralf\nNWB Fabrizius\, Philipp\nNWB* Moths\, Holger\nAz Skora\, Josse\n\nVorwoche (steigt aus):\nNK Krauledat\, Norbert\nNEO Hacht\, Ole von\nTLM Trost\, Adrian\nGSM Romischke\, Willi\nNW Bohn\, Hauke\nNWB Woydack\, Ole\nNWB* Anders\, Frank\nAz Skora\, Josse
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W41-20261007@wdr-besatzungsliste
@@ -234,7 +234,7 @@ SEQUENCE:5
 DTSTART;VALUE=DATE:20261007
 DTEND;VALUE=DATE:20261008
 SUMMARY:Dienst auf UTHLANDE
-DESCRIPTION:KW 41/2026\, Stand: 2026-09-27 10:29\, Datei: 41KW2026 3. Änderung.pdf\n\nAbfahrten:\n5:00 Wyk-Dagebüll\n6:10 Dagebüll-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk (direkt)\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:30 Dagebüll-Wyk\n17:40 Wyk-Dagebüll\n19:00 Dagebüll-Wyk\n\nBesatzung:\nNK Stier\, Falk\nNEO Roeloffs\, Jörg\nTLM Petersen\, Lukas\nGSM Peters\, Olaf\nNWB Petersen\, Ralf\nNWB Fabrizius\, Philipp\nNWB* Moths\, Holger\nAz Skora\, Josse\n\nVorwoche (steigt aus):\nNK Krauledat\, Norbert\nNEO Hacht\, Ole von\nTLM Trost\, Adrian\nGSM Romischke\, Willi\nNW Bohn\, Hauke\nNWB Woydack\, Ole\nNWB* Anders\, Frank\nAz Skora\, Josse
+DESCRIPTION:KW 41/2026\, Stand: 2026-09-27 10:29\, Datei: 41KW2026 3. Änderung.pdf\n\nAbfahrten:\nNW 6:05 / HW 12:03 / NW 19:02\n5:00 Wyk-Dagebüll\n6:10 Dagebüll-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk (direkt)\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:30 Dagebüll-Wyk\n17:40 Wyk-Dagebüll\n19:00 Dagebüll-Wyk\n\nBesatzung:\nNK Stier\, Falk\nNEO Roeloffs\, Jörg\nTLM Petersen\, Lukas\nGSM Peters\, Olaf\nNWB Petersen\, Ralf\nNWB Fabrizius\, Philipp\nNWB* Moths\, Holger\nAz Skora\, Josse\n\nVorwoche (steigt aus):\nNK Krauledat\, Norbert\nNEO Hacht\, Ole von\nTLM Trost\, Adrian\nGSM Romischke\, Willi\nNW Bohn\, Hauke\nNWB Woydack\, Ole\nNWB* Anders\, Frank\nAz Skora\, Josse
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W41-20261008@wdr-besatzungsliste
@@ -244,7 +244,7 @@ SEQUENCE:5
 DTSTART;VALUE=DATE:20261008
 DTEND;VALUE=DATE:20261009
 SUMMARY:Dienst auf UTHLANDE
-DESCRIPTION:KW 41/2026\, Stand: 2026-09-27 10:29\, Datei: 41KW2026 3. Änderung.pdf\n\nAbfahrten:\n5:00 Wyk-Dagebüll\n6:10 Dagebüll-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk (direkt)\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:30 Dagebüll-Wyk\n17:40 Wyk-Dagebüll\n19:00 Dagebüll-Wyk\n\nBesatzung:\nNK Stier\, Falk\nNEO Roeloffs\, Jörg\nTLM Petersen\, Lukas\nGSM Peters\, Olaf\nNWB Petersen\, Ralf\nNWB Fabrizius\, Philipp\nNWB* Moths\, Holger\nAz Skora\, Josse\n\nVorwoche (steigt aus):\nNK Krauledat\, Norbert\nNEO Hacht\, Ole von\nTLM Trost\, Adrian\nGSM Romischke\, Willi\nNW Bohn\, Hauke\nNWB Woydack\, Ole\nNWB* Anders\, Frank\nAz Skora\, Josse
+DESCRIPTION:KW 41/2026\, Stand: 2026-09-27 10:29\, Datei: 41KW2026 3. Änderung.pdf\n\nAbfahrten:\nHW 0:57 / NW 7:25 / HW 13:15 / NW 20:10\n5:00 Wyk-Dagebüll\n6:10 Dagebüll-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk (direkt)\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:30 Dagebüll-Wyk\n17:40 Wyk-Dagebüll\n19:00 Dagebüll-Wyk\n\nBesatzung:\nNK Stier\, Falk\nNEO Roeloffs\, Jörg\nTLM Petersen\, Lukas\nGSM Peters\, Olaf\nNWB Petersen\, Ralf\nNWB Fabrizius\, Philipp\nNWB* Moths\, Holger\nAz Skora\, Josse\n\nVorwoche (steigt aus):\nNK Krauledat\, Norbert\nNEO Hacht\, Ole von\nTLM Trost\, Adrian\nGSM Romischke\, Willi\nNW Bohn\, Hauke\nNWB Woydack\, Ole\nNWB* Anders\, Frank\nAz Skora\, Josse
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W41-20261009@wdr-besatzungsliste
@@ -254,7 +254,7 @@ SEQUENCE:5
 DTSTART;VALUE=DATE:20261009
 DTEND;VALUE=DATE:20261010
 SUMMARY:Dienst auf UTHLANDE
-DESCRIPTION:KW 41/2026\, Stand: 2026-09-27 10:29\, Datei: 41KW2026 3. Änderung.pdf\n\nAbfahrten:\n5:00 Wyk-Dagebüll\n6:10 Dagebüll-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk (direkt)\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:30 Dagebüll-Wyk\n17:40 Wyk-Dagebüll\n19:00 Dagebüll-Wyk\n\nBesatzung:\nNK Stier\, Falk\nNEO Roeloffs\, Jörg\nTLM Petersen\, Lukas\nGSM Peters\, Olaf\nNWB Petersen\, Ralf\nNWB Fabrizius\, Philipp\nNWB* Moths\, Holger\nAz Skora\, Josse\n\nVorwoche (steigt aus):\nNK Krauledat\, Norbert\nNEO Hacht\, Ole von\nTLM Trost\, Adrian\nGSM Romischke\, Willi\nNW Bohn\, Hauke\nNWB Woydack\, Ole\nNWB* Anders\, Frank\nAz Skora\, Josse
+DESCRIPTION:KW 41/2026\, Stand: 2026-09-27 10:29\, Datei: 41KW2026 3. Änderung.pdf\n\nAbfahrten:\nHW 1:56 / NW 8:22 / HW 14:06 / NW 20:58\n5:00 Wyk-Dagebüll\n6:10 Dagebüll-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk (direkt)\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:30 Dagebüll-Wyk\n17:40 Wyk-Dagebüll\n19:00 Dagebüll-Wyk\n\nBesatzung:\nNK Stier\, Falk\nNEO Roeloffs\, Jörg\nTLM Petersen\, Lukas\nGSM Peters\, Olaf\nNWB Petersen\, Ralf\nNWB Fabrizius\, Philipp\nNWB* Moths\, Holger\nAz Skora\, Josse\n\nVorwoche (steigt aus):\nNK Krauledat\, Norbert\nNEO Hacht\, Ole von\nTLM Trost\, Adrian\nGSM Romischke\, Willi\nNW Bohn\, Hauke\nNWB Woydack\, Ole\nNWB* Anders\, Frank\nAz Skora\, Josse
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W43@wdr-besatzungsliste
