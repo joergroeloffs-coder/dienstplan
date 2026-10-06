@@ -184,14 +184,19 @@
     "vorgaenger_text": null
   },
   "2026-W45": {
-    "category": null,
-    "date_from": null,
-    "date_to": null,
-    "file": null,
-    "mtime": null,
+    "besatzung_text": "NK Hinrichsen, Jesper\nNEO Roeloffs, Jörg\nTLM Andresen, Dieter\nGSM Jähnig Martin\nNWB Fabrizius, Philipp\nNWB Lorenzen, Klaus\nNWB* Bukowicki, Piotr",
+    "category": "NORDFRIESLAND",
+    "date_from": "2026-10-30",
+    "date_to": "2026-11-06",
+    "farbe_schiff": null,
+    "file": "45KW2026.pdf",
+    "mtime": "2026-10-06 07:52",
     "nachbar_links": null,
-    "sequence": 0,
-    "summary": null
+    "rang": "NEO",
+    "revision": 0,
+    "sequence": 1,
+    "summary": "Dienst auf NORDFRIESLAND",
+    "vorgaenger_text": "NK Blank, Marc\nNEO Gleike, Falco\nTLM Adam, Matthies\nTWB Christiansen, Uwe\nNWB Hansen, Kay\nNWB Peters, Erk\nNWB* Schulz, Uwe"
   },
   "2026-W46": {
     "category": null,
