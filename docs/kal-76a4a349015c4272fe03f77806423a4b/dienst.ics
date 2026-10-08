@@ -268,12 +268,12 @@ DESCRIPTION:KW 43/2026\, Stand: 2026-09-27 22:58\, Datei: 43KW2026 1. Änderung.
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W45@wdr-besatzungsliste
-DTSTAMP:20261007T173500Z
-LAST-MODIFIED:20261007T173500Z
-SEQUENCE:2
+DTSTAMP:20261008T085600Z
+LAST-MODIFIED:20261008T085600Z
+SEQUENCE:3
 DTSTART;VALUE=DATE:20261030
 DTEND;VALUE=DATE:20261107
 SUMMARY:Dienst auf NORDFRIESLAND
-DESCRIPTION:KW 45/2026\, Stand: 2026-10-07 17:35\, Datei: 45KW2026 1.Aenderung.pdf\n\nBesatzung:\nNK Hinrichsen\, Jesper\nNEO Roeloffs\, Jörg\nTLM Andresen\, Dieter\nGSM Jähnig Martin\nNWB Fabrizius\, Philipp\nNWB Lorenzen\, Klaus\nNWB* Bukowicki\, Piotr\n\nVorwoche (steigt aus):\nNK Blank\, Marc\nNEO Gleike\, Falco\nTLM Adam\, Matthies\nTWB Christiansen\, Uwe\nNWB Hansen\, Kay\nNWB Peters\, Erk\nNWB* Schulz\, Uwe
+DESCRIPTION:KW 45/2026\, Stand: 2026-10-08 08:56\, Datei: 45KW2026 2. Aenderung.pdf\n\nBesatzung:\nNK Hinrichsen\, Jesper\nNEO Roeloffs\, Jörg\nTLM Andresen\, Dieter\nGSM Jähnig Martin\nNWB Fabrizius\, Philipp\nNWB Lorenzen\, Klaus\nNWB* Bukowicki\, Piotr\n\nVorwoche (steigt aus):\nNK Blank\, Marc\nNEO Gleike\, Falco\nTLM Adam\, Matthies\nTWB Christiansen\, Uwe\nNWB Hansen\, Kay\nNWB Peters\, Erk\nNWB* Schulz\, Uwe
 END:VEVENT
 END:VCALENDAR
