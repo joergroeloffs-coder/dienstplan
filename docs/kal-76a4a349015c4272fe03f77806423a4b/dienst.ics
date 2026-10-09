@@ -258,22 +258,22 @@ DESCRIPTION:KW 41/2026\, Stand: 2026-09-27 10:29\, Datei: 41KW2026 3. Änderung.
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W43@wdr-besatzungsliste
-DTSTAMP:20260927T225800Z
-LAST-MODIFIED:20260927T225800Z
-SEQUENCE:3
+DTSTAMP:20261009T153200Z
+LAST-MODIFIED:20261009T153200Z
+SEQUENCE:4
 DTSTART;VALUE=DATE:20261016
 DTEND;VALUE=DATE:20261024
 SUMMARY:Dienst auf NORDFRIESLAND
-DESCRIPTION:KW 43/2026\, Stand: 2026-09-27 22:58\, Datei: 43KW2026 1. Änderung.pdf\n\nBesatzung:\nNK Englmaier\, Jan\nNEO Roeloffs\, Jörg\nTLM Possel\, Björn\nTWB Peters\, Harro\nNWB Lorenzen\, Klaus\nNWB Fabrizius\, Philipp\nNWB* Ben Saber\, Sami\n\nVorwoche (steigt aus):\nNK Hellmann\, Johann-Eck\nNEO Hacht\, Ole von\nTLM Andresen\, Dieter\nTWB Peters\, Harro\nNWB Hansen\, Kay\nNW Bohn\, Hauke\nNWB* Schulz\, Uwe
+DESCRIPTION:KW 43/2026\, Stand: 2026-10-09 15:32\, Datei: 43KW2026 2.Aenderung.pdf\n\nBesatzung:\nNK Englmaier\, Jan\nNEO Roeloffs\, Jörg\nTLM Possel\, Björn\nTWB Peters\, Harro\nNWB Lorenzen\, Klaus\nNWB Fabrizius\, Philipp\nNWB* Ben Saber\, Sami\n\nVorwoche (steigt aus):\nNK Hellmann\, Johann-Eck\nNEO Hacht\, Ole von\nTLM Andresen\, Dieter\nTWB Peters\, Harro\nNWB Hansen\, Kay\nNW Bohn\, Hauke\nNWB* Schulz\, Uwe
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W45@wdr-besatzungsliste
-DTSTAMP:20261008T085600Z
-LAST-MODIFIED:20261008T085600Z
-SEQUENCE:3
+DTSTAMP:20261009T153300Z
+LAST-MODIFIED:20261009T153300Z
+SEQUENCE:4
 DTSTART;VALUE=DATE:20261030
 DTEND;VALUE=DATE:20261107
 SUMMARY:Dienst auf NORDFRIESLAND
-DESCRIPTION:KW 45/2026\, Stand: 2026-10-08 08:56\, Datei: 45KW2026 2. Aenderung.pdf\n\nBesatzung:\nNK Hinrichsen\, Jesper\nNEO Roeloffs\, Jörg\nTLM Andresen\, Dieter\nGSM Jähnig Martin\nNWB Fabrizius\, Philipp\nNWB Lorenzen\, Klaus\nNWB* Bukowicki\, Piotr\n\nVorwoche (steigt aus):\nNK Blank\, Marc\nNEO Gleike\, Falco\nTLM Adam\, Matthies\nTWB Christiansen\, Uwe\nNWB Hansen\, Kay\nNWB Peters\, Erk\nNWB* Schulz\, Uwe
+DESCRIPTION:KW 45/2026\, Stand: 2026-10-09 15:33\, Datei: 45KW2026 3.Aenderung.pdf\n\nBesatzung:\nNK Hinrichsen\, Jesper\nNEO Roeloffs\, Jörg\nTLM Andresen\, Dieter\nGSM Jähnig Martin\nNWB Fabrizius\, Philipp\nNWB Lorenzen\, Klaus\nNWB* Bukowicki\, Piotr\n\nVorwoche (steigt aus):\nNK Blank\, Marc\nNEO Gleike\, Falco\nTLM Hansen\, Boy Simon\nTWB Christiansen\, Uwe\nNWB Hansen\, Kay\nNWB Peters\, Erk\nNWB* Schulz\, Uwe
 END:VEVENT
 END:VCALENDAR
