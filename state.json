@@ -154,6 +154,13 @@
     "vorgaenger_text": null
   },
   "2026-W43": {
+    "abfahrten_pro_tag": {
+      "16.10.2026": "HW 5:50 / NW 0:11\n9:35 Dagebüll-Wyk (vorl.)\n10:50 Wyk-Dagebüll\n12:35 Dagebüll-Wyk\n13:45 Wyk-Dagebüll\n15:05 Dagebüll-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk",
+      "17.10.2026": "HW 6:18 / NW 0:37\n6:00 Wyk-Dagebüll\n7:15 Dagebüll-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:50 Wyk-Dagebüll\n12:35 Dagebüll-Wyk\n13:45 Wyk-Dagebüll\n15:05 Dagebüll-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n18:40 Wyk-Dagebüll\n20:00 Dagebüll-Wyk",
+      "18.10.2026": "HW 6:51 / NW 1:05\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:50 Wyk-Dagebüll\n12:35 Dagebüll-Wyk\n13:45 Wyk-Dagebüll\n15:05 Dagebüll-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk",
+      "20.10.2026": "HW 8:51 / NW 2:46\n5:00 Wyk-Dagebüll\n6:10 Dagebüll-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n12:35 Dagebüll-Wyk",
+      "23.10.2026": "HW 0:29 / NW 6:58\n10:50 Wyk-Dagebüll\n12:35 Dagebüll-Wyk\n13:45 Wyk-Dagebüll\n15:05 Dagebüll-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk"
+    },
     "besatzung_text": "NK Englmaier, Jan\nNEO Roeloffs, Jörg\nTLM Possel, Björn\nTWB Peters, Harro\nNWB Lorenzen, Klaus\nNWB Fabrizius, Philipp\nNWB* Ben Saber, Sami",
     "category": "NORDFRIESLAND",
     "date_from": "2026-10-16",
@@ -199,16 +206,19 @@
     "vorgaenger_text": "NK Blank, Marc\nNEO Gleike, Falco\nTLM Hansen, Boy Simon\nTWB Christiansen, Uwe\nNWB Hansen, Kay\nNWB Peters, Erk\nNWB* Schulz, Uwe"
   },
   "2026-W46": {
-    "category": null,
-    "date_from": null,
-    "date_to": null,
+    "besatzung_text": null,
+    "category": "Freie Tage",
+    "date_from": "2026-11-06",
+    "date_to": "2026-11-13",
     "farbe_schiff": null,
-    "file": null,
-    "mtime": null,
-    "nachbar_links": null,
-    "rang": null,
-    "sequence": 0,
-    "summary": null
+    "file": "46KW2026.pdf",
+    "mtime": "2026-10-12 10:23",
+    "nachbar_links": "URLAUB",
+    "rang": "NEO",
+    "revision": 0,
+    "sequence": 1,
+    "summary": "Freie Tage",
+    "vorgaenger_text": null
   },
   "2026-W47": {
     "category": null,

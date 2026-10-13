@@ -257,14 +257,84 @@ SUMMARY:Dienst auf UTHLANDE
 DESCRIPTION:KW 41/2026\, Stand: 2026-09-27 10:29\, Datei: 41KW2026 3. Änderung.pdf\n\nAbfahrten:\nHW 1:56 / NW 8:22 / HW 14:06 / NW 20:58\n5:00 Wyk-Dagebüll\n6:10 Dagebüll-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk (direkt)\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:30 Dagebüll-Wyk\n17:40 Wyk-Dagebüll\n19:00 Dagebüll-Wyk\n\nBesatzung:\nNK Stier\, Falk\nNEO Roeloffs\, Jörg\nTLM Petersen\, Lukas\nGSM Peters\, Olaf\nNWB Petersen\, Ralf\nNWB Fabrizius\, Philipp\nNWB* Moths\, Holger\nAz Skora\, Josse\n\nVorwoche (steigt aus):\nNK Krauledat\, Norbert\nNEO Hacht\, Ole von\nTLM Trost\, Adrian\nGSM Romischke\, Willi\nNW Bohn\, Hauke\nNWB Woydack\, Ole\nNWB* Anders\, Frank\nAz Skora\, Josse
 END:VEVENT
 BEGIN:VEVENT
-UID:dienstplan-2026-W43@wdr-besatzungsliste
+UID:dienstplan-2026-W43-20261016@wdr-besatzungsliste
 DTSTAMP:20261009T153200Z
 LAST-MODIFIED:20261009T153200Z
 SEQUENCE:4
 DTSTART;VALUE=DATE:20261016
-DTEND;VALUE=DATE:20261024
+DTEND;VALUE=DATE:20261017
+SUMMARY:Dienst auf NORDFRIESLAND
+DESCRIPTION:KW 43/2026\, Stand: 2026-10-09 15:32\, Datei: 43KW2026 2.Aenderung.pdf\n\nAbfahrten:\nHW 5:50 / NW 0:11\n9:35 Dagebüll-Wyk (vorl.)\n10:50 Wyk-Dagebüll\n12:35 Dagebüll-Wyk\n13:45 Wyk-Dagebüll\n15:05 Dagebüll-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n\nBesatzung:\nNK Englmaier\, Jan\nNEO Roeloffs\, Jörg\nTLM Possel\, Björn\nTWB Peters\, Harro\nNWB Lorenzen\, Klaus\nNWB Fabrizius\, Philipp\nNWB* Ben Saber\, Sami\n\nVorwoche (steigt aus):\nNK Hellmann\, Johann-Eck\nNEO Hacht\, Ole von\nTLM Andresen\, Dieter\nTWB Peters\, Harro\nNWB Hansen\, Kay\nNW Bohn\, Hauke\nNWB* Schulz\, Uwe
+END:VEVENT
+BEGIN:VEVENT
+UID:dienstplan-2026-W43-20261017@wdr-besatzungsliste
+DTSTAMP:20261009T153200Z
+LAST-MODIFIED:20261009T153200Z
+SEQUENCE:4
+DTSTART;VALUE=DATE:20261017
+DTEND;VALUE=DATE:20261018
+SUMMARY:Dienst auf NORDFRIESLAND
+DESCRIPTION:KW 43/2026\, Stand: 2026-10-09 15:32\, Datei: 43KW2026 2.Aenderung.pdf\n\nAbfahrten:\nHW 6:18 / NW 0:37\n6:00 Wyk-Dagebüll\n7:15 Dagebüll-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:50 Wyk-Dagebüll\n12:35 Dagebüll-Wyk\n13:45 Wyk-Dagebüll\n15:05 Dagebüll-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n18:40 Wyk-Dagebüll\n20:00 Dagebüll-Wyk\n\nBesatzung:\nNK Englmaier\, Jan\nNEO Roeloffs\, Jörg\nTLM Possel\, Björn\nTWB Peters\, Harro\nNWB Lorenzen\, Klaus\nNWB Fabrizius\, Philipp\nNWB* Ben Saber\, Sami\n\nVorwoche (steigt aus):\nNK Hellmann\, Johann-Eck\nNEO Hacht\, Ole von\nTLM Andresen\, Dieter\nTWB Peters\, Harro\nNWB Hansen\, Kay\nNW Bohn\, Hauke\nNWB* Schulz\, Uwe
+END:VEVENT
+BEGIN:VEVENT
+UID:dienstplan-2026-W43-20261018@wdr-besatzungsliste
+DTSTAMP:20261009T153200Z
+LAST-MODIFIED:20261009T153200Z
+SEQUENCE:4
+DTSTART;VALUE=DATE:20261018
+DTEND;VALUE=DATE:20261019
+SUMMARY:Dienst auf NORDFRIESLAND
+DESCRIPTION:KW 43/2026\, Stand: 2026-10-09 15:32\, Datei: 43KW2026 2.Aenderung.pdf\n\nAbfahrten:\nHW 6:51 / NW 1:05\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:50 Wyk-Dagebüll\n12:35 Dagebüll-Wyk\n13:45 Wyk-Dagebüll\n15:05 Dagebüll-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n\nBesatzung:\nNK Englmaier\, Jan\nNEO Roeloffs\, Jörg\nTLM Possel\, Björn\nTWB Peters\, Harro\nNWB Lorenzen\, Klaus\nNWB Fabrizius\, Philipp\nNWB* Ben Saber\, Sami\n\nVorwoche (steigt aus):\nNK Hellmann\, Johann-Eck\nNEO Hacht\, Ole von\nTLM Andresen\, Dieter\nTWB Peters\, Harro\nNWB Hansen\, Kay\nNW Bohn\, Hauke\nNWB* Schulz\, Uwe
+END:VEVENT
+BEGIN:VEVENT
+UID:dienstplan-2026-W43-20261019@wdr-besatzungsliste
+DTSTAMP:20261009T153200Z
+LAST-MODIFIED:20261009T153200Z
+SEQUENCE:4
+DTSTART;VALUE=DATE:20261019
+DTEND;VALUE=DATE:20261020
 SUMMARY:Dienst auf NORDFRIESLAND
 DESCRIPTION:KW 43/2026\, Stand: 2026-10-09 15:32\, Datei: 43KW2026 2.Aenderung.pdf\n\nBesatzung:\nNK Englmaier\, Jan\nNEO Roeloffs\, Jörg\nTLM Possel\, Björn\nTWB Peters\, Harro\nNWB Lorenzen\, Klaus\nNWB Fabrizius\, Philipp\nNWB* Ben Saber\, Sami\n\nVorwoche (steigt aus):\nNK Hellmann\, Johann-Eck\nNEO Hacht\, Ole von\nTLM Andresen\, Dieter\nTWB Peters\, Harro\nNWB Hansen\, Kay\nNW Bohn\, Hauke\nNWB* Schulz\, Uwe
+END:VEVENT
+BEGIN:VEVENT
+UID:dienstplan-2026-W43-20261020@wdr-besatzungsliste
+DTSTAMP:20261009T153200Z
+LAST-MODIFIED:20261009T153200Z
+SEQUENCE:4
+DTSTART;VALUE=DATE:20261020
+DTEND;VALUE=DATE:20261021
+SUMMARY:Dienst auf NORDFRIESLAND
+DESCRIPTION:KW 43/2026\, Stand: 2026-10-09 15:32\, Datei: 43KW2026 2.Aenderung.pdf\n\nAbfahrten:\nHW 8:51 / NW 2:46\n5:00 Wyk-Dagebüll\n6:10 Dagebüll-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n12:35 Dagebüll-Wyk\n\nBesatzung:\nNK Englmaier\, Jan\nNEO Roeloffs\, Jörg\nTLM Possel\, Björn\nTWB Peters\, Harro\nNWB Lorenzen\, Klaus\nNWB Fabrizius\, Philipp\nNWB* Ben Saber\, Sami\n\nVorwoche (steigt aus):\nNK Hellmann\, Johann-Eck\nNEO Hacht\, Ole von\nTLM Andresen\, Dieter\nTWB Peters\, Harro\nNWB Hansen\, Kay\nNW Bohn\, Hauke\nNWB* Schulz\, Uwe
+END:VEVENT
+BEGIN:VEVENT
+UID:dienstplan-2026-W43-20261021@wdr-besatzungsliste
+DTSTAMP:20261009T153200Z
+LAST-MODIFIED:20261009T153200Z
+SEQUENCE:4
+DTSTART;VALUE=DATE:20261021
+DTEND;VALUE=DATE:20261022
+SUMMARY:Dienst auf NORDFRIESLAND
+DESCRIPTION:KW 43/2026\, Stand: 2026-10-09 15:32\, Datei: 43KW2026 2.Aenderung.pdf\n\nBesatzung:\nNK Englmaier\, Jan\nNEO Roeloffs\, Jörg\nTLM Possel\, Björn\nTWB Peters\, Harro\nNWB Lorenzen\, Klaus\nNWB Fabrizius\, Philipp\nNWB* Ben Saber\, Sami\n\nVorwoche (steigt aus):\nNK Hellmann\, Johann-Eck\nNEO Hacht\, Ole von\nTLM Andresen\, Dieter\nTWB Peters\, Harro\nNWB Hansen\, Kay\nNW Bohn\, Hauke\nNWB* Schulz\, Uwe
+END:VEVENT
+BEGIN:VEVENT
+UID:dienstplan-2026-W43-20261022@wdr-besatzungsliste
+DTSTAMP:20261009T153200Z
+LAST-MODIFIED:20261009T153200Z
+SEQUENCE:4
+DTSTART;VALUE=DATE:20261022
+DTEND;VALUE=DATE:20261023
+SUMMARY:Dienst auf NORDFRIESLAND
+DESCRIPTION:KW 43/2026\, Stand: 2026-10-09 15:32\, Datei: 43KW2026 2.Aenderung.pdf\n\nBesatzung:\nNK Englmaier\, Jan\nNEO Roeloffs\, Jörg\nTLM Possel\, Björn\nTWB Peters\, Harro\nNWB Lorenzen\, Klaus\nNWB Fabrizius\, Philipp\nNWB* Ben Saber\, Sami\n\nVorwoche (steigt aus):\nNK Hellmann\, Johann-Eck\nNEO Hacht\, Ole von\nTLM Andresen\, Dieter\nTWB Peters\, Harro\nNWB Hansen\, Kay\nNW Bohn\, Hauke\nNWB* Schulz\, Uwe
+END:VEVENT
+BEGIN:VEVENT
+UID:dienstplan-2026-W43-20261023@wdr-besatzungsliste
+DTSTAMP:20261009T153200Z
+LAST-MODIFIED:20261009T153200Z
+SEQUENCE:4
+DTSTART;VALUE=DATE:20261023
+DTEND;VALUE=DATE:20261024
+SUMMARY:Dienst auf NORDFRIESLAND
+DESCRIPTION:KW 43/2026\, Stand: 2026-10-09 15:32\, Datei: 43KW2026 2.Aenderung.pdf\n\nAbfahrten:\nHW 0:29 / NW 6:58\n10:50 Wyk-Dagebüll\n12:35 Dagebüll-Wyk\n13:45 Wyk-Dagebüll\n15:05 Dagebüll-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n\nBesatzung:\nNK Englmaier\, Jan\nNEO Roeloffs\, Jörg\nTLM Possel\, Björn\nTWB Peters\, Harro\nNWB Lorenzen\, Klaus\nNWB Fabrizius\, Philipp\nNWB* Ben Saber\, Sami\n\nVorwoche (steigt aus):\nNK Hellmann\, Johann-Eck\nNEO Hacht\, Ole von\nTLM Andresen\, Dieter\nTWB Peters\, Harro\nNWB Hansen\, Kay\nNW Bohn\, Hauke\nNWB* Schulz\, Uwe
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W45@wdr-besatzungsliste
