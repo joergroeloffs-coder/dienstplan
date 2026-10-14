@@ -833,7 +833,7 @@ def build_prognose_vevent(key, entry, schiff, grund):
     )
 
 
-def build_prognose_frei_vevent(key, entry):
+def build_prognose_frei_vevent(key, entry, grund="abgeloest"):
     d_from = date.fromisoformat(entry["date_to"])
     d_to = d_from + timedelta(days=7)
     folge = next_week_key(key)
@@ -841,6 +841,24 @@ def build_prognose_frei_vevent(key, entry):
     stamp = ics_stamp(entry.get("mtime"))
     quelle = key.replace("-W", "/KW ")
     kategorie = entry.get("category", "") or "?"
+    if grund == "frei_fortsetzung":
+        return (
+            "BEGIN:VEVENT\r\n"
+            f"UID:{uid}\r\n"
+            f"DTSTAMP:{stamp}\r\n"
+            f"LAST-MODIFIED:{stamp}\r\n"
+            f"SEQUENCE:{entry.get('sequence', 0)}\r\n"
+            f"DTSTART;VALUE=DATE:{d_from.strftime('%Y%m%d')}\r\n"
+            f"DTEND;VALUE=DATE:{(d_to + timedelta(days=1)).strftime('%Y%m%d')}\r\n"
+            f"SUMMARY:{ics_escape('Voraussichtlich frei')}\r\n"
+            "STATUS:TENTATIVE\r\n"
+            "TRANSP:TRANSPARENT\r\n"
+            f"DESCRIPTION:Unbestaetigte Vermutung. In {ics_escape(quelle)} "
+            "bereits Freie Tage ohne Schiffsbezug (eigene Spalte, nicht "
+            "neben einem Schiff) - erfahrungsgemaess auch die Folgewoche "
+            "frei.\r\n"
+            "END:VEVENT\r\n"
+        )
     return (
         "BEGIN:VEVENT\r\n"
         f"UID:{uid}\r\n"
@@ -888,10 +906,16 @@ def build_prognosen(state):
             continue
 
         links = entry.get("nachbar_links")
-        if not ist_schiff(links or ""):
+        if ist_schiff(links or ""):
+            schiff = SCHIFFE_NORM[norm(links)]
+            events.append(build_prognose_vevent(key, entry, schiff, "nachbar"))
             continue
-        schiff = SCHIFFE_NORM[norm(links)]
-        events.append(build_prognose_vevent(key, entry, schiff, "nachbar"))
+
+        # Eigene Spalte "Freie Tage" ohne Schiffsbezug links daneben (der
+        # Sammelblock unten auf dem Plan, z.B. neben "Urlaub") -
+        # erfahrungsgemaess ist dann auch die Folgewoche frei.
+        if "FREIE TAGE" in kategorie.upper():
+            events.append(build_prognose_frei_vevent(key, entry, "frei_fortsetzung"))
     return events
 
 
