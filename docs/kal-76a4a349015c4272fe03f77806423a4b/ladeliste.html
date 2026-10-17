@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">18:50 · aus Dienstplan</div>
+    <div class="sub">18:55 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -173,20 +173,21 @@ select#schiff-select{
       <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
     </div>
     <div class="stats">
-      <div class="stat"><b>56</b><span>PKW</span></div>
+      <div class="stat"><b>59</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>3</b><span>Transporter</span></div>
-      <div class="stat"><b>3</b><span>Sonder</span></div>
+      <div class="stat"><b>4</b><span>Transporter</span></div>
+      <div class="stat"><b>4</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">302,7 m</span>
+      <span class="val">325,4 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">Transporter</div>
 <div class="special-row"><div class="kind">BK WEGEBAU</div><div class="plate">NFBK2910</div><div class="len">8,8 m</div></div>
 <div class="special-row"><div class="kind">KING TRANSPORTE</div><div class="plate">NFJK5555</div><div class="len">8,7 m</div></div>
+<div class="special-row"><div class="kind">KING TRANSPORTE</div><div class="plate">NFJK55</div><div class="len">7,9 m</div></div>
 <div class="special-row"><div class="kind">JAUNS MAGDALENA</div><div class="plate">ONY37972</div><div class="len">7,9 m</div></div>
 </div>
   </section>
@@ -213,7 +214,7 @@ select#schiff-select{
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">151,5 m</span>
+      <span class="val">151,7 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -224,7 +225,7 @@ select#schiff-select{
       <div class="head"><span class="dot"></span>
         <div><b>Zeitgleich NORDFRIES</b> — ab DAGEBÜLL um 20:00: DAGEBÜLL → FÖHR. PKW-Meter je Teilstrecke:</div>
       </div>
-      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">156,4 m</span></div></div>
+      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">134,4 m</span></div></div>
       
     </div>
   </section>
@@ -266,19 +267,17 @@ select#schiff-select{
       <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
     </div>
     <div class="stats">
-      <div class="stat"><b>30</b><span>PKW</span></div>
+      <div class="stat"><b>27</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>1</b><span>Transporter</span></div>
-      <div class="stat"><b>3</b><span>Sonder</span></div>
+      <div class="stat"><b>0</b><span>Transporter</span></div>
+      <div class="stat"><b>2</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">156,4 m</span>
+      <span class="val">134,4 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
-<div class="group-label">Transporter</div>
-<div class="special-row"><div class="kind">KING TRANSPORTE</div><div class="plate">NFJK55</div><div class="len">7,9 m</div></div>
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">KETELS KÜCHEN GMBH + CO.KG</div><div class="plate">NFBK1010</div><div class="len">8,3 m</div></div>
 <div class="special-row"><div class="kind">STEINRUECKEN TORSTEN</div><div class="plate">EFWX45</div><div class="len">4,4 m</div></div>
@@ -287,7 +286,7 @@ select#schiff-select{
       <div class="head"><span class="dot"></span>
         <div><b>Zeitgleich UTHLANDE</b> — ab DAGEBÜLL um 20:01: DAGEBÜLL → AMRUM. PKW-Meter je Teilstrecke:</div>
       </div>
-      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → AMRUM</span><span class="m">151,5 m</span></div></div>
+      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → AMRUM</span><span class="m">151,7 m</span></div></div>
       
     </div>
   </section>
@@ -301,7 +300,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "18:50";
+const UHRZEIT = "18:55";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
