@@ -701,7 +701,7 @@ def main():
         karten = []
         karten.append(karte_html(letzte, "Letzte", "past", mit_details=True))
         karten.append(karte_html(jetzt, "Jetzt", "now", mit_details=True, extra_html=overlap_jetzt))
-        karten.append(karte_html(naechste, "Nächste", "next", mit_details=False, extra_html=overlap_naechste))
+        karten.append(karte_html(naechste, "Nächste", "next", mit_details=True, extra_html=overlap_naechste))
 
         bloecke.append(schiff_block_html(
             abk, kategorie.title(), SCHIFF_FARBE.get(abk),
