@@ -42,21 +42,23 @@ def parse_fahrten(html):
                 if zm:
                     zeit = zm.group(1)
             pkw = motorrad = transporter = None
-            summe = pkw_meter = None
+            # Beide Summenzeilen haben je 2 Werte, eine Spalte "Laenge(LKW)"
+            # und eine Spalte "Laenge(PKW)" (siehe Tabellenkopf) - vorher
+            # wurde faelschlich nur der erste (LKW-Spalte) Wert gelesen.
+            meter_lkw_spalte = meter_pkw_spalte = None
+            summe_lkw_spalte = summe_pkw_spalte = None
             j = i + 2
             while j < len(tokens) and not FAHRT_RE.match(tokens[j]):
                 gm = GEBUCHT_RE.search(tokens[j])
                 if gm:
                     pkw, motorrad, transporter = gm.groups()
-                    # "...Meter ohne LKW:" steht im selben Token, der Wert
-                    # folgt als naechstes Token (ohne Motorrad-/Transporter-
-                    # Anteil herauszurechnen - PKW macht hier i.d.R. den
-                    # weit ueberwiegenden Teil aus).
-                    if tokens[j].rstrip().endswith("Meter ohne LKW:") and j + 1 < len(tokens):
-                        pkw_meter = tokens[j + 1]
+                    if tokens[j].rstrip().endswith("Meter ohne LKW:") and j + 2 < len(tokens):
+                        meter_lkw_spalte = tokens[j + 1]
+                        meter_pkw_spalte = tokens[j + 2]
                 if tokens[j].startswith("Summe gebuchter Meter"):
-                    if j + 1 < len(tokens):
-                        summe = tokens[j + 1]
+                    if j + 2 < len(tokens):
+                        summe_lkw_spalte = tokens[j + 1]
+                        summe_pkw_spalte = tokens[j + 2]
                 j += 1
             fahrten.append({
                 "origin": origin,
@@ -65,8 +67,10 @@ def parse_fahrten(html):
                 "pkw": pkw,
                 "motorrad": motorrad,
                 "transporter": transporter,
-                "summe_meter": summe,
-                "pkw_meter": pkw_meter,
+                "meter_lkw_spalte": meter_lkw_spalte,
+                "meter_pkw_spalte": meter_pkw_spalte,
+                "summe_lkw_spalte": summe_lkw_spalte,
+                "summe_pkw_spalte": summe_pkw_spalte,
             })
             i = j
         else:
@@ -96,8 +100,11 @@ def main():
             print(
                 f"  {f['zeit']}  {f['origin']} -> {f['ziel']}  "
                 f"PKW {f['pkw']} Motorrad {f['motorrad']} "
-                f"Transporter {f['transporter']}  "
-                f"PKW-Meter {f['pkw_meter']} m  Summe {f['summe_meter']} m"
+                f"Transporter {f['transporter']}  |  "
+                f"Zwischensumme LKW-Spalte {f['meter_lkw_spalte']} m / "
+                f"PKW-Spalte {f['meter_pkw_spalte']} m  |  "
+                f"Summe LKW-Spalte {f['summe_lkw_spalte']} m / "
+                f"PKW-Spalte {f['summe_pkw_spalte']} m"
             )
 
     print("\n=== Zeitgleich-Abgleich (gleicher Hafen, +/- 5 Min) - alle Schiffe als Referenz ===")
@@ -130,7 +137,8 @@ def main():
                 ziel_match = "SELBES ZIEL" if f["ziel"] == rf["ziel"] else "ANDERES ZIEL"
                 print(
                     f"  Treffer: {name} faehrt {f['origin']} -> {f['ziel']} "
-                    f"um {f['zeit']} ({ziel_match}, PKW-Meter {f['pkw_meter']} m)"
+                    f"um {f['zeit']} ({ziel_match}, Summe PKW-Spalte "
+                    f"{f['summe_pkw_spalte']} m)"
                 )
 
 
