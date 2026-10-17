@@ -1,0 +1,485 @@
+#!/usr/bin/env python3
+"""
+Erzeugt eine mobile Vollbild-Seite mit der aktuellen Ladeliste des
+eigenen Schiffs (automatisch aus state.json ermittelt): letzte, aktuelle
+und naechste Abfahrt, inkl. Hinweis auf zeitgleich ab demselben Hafen
+abfahrende andere Schiffe (gleicher Hafen, +/- 5 Minuten).
+
+Quelle: https://faehre2.de/fileadmin/wdr/Schiffe/Ladeliste/<ABK>.html -
+live-System, aktualisiert sich dort alle 30s. Diese Seite wird per Cronjob
+(siehe .github/workflows/ladeliste-sync.yml) alle paar Minuten neu erzeugt
+und ueber GitHub Pages veroeffentlicht; die Seite selbst laedt sich per
+Meta-Refresh alle 60s neu nach.
+
+Zugangsdaten kommen aus WDR_USER / WDR_PASS (GitHub Actions Secrets).
+"""
+
+import json
+import os
+import re
+import sys
+from datetime import date, datetime
+from pathlib import Path
+from zoneinfo import ZoneInfo
+
+import requests
+
+HERE = Path(__file__).resolve().parent
+SLUG = "kal-76a4a349015c4272fe03f77806423a4b"
+OUTPUT_PATH = HERE / "docs" / SLUG / "ladeliste.html"
+STATE_PATH = HERE / "state.json"
+
+BASE_URL = "https://faehre2.de/fileadmin/wdr/Schiffe/Ladeliste"
+TZ = ZoneInfo("Europe/Berlin")
+
+# Nur diese 4 Schiffe - Hilligenlei ausdruecklich nicht gewuenscht.
+SCHIFF_ABK = {
+    "NORDERAUE": "NA",
+    "SCHLESWIG - HOLSTEIN": "S-H",
+    "UTHLANDE": "UTHLANDE",
+    "NORDFRIESLAND": "NORDFRIES",
+}
+
+TOKEN_RE = re.compile(r'FACE="Helvetica">([^<]*)<')
+FAHRT_RE = re.compile(r"^Fahrt:\s*(.+)-(.+)$")
+ZEIT_RE = re.compile(r"^Abfahrzeit:\s*(\d{2}:\d{2})$")
+GEBUCHT_RE = re.compile(
+    r"gebuchte PKW (\d+), Motorr.der (\d+) und Transporter (\d+)"
+)
+
+# Beschreibungs-Praefixe, die eine Buchung als "Sonderfahrzeug" statt
+# normalem PKW einstufen, plus die Kategorie, unter der sie gruppiert wird.
+SONDER_KATEGORIEN = [
+    ("LKW", "LKW"),
+    ("Transporter", "Transporter"),
+    ("PKW-Anh", "PKW-Anhänger"),
+    ("PKW Anh", "PKW-Anhänger"),
+    ("Motorrad", "Motorrad"),
+]
+
+
+def kategorie_fuer(beschreibung):
+    for praefix, kategorie in SONDER_KATEGORIEN:
+        if praefix.lower() in beschreibung.lower():
+            return kategorie
+    return None
+
+
+def parse_fahrten(html):
+    """Liefert Fahrt-Bloecke mit Zeiten, Buchungszahlen, PKW-Spalten-Metern
+    (siehe Hinweis unten) und den einzelnen Sonderfahrzeugen."""
+    tokens = [t.strip() for t in TOKEN_RE.findall(html)]
+    fahrten = []
+    i = 0
+    while i < len(tokens):
+        m = FAHRT_RE.match(tokens[i])
+        if not m:
+            i += 1
+            continue
+        origin, ziel = m.group(1).strip(), m.group(2).strip()
+        zeit = None
+        if i + 1 < len(tokens):
+            zm = ZEIT_RE.match(tokens[i + 1])
+            if zm:
+                zeit = zm.group(1)
+
+        pkw = motorrad = transporter = None
+        # Beide Summenzeilen im Report haben je 2 Werte: eine Spalte
+        # "Laenge(LKW)" und eine Spalte "Laenge(PKW)" - nur Letztere wird
+        # hier verwendet (vom Nutzer bestaetigt: erste Spalte ist falsch).
+        summe_pkw_spalte = None
+        fahrzeuge = []
+        j = i + 2
+        while j < len(tokens) and not FAHRT_RE.match(tokens[j]):
+            gm = GEBUCHT_RE.search(tokens[j])
+            if gm:
+                pkw, motorrad, transporter = gm.groups()
+            if tokens[j].startswith("Summe gebuchter Meter"):
+                if j + 2 < len(tokens):
+                    summe_pkw_spalte = tokens[j + 2]
+            j += 1
+
+        # Einzelfahrzeuge: Zeilen aus je 8 Tokens (Buchungsnr, Kurzname,
+        # Ladeart, Beschreibung, [Kennzeichen], Laenge-LKW, Laenge-PKW) -
+        # Kennzeichen fehlt gelegentlich, daher heuristisch ueber die
+        # Beschreibung als Ankerpunkt gesucht statt feste Tokenzahl
+        # anzunehmen.
+        k = i + 2
+        while k < j - 1:
+            tok = tokens[k]
+            kategorie = kategorie_fuer(tok) if k > i + 1 else None
+            if kategorie and not tok.startswith("gebuchte") and ":" not in tok:
+                beschreibung = tok
+                kurzname = tokens[k - 1] if k - 1 >= i else ""
+                # Ab hier bis zu 3 weitere Tokens absuchen: optionales
+                # Kennzeichen, dann zwei Laengen (LKW-Spalte, PKW-Spalte).
+                rest = tokens[k + 1 : k + 4]
+                laenge_pkw = None
+                zahlen = [t for t in rest if re.match(r"^\d+,\d+$", t)]
+                if len(zahlen) >= 2:
+                    laenge_pkw = zahlen[1]
+                kennzeichen = rest[0] if rest and not re.match(r"^\d+,\d+$", rest[0]) else None
+                fahrzeuge.append({
+                    "kategorie": kategorie,
+                    "beschreibung": beschreibung,
+                    "kurzname": kurzname,
+                    "kennzeichen": kennzeichen,
+                    "laenge": laenge_pkw,
+                })
+            k += 1
+
+        fahrten.append({
+            "origin": origin,
+            "ziel": ziel,
+            "zeit": zeit,
+            "pkw": pkw,
+            "motorrad": motorrad,
+            "transporter": transporter,
+            "summe_pkw_spalte": summe_pkw_spalte,
+            "fahrzeuge": fahrzeuge,
+        })
+        i = j
+    return fahrten
+
+
+def fetch_fahrten(session, abk):
+    resp = session.get(f"{BASE_URL}/{abk}.html", timeout=30)
+    if resp.status_code != 200:
+        return []
+    return parse_fahrten(resp.text)
+
+
+def aktuelles_schiff(state):
+    heute = date.today()
+    for entry in state.values():
+        d_from, d_to = entry.get("date_from"), entry.get("date_to")
+        category = entry.get("category")
+        if not (d_from and d_to and category):
+            continue
+        if category not in SCHIFF_ABK:
+            continue
+        if date.fromisoformat(d_from) <= heute <= date.fromisoformat(d_to):
+            return category
+    return None
+
+
+def minuten(zeit_str):
+    h, m = map(int, zeit_str.split(":"))
+    return h * 60 + m
+
+
+def klassifiziere(fahrten, jetzt_min):
+    """Letzte (juengste vergangene), Jetzt (naechste kommende), Nächste
+    (die danach) - sortiert nach Zeit."""
+    mit_zeit = [f for f in fahrten if f["zeit"]]
+    mit_zeit.sort(key=lambda f: minuten(f["zeit"]))
+    vergangen = [f for f in mit_zeit if minuten(f["zeit"]) <= jetzt_min]
+    kommend = [f for f in mit_zeit if minuten(f["zeit"]) > jetzt_min]
+    letzte = vergangen[-1] if vergangen else None
+    jetzt = kommend[0] if kommend else None
+    naechste = kommend[1] if len(kommend) > 1 else None
+    return letzte, jetzt, naechste
+
+
+def zeitgleich_treffer(ref, alle_fahrten, ref_abk):
+    """Andere Schiffe, die +/- 5 Min. ab demselben Hafen abfahren -
+    alle ihre Fahrt-Bloecke mit diesem Hafen/dieser Zeit (auch mehrere,
+    z.B. Weiterfahrt zu einem zweiten Ziel)."""
+    if not ref or not ref["zeit"]:
+        return []
+    ref_min = minuten(ref["zeit"])
+    treffer = []
+    for abk, fahrten in alle_fahrten.items():
+        if abk == ref_abk:
+            continue
+        legs = [
+            f for f in fahrten
+            if f["zeit"] and f["origin"] == ref["origin"]
+            and abs(minuten(f["zeit"]) - ref_min) <= 5
+        ]
+        if legs:
+            treffer.append((abk, legs))
+    return treffer
+
+
+def esc(text):
+    return (
+        (text or "")
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+    )
+
+
+def sonderfahrzeuge_html(fahrzeuge):
+    gruppen = {}
+    for fz in fahrzeuge:
+        gruppen.setdefault(fz["kategorie"], []).append(fz)
+    for liste in gruppen.values():
+        liste.sort(
+            key=lambda f: float((f["laenge"] or "0").replace(",", ".")),
+            reverse=True,
+        )
+    reihenfolge = ["LKW", "Transporter", "PKW-Anhänger", "Motorrad"]
+    teile = []
+    for kategorie in reihenfolge:
+        for fz in gruppen.get(kategorie, []):
+            if not teile or teile[-1][0] != kategorie:
+                teile.append((kategorie, []))
+            teile[-1][1].append(fz)
+    if not teile:
+        return ""
+    html = ['<div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>', '<div class="special">']
+    for kategorie, liste in teile:
+        html.append(f'<div class="group-label">{esc(kategorie)}</div>')
+        for fz in liste:
+            laenge = f"{fz['laenge']} m" if fz["laenge"] else "—"
+            kennz = esc(fz["kennzeichen"]) if fz["kennzeichen"] else "—"
+            html.append(
+                '<div class="special-row">'
+                f'<div class="kind">{esc(fz["beschreibung"])} — {esc(fz["kurzname"])}</div>'
+                f'<div class="plate">{kennz}</div>'
+                f'<div class="len">{laenge}</div>'
+                "</div>"
+            )
+    html.append("</div>")
+    return "\n".join(html)
+
+
+def karte_html(fahrt, status_label, status_class, mit_details, extra_html=""):
+    if fahrt is None:
+        return ""
+    stats = ""
+    if fahrt["pkw"] is not None:
+        stats = f"""
+    <div class="stats">
+      <div class="stat"><b>{fahrt['pkw']}</b><span>PKW</span></div>
+      <div class="stat"><b>{fahrt['motorrad']}</b><span>Motorrad</span></div>
+      <div class="stat"><b>{fahrt['transporter']}</b><span>Transporter</span></div>
+      <div class="stat"><b>{len(fahrt['fahrzeuge'])}</b><span>Sonder</span></div>
+    </div>"""
+    total = ""
+    if fahrt["summe_pkw_spalte"]:
+        total = f"""
+    <div class="total-bar">
+      <span class="label">Gesamt gebuchte Meter</span>
+      <span class="val">{fahrt['summe_pkw_spalte']} m</span>
+    </div>"""
+    sonder = sonderfahrzeuge_html(fahrt["fahrzeuge"]) if mit_details else ""
+    if not stats:
+        sonder = '<div class="special-head">Noch keine Ladedaten — wird vor Buchungsschluss aktualisiert</div>'
+    return f"""
+  <section class="card{' is-past' if status_class == 'past' else ''}">
+    <div class="route-row">
+      <div class="time">{esc(fahrt['zeit'])}</div>
+      <div class="route">{esc(fahrt['origin'])} <span class="arrow">→</span> {esc(fahrt['ziel'])}</div>
+      <span class="status {status_class}">{status_label}</span>
+    </div>{stats}{total}
+    {sonder}{extra_html}
+  </section>"""
+
+
+def overlap_html(ref, treffer):
+    if not treffer:
+        return ""
+    bloecke = []
+    for abk, legs in treffer:
+        kopf_zeit = legs[0]["zeit"]
+        ziele = " + ".join(f"{esc(l['ziel'])}" for l in legs)
+        legs_html = "".join(
+            f'<div class="leg"><span class="dest">{esc(l["origin"])} → {esc(l["ziel"])}</span>'
+            f'<span class="m">{esc(l["summe_pkw_spalte"]) + " m" if l["summe_pkw_spalte"] else "—"}</span></div>'
+            for l in legs
+        )
+        bloecke.append(f"""
+    <div class="overlap">
+      <div class="head"><span class="dot"></span>
+        <div><b>Zeitgleich {esc(abk)}</b> — ab {esc(ref['origin'])} um {esc(kopf_zeit)} → {esc(ziele)}. PKW-Meter je Teilstrecke:</div>
+      </div>
+      <div class="legs">{legs_html}</div>
+    </div>""")
+    return "".join(bloecke)
+
+
+PAGE_TEMPLATE = """<title>Ladeliste Schiff</title>
+<meta http-equiv="refresh" content="60">
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+:root{{
+  --bg:#0b1b26; --panel:#122a3a; --panel-2:#0e2330;
+  --fg:#eef4f6; --fg-dim:#9fb6c2; --rule:#1f3b4d;
+  --accent:#2fb8a6; --accent-fg:#06211c;
+  --warn:#e8a33d; --past:#5b7280;
+  --font-display:'IBM Plex Sans',system-ui,sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,monospace;
+}}
+@media (prefers-color-scheme: light){{
+  :root:not([data-theme="dark"]){{
+    --bg:#f3f6f6; --panel:#ffffff; --panel-2:#eef3f3;
+    --fg:#0e1f27; --fg-dim:#5b7380; --rule:#dbe4e6;
+    --accent:#0f8f7d; --accent-fg:#ffffff;
+    --warn:#b5720a; --past:#8a9aa3;
+    color-scheme: light;
+  }}
+}}
+:root[data-theme="light"]{{
+  --bg:#f3f6f6; --panel:#ffffff; --panel-2:#eef3f3;
+  --fg:#0e1f27; --fg-dim:#5b7380; --rule:#dbe4e6;
+  --accent:#0f8f7d; --accent-fg:#ffffff;
+  --warn:#b5720a; --past:#8a9aa3;
+  color-scheme: light;
+}}
+:root[data-theme="dark"]{{ color-scheme: dark; }}
+*{{box-sizing:border-box}}
+body{{
+  background:var(--bg); color:var(--fg);
+  font-family:var(--font-display); font-size:14px; line-height:1.4;
+  padding-left:max(16px, env(safe-area-inset-left,0px));
+  padding-right:max(16px, env(safe-area-inset-right,0px));
+}}
+body::before{{
+  content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px);
+  z-index:10; background:var(--panel-2);
+}}
+header.ship{{
+  position:sticky; top:env(safe-area-inset-top,0px); z-index:5;
+  background:var(--panel-2); margin:0 -16px; padding:6px 16px 7px;
+  border-bottom:1px solid var(--rule);
+  display:flex; align-items:baseline; justify-content:space-between; gap:8px;
+}}
+header.ship h1{{margin:0; font-size:15px; font-weight:700; letter-spacing:.01em}}
+header.ship .sub{{font-size:10px; color:var(--fg-dim)}}
+main{{padding:8px 0 16px; display:flex; flex-direction:column; gap:7px}}
+.card{{
+  background:var(--panel); border:1px solid var(--rule); border-radius:8px;
+  padding:8px 10px; overflow:hidden;
+}}
+.card.is-past{{opacity:.68}}
+.route-row{{display:flex; align-items:center; gap:8px; flex-wrap:nowrap}}
+.time{{
+  font-family:var(--font-mono); font-variant-numeric:tabular-nums;
+  font-size:19px; font-weight:700; flex:none;
+}}
+.route{{
+  display:flex; align-items:baseline; gap:4px; min-width:0; flex:1 1 auto;
+  font-size:14px; font-weight:600; overflow:hidden; text-overflow:ellipsis;
+  white-space:nowrap;
+}}
+.route .arrow{{color:var(--accent); font-weight:400}}
+.status{{
+  font-family:var(--font-mono); font-size:9px; letter-spacing:.07em;
+  text-transform:uppercase; padding:2px 6px; border-radius:99px;
+  border:1px solid currentColor; white-space:nowrap; flex:none;
+}}
+.status.now{{color:var(--accent-fg); background:var(--accent); border-color:var(--accent)}}
+.status.next{{color:var(--accent); border-color:var(--accent)}}
+.status.past{{color:var(--past)}}
+.stats{{display:grid; grid-template-columns:repeat(4,1fr); gap:5px; margin-top:7px}}
+.stat{{
+  background:var(--panel-2); border-radius:6px; padding:5px 4px;
+  text-align:center; min-width:0;
+  display:flex; align-items:baseline; justify-content:center; gap:4px;
+}}
+.stat b{{font-family:var(--font-mono); font-variant-numeric:tabular-nums; font-size:17px; line-height:1}}
+.stat span{{font-size:9px; color:var(--fg-dim)}}
+.total-bar{{
+  margin-top:6px; background:var(--panel-2); border-radius:6px;
+  padding:6px 8px; display:flex; align-items:baseline; justify-content:space-between; gap:8px;
+}}
+.total-bar .label{{font-size:10px; color:var(--fg-dim); letter-spacing:.03em}}
+.total-bar .val{{font-family:var(--font-mono); font-variant-numeric:tabular-nums; font-size:19px; font-weight:700; color:var(--accent)}}
+.special-head{{margin-top:7px; font-size:9px; letter-spacing:.05em; text-transform:uppercase; color:var(--fg-dim)}}
+.special{{margin-top:2px; display:flex; flex-direction:column}}
+.group-label{{font-size:9px; letter-spacing:.04em; color:var(--accent); padding-top:5px; margin-top:3px; border-top:1px solid var(--rule)}}
+.special-row{{
+  display:grid; grid-template-columns:1fr auto; column-gap:8px;
+  padding:3px 0 3px 8px; border-left:2px solid var(--rule);
+  min-width:0; align-items:center;
+}}
+.special-row .plate{{font-family:var(--font-mono); font-weight:700; font-size:11px}}
+.special-row .kind{{font-size:10px; color:var(--fg-dim); min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}}
+.special-row .len{{font-family:var(--font-mono); font-variant-numeric:tabular-nums; font-size:11px}}
+.overlap{{margin-top:6px; background:var(--panel-2); border-radius:6px; padding:6px 8px; font-size:10px; border:1px dashed var(--rule)}}
+.overlap .head{{display:flex; align-items:center; gap:6px}}
+.overlap .dot{{width:6px; height:6px; border-radius:99px; background:var(--warn); flex:none}}
+.overlap b{{font-weight:700}}
+.overlap .legs{{display:flex; gap:10px; margin-top:4px; padding-top:4px; border-top:1px solid var(--rule)}}
+.overlap .leg{{display:flex; flex-direction:column; gap:0}}
+.overlap .leg .dest{{color:var(--fg-dim)}}
+.overlap .leg .m{{font-family:var(--font-mono); font-variant-numeric:tabular-nums; font-weight:700; font-size:14px; color:var(--fg)}}
+footer{{padding:2px 0 10px; font-size:9px; color:var(--fg-dim); text-align:center}}
+</style>
+
+<header class="ship">
+  <h1>{schiff}</h1>
+  <div class="sub">{uhrzeit} · aus Dienstplan</div>
+</header>
+
+<main>{karten}
+</main>
+
+<footer>Quelle: faehre2.de · Ladeliste · Seite aktualisiert sich alle 60s</footer>
+"""
+
+
+def main():
+    username = os.environ.get("WDR_USER")
+    password = os.environ.get("WDR_PASS")
+    if not username or not password:
+        sys.exit("Fehlt: WDR_USER / WDR_PASS.")
+
+    if not STATE_PATH.exists():
+        sys.exit("state.json fehlt - erst dienstplan_cloud_sync.py laufen lassen.")
+    state = json.loads(STATE_PATH.read_text(encoding="utf-8"))
+
+    schiff = aktuelles_schiff(state)
+    if not schiff:
+        OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+        OUTPUT_PATH.write_text(
+            PAGE_TEMPLATE.format(
+                schiff="Kein Schiff diese Woche",
+                uhrzeit=datetime.now(TZ).strftime("%H:%M"),
+                karten="",
+            ),
+            encoding="utf-8",
+        )
+        print("Kein Schiff fuer heute in state.json gefunden.")
+        return
+
+    session = requests.Session()
+    session.auth = (username, password)
+    session.headers["User-Agent"] = "dienstplan-sync/2.0"
+
+    alle_fahrten = {}
+    for kategorie, abk in SCHIFF_ABK.items():
+        alle_fahrten[abk] = fetch_fahrten(session, abk)
+
+    eigene_abk = SCHIFF_ABK[schiff]
+    eigene_fahrten = alle_fahrten[eigene_abk]
+
+    jetzt_min = minuten(datetime.now(TZ).strftime("%H:%M"))
+    letzte, jetzt, naechste = klassifiziere(eigene_fahrten, jetzt_min)
+
+    overlap = ""
+    if jetzt:
+        treffer = zeitgleich_treffer(jetzt, alle_fahrten, eigene_abk)
+        overlap = overlap_html(jetzt, treffer)
+
+    karten = []
+    karten.append(karte_html(letzte, "Letzte", "past", mit_details=True))
+    karten.append(karte_html(jetzt, "Jetzt", "now", mit_details=True, extra_html=overlap))
+    karten.append(karte_html(naechste, "Nächste", "next", mit_details=False))
+
+    html = PAGE_TEMPLATE.format(
+        schiff=esc(schiff.title()),
+        uhrzeit=datetime.now(TZ).strftime("%H:%M"),
+        karten="".join(k for k in karten if k),
+    )
+
+    OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    OUTPUT_PATH.write_text(html, encoding="utf-8")
+    print(f"Ladeliste-Seite geschrieben fuer {schiff} ({eigene_abk}).")
+
+
+if __name__ == "__main__":
+    main()
