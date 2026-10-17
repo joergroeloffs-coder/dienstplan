@@ -392,8 +392,8 @@ main{{padding:10px 0 20px; display:flex; flex-direction:column; gap:10px}}
   margin-top:8px; background:var(--panel-2); border-radius:8px;
   padding:8px 10px; display:flex; align-items:baseline; justify-content:space-between; gap:8px;
 }}
-.total-bar .label{{font-size:13px; color:var(--fg-dim); letter-spacing:.02em; font-weight:600}}
-.total-bar .val{{font-family:var(--font-mono); font-variant-numeric:tabular-nums; font-size:23px; font-weight:800; color:var(--accent)}}
+.total-bar .label{{font-size:13px; color:var(--fg-dim); letter-spacing:.02em; font-weight:600; min-width:0}}
+.total-bar .val{{font-family:var(--font-mono); font-variant-numeric:tabular-nums; font-size:19px; font-weight:800; color:var(--accent); white-space:nowrap; flex:none}}
 .special-head{{margin-top:10px; font-size:12px; letter-spacing:.04em; text-transform:uppercase; color:var(--fg-dim); font-weight:700}}
 .special{{margin-top:3px; display:flex; flex-direction:column}}
 .group-label{{font-size:12px; font-weight:700; letter-spacing:.03em; color:var(--accent); padding-top:7px; margin-top:4px; border-top:1px solid var(--rule)}}
