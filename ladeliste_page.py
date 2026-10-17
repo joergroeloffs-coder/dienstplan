@@ -309,9 +309,16 @@ def overlap_html(ref, treffer):
     return "".join(bloecke)
 
 
-PAGE_TEMPLATE = """<title>Ladeliste Schiff</title>
+PAGE_TEMPLATE = """<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta http-equiv="refresh" content="60">
-<meta name="claude:viewport-fit-sides" content="cover">
+<title>Ladeliste Schiff</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
 :root{{
   --bg:#f4f6f6; --panel:#ffffff; --panel-2:#eef2f2;
@@ -402,6 +409,8 @@ main{{padding:10px 0 20px; display:flex; flex-direction:column; gap:10px}}
 .overlap .leg .m{{font-family:var(--font-mono); font-variant-numeric:tabular-nums; font-weight:800; font-size:17px; color:var(--fg)}}
 footer{{padding:4px 0 12px; font-size:11px; color:var(--fg-dim); text-align:center}}
 </style>
+</head>
+<body>
 
 <header class="ship">
   <h1>{schiff}</h1>
@@ -412,6 +421,8 @@ footer{{padding:4px 0 12px; font-size:11px; color:var(--fg-dim); text-align:cent
 </main>
 
 <footer>Quelle: faehre2.de · Ladeliste · Seite aktualisiert sich alle 60s</footer>
+</body>
+</html>
 """
 
 
