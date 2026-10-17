@@ -357,7 +357,7 @@ def karte_html(fahrt, status_label, status_class, mit_details, extra_html=""):
   <section class="card{' is-past' if status_class == 'past' else ''}"{jetzt_attr}>
     <div class="route-row">
       <div class="time">{esc(fahrt['zeit'])}</div>
-      <div class="route">{esc(fahrt['origin'])} <span class="arrow">→</span> {esc(fahrt['ziel'])}</div>
+      <div class="route">{route_html(fahrt['origin'], fahrt['ziel'])}</div>
     </div>{stats}{total}
     {sonder}{extra_html}
   </section>"""
@@ -376,6 +376,20 @@ def route_abstand(origin, ziel):
         return abs(ROUTE_KETTE.index(ziel) - ROUTE_KETTE.index(origin))
     except ValueError:
         return 99
+
+
+def route_html(origin, ziel):
+    """Fahrt origin→ziel als volle Haltestellenkette gemaess ROUTE_KETTE,
+    inkl. Zwischenhalt (z.B. AMRUM-DAGEBÜLL zeigt den Zwischenstopp FÖHR
+    mit an, auch wenn dafuer kein eigener Fahrt-Block/keine Buchung
+    existiert)."""
+    try:
+        oi, zi = ROUTE_KETTE.index(origin), ROUTE_KETTE.index(ziel)
+    except ValueError:
+        return f'{esc(origin)} <span class="arrow">→</span> {esc(ziel)}'
+    schritt = 1 if zi > oi else -1
+    haefen = [ROUTE_KETTE[i] for i in range(oi, zi + schritt, schritt)]
+    return ' <span class="arrow">→</span> '.join(esc(h) for h in haefen)
 
 
 def vorheriger_hafen(origin, ziel):
