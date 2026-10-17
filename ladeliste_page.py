@@ -40,12 +40,34 @@ SCHIFF_ABK = {
     "NORDFRIESLAND": "NORDFRIES",
 }
 
-TOKEN_RE = re.compile(r'FACE="Helvetica">([^<]*)<')
-FAHRT_RE = re.compile(r"^Fahrt:\s*(.+)-(.+)$")
-ZEIT_RE = re.compile(r"^Abfahrzeit:\s*(\d{2}:\d{2})$")
+FAHRT_SPLIT_RE = re.compile(r"(?=Fahrt:\s*[^<]+-[^<]+<)")
+FAHRT_RE = re.compile(r"Fahrt:\s*([^<]+?)-([^<]+?)<")
+ZEIT_RE = re.compile(r"Abfahrzeit:\s*(\d{2}:\d{2})")
 GEBUCHT_RE = re.compile(
     r"gebuchte PKW (\d+), Motorr.der (\d+) und Transporter (\d+)"
 )
+NUM_IN_TD_RE = re.compile(r">([\d,]+)<BR>")
+TR_RE = re.compile(r"<TR>(.*?)</TR>", re.S)
+TD_RE = re.compile(r"<TD[^>]*>(.*?)</TD>", re.S)
+TAG_RE = re.compile(r"<[^>]+>")
+
+
+def td_text(td_html):
+    text = TAG_RE.sub("", td_html)
+    text = text.replace("&nbsp", "").replace("&amp;", "&")
+    return text.strip()
+
+
+def zwei_meterwerte_nach(slice_, marker):
+    """Die 2 Zahlen (Laenge-LKW-Spalte, Laenge-PKW-Spalte) in den beiden
+    TDs direkt nach `marker` - zweite Zahl ist die PKW-Spalte."""
+    idx = slice_.find(marker)
+    if idx == -1:
+        return None, None
+    treffer = NUM_IN_TD_RE.findall(slice_[idx : idx + 600])
+    if len(treffer) >= 2:
+        return treffer[0], treffer[1]
+    return None, None
 
 # Beschreibungs-Praefixe, die eine Buchung als "Sonderfahrzeug" statt
 # normalem PKW einstufen, plus die Kategorie, unter der sie gruppiert wird.
@@ -65,68 +87,55 @@ def kategorie_fuer(beschreibung):
     return None
 
 
+def parse_vehicle_rows(slice_):
+    """Jede Fahrzeugzeile hat exakt 8 Inhalts-TDs (getrennt von
+    Abstandshalter-TDs): Buchungsnr, Kurzname, Ladeart, Beschreibung,
+    Boarding, Kennzeichen, Laenge(LKW), Laenge(PKW). Ueber die echte
+    TR/TD-Struktur geparst statt ueber einen Text-Tokenstrom, weil leere
+    Felder (z.B. Boarding, Kennzeichen) dort keine FACE="Helvetica"-
+    Markierung tragen und sonst die Tokenpositionen verschieben."""
+    fahrzeuge = []
+    for tr_html in TR_RE.findall(slice_):
+        tds = [td_text(td) for td in TD_RE.findall(tr_html)]
+        inhalt = tds[0::2]
+        if len(inhalt) < 8 or not inhalt[0].isdigit():
+            continue
+        _, kurzname, _ladeart, beschreibung, _boarding, kennzeichen, _laenge_lkw, laenge_pkw = inhalt[:8]
+        kategorie = kategorie_fuer(beschreibung)
+        if not kategorie:
+            continue
+        fahrzeuge.append({
+            "kategorie": kategorie,
+            "beschreibung": beschreibung,
+            "kurzname": kurzname,
+            "kennzeichen": kennzeichen or None,
+            "laenge": laenge_pkw or None,
+        })
+    return fahrzeuge
+
+
 def parse_fahrten(html):
     """Liefert Fahrt-Bloecke mit Zeiten, Buchungszahlen, PKW-Spalten-Metern
-    (siehe Hinweis unten) und den einzelnen Sonderfahrzeugen."""
-    tokens = [t.strip() for t in TOKEN_RE.findall(html)]
+    und den einzelnen Sonderfahrzeugen."""
+    bloecke = FAHRT_SPLIT_RE.split(html)
     fahrten = []
-    i = 0
-    while i < len(tokens):
-        m = FAHRT_RE.match(tokens[i])
-        if not m:
-            i += 1
+    for block in bloecke:
+        fm = FAHRT_RE.search(block)
+        if not fm:
             continue
-        origin, ziel = m.group(1).strip(), m.group(2).strip()
-        zeit = None
-        if i + 1 < len(tokens):
-            zm = ZEIT_RE.match(tokens[i + 1])
-            if zm:
-                zeit = zm.group(1)
+        origin, ziel = fm.group(1).strip(), fm.group(2).strip()
+        zm = ZEIT_RE.search(block)
+        zeit = zm.group(1) if zm else None
 
+        gm = GEBUCHT_RE.search(block)
         pkw = motorrad = transporter = None
+        if gm:
+            pkw, motorrad, transporter = gm.groups()
+
         # Beide Summenzeilen im Report haben je 2 Werte: eine Spalte
         # "Laenge(LKW)" und eine Spalte "Laenge(PKW)" - nur Letztere wird
         # hier verwendet (vom Nutzer bestaetigt: erste Spalte ist falsch).
-        summe_pkw_spalte = None
-        fahrzeuge = []
-        j = i + 2
-        while j < len(tokens) and not FAHRT_RE.match(tokens[j]):
-            gm = GEBUCHT_RE.search(tokens[j])
-            if gm:
-                pkw, motorrad, transporter = gm.groups()
-            if tokens[j].startswith("Summe gebuchter Meter"):
-                if j + 2 < len(tokens):
-                    summe_pkw_spalte = tokens[j + 2]
-            j += 1
-
-        # Einzelfahrzeuge: Zeilen aus je 8 Tokens (Buchungsnr, Kurzname,
-        # Ladeart, Beschreibung, [Kennzeichen], Laenge-LKW, Laenge-PKW) -
-        # Kennzeichen fehlt gelegentlich, daher heuristisch ueber die
-        # Beschreibung als Ankerpunkt gesucht statt feste Tokenzahl
-        # anzunehmen.
-        k = i + 2
-        while k < j - 1:
-            tok = tokens[k]
-            kategorie = kategorie_fuer(tok) if k > i + 1 else None
-            if kategorie and not tok.startswith("gebuchte") and ":" not in tok:
-                beschreibung = tok
-                kurzname = tokens[k - 1] if k - 1 >= i else ""
-                # Ab hier bis zu 3 weitere Tokens absuchen: optionales
-                # Kennzeichen, dann zwei Laengen (LKW-Spalte, PKW-Spalte).
-                rest = tokens[k + 1 : k + 4]
-                laenge_pkw = None
-                zahlen = [t for t in rest if re.match(r"^\d+,\d+$", t)]
-                if len(zahlen) >= 2:
-                    laenge_pkw = zahlen[1]
-                kennzeichen = rest[0] if rest and not re.match(r"^\d+,\d+$", rest[0]) else None
-                fahrzeuge.append({
-                    "kategorie": kategorie,
-                    "beschreibung": beschreibung,
-                    "kurzname": kurzname,
-                    "kennzeichen": kennzeichen,
-                    "laenge": laenge_pkw,
-                })
-            k += 1
+        _, summe_pkw_spalte = zwei_meterwerte_nach(block, "Summe gebuchter Meter:")
 
         fahrten.append({
             "origin": origin,
@@ -136,9 +145,8 @@ def parse_fahrten(html):
             "motorrad": motorrad,
             "transporter": transporter,
             "summe_pkw_spalte": summe_pkw_spalte,
-            "fahrzeuge": fahrzeuge,
+            "fahrzeuge": parse_vehicle_rows(block),
         })
-        i = j
     return fahrten
 
 
