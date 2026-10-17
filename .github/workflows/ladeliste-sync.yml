@@ -3,8 +3,13 @@ name: Ladeliste Sync
 # Erzeugt die mobile Ladeliste-Seite (docs/<SLUG>/ladeliste.html) aus der
 # aktuellen state.json + den Live-Ladelisten auf faehre2.de. Alle 5
 # Minuten, da GitHub Actions keine kuerzeren Cron-Intervalle zuverlaessig
-# unterstuetzt - die Seite selbst laedt sich zusaetzlich per Meta-Refresh
-# alle 60s neu (zeigt dann den zuletzt veroeffentlichten Stand).
+# unterstuetzt - die Seite selbst laedt sich zusaetzlich per JS mit
+# Cache-Busting alle 60s neu (zeigt dann den zuletzt veroeffentlichten
+# Stand).
+#
+# Hinweis: Neucommit der Datei am 17.10.2026, um GitHubs interne
+# Scheduler-Registrierung des Cronjobs neu anzustossen (der Cron lief
+# ueber 2 Std. seit Erstellung kein einziges Mal automatisch).
 
 on:
   schedule:
