@@ -321,7 +321,7 @@ def sonderfahrzeuge_html(fahrzeuge):
             kennz = esc(fz["kennzeichen"]) if fz["kennzeichen"] else "—"
             html.append(
                 '<div class="special-row">'
-                f'<div class="kind">{esc(fz["beschreibung"])} — {esc(fz["kurzname"])}</div>'
+                f'<div class="kind">{esc(fz["kurzname"])}</div>'
                 f'<div class="plate">{kennz}</div>'
                 f'<div class="len">{laenge}</div>'
                 "</div>"
