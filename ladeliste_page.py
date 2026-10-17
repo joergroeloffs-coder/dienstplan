@@ -28,6 +28,15 @@ HERE = Path(__file__).resolve().parent
 SLUG = "kal-76a4a349015c4272fe03f77806423a4b"
 OUTPUT_PATH = HERE / "docs" / SLUG / "ladeliste.html"
 STATE_PATH = HERE / "state.json"
+# Der echte, amtliche Fahrplan (von fahrplan_export_gps.py aus dem
+# Fahrplan-PDF erzeugt) nennt je Schiff die tatsaechlichen Etappen mit
+# Zwischenhalten (z.B. Uthlande 17:25 Wittduen-Wyk, dann 18:40 Wyk-
+# Dagebuell als zwei eigene Etappen). Die Live-Ladeliste dagegen fasst
+# Durchgangsbuchungen zu einem Block zusammen (Ursprung-Endziel, nur die
+# Abfahrzeit der ersten Etappe) - deshalb wird hier der Fahrplan fuer die
+# Etappen-Struktur genommen und nur die Ladedaten (PKW/Meter/...) aus den
+# Buchungsbloecken der Live-Ladeliste dazugemischt.
+FAHRPLAN_PATH = HERE / "fahrplan_schedule.json"
 # Merkt zuletzt gesehene Fahrt-Bloecke je Schiff/Hafenpaar: die Live-Seite
 # zeigt eine Etappe nicht mehr, sobald sie abgefahren ist, auch wenn eine
 # spaetere Etappe derselben Fahrt noch "Jetzt" ist (z.B. Amrum-Etappe
@@ -379,46 +388,82 @@ def route_abstand(origin, ziel):
         return 99
 
 
-# Vom Buchungssystem als ein einzelner Block gemeldete Fahrten (origin,
-# ziel), die laut gedrucktem Fahrplan tatsaechlich aus zwei Etappen mit je
-# eigener Abfahrzeit bestehen - aus den Live-Daten nicht ablesbar, deshalb
-# hier fest hinterlegt. Vom Nutzer bestaetigt (Fahrplan Sa. 17.10.): Uthlande
-# faehrt 17:25 Wittduen(Amrum)-Wyk(Föhr), dann 18:40 Wyk-Dagebuell - im
-# Buchungssystem aber nur als ein Block "AMRUM-DAGEBÜLL 17:25" sichtbar.
-ZWISCHENHALTE_FAHRPLAN = [
-    # (origin, ziel, Abfahrzeit origin, Zwischenhalt, Abfahrzeit Zwischenhalt)
-    ("AMRUM", "DAGEBÜLL", "17:25", "FÖHR", "18:40"),
-]
+# Der Fahrplan nennt Haefen mit ihrem Ortsnamen (Pier), die Live-Ladeliste
+# mit dem Inselnamen - Uebersetzung fuer den Abgleich der beiden Quellen.
+FAHRPLAN_HAFEN_NAME = {"Wittdün": "AMRUM", "Wyk": "FÖHR", "Dagebüll": "DAGEBÜLL"}
 
 
-def fahrten_auftrennen(fahrten):
-    """Fahrt-Bloecke, die laut ZWISCHENHALTE_FAHRPLAN eigentlich zwei
-    Etappen mit je eigener Abfahrzeit sind, in zwei einzelne Fahrten
-    aufteilen - die erste Etappe behaelt die echten Ladedaten, die zweite
-    hat keine eigenen (im Buchungssystem nicht getrennt erfasst)."""
-    ergebnis = []
-    for f in fahrten:
-        treffer = None
-        if f["zeit"]:
-            for o, z, ab, halt, halt_zeit in ZWISCHENHALTE_FAHRPLAN:
-                if f["origin"] == o and f["ziel"] == z and abs(minuten(f["zeit"]) - minuten(ab)) <= 2:
-                    treffer = (halt, halt_zeit)
-                    break
-        if not treffer:
-            ergebnis.append(f)
+def lade_fahrplan():
+    if not FAHRPLAN_PATH.exists():
+        return {}
+    try:
+        return json.loads(FAHRPLAN_PATH.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+
+def offizielle_etappen(fahrplan, schiff_kategorie, datum_iso):
+    """Die laut amtlichem Fahrplan heute tatsaechlich gefahrenen Etappen
+    (inkl. Zwischenhalten mit eigener Abfahrzeit) fuer ein Schiff."""
+    etappen = []
+    for eintrag in fahrplan.get("schiffe", {}).get(schiff_kategorie, []):
+        if eintrag.get("datum") != datum_iso:
             continue
-        halt, halt_zeit = treffer
-        ergebnis.append({**f, "ziel": halt})
-        ergebnis.append({
-            "origin": halt, "ziel": f["ziel"], "zeit": halt_zeit,
+        try:
+            von, nach = (teil.strip() for teil in eintrag["route"].split("-", 1))
+        except (KeyError, ValueError):
+            continue
+        etappen.append({
+            "origin": FAHRPLAN_HAFEN_NAME.get(von, von.upper()),
+            "ziel": FAHRPLAN_HAFEN_NAME.get(nach, nach.upper()),
+            "zeit": eintrag.get("zeit"),
+        })
+    return etappen
+
+
+def ladedaten_fuer_etappe(etappe, bloecke):
+    """Sucht den passenden Buchungsblock (gleicher Ursprungshafen, Zeit
+    +/- 5 Min.) - bei einer Durchgangsbuchung kann dessen Ziel weiter
+    hinten in der Kette liegen als das der Etappe."""
+    treffer = [
+        b for b in bloecke
+        if b["origin"] == etappe["origin"] and b["zeit"]
+        and abs(minuten(b["zeit"]) - minuten(etappe["zeit"])) <= 5
+    ]
+    return treffer[0] if treffer else None
+
+
+def fahrten_nach_fahrplan(schiff_kategorie, bloecke, fahrplan, datum_iso):
+    """Baut die Etappenliste eines Schiffs aus dem amtlichen Fahrplan auf
+    und reichert jede Etappe mit den Ladedaten (PKW/Meter/Sonderfahrzeuge)
+    aus den Live-Buchungsbloecken an. Eine Etappe ohne eigenen Block ist
+    entweder Teil einer vorherigen Durchgangsbuchung (dann mit Hinweis
+    darauf) oder hat schlicht noch keine eigene Buchung."""
+    etappen = offizielle_etappen(fahrplan, schiff_kategorie, datum_iso)
+    if not etappen:
+        return bloecke
+
+    fahrten = []
+    fortsetzung_hinweis = None
+    for etappe in etappen:
+        block = ladedaten_fuer_etappe(etappe, bloecke)
+        if block:
+            fahrten.append({**block, **etappe})
+            fortsetzung_hinweis = None
+            if block["ziel"] != etappe["ziel"]:
+                fortsetzung_hinweis = (
+                    f"Fortsetzung der Fahrt ab {etappe['origin']} {etappe['zeit']} Uhr "
+                    "— eigene Ladedaten dort"
+                )
+            continue
+        fahrten.append({
+            **etappe,
             "pkw": None, "motorrad": None, "transporter": None,
             "summe_pkw_spalte": None, "fahrzeuge": [],
-            "leer_hinweis": (
-                f"Fortsetzung der Fahrt ab {f['origin']} {f['zeit']} Uhr "
-                "— eigene Ladedaten dort"
-            ),
+            "leer_hinweis": fortsetzung_hinweis or "Noch keine eigene Buchung zu dieser Etappe",
         })
-    return ergebnis
+        fortsetzung_hinweis = None
+    return fahrten
 
 
 def route_html(origin, ziel):
@@ -715,7 +760,7 @@ def main():
 
     alle_fahrten = {}
     for kategorie, abk in SCHIFF_ABK.items():
-        alle_fahrten[abk] = fahrten_auftrennen(fetch_fahrten(session, abk))
+        alle_fahrten[abk] = fetch_fahrten(session, abk)
 
     cache = load_cache()
     cache_aktualisieren(cache, alle_fahrten)
@@ -723,6 +768,8 @@ def main():
 
     jetzt_min = minuten(datetime.now(TZ).strftime("%H:%M"))
     uhrzeit = datetime.now(TZ).strftime("%H:%M")
+    heute_iso = date.today().isoformat()
+    fahrplan = lade_fahrplan()
 
     # Fuer jedes der 4 Schiffe einen eigenen Block bauen (Letzte/Jetzt/
     # Naechste + Zeitgleich-Hinweise bezogen auf dieses Schiff), damit das
@@ -732,7 +779,11 @@ def main():
     bloecke = []
     options = ['<option value="auto">Automatisch (eigenes Schiff)</option>']
     for kategorie, abk in SCHIFF_ABK.items():
-        fahrten = alle_fahrten[abk]
+        # Die Etappen (inkl. Zwischenhalten) kommen aus dem amtlichen
+        # Fahrplan, die Ladedaten je Etappe aus den Live-Buchungsbloecken -
+        # die Live-Seite fasst Durchgangsbuchungen sonst zu einem Block
+        # zusammen und verschluckt dabei Zwischenhalte (z.B. Wyk).
+        fahrten = fahrten_nach_fahrplan(kategorie, alle_fahrten[abk], fahrplan, heute_iso)
         letzte, jetzt, naechste = klassifiziere(fahrten, jetzt_min)
 
         overlap_jetzt = ""
