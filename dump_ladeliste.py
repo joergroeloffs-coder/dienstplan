@@ -93,29 +93,38 @@ def main():
                 f"Summe {f['summe_meter']} m"
             )
 
-    print("\n=== Zeitgleich-Abgleich (gleicher Hafen, +/- 5 Min, gleiches Ziel) ===")
-    REF = "NORDFRIESLAND"
-    ref_fahrten = alle.get(REF, [])
-    for rf in ref_fahrten:
-        if not rf["zeit"]:
-            continue
-        rh, rm = map(int, rf["zeit"].split(":"))
-        rmin = rh * 60 + rm
-        print(f"\n{REF}: {rf['origin']} -> {rf['ziel']} um {rf['zeit']}")
-        for name, fahrten in alle.items():
-            if name == REF:
+    print("\n=== Zeitgleich-Abgleich (gleicher Hafen, +/- 5 Min) - alle Schiffe als Referenz ===")
+    seen_pairs = set()
+    for ref_name, ref_fahrten in alle.items():
+        for rf in ref_fahrten:
+            if not rf["zeit"]:
                 continue
-            for f in fahrten:
-                if not f["zeit"] or f["origin"] != rf["origin"]:
+            rh, rm = map(int, rf["zeit"].split(":"))
+            rmin = rh * 60 + rm
+            treffer = []
+            for name, fahrten in alle.items():
+                if name == ref_name:
                     continue
-                fh, fm = map(int, f["zeit"].split(":"))
-                fmin = fh * 60 + fm
-                if abs(fmin - rmin) <= 5:
-                    ziel_match = "SELBES ZIEL" if f["ziel"] == rf["ziel"] else "ANDERES ZIEL"
-                    print(
-                        f"  Treffer: {name} faehrt {f['origin']} -> {f['ziel']} "
-                        f"um {f['zeit']} ({ziel_match}, Summe {f['summe_meter']} m)"
-                    )
+                for f in fahrten:
+                    if not f["zeit"] or f["origin"] != rf["origin"]:
+                        continue
+                    fh, fm = map(int, f["zeit"].split(":"))
+                    fmin = fh * 60 + fm
+                    if abs(fmin - rmin) <= 5:
+                        treffer.append((name, f))
+            if not treffer:
+                continue
+            pair_key = tuple(sorted([ref_name] + [t[0] for t in treffer]) + [rf["origin"], rf["zeit"]])
+            if pair_key in seen_pairs:
+                continue
+            seen_pairs.add(pair_key)
+            print(f"\n{ref_name}: ab {rf['origin']} um {rf['zeit']} -> {rf['ziel']}")
+            for name, f in treffer:
+                ziel_match = "SELBES ZIEL" if f["ziel"] == rf["ziel"] else "ANDERES ZIEL"
+                print(
+                    f"  Treffer: {name} faehrt {f['origin']} -> {f['ziel']} "
+                    f"um {f['zeit']} ({ziel_match}, Summe {f['summe_meter']} m)"
+                )
 
 
 if __name__ == "__main__":
