@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">17:59 · aus Dienstplan</div>
+    <div class="sub">18:04 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -123,49 +123,18 @@ select#schiff-select{
 <div id="no-ship" style="display:none">Kein Schiff diese Woche automatisch ermittelt — oben manuell wählen.</div>
 <div class="schiff-block" data-abk="NA" data-name="Norderaue" data-color="#e3e3e3" style="display:none">
 
-  <section class="card" data-jetzt>
-    <div class="route-row">
-      <div class="time">18:01</div>
-      <div class="route">DAGEBÜLL <span class="arrow">→</span> AMRUM</div>
-    </div>
-    <div class="stats">
-      <div class="stat"><b>53</b><span>PKW</span></div>
-      <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>0</b><span>Transporter</span></div>
-      <div class="stat"><b>0</b><span>Sonder</span></div>
-    </div>
-    <div class="total-bar">
-      <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">280,7 m</span>
-    </div>
-    
-    <div class="overlap" style="background:#f7eec9">
-      <div class="head"><span class="dot"></span>
-        <div><b>Zeitgleich NORDFRIES</b> — ab DAGEBÜLL um 18:00: DAGEBÜLL → FÖHR. PKW-Meter je Teilstrecke:</div>
-      </div>
-      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">219,3 m</span></div></div>
-      
-    </div>
-  </section>
-  <section class="card">
+  <section class="card is-past">
     <div class="route-row">
       <div class="time">18:01</div>
       <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
     </div>
     <div class="stats">
-      <div class="stat"><b>9</b><span>PKW</span></div>
+      <div class="stat"><b>13</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>0</b><span>Transporter</span></div>
       <div class="stat"><b>0</b><span>Sonder</span></div>
     </div>
     
-    <div class="overlap" style="background:#f7eec9">
-      <div class="head"><span class="dot"></span>
-        <div><b>Zeitgleich NORDFRIES</b> — ab DAGEBÜLL um 18:00: DAGEBÜLL → FÖHR. PKW-Meter je Teilstrecke:</div>
-      </div>
-      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">219,3 m</span></div></div>
-      
-    </div>
   </section>
 </div>
 <div class="schiff-block" data-abk="S-H" data-name="Schleswig - Holstein" data-color="#dce7f5" style="display:none">
@@ -193,14 +162,14 @@ select#schiff-select{
       <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
     </div>
     <div class="stats">
-      <div class="stat"><b>59</b><span>PKW</span></div>
+      <div class="stat"><b>55</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>1</b><span>Transporter</span></div>
       <div class="stat"><b>2</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">298,1 m</span>
+      <span class="val">286,9 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -233,11 +202,42 @@ select#schiff-select{
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">JB-TRANSPORTE INH. JAN PHILIP</div><div class="plate">NFJB85</div><div class="len">8,5 m</div></div>
 </div>
+    <div class="overlap" style="background:#f7eec9">
+      <div class="head"><span class="dot"></span>
+        <div><b>Zeitgleich NORDFRIES</b> — ab DAGEBÜLL um 20:00: DAGEBÜLL → FÖHR. PKW-Meter je Teilstrecke:</div>
+      </div>
+      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">184,9 m</span></div></div>
+      
+    </div>
+  </section>
+  <section class="card">
+    <div class="route-row">
+      <div class="time">20:01</div>
+      <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>1</b><span>PKW</span></div>
+      <div class="stat"><b>0</b><span>Motorrad</span></div>
+      <div class="stat"><b>0</b><span>Transporter</span></div>
+      <div class="stat"><b>1</b><span>Sonder</span></div>
+    </div>
+    <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
+<div class="special">
+<div class="group-label">PKW-Anhänger</div>
+<div class="special-row"><div class="kind">KETELS KÜCHEN GMBH + CO.KG</div><div class="plate">NFBK1010</div><div class="len">8,3 m</div></div>
+</div>
+    <div class="overlap" style="background:#f7eec9">
+      <div class="head"><span class="dot"></span>
+        <div><b>Zeitgleich NORDFRIES</b> — ab DAGEBÜLL um 20:00: DAGEBÜLL → FÖHR. PKW-Meter je Teilstrecke:</div>
+      </div>
+      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">184,9 m</span></div></div>
+      
+    </div>
   </section>
 </div>
 <div class="schiff-block" data-abk="NORDFRIES" data-name="Nordfriesland" data-color="#f7eec9" style="">
 
-  <section class="card" data-jetzt>
+  <section class="card is-past">
     <div class="route-row">
       <div class="time">18:00</div>
       <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
@@ -259,15 +259,8 @@ select#schiff-select{
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">ISD INSEL SCHNELLDIENST GMBH</div><div class="plate">NFKI126</div><div class="len">5,4 m</div></div>
 </div>
-    <div class="overlap" style="background:#e3e3e3">
-      <div class="head"><span class="dot"></span>
-        <div><b>Zeitgleich NA</b> — ab DAGEBÜLL um 18:01: DAGEBÜLL → FÖHR → AMRUM. PKW-Meter je Teilstrecke:</div>
-      </div>
-      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">0 m</span></div><div class="leg"><span class="dest">DAGEBÜLL → AMRUM</span><span class="m">280,7 m</span></div></div>
-      
-    </div>
   </section>
-  <section class="card">
+  <section class="card" data-jetzt>
     <div class="route-row">
       <div class="time">18:40</div>
       <div class="route">FÖHR <span class="arrow">→</span> DAGEBÜLL</div>
@@ -289,6 +282,37 @@ select#schiff-select{
 <div class="special-row"><div class="kind">LOCH JAN-HENDRIK</div><div class="plate">HJM8220</div><div class="len">7,2 m</div></div>
 </div>
   </section>
+  <section class="card">
+    <div class="route-row">
+      <div class="time">20:00</div>
+      <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>35</b><span>PKW</span></div>
+      <div class="stat"><b>0</b><span>Motorrad</span></div>
+      <div class="stat"><b>2</b><span>Transporter</span></div>
+      <div class="stat"><b>3</b><span>Sonder</span></div>
+    </div>
+    <div class="total-bar">
+      <span class="label">Gesamt gebuchte Meter</span>
+      <span class="val">184,9 m</span>
+    </div>
+    <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
+<div class="special">
+<div class="group-label">Transporter</div>
+<div class="special-row"><div class="kind">KING TRANSPORTE</div><div class="plate">NFJK55</div><div class="len">7,9 m</div></div>
+<div class="special-row"><div class="kind">JAUNS MAGDALENA</div><div class="plate">ONY37972</div><div class="len">7,9 m</div></div>
+<div class="group-label">PKW-Anhänger</div>
+<div class="special-row"><div class="kind">STEINRUECKEN TORSTEN</div><div class="plate">EFWX45</div><div class="len">4,4 m</div></div>
+</div>
+    <div class="overlap" style="background:#f6dcdc">
+      <div class="head"><span class="dot"></span>
+        <div><b>Zeitgleich UTHLANDE</b> — ab DAGEBÜLL um 20:01: DAGEBÜLL → FÖHR → AMRUM. PKW-Meter je Teilstrecke:</div>
+      </div>
+      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">0 m</span></div><div class="leg"><span class="dest">DAGEBÜLL → AMRUM</span><span class="m">152,1 m</span></div></div>
+      
+    </div>
+  </section>
 </div>
 </main>
 
@@ -299,7 +323,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "17:59";
+const UHRZEIT = "18:04";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
