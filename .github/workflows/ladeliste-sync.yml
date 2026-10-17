@@ -49,7 +49,7 @@ jobs:
           for i in $(seq 1 11); do
             echo "=== Durchlauf $i/11 ($(date -u +%H:%M:%S) UTC) ==="
             python ladeliste_page.py
-            git add -A docs
+            git add -A docs ladeliste_cache.json
             if git diff --quiet --cached; then
               echo "Keine Aenderungen."
             else
