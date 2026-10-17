@@ -298,16 +298,32 @@ def karte_html(fahrt, status_label, status_class, mit_details, extra_html=""):
   </section>"""
 
 
+# Reihenfolge der Haltestellen auf der Hauptstrecke, um aus mehreren
+# gleichzeitigen Fahrt-Bloecken desselben Schiffs ab demselben Hafen
+# (z.B. "DAGEBÜLL-FÖHR" und "DAGEBÜLL-AMRUM" zur selben Abfahrzeit) eine
+# einzelne durchgehende Fahrt mit Zwischenhalt zu machen statt zwei
+# getrennte Ziele.
+ROUTE_KETTE = ["DAGEBÜLL", "FÖHR", "AMRUM"]
+
+
+def route_abstand(origin, ziel):
+    try:
+        return abs(ROUTE_KETTE.index(ziel) - ROUTE_KETTE.index(origin))
+    except ValueError:
+        return 99
+
+
 def overlap_html(ref, treffer):
     if not treffer:
         return ""
     bloecke = []
     for abk, legs in treffer:
         kopf_zeit = legs[0]["zeit"]
-        ziele = " + ".join(f"{esc(l['ziel'])}" for l in legs)
+        legs = sorted(legs, key=lambda l: route_abstand(l["origin"], l["ziel"]))
+        kette = " → ".join([esc(ref["origin"])] + [esc(l["ziel"]) for l in legs])
         legs_html = "".join(
             f'<div class="leg"><span class="dest">{esc(l["origin"])} → {esc(l["ziel"])}</span>'
-            f'<span class="m">{esc(l["summe_pkw_spalte"]) + " m" if l["summe_pkw_spalte"] else "—"}</span></div>'
+            f'<span class="m">{esc(l["summe_pkw_spalte"]) + " m" if l["summe_pkw_spalte"] else "0 m"}</span></div>'
             for l in legs
         )
         farbe = SCHIFF_FARBE.get(abk)
@@ -315,7 +331,7 @@ def overlap_html(ref, treffer):
         bloecke.append(f"""
     <div class="overlap"{style}>
       <div class="head"><span class="dot"></span>
-        <div><b>Zeitgleich {esc(abk)}</b> — ab {esc(ref['origin'])} um {esc(kopf_zeit)} → {esc(ziele)}. PKW-Meter je Teilstrecke:</div>
+        <div><b>Zeitgleich {esc(abk)}</b> — ab {esc(ref['origin'])} um {esc(kopf_zeit)}: {kette}. PKW-Meter je Teilstrecke:</div>
       </div>
       <div class="legs">{legs_html}</div>
     </div>""")
