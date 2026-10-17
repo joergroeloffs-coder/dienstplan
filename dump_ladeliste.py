@@ -42,12 +42,18 @@ def parse_fahrten(html):
                 if zm:
                     zeit = zm.group(1)
             pkw = motorrad = transporter = None
-            summe = None
+            summe = pkw_meter = None
             j = i + 2
             while j < len(tokens) and not FAHRT_RE.match(tokens[j]):
                 gm = GEBUCHT_RE.search(tokens[j])
                 if gm:
                     pkw, motorrad, transporter = gm.groups()
+                    # "...Meter ohne LKW:" steht im selben Token, der Wert
+                    # folgt als naechstes Token (ohne Motorrad-/Transporter-
+                    # Anteil herauszurechnen - PKW macht hier i.d.R. den
+                    # weit ueberwiegenden Teil aus).
+                    if tokens[j].rstrip().endswith("Meter ohne LKW:") and j + 1 < len(tokens):
+                        pkw_meter = tokens[j + 1]
                 if tokens[j].startswith("Summe gebuchter Meter"):
                     if j + 1 < len(tokens):
                         summe = tokens[j + 1]
@@ -60,6 +66,7 @@ def parse_fahrten(html):
                 "motorrad": motorrad,
                 "transporter": transporter,
                 "summe_meter": summe,
+                "pkw_meter": pkw_meter,
             })
             i = j
         else:
@@ -90,7 +97,7 @@ def main():
                 f"  {f['zeit']}  {f['origin']} -> {f['ziel']}  "
                 f"PKW {f['pkw']} Motorrad {f['motorrad']} "
                 f"Transporter {f['transporter']}  "
-                f"Summe {f['summe_meter']} m"
+                f"PKW-Meter {f['pkw_meter']} m  Summe {f['summe_meter']} m"
             )
 
     print("\n=== Zeitgleich-Abgleich (gleicher Hafen, +/- 5 Min) - alle Schiffe als Referenz ===")
@@ -123,7 +130,7 @@ def main():
                 ziel_match = "SELBES ZIEL" if f["ziel"] == rf["ziel"] else "ANDERES ZIEL"
                 print(
                     f"  Treffer: {name} faehrt {f['origin']} -> {f['ziel']} "
-                    f"um {f['zeit']} ({ziel_match}, Summe {f['summe_meter']} m)"
+                    f"um {f['zeit']} ({ziel_match}, PKW-Meter {f['pkw_meter']} m)"
                 )
 
 
