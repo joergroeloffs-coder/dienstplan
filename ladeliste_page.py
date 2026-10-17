@@ -316,6 +316,14 @@ PAGE_TEMPLATE = """<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta http-equiv="refresh" content="60">
 <title>Ladeliste Schiff</title>
+<link rel="manifest" href="ladeliste.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png">
+<meta name="theme-color" content="#0a7a68">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ladeliste">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;700;800&display=swap" rel="stylesheet">
@@ -375,12 +383,12 @@ main{{padding:10px 0 20px; display:flex; flex-direction:column; gap:10px}}
 .status.past{{color:var(--past)}}
 .stats{{display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin-top:10px}}
 .stat{{
-  background:var(--panel-2); border-radius:8px; padding:7px 4px;
+  background:var(--panel-2); border-radius:8px; padding:7px 2px;
   text-align:center; min-width:0;
-  display:flex; align-items:baseline; justify-content:center; gap:4px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px;
 }}
-.stat b{{font-family:var(--font-mono); font-variant-numeric:tabular-nums; font-size:21px; line-height:1; color:var(--fg)}}
-.stat span{{font-size:11px; color:var(--fg-dim); font-weight:600}}
+.stat b{{font-family:var(--font-mono); font-variant-numeric:tabular-nums; font-size:20px; line-height:1.1; color:var(--fg)}}
+.stat span{{font-size:10px; color:var(--fg-dim); font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%}}
 .total-bar{{
   margin-top:8px; background:var(--panel-2); border-radius:8px;
   padding:8px 10px; display:flex; align-items:baseline; justify-content:space-between; gap:8px;
