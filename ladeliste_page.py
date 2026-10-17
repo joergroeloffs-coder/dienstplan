@@ -358,7 +358,6 @@ def karte_html(fahrt, status_label, status_class, mit_details, extra_html=""):
     <div class="route-row">
       <div class="time">{esc(fahrt['zeit'])}</div>
       <div class="route">{esc(fahrt['origin'])} <span class="arrow">→</span> {esc(fahrt['ziel'])}</div>
-      <span class="status {status_class}">{status_label}</span>
     </div>{stats}{total}
     {sonder}{extra_html}
   </section>"""
@@ -523,14 +522,6 @@ html{{scroll-behavior:auto}}
   white-space:nowrap; color:var(--fg);
 }}
 .route .arrow{{color:var(--accent); font-weight:400}}
-.status{{
-  font-family:var(--font-mono); font-size:11px; letter-spacing:.06em;
-  text-transform:uppercase; padding:3px 8px; border-radius:99px;
-  border:1.5px solid currentColor; white-space:nowrap; flex:none; font-weight:700;
-}}
-.status.now{{color:var(--accent-fg); background:var(--accent); border-color:var(--accent)}}
-.status.next{{color:var(--accent); border-color:var(--accent)}}
-.status.past{{color:var(--past)}}
 .stats{{display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin-top:10px}}
 .stat{{
   background:var(--panel-2); border-radius:8px; padding:7px 2px;
@@ -549,13 +540,14 @@ html{{scroll-behavior:auto}}
 .special{{margin-top:3px; display:flex; flex-direction:column}}
 .group-label{{font-size:12px; font-weight:700; letter-spacing:.03em; color:var(--accent); padding-top:7px; margin-top:4px; border-top:1px solid var(--rule)}}
 .special-row{{
-  display:grid; grid-template-columns:1fr auto; column-gap:8px;
+  display:grid; grid-template-columns:1fr auto; column-gap:8px; row-gap:1px;
+  grid-template-areas:"kind kind" "plate len";
   padding:5px 0 5px 10px; border-left:3px solid var(--rule);
   min-width:0; align-items:center;
 }}
-.special-row .plate{{font-family:var(--font-mono); font-weight:800; font-size:14px; color:var(--fg)}}
-.special-row .kind{{font-size:13px; color:var(--fg-dim); min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}}
-.special-row .len{{font-family:var(--font-mono); font-variant-numeric:tabular-nums; font-size:14px; font-weight:700; color:var(--fg)}}
+.special-row .kind{{grid-area:kind; font-size:13px; color:var(--fg-dim); min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}}
+.special-row .plate{{grid-area:plate; font-family:var(--font-mono); font-weight:800; font-size:13px; color:var(--fg-dim)}}
+.special-row .len{{grid-area:len; font-family:var(--font-mono); font-variant-numeric:tabular-nums; font-size:14px; font-weight:700; color:var(--fg)}}
 .overlap{{margin-top:8px; background:var(--panel-2); border-radius:8px; padding:8px 10px; font-size:13px; border:1.5px dashed var(--rule)}}
 .overlap .head{{display:flex; align-items:center; gap:7px}}
 .overlap .dot{{width:8px; height:8px; border-radius:99px; background:var(--warn); flex:none}}
