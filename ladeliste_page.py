@@ -314,7 +314,6 @@ PAGE_TEMPLATE = """<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="refresh" content="60">
 <title>Ladeliste Schiff</title>
 <link rel="manifest" href="ladeliste.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -433,6 +432,12 @@ footer{{padding:4px 0 12px; font-size:11px; color:var(--fg-dim); text-align:cent
 if ("serviceWorker" in navigator) {{
   navigator.serviceWorker.register("ladeliste-sw.js");
 }}
+// Meta-Refresh laed dieselbe URL erneut und wird vom Browser-/CDN-Cache
+// bedient statt neu vom Server geholt zu werden - deshalb per JS mit
+// Cache-Busting-Query und explizit "no-store" neu laden.
+setTimeout(() => {{
+  location.href = location.pathname + "?t=" + Date.now();
+}}, 60000);
 </script>
 </body>
 </html>
