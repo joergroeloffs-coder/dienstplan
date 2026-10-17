@@ -313,7 +313,22 @@ def route_abstand(origin, ziel):
         return 99
 
 
-def overlap_html(ref, treffer):
+def vorheriger_hafen(origin, ziel):
+    """Hafen vor `origin` auf derselben Fahrtrichtung - z.B. AMRUM, wenn
+    das Schiff FÖHR-DAGEBÜLL faehrt (also abnehmender Index). None, wenn
+    `origin` bereits der Streckenanfang ist."""
+    try:
+        oi, zi = ROUTE_KETTE.index(origin), ROUTE_KETTE.index(ziel)
+    except ValueError:
+        return None
+    schritt = 1 if zi > oi else -1
+    vi = oi - schritt
+    if 0 <= vi < len(ROUTE_KETTE):
+        return ROUTE_KETTE[vi]
+    return None
+
+
+def overlap_html(ref, treffer, alle_fahrten):
     if not treffer:
         return ""
     bloecke = []
@@ -326,6 +341,27 @@ def overlap_html(ref, treffer):
             f'<span class="m">{esc(l["summe_pkw_spalte"]) + " m" if l["summe_pkw_spalte"] else "0 m"}</span></div>'
             for l in legs
         )
+
+        # Was das andere Schiff vom vorherigen Hafen aus schon geladen hat
+        # (z.B. ab Amrum, bevor es den eigenen Hafen erreicht) - unabhaengig
+        # von der Abfahrzeit, da das eine fruehere Fahrt-Etappe ist.
+        voriger = vorheriger_hafen(legs[0]["origin"], legs[0]["ziel"])
+        vorige_legs = [
+            f for f in alle_fahrten.get(abk, [])
+            if voriger and f["origin"] == voriger
+        ]
+        vorige_html = ""
+        if vorige_legs:
+            rows = "".join(
+                f'<div class="leg"><span class="dest">{esc(f["origin"])} → {esc(f["ziel"])}</span>'
+                f'<span class="m">{esc(f["summe_pkw_spalte"]) + " m" if f["summe_pkw_spalte"] else "0 m"}</span></div>'
+                for f in vorige_legs
+            )
+            vorige_html = (
+                f'<div class="legs-label">Bereits geladen ab {esc(voriger)}:</div>'
+                f'<div class="legs">{rows}</div>'
+            )
+
         farbe = SCHIFF_FARBE.get(abk)
         style = f' style="background:{farbe}"' if farbe else ""
         bloecke.append(f"""
@@ -334,6 +370,7 @@ def overlap_html(ref, treffer):
         <div><b>Zeitgleich {esc(abk)}</b> — ab {esc(ref['origin'])} um {esc(kopf_zeit)}: {kette}. PKW-Meter je Teilstrecke:</div>
       </div>
       <div class="legs">{legs_html}</div>
+      {vorige_html}
     </div>""")
     return "".join(bloecke)
 
@@ -442,7 +479,8 @@ html{{scroll-behavior:auto}}
 .overlap .dot{{width:8px; height:8px; border-radius:99px; background:var(--warn); flex:none}}
 .overlap b{{font-weight:800; color:var(--fg)}}
 .overlap{{color:var(--fg)}}
-.overlap .legs{{display:flex; gap:14px; margin-top:6px; padding-top:6px; border-top:1px solid var(--rule)}}
+.overlap .legs{{display:flex; gap:14px; margin-top:6px; padding-top:6px; border-top:1px solid var(--rule); flex-wrap:wrap}}
+.overlap .legs-label{{margin-top:8px; font-size:11px; color:var(--fg-dim); font-weight:600}}
 .overlap .leg{{display:flex; flex-direction:column; gap:0}}
 .overlap .leg .dest{{color:var(--fg-dim); font-size:12px}}
 .overlap .leg .m{{font-family:var(--font-mono); font-variant-numeric:tabular-nums; font-weight:800; font-size:17px; color:var(--fg)}}
@@ -525,12 +563,12 @@ def main():
     overlap_jetzt = ""
     if jetzt:
         treffer = zeitgleich_treffer(jetzt, alle_fahrten, eigene_abk)
-        overlap_jetzt = overlap_html(jetzt, treffer)
+        overlap_jetzt = overlap_html(jetzt, treffer, alle_fahrten)
 
     overlap_naechste = ""
     if naechste:
         treffer = zeitgleich_treffer(naechste, alle_fahrten, eigene_abk)
-        overlap_naechste = overlap_html(naechste, treffer)
+        overlap_naechste = overlap_html(naechste, treffer, alle_fahrten)
 
     karten = []
     karten.append(karte_html(letzte, "Letzte", "past", mit_details=True))
