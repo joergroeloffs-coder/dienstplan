@@ -352,9 +352,9 @@ def karte_html(fahrt, status_label, status_class, mit_details, extra_html=""):
     sonder = sonderfahrzeuge_html(fahrt["fahrzeuge"]) if mit_details else ""
     if not stats:
         sonder = '<div class="special-head">Noch keine Ladedaten — wird vor Buchungsschluss aktualisiert</div>'
-    id_attr = ' id="jetzt"' if status_class == "now" else ""
+    jetzt_attr = " data-jetzt" if status_class == "now" else ""
     return f"""
-  <section class="card{' is-past' if status_class == 'past' else ''}"{id_attr}>
+  <section class="card{' is-past' if status_class == 'past' else ''}"{jetzt_attr}>
     <div class="route-row">
       <div class="time">{esc(fahrt['zeit'])}</div>
       <div class="route">{esc(fahrt['origin'])} <span class="arrow">→</span> {esc(fahrt['ziel'])}</div>
@@ -456,6 +456,14 @@ def overlap_html(ref, treffer, alle_fahrten, cache):
     return "".join(bloecke)
 
 
+def schiff_block_html(abk, schiff_name, farbe, karten, aktiv):
+    style = "" if aktiv else "display:none"
+    return f"""
+<div class="schiff-block" data-abk="{esc(abk)}" data-name="{esc(schiff_name)}" data-color="{esc(farbe or '')}" style="{style}">
+{karten}
+</div>"""
+
+
 PAGE_TEMPLATE = """<!doctype html>
 <html lang="de">
 <head>
@@ -499,7 +507,7 @@ header.ship{{
   position:sticky; top:env(safe-area-inset-top,0px); z-index:5;
   margin:0 -16px; padding:8px 16px 9px;
   border-bottom:1px solid var(--rule);
-  display:flex; align-items:baseline; justify-content:space-between; gap:8px;
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
 }}
 header.ship h1{{margin:0; font-size:21px; font-weight:800; letter-spacing:.01em; color:var(--fg)}}
 header.ship .sub{{font-size:13px; color:var(--fg-dim)}}
@@ -559,16 +567,26 @@ html{{scroll-behavior:auto}}
 .overlap .leg .dest{{color:var(--fg-dim); font-size:12px}}
 .overlap .leg .m{{font-family:var(--font-mono); font-variant-numeric:tabular-nums; font-weight:800; font-size:17px; color:var(--fg)}}
 footer{{padding:4px 0 12px; font-size:11px; color:var(--fg-dim); text-align:center}}
+select#schiff-select{{
+  font-family:var(--font-display); font-size:13px; font-weight:700; color:var(--fg);
+  background:var(--panel); border:1px solid var(--rule); border-radius:7px;
+  padding:5px 8px; flex:none; max-width:46%;
+}}
 </style>
 </head>
 <body{body_style}>
 
 <header class="ship">
-  <h1>{schiff}</h1>
-  <div class="sub">{uhrzeit} · aus Dienstplan</div>
+  <div>
+    <h1>{schiff}</h1>
+    <div class="sub">{uhrzeit} · aus Dienstplan</div>
+  </div>
+  <select id="schiff-select">{options}
+  </select>
 </header>
 
-<main>{karten}
+<main>
+<div id="no-ship" style="{no_ship_style}">Kein Schiff diese Woche automatisch ermittelt — oben manuell wählen.</div>{karten}
 </main>
 
 <footer>Quelle: faehre2.de · Ladeliste · Seite aktualisiert sich alle 60s</footer>
@@ -576,13 +594,49 @@ footer{{padding:4px 0 12px; font-size:11px; color:var(--fg-dim); text-align:cent
 if ("serviceWorker" in navigator) {{
   navigator.serviceWorker.register("ladeliste-sw.js");
 }}
-// Aktuelle Abfahrt ("Jetzt") immer oben zeigen - die vorherige Abfahrt
-// steht im DOM darueber und ist nur durch Hochscrollen (Herunterziehen
-// des Bildschirminhalts) erreichbar.
-const jetzt = document.getElementById("jetzt");
-if (jetzt) {{
-  jetzt.scrollIntoView({{block: "start", behavior: "instant"}});
+
+const EIGENE_ABK = {eigene_abk_js};
+const UHRZEIT = {uhrzeit_js};
+
+function anwenden(auswahl) {{
+  const blocks = document.querySelectorAll(".schiff-block");
+  const zielAbk = auswahl === "auto" ? EIGENE_ABK : auswahl;
+  let aktiv = null;
+  blocks.forEach(b => {{
+    const istAktiv = zielAbk !== null && b.dataset.abk === zielAbk;
+    b.style.display = istAktiv ? "" : "none";
+    if (istAktiv) aktiv = b;
+  }});
+  document.getElementById("no-ship").style.display = aktiv ? "none" : "";
+
+  const h1 = document.querySelector("header.ship h1");
+  const sub = document.querySelector("header.ship .sub");
+  if (aktiv) {{
+    h1.textContent = aktiv.dataset.name;
+    document.body.style.setProperty("--ship-bg", aktiv.dataset.color || "");
+    sub.textContent = UHRZEIT + (auswahl === "auto" ? " · aus Dienstplan" : " · manuell gewählt");
+  }} else {{
+    h1.textContent = "Kein Schiff diese Woche";
+    sub.textContent = UHRZEIT;
+  }}
+
+  // Aktuelle Abfahrt ("Jetzt") immer oben zeigen - die vorherige Abfahrt
+  // steht im DOM darueber und ist nur durch Hochscrollen erreichbar.
+  const jetzt = aktiv ? aktiv.querySelector("[data-jetzt]") : null;
+  if (jetzt) {{
+    jetzt.scrollIntoView({{block: "start", behavior: "instant"}});
+  }}
 }}
+
+const select = document.getElementById("schiff-select");
+const gespeichert = sessionStorage.getItem("ladeliste_schiff") || "auto";
+select.value = gespeichert;
+anwenden(gespeichert);
+select.addEventListener("change", () => {{
+  sessionStorage.setItem("ladeliste_schiff", select.value);
+  anwenden(select.value);
+}});
+
 // Meta-Refresh laed dieselbe URL erneut und wird vom Browser-/CDN-Cache
 // bedient statt neu vom Server geholt zu werden - deshalb per JS mit
 // Cache-Busting-Query und explizit "no-store" neu laden.
@@ -606,19 +660,7 @@ def main():
     state = json.loads(STATE_PATH.read_text(encoding="utf-8"))
 
     schiff = aktuelles_schiff(state)
-    if not schiff:
-        OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-        OUTPUT_PATH.write_text(
-            PAGE_TEMPLATE.format(
-                schiff="Kein Schiff diese Woche",
-                uhrzeit=datetime.now(TZ).strftime("%H:%M"),
-                karten="",
-                body_style="",
-            ),
-            encoding="utf-8",
-        )
-        print("Kein Schiff fuer heute in state.json gefunden.")
-        return
+    eigene_abk = SCHIFF_ABK.get(schiff) if schiff else None
 
     session = requests.Session()
     session.auth = (username, password)
@@ -632,40 +674,67 @@ def main():
     cache_aktualisieren(cache, alle_fahrten)
     save_cache(cache)
 
-    eigene_abk = SCHIFF_ABK[schiff]
-    eigene_fahrten = alle_fahrten[eigene_abk]
-
     jetzt_min = minuten(datetime.now(TZ).strftime("%H:%M"))
-    letzte, jetzt, naechste = klassifiziere(eigene_fahrten, jetzt_min)
+    uhrzeit = datetime.now(TZ).strftime("%H:%M")
 
-    overlap_jetzt = ""
-    if jetzt:
-        treffer = zeitgleich_treffer(jetzt, alle_fahrten, eigene_abk)
-        overlap_jetzt = overlap_html(jetzt, treffer, alle_fahrten, cache)
+    # Fuer jedes der 4 Schiffe einen eigenen Block bauen (Letzte/Jetzt/
+    # Naechste + Zeitgleich-Hinweise bezogen auf dieses Schiff), damit das
+    # Dropdown ohne Serverkontakt zwischen allen Schiffen umschalten kann.
+    # Automatisch sichtbar ist nur der Block des per Dienstplan ermittelten
+    # eigenen Schiffs - die anderen stehen per Dropdown trotzdem bereit.
+    bloecke = []
+    options = ['<option value="auto">Automatisch (eigenes Schiff)</option>']
+    for kategorie, abk in SCHIFF_ABK.items():
+        fahrten = alle_fahrten[abk]
+        letzte, jetzt, naechste = klassifiziere(fahrten, jetzt_min)
 
-    overlap_naechste = ""
-    if naechste:
-        treffer = zeitgleich_treffer(naechste, alle_fahrten, eigene_abk)
-        overlap_naechste = overlap_html(naechste, treffer, alle_fahrten, cache)
+        overlap_jetzt = ""
+        if jetzt:
+            treffer = zeitgleich_treffer(jetzt, alle_fahrten, abk)
+            overlap_jetzt = overlap_html(jetzt, treffer, alle_fahrten, cache)
 
-    karten = []
-    karten.append(karte_html(letzte, "Letzte", "past", mit_details=True))
-    karten.append(karte_html(jetzt, "Jetzt", "now", mit_details=True, extra_html=overlap_jetzt))
-    karten.append(karte_html(naechste, "Nächste", "next", mit_details=False, extra_html=overlap_naechste))
+        overlap_naechste = ""
+        if naechste:
+            treffer = zeitgleich_treffer(naechste, alle_fahrten, abk)
+            overlap_naechste = overlap_html(naechste, treffer, alle_fahrten, cache)
 
-    farbe = SCHIFF_FARBE.get(eigene_abk)
-    body_style = f' style="--ship-bg:{farbe}"' if farbe else ""
+        karten = []
+        karten.append(karte_html(letzte, "Letzte", "past", mit_details=True))
+        karten.append(karte_html(jetzt, "Jetzt", "now", mit_details=True, extra_html=overlap_jetzt))
+        karten.append(karte_html(naechste, "Nächste", "next", mit_details=False, extra_html=overlap_naechste))
+
+        bloecke.append(schiff_block_html(
+            abk, kategorie.title(), SCHIFF_FARBE.get(abk),
+            "".join(k for k in karten if k),
+            aktiv=(abk == eigene_abk),
+        ))
+        options.append(f'<option value="{esc(abk)}">{esc(kategorie.title())}</option>')
+
+    if eigene_abk:
+        farbe = SCHIFF_FARBE.get(eigene_abk)
+        body_style = f' style="--ship-bg:{farbe}"' if farbe else ""
+        kopf_schiff = esc(schiff.title())
+    else:
+        body_style = ""
+        kopf_schiff = "Kein Schiff diese Woche"
 
     html = PAGE_TEMPLATE.format(
-        schiff=esc(schiff.title()),
-        uhrzeit=datetime.now(TZ).strftime("%H:%M"),
-        karten="".join(k for k in karten if k),
+        schiff=kopf_schiff,
+        uhrzeit=uhrzeit,
+        karten="".join(bloecke),
         body_style=body_style,
+        options="".join(options),
+        no_ship_style="" if not eigene_abk else "display:none",
+        eigene_abk_js=json.dumps(eigene_abk),
+        uhrzeit_js=json.dumps(uhrzeit),
     )
 
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.write_text(html, encoding="utf-8")
-    print(f"Ladeliste-Seite geschrieben fuer {schiff} ({eigene_abk}).")
+    if eigene_abk:
+        print(f"Ladeliste-Seite geschrieben fuer {schiff} ({eigene_abk}), alle 4 Schiffe im Dropdown.")
+    else:
+        print("Kein Schiff fuer heute in state.json gefunden - Seite trotzdem mit allen 4 Schiffen im Dropdown geschrieben.")
 
 
 if __name__ == "__main__":
