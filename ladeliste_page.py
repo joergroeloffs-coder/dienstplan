@@ -477,15 +477,20 @@ def main():
     jetzt_min = minuten(datetime.now(TZ).strftime("%H:%M"))
     letzte, jetzt, naechste = klassifiziere(eigene_fahrten, jetzt_min)
 
-    overlap = ""
+    overlap_jetzt = ""
     if jetzt:
         treffer = zeitgleich_treffer(jetzt, alle_fahrten, eigene_abk)
-        overlap = overlap_html(jetzt, treffer)
+        overlap_jetzt = overlap_html(jetzt, treffer)
+
+    overlap_naechste = ""
+    if naechste:
+        treffer = zeitgleich_treffer(naechste, alle_fahrten, eigene_abk)
+        overlap_naechste = overlap_html(naechste, treffer)
 
     karten = []
     karten.append(karte_html(letzte, "Letzte", "past", mit_details=True))
-    karten.append(karte_html(jetzt, "Jetzt", "now", mit_details=True, extra_html=overlap))
-    karten.append(karte_html(naechste, "Nächste", "next", mit_details=False))
+    karten.append(karte_html(jetzt, "Jetzt", "now", mit_details=True, extra_html=overlap_jetzt))
+    karten.append(karte_html(naechste, "Nächste", "next", mit_details=False, extra_html=overlap_naechste))
 
     html = PAGE_TEMPLATE.format(
         schiff=esc(schiff.title()),
