@@ -1,7 +1,7 @@
 {
   "NA|DAGEBÜLL|FÖHR": {
     "abk": "NA",
-    "gesehen_um": "2026-10-17T10:53:47.580954+02:00",
+    "gesehen_um": "2026-10-17T10:58:50.560615+02:00",
     "origin": "DAGEBÜLL",
     "summe_pkw_spalte": "328,1",
     "zeit": "10:40",
@@ -9,15 +9,15 @@
   },
   "NA|FÖHR|DAGEBÜLL": {
     "abk": "NA",
-    "gesehen_um": "2026-10-17T10:53:47.580954+02:00",
+    "gesehen_um": "2026-10-17T10:58:50.560615+02:00",
     "origin": "FÖHR",
-    "summe_pkw_spalte": "299,9",
+    "summe_pkw_spalte": "309,1",
     "zeit": "11:50",
     "ziel": "DAGEBÜLL"
   },
   "NORDFRIES|DAGEBÜLL|FÖHR": {
     "abk": "NORDFRIES",
-    "gesehen_um": "2026-10-17T10:53:47.580954+02:00",
+    "gesehen_um": "2026-10-17T10:58:50.560615+02:00",
     "origin": "DAGEBÜLL",
     "summe_pkw_spalte": "215,5",
     "zeit": "12:35",
@@ -25,7 +25,7 @@
   },
   "NORDFRIES|FÖHR|DAGEBÜLL": {
     "abk": "NORDFRIES",
-    "gesehen_um": "2026-10-17T10:53:47.580954+02:00",
+    "gesehen_um": "2026-10-17T10:58:50.560615+02:00",
     "origin": "FÖHR",
     "summe_pkw_spalte": "228,6",
     "zeit": "10:50",
@@ -33,7 +33,7 @@
   },
   "S-H|AMRUM|DAGEBÜLL": {
     "abk": "S-H",
-    "gesehen_um": "2026-10-17T10:53:47.580954+02:00",
+    "gesehen_um": "2026-10-17T10:58:50.560615+02:00",
     "origin": "AMRUM",
     "summe_pkw_spalte": "299,7",
     "zeit": "12:05",
@@ -41,7 +41,7 @@
   },
   "S-H|FÖHR|AMRUM": {
     "abk": "S-H",
-    "gesehen_um": "2026-10-17T10:53:47.580954+02:00",
+    "gesehen_um": "2026-10-17T10:58:50.560615+02:00",
     "origin": "FÖHR",
     "summe_pkw_spalte": "22,1",
     "zeit": "10:35",
@@ -49,17 +49,17 @@
   },
   "UTHLANDE|DAGEBÜLL|FÖHR": {
     "abk": "UTHLANDE",
-    "gesehen_um": "2026-10-17T10:53:47.580954+02:00",
+    "gesehen_um": "2026-10-17T10:58:50.560615+02:00",
     "origin": "DAGEBÜLL",
-    "summe_pkw_spalte": "243,9",
+    "summe_pkw_spalte": "238,2",
     "zeit": "12:36",
     "ziel": "FÖHR"
   },
   "UTHLANDE|FÖHR|DAGEBÜLL": {
     "abk": "UTHLANDE",
-    "gesehen_um": "2026-10-17T10:53:47.580954+02:00",
+    "gesehen_um": "2026-10-17T10:58:50.560615+02:00",
     "origin": "FÖHR",
-    "summe_pkw_spalte": "61,7",
+    "summe_pkw_spalte": "75,3",
     "zeit": "10:51",
     "ziel": "DAGEBÜLL"
   }
