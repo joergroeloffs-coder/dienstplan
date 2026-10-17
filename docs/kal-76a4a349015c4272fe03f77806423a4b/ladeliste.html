@@ -34,11 +34,12 @@ body{
 }
 body::before{
   content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px);
-  z-index:10; background:var(--panel-2);
+  z-index:10; background:var(--ship-bg, var(--panel-2));
 }
 header.ship{
+  background:var(--ship-bg, var(--panel-2));
   position:sticky; top:env(safe-area-inset-top,0px); z-index:5;
-  background:var(--panel-2); margin:0 -16px; padding:8px 16px 9px;
+  margin:0 -16px; padding:8px 16px 9px;
   border-bottom:1px solid var(--rule);
   display:flex; align-items:baseline; justify-content:space-between; gap:8px;
 }
@@ -106,11 +107,11 @@ main{padding:10px 0 20px; display:flex; flex-direction:column; gap:10px}
 footer{padding:4px 0 12px; font-size:11px; color:var(--fg-dim); text-align:center}
 </style>
 </head>
-<body>
+<body style="--ship-bg:#f7eec9">
 
 <header class="ship">
   <h1>Nordfriesland</h1>
-  <div class="sub">08:36 · aus Dienstplan</div>
+  <div class="sub">08:40 · aus Dienstplan</div>
 </header>
 
 <main>
@@ -141,23 +142,25 @@ footer{padding:4px 0 12px; font-size:11px; color:var(--fg-dim); text-align:cente
     <div class="stats">
       <div class="stat"><b>40</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>0</b><span>Transporter</span></div>
-      <div class="stat"><b>1</b><span>Sonder</span></div>
+      <div class="stat"><b>1</b><span>Transporter</span></div>
+      <div class="stat"><b>2</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">217,1 m</span>
+      <span class="val">225,0 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
+<div class="group-label">Transporter</div>
+<div class="special-row"><div class="kind">Transporter Hin- &amp; Rückf. — NANNING JÜRGENSEN</div><div class="plate">NFHK2308</div><div class="len">7,9 m</div></div>
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">PKW Anhänger Hin/Rf. — SCHENDEL INKEN</div><div class="plate">WLFB1006</div><div class="len">5,3 m</div></div>
 </div>
-    <div class="overlap">
+    <div class="overlap" style="background:#dce7f5">
       <div class="head"><span class="dot"></span>
         <div><b>Zeitgleich S-H</b> — ab DAGEBÜLL um 09:36 → AMRUM. PKW-Meter je Teilstrecke:</div>
       </div>
-      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → AMRUM</span><span class="m">256,5 m</span></div></div>
+      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → AMRUM</span><span class="m">255,8 m</span></div></div>
     </div>
   </section>
 </main>
