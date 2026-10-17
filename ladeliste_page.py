@@ -40,6 +40,16 @@ SCHIFF_ABK = {
     "NORDFRIESLAND": "NORDFRIES",
 }
 
+# Gedaempfte (keine Volltoene) Hintergrundfarben je Schiff, nach
+# Abkuerzung - fuer den Kopfbereich des eigenen Schiffs und die Kachel
+# einer zeitgleichen Abfahrt eines anderen Schiffs.
+SCHIFF_FARBE = {
+    "S-H": "#dce7f5",
+    "UTHLANDE": "#f6dcdc",
+    "NA": "#e3e3e3",
+    "NORDFRIES": "#f7eec9",
+}
+
 FAHRT_SPLIT_RE = re.compile(r"(?=Fahrt:\s*[^<]+-[^<]+<)")
 FAHRT_RE = re.compile(r"Fahrt:\s*([^<]+?)-([^<]+?)<")
 ZEIT_RE = re.compile(r"Abfahrzeit:\s*(\d{2}:\d{2})")
@@ -299,8 +309,10 @@ def overlap_html(ref, treffer):
             f'<span class="m">{esc(l["summe_pkw_spalte"]) + " m" if l["summe_pkw_spalte"] else "—"}</span></div>'
             for l in legs
         )
+        farbe = SCHIFF_FARBE.get(abk)
+        style = f' style="background:{farbe}"' if farbe else ""
         bloecke.append(f"""
-    <div class="overlap">
+    <div class="overlap"{style}>
       <div class="head"><span class="dot"></span>
         <div><b>Zeitgleich {esc(abk)}</b> — ab {esc(ref['origin'])} um {esc(kopf_zeit)} → {esc(ziele)}. PKW-Meter je Teilstrecke:</div>
       </div>
@@ -345,11 +357,12 @@ body{{
 }}
 body::before{{
   content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px);
-  z-index:10; background:var(--panel-2);
+  z-index:10; background:var(--ship-bg, var(--panel-2));
 }}
 header.ship{{
+  background:var(--ship-bg, var(--panel-2));
   position:sticky; top:env(safe-area-inset-top,0px); z-index:5;
-  background:var(--panel-2); margin:0 -16px; padding:8px 16px 9px;
+  margin:0 -16px; padding:8px 16px 9px;
   border-bottom:1px solid var(--rule);
   display:flex; align-items:baseline; justify-content:space-between; gap:8px;
 }}
@@ -417,7 +430,7 @@ main{{padding:10px 0 20px; display:flex; flex-direction:column; gap:10px}}
 footer{{padding:4px 0 12px; font-size:11px; color:var(--fg-dim); text-align:center}}
 </style>
 </head>
-<body>
+<body{body_style}>
 
 <header class="ship">
   <h1>{schiff}</h1>
@@ -462,6 +475,7 @@ def main():
                 schiff="Kein Schiff diese Woche",
                 uhrzeit=datetime.now(TZ).strftime("%H:%M"),
                 karten="",
+                body_style="",
             ),
             encoding="utf-8",
         )
@@ -497,10 +511,14 @@ def main():
     karten.append(karte_html(jetzt, "Jetzt", "now", mit_details=True, extra_html=overlap_jetzt))
     karten.append(karte_html(naechste, "Nächste", "next", mit_details=False, extra_html=overlap_naechste))
 
+    farbe = SCHIFF_FARBE.get(eigene_abk)
+    body_style = f' style="--ship-bg:{farbe}"' if farbe else ""
+
     html = PAGE_TEMPLATE.format(
         schiff=esc(schiff.title()),
         uhrzeit=datetime.now(TZ).strftime("%H:%M"),
         karten="".join(k for k in karten if k),
+        body_style=body_style,
     )
 
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
