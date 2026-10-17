@@ -286,8 +286,9 @@ def karte_html(fahrt, status_label, status_class, mit_details, extra_html=""):
     sonder = sonderfahrzeuge_html(fahrt["fahrzeuge"]) if mit_details else ""
     if not stats:
         sonder = '<div class="special-head">Noch keine Ladedaten — wird vor Buchungsschluss aktualisiert</div>'
+    id_attr = ' id="jetzt"' if status_class == "now" else ""
     return f"""
-  <section class="card{' is-past' if status_class == 'past' else ''}">
+  <section class="card{' is-past' if status_class == 'past' else ''}"{id_attr}>
     <div class="route-row">
       <div class="time">{esc(fahrt['zeit'])}</div>
       <div class="route">{esc(fahrt['origin'])} <span class="arrow">→</span> {esc(fahrt['ziel'])}</div>
@@ -372,8 +373,10 @@ main{{padding:10px 0 20px; display:flex; flex-direction:column; gap:10px}}
 .card{{
   background:var(--panel); border:1px solid var(--rule); border-radius:10px;
   padding:12px 14px; overflow:hidden;
+  scroll-margin-top:calc(54px + env(safe-area-inset-top,0px));
 }}
 .card.is-past{{opacity:.78}}
+html{{scroll-behavior:auto}}
 .route-row{{display:flex; align-items:center; gap:10px; flex-wrap:nowrap}}
 .time{{
   font-family:var(--font-mono); font-variant-numeric:tabular-nums;
@@ -444,6 +447,13 @@ footer{{padding:4px 0 12px; font-size:11px; color:var(--fg-dim); text-align:cent
 <script>
 if ("serviceWorker" in navigator) {{
   navigator.serviceWorker.register("ladeliste-sw.js");
+}}
+// Aktuelle Abfahrt ("Jetzt") immer oben zeigen - die vorherige Abfahrt
+// steht im DOM darueber und ist nur durch Hochscrollen (Herunterziehen
+// des Bildschirminhalts) erreichbar.
+const jetzt = document.getElementById("jetzt");
+if (jetzt) {{
+  jetzt.scrollIntoView({{block: "start", behavior: "instant"}});
 }}
 // Meta-Refresh laed dieselbe URL erneut und wird vom Browser-/CDN-Cache
 // bedient statt neu vom Server geholt zu werden - deshalb per JS mit
