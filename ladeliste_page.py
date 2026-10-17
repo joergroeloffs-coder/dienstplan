@@ -429,6 +429,11 @@ footer{{padding:4px 0 12px; font-size:11px; color:var(--fg-dim); text-align:cent
 </main>
 
 <footer>Quelle: faehre2.de · Ladeliste · Seite aktualisiert sich alle 60s</footer>
+<script>
+if ("serviceWorker" in navigator) {{
+  navigator.serviceWorker.register("ladeliste-sw.js");
+}}
+</script>
 </body>
 </html>
 """
