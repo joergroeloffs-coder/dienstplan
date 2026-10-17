@@ -1,0 +1,31 @@
+name: Ladeliste anzeigen (Hilfswerkzeug)
+
+# Nur von Hand startbar. Aendert nichts im Repository, schreibt keine
+# Dateien - gibt Verzeichnislisting und Rohinhalt der Ladelisten-Seiten
+# im Workflow-Log aus, zum Verstehen des Aufbaus vor dem eigentlichen
+# Parser.
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  dump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Ladeliste ausgeben
+        env:
+          WDR_USER: ${{ secrets.WDR_USER }}
+          WDR_PASS: ${{ secrets.WDR_PASS }}
+        run: python dump_ladeliste.py
