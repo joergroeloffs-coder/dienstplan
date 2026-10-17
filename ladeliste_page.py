@@ -351,14 +351,15 @@ def karte_html(fahrt, status_label, status_class, mit_details, extra_html=""):
     </div>"""
     sonder = sonderfahrzeuge_html(fahrt["fahrzeuge"]) if mit_details else ""
     if not stats:
-        sonder = '<div class="special-head">Noch keine Ladedaten — wird vor Buchungsschluss aktualisiert</div>'
+        hinweis = fahrt.get("leer_hinweis") or "Noch keine Ladedaten — wird vor Buchungsschluss aktualisiert"
+        sonder = f'<div class="special-head">{esc(hinweis)}</div>'
     jetzt_attr = " data-jetzt" if status_class == "now" else ""
     return f"""
   <section class="card{' is-past' if status_class == 'past' else ''}"{jetzt_attr}>
     <div class="route-row">
       <div class="time">{esc(fahrt['zeit'])}</div>
-      <div class="route">{route_html(fahrt['origin'], fahrt['ziel'], fahrt['zeit'])}</div>
-    </div>{zwischenhalt_html(fahrt['origin'], fahrt['ziel'], fahrt['zeit'])}{stats}{total}
+      <div class="route">{route_html(fahrt['origin'], fahrt['ziel'])}</div>
+    </div>{stats}{total}
     {sonder}{extra_html}
   </section>"""
 
@@ -379,46 +380,49 @@ def route_abstand(origin, ziel):
 
 
 # Vom Buchungssystem als ein einzelner Block gemeldete Fahrten (origin,
-# ziel), die laut gedrucktem Fahrplan tatsaechlich einen Zwischenhalt mit
-# eigener Abfahrzeit haben - aus den Live-Daten nicht ablesbar, deshalb
-# hier fest hinterlegt. Vom Nutzer bestaetigt: Fahrt ab Amrum (Wittduen)
-# 17:25 legt unterwegs in Wiek (Föhr) an und faehrt von dort erst um
-# 18:40 weiter nach Dagebuell.
+# ziel), die laut gedrucktem Fahrplan tatsaechlich aus zwei Etappen mit je
+# eigener Abfahrzeit bestehen - aus den Live-Daten nicht ablesbar, deshalb
+# hier fest hinterlegt. Vom Nutzer bestaetigt (Fahrplan Sa. 17.10.): Uthlande
+# faehrt 17:25 Wittduen(Amrum)-Wyk(Föhr), dann 18:40 Wyk-Dagebuell - im
+# Buchungssystem aber nur als ein Block "AMRUM-DAGEBÜLL 17:25" sichtbar.
 ZWISCHENHALTE_FAHRPLAN = [
     # (origin, ziel, Abfahrzeit origin, Zwischenhalt, Abfahrzeit Zwischenhalt)
     ("AMRUM", "DAGEBÜLL", "17:25", "FÖHR", "18:40"),
 ]
 
 
-def _zwischenhalt_eintrag(origin, ziel, zeit):
-    if not zeit:
-        return None
-    for o, z, ab, halt, halt_zeit in ZWISCHENHALTE_FAHRPLAN:
-        if origin == o and ziel == z and abs(minuten(zeit) - minuten(ab)) <= 2:
-            return halt, halt_zeit
-    return None
+def fahrten_auftrennen(fahrten):
+    """Fahrt-Bloecke, die laut ZWISCHENHALTE_FAHRPLAN eigentlich zwei
+    Etappen mit je eigener Abfahrzeit sind, in zwei einzelne Fahrten
+    aufteilen - die erste Etappe behaelt die echten Ladedaten, die zweite
+    hat keine eigenen (im Buchungssystem nicht getrennt erfasst)."""
+    ergebnis = []
+    for f in fahrten:
+        treffer = None
+        if f["zeit"]:
+            for o, z, ab, halt, halt_zeit in ZWISCHENHALTE_FAHRPLAN:
+                if f["origin"] == o and f["ziel"] == z and abs(minuten(f["zeit"]) - minuten(ab)) <= 2:
+                    treffer = (halt, halt_zeit)
+                    break
+        if not treffer:
+            ergebnis.append(f)
+            continue
+        halt, halt_zeit = treffer
+        ergebnis.append({**f, "ziel": halt})
+        ergebnis.append({
+            "origin": halt, "ziel": f["ziel"], "zeit": halt_zeit,
+            "pkw": None, "motorrad": None, "transporter": None,
+            "summe_pkw_spalte": None, "fahrzeuge": [],
+            "leer_hinweis": (
+                f"Fortsetzung der Fahrt ab {f['origin']} {f['zeit']} Uhr "
+                "— eigene Ladedaten dort"
+            ),
+        })
+    return ergebnis
 
 
-def route_html(origin, ziel, zeit):
-    eintrag = _zwischenhalt_eintrag(origin, ziel, zeit)
-    if eintrag:
-        halt, _ = eintrag
-        return (
-            f'{esc(origin)} <span class="arrow">→</span> {esc(halt)}'
-            f' <span class="arrow">→</span> {esc(ziel)}'
-        )
+def route_html(origin, ziel):
     return f'{esc(origin)} <span class="arrow">→</span> {esc(ziel)}'
-
-
-def zwischenhalt_html(origin, ziel, zeit):
-    eintrag = _zwischenhalt_eintrag(origin, ziel, zeit)
-    if not eintrag:
-        return ""
-    halt, halt_zeit = eintrag
-    return (
-        '<div class="via-note">laut Fahrplan Zwischenhalt — '
-        f'ab {esc(halt)} {esc(halt_zeit)} Uhr weiter nach {esc(ziel)}</div>'
-    )
 
 
 def vorheriger_hafen(origin, ziel):
@@ -573,7 +577,6 @@ html{{scroll-behavior:auto}}
   white-space:nowrap; color:var(--fg);
 }}
 .route .arrow{{color:var(--accent); font-weight:400}}
-.via-note{{margin-top:4px; font-size:12px; color:var(--fg-dim)}}
 .stats{{display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin-top:10px}}
 .stat{{
   background:var(--panel-2); border-radius:8px; padding:7px 2px;
@@ -712,7 +715,7 @@ def main():
 
     alle_fahrten = {}
     for kategorie, abk in SCHIFF_ABK.items():
-        alle_fahrten[abk] = fetch_fahrten(session, abk)
+        alle_fahrten[abk] = fahrten_auftrennen(fetch_fahrten(session, abk))
 
     cache = load_cache()
     cache_aktualisieren(cache, alle_fahrten)
