@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">09:57 · aus Dienstplan</div>
+    <div class="sub">10:07 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -148,14 +148,14 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>45</b><span>PKW</span></div>
+      <div class="stat"><b>44</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>2</b><span>Transporter</span></div>
       <div class="stat"><b>3</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">270,4 m</span>
+      <span class="val">263,9 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -193,13 +193,7 @@ select#schiff-select{
       <div class="route">AMRUM <span class="arrow">→</span> FÖHR</div>
     </div>
     
-    <div class="stats">
-      <div class="stat"><b>1</b><span>PKW</span></div>
-      <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>0</b><span>Transporter</span></div>
-      <div class="stat"><b>0</b><span>Sonder</span></div>
-    </div>
-    
+    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
   </section>
   <section class="card" data-jetzt>
     <div class="route-row">
@@ -284,7 +278,21 @@ select#schiff-select{
       <div class="route">AMRUM <span class="arrow">→</span> FÖHR</div>
     </div>
     
-    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
+    <div class="stats">
+      <div class="stat"><b>60</b><span>PKW</span></div>
+      <div class="stat"><b>0</b><span>Motorrad</span></div>
+      <div class="stat"><b>1</b><span>Transporter</span></div>
+      <div class="stat"><b>1</b><span>Sonder</span></div>
+    </div>
+    <div class="total-bar">
+      <span class="label">Gesamt gebuchte Meter</span>
+      <span class="val">304,1 m</span>
+    </div>
+    <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
+<div class="special">
+<div class="group-label">Transporter</div>
+<div class="special-row"><div class="kind">JÄNNERWEIN GESA</div><div class="plate">CEGG40</div><div class="len">8,7 m</div></div>
+</div>
   </section>
 </div>
 <div class="schiff-block" data-abk="NORDFRIES" data-name="Nordfriesland" data-color="#f7eec9" style="">
@@ -295,24 +303,7 @@ select#schiff-select{
       <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
     </div>
     
-    <div class="stats">
-      <div class="stat"><b>41</b><span>PKW</span></div>
-      <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>2</b><span>Transporter</span></div>
-      <div class="stat"><b>3</b><span>Sonder</span></div>
-    </div>
-    <div class="total-bar">
-      <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">240,7 m</span>
-    </div>
-    <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
-<div class="special">
-<div class="group-label">LKW</div>
-<div class="special-row"><div class="kind">KRUSKA MARCO</div><div class="plate">HFHB900</div><div class="len">9,4 m</div></div>
-<div class="group-label">Transporter</div>
-<div class="special-row"><div class="kind">MULL HELKE</div><div class="plate">PINK1490</div><div class="len">8,4 m</div></div>
-<div class="special-row"><div class="kind">WEIßENBORN MAREIKE</div><div class="plate">HHF2101E</div><div class="len">7,3 m</div></div>
-</div>
+    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
   </section>
   <section class="card" data-jetzt>
     <div class="route-row">
@@ -345,7 +336,7 @@ select#schiff-select{
 <div class="group-label">LKW</div>
 <div class="special-row"><div class="kind">EDEKA LOGISTIK NEUMÜNSTER GMBH</div><div class="plate">NFJK300JK400</div><div class="len">27,7 m</div></div>
 </div>
-      <div class="legs-label">Bereits geladen ab AMRUM:</div><div class="legs"><div class="leg"><span class="dest">AMRUM → DAGEBÜLL</span><span class="m">167,9 m</span></div><div class="leg"><span class="dest">AMRUM → FÖHR</span><span class="m">0 m</span></div></div>
+      <div class="legs-label">Bereits geladen ab AMRUM (letzter bekannter Stand, nicht mehr live):</div><div class="legs"><div class="leg"><span class="dest">AMRUM → DAGEBÜLL</span><span class="m">167,9 m</span></div></div>
     </div>
   </section>
   <section class="card">
@@ -366,7 +357,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "09:57";
+const UHRZEIT = "10:07";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
