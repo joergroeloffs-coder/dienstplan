@@ -9,7 +9,7 @@
   },
   "NA|DAGEBÜLL|FÖHR": {
     "abk": "NA",
-    "gesehen_um": "2026-10-18T10:27:22.255877+02:00",
+    "gesehen_um": "2026-10-18T10:32:24.296983+02:00",
     "origin": "DAGEBÜLL",
     "summe_pkw_spalte": "267,9",
     "zeit": "10:40",
@@ -17,7 +17,7 @@
   },
   "NA|FÖHR|DAGEBÜLL": {
     "abk": "NA",
-    "gesehen_um": "2026-10-18T10:27:22.255877+02:00",
+    "gesehen_um": "2026-10-18T10:32:24.296983+02:00",
     "origin": "FÖHR",
     "summe_pkw_spalte": "302,4",
     "zeit": "11:50",
@@ -25,7 +25,7 @@
   },
   "NORDFRIES|DAGEBÜLL|FÖHR": {
     "abk": "NORDFRIES",
-    "gesehen_um": "2026-10-18T10:27:22.255877+02:00",
+    "gesehen_um": "2026-10-18T10:32:24.296983+02:00",
     "origin": "DAGEBÜLL",
     "summe_pkw_spalte": "224,1",
     "zeit": "12:15",
@@ -33,7 +33,7 @@
   },
   "NORDFRIES|FÖHR|DAGEBÜLL": {
     "abk": "NORDFRIES",
-    "gesehen_um": "2026-10-18T10:27:22.255877+02:00",
+    "gesehen_um": "2026-10-18T10:32:24.296983+02:00",
     "origin": "FÖHR",
     "summe_pkw_spalte": "221,9",
     "zeit": "10:50",
@@ -57,7 +57,7 @@
   },
   "S-H|DAGEBÜLL|FÖHR": {
     "abk": "S-H",
-    "gesehen_um": "2026-10-18T10:27:22.255877+02:00",
+    "gesehen_um": "2026-10-18T10:32:24.296983+02:00",
     "origin": "DAGEBÜLL",
     "summe_pkw_spalte": "296,3",
     "zeit": "12:16",
@@ -65,7 +65,7 @@
   },
   "S-H|FÖHR|DAGEBÜLL": {
     "abk": "S-H",
-    "gesehen_um": "2026-10-18T10:27:22.255877+02:00",
+    "gesehen_um": "2026-10-18T10:32:24.296983+02:00",
     "origin": "FÖHR",
     "summe_pkw_spalte": "138,3",
     "zeit": "10:51",
@@ -73,7 +73,7 @@
   },
   "UTHLANDE|AMRUM|DAGEBÜLL": {
     "abk": "UTHLANDE",
-    "gesehen_um": "2026-10-18T10:27:22.255877+02:00",
+    "gesehen_um": "2026-10-18T10:32:24.296983+02:00",
     "origin": "AMRUM",
     "summe_pkw_spalte": "304,1",
     "zeit": "12:05",
@@ -89,7 +89,7 @@
   },
   "UTHLANDE|FÖHR|AMRUM": {
     "abk": "UTHLANDE",
-    "gesehen_um": "2026-10-18T10:27:22.255877+02:00",
+    "gesehen_um": "2026-10-18T10:32:24.296983+02:00",
     "origin": "FÖHR",
     "summe_pkw_spalte": "22,1",
     "zeit": "10:35",
