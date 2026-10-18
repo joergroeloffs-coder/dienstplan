@@ -362,13 +362,17 @@ def karte_html(fahrt, status_label, status_class, mit_details, extra_html=""):
     if not stats:
         hinweis = fahrt.get("leer_hinweis") or "Noch keine Ladedaten — wird vor Buchungsschluss aktualisiert"
         sonder = f'<div class="special-head">{esc(hinweis)}</div>'
+    durchgang = ""
+    if fahrt.get("durchgangs_hinweis"):
+        durchgang = f'<div class="legs-label">{esc(fahrt["durchgangs_hinweis"])}</div>'
     jetzt_attr = " data-jetzt" if status_class == "now" else ""
     return f"""
   <section class="card{' is-past' if status_class == 'past' else ''}"{jetzt_attr}>
     <div class="route-row">
       <div class="time">{esc(fahrt['zeit'])}</div>
-      <div class="route">{route_html(fahrt['origin'], fahrt['ziel'], fahrt.get('zwischenhalt'))}</div>
-    </div>{stats}{total}
+      <div class="route">{route_html(fahrt['origin'], fahrt['ziel'])}</div>
+    </div>
+    {durchgang}{stats}{total}
     {sonder}{extra_html}
   </section>"""
 
@@ -443,52 +447,59 @@ def ladedaten_fuer_etappe(etappe, bloecke):
 
 
 def fahrten_nach_fahrplan(schiff_kategorie, bloecke, fahrplan, datum_iso):
-    """Baut die Etappenliste eines Schiffs aus dem amtlichen Fahrplan auf
-    und reichert jede Etappe mit den Ladedaten (PKW/Meter/Sonderfahrzeuge)
-    aus den Live-Buchungsbloecken an. Eine Etappe ohne eigenen Block ist
-    entweder Teil einer vorherigen Durchgangsbuchung (dann mit Hinweis
-    darauf) oder hat schlicht noch keine eigene Buchung."""
+    """Baut die Etappenliste eines Schiffs aus dem amtlichen Fahrplan auf -
+    je Etappe eine eigene Kachel mit Hafenpaar + Abfahrzeit laut Fahrplan.
+    Faehrt eine Buchung laut Live-Ladeliste ueber die Etappe hinaus weiter
+    (Durchgangsbuchung, z.B. Wittduen-Dagebuell deckt die Etappen
+    Wittduen-Wyk UND Wyk-Dagebuell ab), gelten ihre Ladedaten fuer JEDE
+    betroffene Etappe - an beiden Haefen wird ja tatsaechlich geladen/
+    entladen, nicht nur am ersten."""
     etappen = offizielle_etappen(fahrplan, schiff_kategorie, datum_iso)
     if not etappen:
         return bloecke
 
     fahrten = []
-    fortsetzung_hinweis = None
+    laufende_buchung = None  # (block, start_origin, start_zeit, ziel_erreicht)
     for etappe in etappen:
-        block = ladedaten_fuer_etappe(etappe, bloecke)
-        if block:
-            # Bei einer Durchgangsbuchung (Block faehrt laut Buchung weiter
-            # als diese Etappe) bleibt das echte Buchungsziel stehen, statt
-            # es durch das Etappenziel zu verdecken - sonst sieht es so aus,
-            # als wuerden die PKW hier aussteigen, obwohl sie nur bis zu
-            # ihrem eigentlichen Ziel durchfahren. Der Zwischenhalt (wo
-            # ebenfalls geladen/entladen wird) wird trotzdem mit angezeigt.
-            zwischenhalt = etappe["ziel"] if block["ziel"] != etappe["ziel"] else None
+        if laufende_buchung and etappe["origin"] == laufende_buchung["naechster_origin"]:
+            block = laufende_buchung["block"]
             fahrten.append({
                 **block,
-                "origin": etappe["origin"], "zeit": etappe["zeit"],
-                "zwischenhalt": zwischenhalt,
+                "origin": etappe["origin"], "ziel": etappe["ziel"], "zeit": etappe["zeit"],
+                "durchgangs_hinweis": (
+                    f"Durchgehende Buchung ab {laufende_buchung['start_origin']} "
+                    f"{laufende_buchung['start_zeit']} Uhr"
+                ),
             })
-            fortsetzung_hinweis = None
-            if zwischenhalt:
-                fortsetzung_hinweis = (
-                    f"Fortsetzung der Fahrt ab {etappe['origin']} {etappe['zeit']} Uhr "
-                    "— eigene Ladedaten dort"
-                )
+            if etappe["ziel"] == block["ziel"]:
+                laufende_buchung = None
+            else:
+                laufende_buchung["naechster_origin"] = etappe["ziel"]
+            continue
+
+        laufende_buchung = None
+        block = ladedaten_fuer_etappe(etappe, bloecke)
+        if block:
+            fahrten.append({**block, "origin": etappe["origin"], "ziel": etappe["ziel"], "zeit": etappe["zeit"]})
+            if block["ziel"] != etappe["ziel"]:
+                laufende_buchung = {
+                    "block": block,
+                    "start_origin": etappe["origin"],
+                    "start_zeit": etappe["zeit"],
+                    "naechster_origin": etappe["ziel"],
+                }
             continue
         fahrten.append({
             **etappe,
             "pkw": None, "motorrad": None, "transporter": None,
             "summe_pkw_spalte": None, "fahrzeuge": [],
-            "leer_hinweis": fortsetzung_hinweis or "Noch keine eigene Buchung zu dieser Etappe",
+            "leer_hinweis": "Noch keine eigene Buchung zu dieser Etappe",
         })
-        fortsetzung_hinweis = None
     return fahrten
 
 
-def route_html(origin, ziel, zwischenhalt=None):
-    haefen = [origin, zwischenhalt, ziel] if zwischenhalt else [origin, ziel]
-    return f' <span class="arrow">→</span> '.join(esc(h) for h in haefen)
+def route_html(origin, ziel):
+    return f'{esc(origin)} <span class="arrow">→</span> {esc(ziel)}'
 
 
 def vorheriger_hafen(origin, ziel):
