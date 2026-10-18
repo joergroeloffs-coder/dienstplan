@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">21:57 · aus Dienstplan</div>
+    <div class="sub">22:07 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -129,21 +129,7 @@ select#schiff-select{
       <div class="route">FÖHR <span class="arrow">→</span> AMRUM</div>
     </div>
     
-    <div class="stats">
-      <div class="stat"><b>0</b><span>PKW</span></div>
-      <div class="stat"><b>1</b><span>Motorrad</span></div>
-      <div class="stat"><b>0</b><span>Transporter</span></div>
-      <div class="stat"><b>1</b><span>Sonder</span></div>
-    </div>
-    <div class="total-bar">
-      <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">0,7 m</span>
-    </div>
-    <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
-<div class="special">
-<div class="group-label">Motorrad</div>
-<div class="special-row"><div class="kind">JENSEN INGO</div><div class="plate">NFIJ32</div><div class="len">0,7 m</div></div>
-</div>
+    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
   </section>
 </div>
 <div class="schiff-block" data-abk="S-H" data-name="Schleswig - Holstein" data-color="#dce7f5" style="display:none">
@@ -165,23 +151,7 @@ select#schiff-select{
       <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
     </div>
     
-    <div class="stats">
-      <div class="stat"><b>48</b><span>PKW</span></div>
-      <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>1</b><span>Transporter</span></div>
-      <div class="stat"><b>2</b><span>Sonder</span></div>
-    </div>
-    <div class="total-bar">
-      <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">224,5 m</span>
-    </div>
-    <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
-<div class="special">
-<div class="group-label">Transporter</div>
-<div class="special-row"><div class="kind">RASMUSSEN SABINE</div><div class="plate">BOZY3142</div><div class="len">7,6 m</div></div>
-<div class="group-label">PKW-Anhänger</div>
-<div class="special-row"><div class="kind">MAAS JAN</div><div class="plate">NFJP1001</div><div class="len">5,3 m</div></div>
-</div>
+    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
   </section>
 </div>
 <div class="schiff-block" data-abk="NORDFRIES" data-name="Nordfriesland" data-color="#f7eec9" style="">
@@ -192,24 +162,7 @@ select#schiff-select{
       <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
     </div>
     
-    <div class="stats">
-      <div class="stat"><b>43</b><span>PKW</span></div>
-      <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>2</b><span>Transporter</span></div>
-      <div class="stat"><b>3</b><span>Sonder</span></div>
-    </div>
-    <div class="total-bar">
-      <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">236,4 m</span>
-    </div>
-    <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
-<div class="special">
-<div class="group-label">Transporter</div>
-<div class="special-row"><div class="kind">MAUSEHUND THORSTEN</div><div class="plate">NFBQ666</div><div class="len">7,4 m</div></div>
-<div class="special-row"><div class="kind">KETELS OLUF</div><div class="plate">NFOK1911</div><div class="len">7,4 m</div></div>
-<div class="group-label">PKW-Anhänger</div>
-<div class="special-row"><div class="kind">JENSEN MATTHIAS</div><div class="plate">NFCZ544</div><div class="len">6,6 m</div></div>
-</div>
+    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
   </section>
 </div>
 </main>
@@ -221,7 +174,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "21:57";
+const UHRZEIT = "22:07";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
