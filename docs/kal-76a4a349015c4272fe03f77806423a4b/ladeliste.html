@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">11:32 · aus Dienstplan</div>
+    <div class="sub">11:37 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -183,14 +183,14 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>62</b><span>PKW</span></div>
+      <div class="stat"><b>61</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>2</b><span>Transporter</span></div>
       <div class="stat"><b>3</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">301,9 m</span>
+      <span class="val">297,1 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -255,14 +255,14 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>60</b><span>PKW</span></div>
+      <div class="stat"><b>61</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>0</b><span>Transporter</span></div>
       <div class="stat"><b>0</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">297,6 m</span>
+      <span class="val">302,6 m</span>
     </div>
     
   </section>
@@ -312,7 +312,7 @@ select#schiff-select{
       <div class="head"><span class="dot"></span>
         <div><b>Zeitgleich S-H</b> — ab FÖHR um 13:45: FÖHR → DAGEBÜLL. PKW-Meter je Teilstrecke:</div>
       </div>
-      <div class="legs"><div class="leg"><span class="dest">FÖHR → DAGEBÜLL</span><span class="m">301,9 m</span></div></div>
+      <div class="legs"><div class="leg"><span class="dest">FÖHR → DAGEBÜLL</span><span class="m">297,1 m</span></div></div>
       <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">Transporter</div>
@@ -334,7 +334,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "11:32";
+const UHRZEIT = "11:37";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
