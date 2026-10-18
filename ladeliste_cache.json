@@ -9,15 +9,15 @@
   },
   "NA|DAGEBÜLL|FÖHR": {
     "abk": "NA",
-    "gesehen_um": "2026-10-18T10:37:26.610273+02:00",
+    "gesehen_um": "2026-10-18T10:42:28.843781+02:00",
     "origin": "DAGEBÜLL",
-    "summe_pkw_spalte": "288,4",
+    "summe_pkw_spalte": "302,1",
     "zeit": "10:40",
     "ziel": "FÖHR"
   },
   "NA|FÖHR|DAGEBÜLL": {
     "abk": "NA",
-    "gesehen_um": "2026-10-18T10:37:26.610273+02:00",
+    "gesehen_um": "2026-10-18T10:42:28.843781+02:00",
     "origin": "FÖHR",
     "summe_pkw_spalte": "302,4",
     "zeit": "11:50",
@@ -25,15 +25,15 @@
   },
   "NORDFRIES|DAGEBÜLL|FÖHR": {
     "abk": "NORDFRIES",
-    "gesehen_um": "2026-10-18T10:37:26.610273+02:00",
+    "gesehen_um": "2026-10-18T10:42:28.843781+02:00",
     "origin": "DAGEBÜLL",
-    "summe_pkw_spalte": "203,5",
+    "summe_pkw_spalte": "199,3",
     "zeit": "12:15",
     "ziel": "FÖHR"
   },
   "NORDFRIES|FÖHR|DAGEBÜLL": {
     "abk": "NORDFRIES",
-    "gesehen_um": "2026-10-18T10:37:26.610273+02:00",
+    "gesehen_um": "2026-10-18T10:42:28.843781+02:00",
     "origin": "FÖHR",
     "summe_pkw_spalte": "221,9",
     "zeit": "10:50",
@@ -57,15 +57,15 @@
   },
   "S-H|DAGEBÜLL|FÖHR": {
     "abk": "S-H",
-    "gesehen_um": "2026-10-18T10:37:26.610273+02:00",
+    "gesehen_um": "2026-10-18T10:42:28.843781+02:00",
     "origin": "DAGEBÜLL",
-    "summe_pkw_spalte": "296,3",
+    "summe_pkw_spalte": "286,8",
     "zeit": "12:16",
     "ziel": "FÖHR"
   },
   "S-H|FÖHR|DAGEBÜLL": {
     "abk": "S-H",
-    "gesehen_um": "2026-10-18T10:37:26.610273+02:00",
+    "gesehen_um": "2026-10-18T10:42:28.843781+02:00",
     "origin": "FÖHR",
     "summe_pkw_spalte": "138,3",
     "zeit": "10:51",
@@ -73,7 +73,7 @@
   },
   "UTHLANDE|AMRUM|DAGEBÜLL": {
     "abk": "UTHLANDE",
-    "gesehen_um": "2026-10-18T10:37:26.610273+02:00",
+    "gesehen_um": "2026-10-18T10:42:28.843781+02:00",
     "origin": "AMRUM",
     "summe_pkw_spalte": "304,1",
     "zeit": "12:05",
@@ -89,7 +89,7 @@
   },
   "UTHLANDE|FÖHR|AMRUM": {
     "abk": "UTHLANDE",
-    "gesehen_um": "2026-10-18T10:37:26.610273+02:00",
+    "gesehen_um": "2026-10-18T10:42:28.843781+02:00",
     "origin": "FÖHR",
     "summe_pkw_spalte": "22,1",
     "zeit": "10:35",
