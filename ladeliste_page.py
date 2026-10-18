@@ -423,14 +423,23 @@ def offizielle_etappen(fahrplan, schiff_kategorie, datum_iso):
 
 def ladedaten_fuer_etappe(etappe, bloecke):
     """Sucht den passenden Buchungsblock (gleicher Ursprungshafen, Zeit
-    +/- 5 Min.) - bei einer Durchgangsbuchung kann dessen Ziel weiter
-    hinten in der Kette liegen als das der Etappe."""
+    +/- 5 Min.). Mehrere Bloecke koennen in dieses Zeitfenster fallen, z.B.
+    eine Durchgangsbuchung zu einem weiter entfernten Hafen neben der
+    eigentlichen Buchung fuer genau diese Etappe (Dagebuell-Wyk 09:35 vs.
+    eine zeitgleiche Dagebuell-Amrum-Durchgangsbuchung) - ein exaktes
+    Ziel-Match hat deshalb immer Vorrang vor einem Durchgangs-Treffer."""
     treffer = [
         b for b in bloecke
         if b["origin"] == etappe["origin"] and b["zeit"]
         and abs(minuten(b["zeit"]) - minuten(etappe["zeit"])) <= 5
     ]
-    return treffer[0] if treffer else None
+    if not treffer:
+        return None
+    treffer.sort(key=lambda b: (
+        b["ziel"] != etappe["ziel"],
+        abs(minuten(b["zeit"]) - minuten(etappe["zeit"])),
+    ))
+    return treffer[0]
 
 
 def fahrten_nach_fahrplan(schiff_kategorie, bloecke, fahrplan, datum_iso):
