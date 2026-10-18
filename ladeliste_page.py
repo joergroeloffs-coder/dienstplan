@@ -498,6 +498,9 @@ def overlap_html(ref, treffer, alle_fahrten, cache):
             f'<span class="m">{esc(l["summe_pkw_spalte"]) + " m" if l["summe_pkw_spalte"] else "0 m"}</span></div>'
             for l in legs
         )
+        sonder_html = sonderfahrzeuge_html(
+            [fz for l in legs for fz in l.get("fahrzeuge", [])]
+        )
 
         # Was das andere Schiff vom vorherigen Hafen aus schon geladen hat
         # (z.B. ab Amrum, bevor es den eigenen Hafen erreicht) - unabhaengig
@@ -529,10 +532,16 @@ def overlap_html(ref, treffer, alle_fahrten, cache):
                 f'<span class="m">{esc(f["summe_pkw_spalte"]) + " m" if f["summe_pkw_spalte"] else "0 m"}</span></div>'
                 for f in vorige_legs
             )
+            # Cache-Eintraege (nicht mehr live) haben keine Fahrzeugliste -
+            # Sonderfahrzeuge dort nur zeigen, wenn die Daten noch live sind.
+            vorige_sonder = "" if aus_cache else sonderfahrzeuge_html(
+                [fz for f in vorige_legs for fz in f.get("fahrzeuge", [])]
+            )
             hinweis = " (letzter bekannter Stand, nicht mehr live)" if aus_cache else ""
             vorige_html = (
                 f'<div class="legs-label">Bereits geladen ab {esc(voriger)}{esc(hinweis)}:</div>'
                 f'<div class="legs">{rows}</div>'
+                f'{vorige_sonder}'
             )
 
         farbe = SCHIFF_FARBE.get(abk)
@@ -543,6 +552,7 @@ def overlap_html(ref, treffer, alle_fahrten, cache):
         <div><b>Zeitgleich {esc(abk)}</b> — ab {esc(ref['origin'])} um {esc(kopf_zeit)}: {kette}. PKW-Meter je Teilstrecke:</div>
       </div>
       <div class="legs">{legs_html}</div>
+      {sonder_html}
       {vorige_html}
     </div>""")
     return "".join(bloecke)
