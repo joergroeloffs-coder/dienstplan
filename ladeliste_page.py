@@ -367,7 +367,7 @@ def karte_html(fahrt, status_label, status_class, mit_details, extra_html=""):
   <section class="card{' is-past' if status_class == 'past' else ''}"{jetzt_attr}>
     <div class="route-row">
       <div class="time">{esc(fahrt['zeit'])}</div>
-      <div class="route">{route_html(fahrt['origin'], fahrt['ziel'])}</div>
+      <div class="route">{route_html(fahrt['origin'], fahrt['ziel'], fahrt.get('zwischenhalt'))}</div>
     </div>{stats}{total}
     {sonder}{extra_html}
   </section>"""
@@ -461,10 +461,16 @@ def fahrten_nach_fahrplan(schiff_kategorie, bloecke, fahrplan, datum_iso):
             # als diese Etappe) bleibt das echte Buchungsziel stehen, statt
             # es durch das Etappenziel zu verdecken - sonst sieht es so aus,
             # als wuerden die PKW hier aussteigen, obwohl sie nur bis zu
-            # ihrem eigentlichen Ziel durchfahren.
-            fahrten.append({**block, "origin": etappe["origin"], "zeit": etappe["zeit"]})
+            # ihrem eigentlichen Ziel durchfahren. Der Zwischenhalt (wo
+            # ebenfalls geladen/entladen wird) wird trotzdem mit angezeigt.
+            zwischenhalt = etappe["ziel"] if block["ziel"] != etappe["ziel"] else None
+            fahrten.append({
+                **block,
+                "origin": etappe["origin"], "zeit": etappe["zeit"],
+                "zwischenhalt": zwischenhalt,
+            })
             fortsetzung_hinweis = None
-            if block["ziel"] != etappe["ziel"]:
+            if zwischenhalt:
                 fortsetzung_hinweis = (
                     f"Fortsetzung der Fahrt ab {etappe['origin']} {etappe['zeit']} Uhr "
                     "— eigene Ladedaten dort"
@@ -480,8 +486,9 @@ def fahrten_nach_fahrplan(schiff_kategorie, bloecke, fahrplan, datum_iso):
     return fahrten
 
 
-def route_html(origin, ziel):
-    return f'{esc(origin)} <span class="arrow">→</span> {esc(ziel)}'
+def route_html(origin, ziel, zwischenhalt=None):
+    haefen = [origin, zwischenhalt, ziel] if zwischenhalt else [origin, ziel]
+    return f' <span class="arrow">→</span> '.join(esc(h) for h in haefen)
 
 
 def vorheriger_hafen(origin, ziel):
