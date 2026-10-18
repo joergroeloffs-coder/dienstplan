@@ -457,7 +457,12 @@ def fahrten_nach_fahrplan(schiff_kategorie, bloecke, fahrplan, datum_iso):
     for etappe in etappen:
         block = ladedaten_fuer_etappe(etappe, bloecke)
         if block:
-            fahrten.append({**block, **etappe})
+            # Bei einer Durchgangsbuchung (Block faehrt laut Buchung weiter
+            # als diese Etappe) bleibt das echte Buchungsziel stehen, statt
+            # es durch das Etappenziel zu verdecken - sonst sieht es so aus,
+            # als wuerden die PKW hier aussteigen, obwohl sie nur bis zu
+            # ihrem eigentlichen Ziel durchfahren.
+            fahrten.append({**block, "origin": etappe["origin"], "zeit": etappe["zeit"]})
             fortsetzung_hinweis = None
             if block["ziel"] != etappe["ziel"]:
                 fortsetzung_hinweis = (
