@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">14:19 · aus Dienstplan</div>
+    <div class="sub">14:24 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -152,14 +152,14 @@ select#schiff-select{
     </div>
     <div class="legs-label">Durchgehende Buchung ab DAGEBÜLL 15:05 Uhr</div>
     <div class="stats">
-      <div class="stat"><b>29</b><span>PKW</span></div>
+      <div class="stat"><b>30</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>0</b><span>Transporter</span></div>
       <div class="stat"><b>3</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">161,1 m</span>
+      <span class="val">165,0 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -262,11 +262,11 @@ select#schiff-select{
       <div class="stat"><b>20</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>0</b><span>Transporter</span></div>
-      <div class="stat"><b>6</b><span>Sonder</span></div>
+      <div class="stat"><b>7</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">202,9 m</span>
+      <span class="val">218,7 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -275,6 +275,7 @@ select#schiff-select{
 <div class="special-row"><div class="kind">DMK DEUTSCHES MILCHKONTOR</div><div class="plate">DMKZ1</div><div class="len">20,6 m</div></div>
 <div class="special-row"><div class="kind">DMK DEUTSCHES MILCHKONTOR</div><div class="plate">DMKZ2</div><div class="len">20,6 m</div></div>
 <div class="special-row"><div class="kind">DMK DEUTSCHES MILCHKONTOR</div><div class="plate">DMKZ3</div><div class="len">20,6 m</div></div>
+<div class="special-row"><div class="kind">LIDL DIENSTLEISTUNG</div><div class="plate">NMSAS229</div><div class="len">15,9 m</div></div>
 <div class="special-row"><div class="kind">REMONDIS GMBH + CO. KG</div><div class="plate">SLRE11</div><div class="len">13,2 m</div></div>
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">WIECKS TEXTILPFLEGE UND</div><div class="plate">NFVH175</div><div class="len">4,4 m</div></div>
@@ -301,7 +302,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "14:19";
+const UHRZEIT = "14:24";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
