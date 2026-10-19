@@ -1,7 +1,7 @@
 {
   "NA|DAGEBÜLL|AMRUM": {
     "abk": "NA",
-    "gesehen_um": "2026-10-19T07:08:03.740541+02:00",
+    "gesehen_um": "2026-10-19T07:13:07.209219+02:00",
     "origin": "DAGEBÜLL",
     "summe_pkw_spalte": "189,6",
     "zeit": "07:15",
@@ -33,23 +33,23 @@
   },
   "S-H|DAGEBÜLL|FÖHR": {
     "abk": "S-H",
-    "gesehen_um": "2026-10-19T07:08:03.740541+02:00",
+    "gesehen_um": "2026-10-19T07:13:07.209219+02:00",
     "origin": "DAGEBÜLL",
-    "summe_pkw_spalte": "165,6",
+    "summe_pkw_spalte": "161,7",
     "zeit": "08:26",
     "ziel": "FÖHR"
   },
   "S-H|FÖHR|DAGEBÜLL": {
     "abk": "S-H",
-    "gesehen_um": "2026-10-19T07:08:03.740541+02:00",
+    "gesehen_um": "2026-10-19T07:13:07.209219+02:00",
     "origin": "FÖHR",
-    "summe_pkw_spalte": "98,4",
+    "summe_pkw_spalte": "102,4",
     "zeit": "07:16",
     "ziel": "DAGEBÜLL"
   },
   "UTHLANDE|DAGEBÜLL|AMRUM": {
     "abk": "UTHLANDE",
-    "gesehen_um": "2026-10-19T07:08:03.740541+02:00",
+    "gesehen_um": "2026-10-19T07:13:07.209219+02:00",
     "origin": "DAGEBÜLL",
     "summe_pkw_spalte": "178,9",
     "zeit": "09:36",
@@ -65,7 +65,7 @@
   },
   "UTHLANDE|FÖHR|DAGEBÜLL": {
     "abk": "UTHLANDE",
-    "gesehen_um": "2026-10-19T07:08:03.740541+02:00",
+    "gesehen_um": "2026-10-19T07:13:07.209219+02:00",
     "origin": "FÖHR",
     "summe_pkw_spalte": "157,0",
     "zeit": "08:21",
