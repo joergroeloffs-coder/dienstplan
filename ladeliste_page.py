@@ -37,12 +37,6 @@ STATE_PATH = HERE / "state.json"
 # Etappen-Struktur genommen und nur die Ladedaten (PKW/Meter/...) aus den
 # Buchungsbloecken der Live-Ladeliste dazugemischt.
 FAHRPLAN_PATH = HERE / "fahrplan_schedule.json"
-# Merkt zuletzt gesehene Fahrt-Bloecke je Schiff/Hafenpaar: die Live-Seite
-# zeigt eine Etappe nicht mehr, sobald sie abgefahren ist, auch wenn eine
-# spaetere Etappe derselben Fahrt noch "Jetzt" ist (z.B. Amrum-Etappe
-# verschwindet, obwohl Foehr-Dagebuell-Etappe noch laeuft) - ohne
-# Zwischenspeicher ginge "bereits geladen ab..." dann verloren.
-CACHE_PATH = HERE / "ladeliste_cache.json"
 
 BASE_URL = "https://faehre2.de/fileadmin/wdr/Schiffe/Ladeliste"
 TZ = ZoneInfo("Europe/Berlin")
@@ -182,66 +176,6 @@ def fetch_fahrten(session, abk):
     return parse_fahrten(resp.text)
 
 
-CACHE_GUELTIG_STUNDEN = 6
-
-
-def load_cache():
-    if not CACHE_PATH.exists():
-        return {}
-    try:
-        return json.loads(CACHE_PATH.read_text(encoding="utf-8"))
-    except (json.JSONDecodeError, OSError):
-        return {}
-
-
-def save_cache(cache):
-    CACHE_PATH.write_text(
-        json.dumps(cache, ensure_ascii=False, indent=2, sort_keys=True),
-        encoding="utf-8",
-    )
-
-
-def cache_aktualisieren(cache, alle_fahrten):
-    """Jeden gerade live gesehenen Fahrt-Block im Zwischenspeicher
-    ablegen/erneuern, damit er auch dann noch verfuegbar ist, wenn die
-    Live-Seite ihn spaeter nicht mehr zeigt (abgefahrene Etappe)."""
-    jetzt = datetime.now(TZ).isoformat()
-    for abk, fahrten in alle_fahrten.items():
-        for f in fahrten:
-            if not f["summe_pkw_spalte"]:
-                continue
-            key = f"{abk}|{f['origin']}|{f['ziel']}"
-            cache[key] = {
-                "abk": abk,
-                "origin": f["origin"],
-                "ziel": f["ziel"],
-                "zeit": f["zeit"],
-                "summe_pkw_spalte": f["summe_pkw_spalte"],
-                "gesehen_um": jetzt,
-            }
-    # Alte Eintraege (laenger als CACHE_GUELTIG_STUNDEN unveraendert) raus,
-    # damit die Datei nicht unbegrenzt waechst und keine sehr alten Werte
-    # als "bereits geladen" angezeigt werden.
-    grenze = datetime.now(TZ).timestamp() - CACHE_GUELTIG_STUNDEN * 3600
-    for key in list(cache):
-        try:
-            gesehen = datetime.fromisoformat(cache[key]["gesehen_um"]).timestamp()
-        except (KeyError, ValueError):
-            gesehen = 0
-        if gesehen < grenze:
-            del cache[key]
-    return cache
-
-
-def cache_suche(cache, abk, origin):
-    treffer = [
-        v for v in cache.values()
-        if v.get("abk") == abk and v.get("origin") == origin
-    ]
-    treffer.sort(key=lambda v: v.get("gesehen_um", ""), reverse=True)
-    return treffer
-
-
 def aktuelles_schiff(state):
     heute = date.today()
     for entry in state.values():
@@ -274,24 +208,28 @@ def klassifiziere(fahrten, jetzt_min):
     return letzte, jetzt, naechste
 
 
-def zeitgleich_treffer(ref, alle_fahrten, ref_abk):
-    """Andere Schiffe, die +/- 5 Min. ab demselben Hafen abfahren -
-    alle ihre Fahrt-Bloecke mit diesem Hafen/dieser Zeit (auch mehrere,
-    z.B. Weiterfahrt zu einem zweiten Ziel)."""
+def zeitgleich_treffer(ref, fahrten_je_schiff, ref_abk):
+    """Andere Schiffe, die +/- 5 Min. ab demselben Hafen abfahren - jeweils
+    deren passende Fahrplan-Etappe, plus eine direkt angeschlossene
+    Folgeetappe (Durchgangsfahrt zu einem zweiten Hafen), genau wie beim
+    eigenen Schiff. So gilt die Logik symmetrisch fuer alle Haefen."""
     if not ref or not ref["zeit"]:
         return []
     ref_min = minuten(ref["zeit"])
     treffer = []
-    for abk, fahrten in alle_fahrten.items():
+    for abk, fahrten in fahrten_je_schiff.items():
         if abk == ref_abk:
             continue
-        legs = [
-            f for f in fahrten
-            if f["zeit"] and f["origin"] == ref["origin"]
-            and abs(minuten(f["zeit"]) - ref_min) <= 5
-        ]
-        if legs:
-            treffer.append((abk, legs))
+        for i, f in enumerate(fahrten):
+            if not f["zeit"] or f["origin"] != ref["origin"]:
+                continue
+            if abs(minuten(f["zeit"]) - ref_min) > 5:
+                continue
+            kette = [f]
+            if i + 1 < len(fahrten) and fahrten[i + 1]["origin"] == f["ziel"]:
+                kette.append(fahrten[i + 1])
+            treffer.append((abk, kette))
+            break
     return treffer
 
 
@@ -375,21 +313,6 @@ def karte_html(fahrt, status_label, status_class, mit_details, extra_html=""):
     {durchgang}{stats}{total}
     {sonder}{extra_html}
   </section>"""
-
-
-# Reihenfolge der Haltestellen auf der Hauptstrecke, um aus mehreren
-# gleichzeitigen Fahrt-Bloecken desselben Schiffs ab demselben Hafen
-# (z.B. "DAGEBÜLL-FÖHR" und "DAGEBÜLL-AMRUM" zur selben Abfahrzeit) eine
-# einzelne durchgehende Fahrt mit Zwischenhalt zu machen statt zwei
-# getrennte Ziele.
-ROUTE_KETTE = ["DAGEBÜLL", "FÖHR", "AMRUM"]
-
-
-def route_abstand(origin, ziel):
-    try:
-        return abs(ROUTE_KETTE.index(ziel) - ROUTE_KETTE.index(origin))
-    except ValueError:
-        return 99
 
 
 # Der Fahrplan nennt Haefen mit ihrem Ortsnamen (Pier), die Live-Ladeliste
@@ -502,90 +425,38 @@ def route_html(origin, ziel):
     return f'{esc(origin)} <span class="arrow">→</span> {esc(ziel)}'
 
 
-def vorheriger_hafen(origin, ziel):
-    """Hafen vor `origin` auf derselben Fahrtrichtung - z.B. AMRUM, wenn
-    das Schiff FÖHR-DAGEBÜLL faehrt (also abnehmender Index). None, wenn
-    `origin` bereits der Streckenanfang ist."""
-    try:
-        oi, zi = ROUTE_KETTE.index(origin), ROUTE_KETTE.index(ziel)
-    except ValueError:
-        return None
-    schritt = 1 if zi > oi else -1
-    vi = oi - schritt
-    if 0 <= vi < len(ROUTE_KETTE):
-        return ROUTE_KETTE[vi]
-    return None
+def overlap_leg_html(f):
+    """Eine Etappe eines zeitgleichen anderen Schiffs: PKW-Meter plus
+    Sonderfahrzeuge, oder der Hinweis, warum (noch) keine eigenen
+    Ladedaten da sind (Durchgangsbuchung/noch keine Buchung)."""
+    m = f"{f['summe_pkw_spalte']} m" if f.get("summe_pkw_spalte") else "0 m"
+    hinweis = f.get("durchgangs_hinweis") or f.get("leer_hinweis")
+    hinweis_html = f'<div class="legs-label">{esc(hinweis)}</div>' if hinweis else ""
+    sonder = sonderfahrzeuge_html(f.get("fahrzeuge", []))
+    return (
+        f'<div class="leg"><span class="dest">{esc(f["origin"])} → {esc(f["ziel"])}</span>'
+        f'<span class="m">{esc(m)}</span></div>'
+        f'{hinweis_html}{sonder}'
+    )
 
 
-def overlap_html(ref, treffer, alle_fahrten, cache):
+def overlap_html(treffer):
     if not treffer:
         return ""
     bloecke = []
-    for abk, legs in treffer:
-        kopf_zeit = legs[0]["zeit"]
-        legs = sorted(legs, key=lambda l: route_abstand(l["origin"], l["ziel"]))
-        kette = " → ".join([esc(ref["origin"])] + [esc(l["ziel"]) for l in legs])
-        legs_html = "".join(
-            f'<div class="leg"><span class="dest">{esc(l["origin"])} → {esc(l["ziel"])}</span>'
-            f'<span class="m">{esc(l["summe_pkw_spalte"]) + " m" if l["summe_pkw_spalte"] else "0 m"}</span></div>'
-            for l in legs
-        )
-        sonder_html = sonderfahrzeuge_html(
-            [fz for l in legs for fz in l.get("fahrzeuge", [])]
-        )
-
-        # Was das andere Schiff vom vorherigen Hafen aus schon geladen hat
-        # (z.B. ab Amrum, bevor es den eigenen Hafen erreicht) - unabhaengig
-        # von der Abfahrzeit, da das eine fruehere Fahrt-Etappe ist. Diese
-        # Etappe verschwindet von der Live-Seite, sobald sie abgefahren
-        # ist, deshalb zusaetzlich im Zwischenspeicher nachsehen.
-        voriger = vorheriger_hafen(legs[0]["origin"], legs[0]["ziel"])
-        vorige_legs = [
-            f for f in alle_fahrten.get(abk, [])
-            if voriger and f["origin"] == voriger
-        ]
-        aus_cache = False
-        if not vorige_legs and voriger:
-            vorige_legs = cache_suche(cache, abk, voriger)
-            aus_cache = bool(vorige_legs)
-            # je Ziel nur den juengsten Treffer behalten
-            gesehen_ziele = set()
-            eindeutig = []
-            for f in vorige_legs:
-                if f["ziel"] in gesehen_ziele:
-                    continue
-                gesehen_ziele.add(f["ziel"])
-                eindeutig.append(f)
-            vorige_legs = eindeutig
-        vorige_html = ""
-        if vorige_legs:
-            rows = "".join(
-                f'<div class="leg"><span class="dest">{esc(f["origin"])} → {esc(f["ziel"])}</span>'
-                f'<span class="m">{esc(f["summe_pkw_spalte"]) + " m" if f["summe_pkw_spalte"] else "0 m"}</span></div>'
-                for f in vorige_legs
-            )
-            # Cache-Eintraege (nicht mehr live) haben keine Fahrzeugliste -
-            # Sonderfahrzeuge dort nur zeigen, wenn die Daten noch live sind.
-            vorige_sonder = "" if aus_cache else sonderfahrzeuge_html(
-                [fz for f in vorige_legs for fz in f.get("fahrzeuge", [])]
-            )
-            hinweis = " (letzter bekannter Stand, nicht mehr live)" if aus_cache else ""
-            vorige_html = (
-                f'<div class="legs-label">Bereits geladen ab {esc(voriger)}{esc(hinweis)}:</div>'
-                f'<div class="legs">{rows}</div>'
-                f'{vorige_sonder}'
-            )
+    for abk, kette in treffer:
+        kopf_zeit = kette[0]["zeit"]
+        kette_text = " → ".join([esc(kette[0]["origin"])] + [esc(f["ziel"]) for f in kette])
+        legs_html = "".join(overlap_leg_html(f) for f in kette)
 
         farbe = SCHIFF_FARBE.get(abk)
         style = f' style="background:{farbe}"' if farbe else ""
         bloecke.append(f"""
     <div class="overlap"{style}>
       <div class="head"><span class="dot"></span>
-        <div><b>Zeitgleich {esc(abk)}</b> — ab {esc(ref['origin'])} um {esc(kopf_zeit)}: {kette}. PKW-Meter je Teilstrecke:</div>
+        <div><b>Zeitgleich {esc(abk)}</b> — ab {esc(kette[0]['origin'])} um {esc(kopf_zeit)}: {kette_text}</div>
       </div>
       <div class="legs">{legs_html}</div>
-      {sonder_html}
-      {vorige_html}
     </div>""")
     return "".join(bloecke)
 
@@ -804,14 +675,21 @@ def main():
     for kategorie, abk in SCHIFF_ABK.items():
         alle_fahrten[abk] = fetch_fahrten(session, abk)
 
-    cache = load_cache()
-    cache_aktualisieren(cache, alle_fahrten)
-    save_cache(cache)
-
     jetzt_min = minuten(datetime.now(TZ).strftime("%H:%M"))
     uhrzeit = datetime.now(TZ).strftime("%H:%M")
     heute_iso = date.today().isoformat()
     fahrplan = lade_fahrplan()
+
+    # Die Etappen (inkl. Zwischenhalten) kommen aus dem amtlichen Fahrplan,
+    # die Ladedaten je Etappe aus den Live-Buchungsbloecken - die Live-Seite
+    # fasst Durchgangsbuchungen sonst zu einem Block zusammen und
+    # verschluckt dabei Zwischenhalte (z.B. Wyk). Fuer alle 4 Schiffe vorab
+    # berechnet, damit "Zeitgleich" auch bei anderen Schiffen auf dieser
+    # Etappenstruktur aufbauen kann statt auf den rohen Buchungsbloecken.
+    fahrten_je_schiff = {
+        abk: fahrten_nach_fahrplan(kategorie, alle_fahrten[abk], fahrplan, heute_iso)
+        for kategorie, abk in SCHIFF_ABK.items()
+    }
 
     # Fuer jedes der 4 Schiffe einen eigenen Block bauen (Letzte/Jetzt/
     # Naechste + Zeitgleich-Hinweise bezogen auf dieses Schiff), damit das
@@ -821,22 +699,18 @@ def main():
     bloecke = []
     options = ['<option value="auto">Automatisch (eigenes Schiff)</option>']
     for kategorie, abk in SCHIFF_ABK.items():
-        # Die Etappen (inkl. Zwischenhalten) kommen aus dem amtlichen
-        # Fahrplan, die Ladedaten je Etappe aus den Live-Buchungsbloecken -
-        # die Live-Seite fasst Durchgangsbuchungen sonst zu einem Block
-        # zusammen und verschluckt dabei Zwischenhalte (z.B. Wyk).
-        fahrten = fahrten_nach_fahrplan(kategorie, alle_fahrten[abk], fahrplan, heute_iso)
+        fahrten = fahrten_je_schiff[abk]
         letzte, jetzt, naechste = klassifiziere(fahrten, jetzt_min)
 
         overlap_jetzt = ""
         if jetzt:
-            treffer = zeitgleich_treffer(jetzt, alle_fahrten, abk)
-            overlap_jetzt = overlap_html(jetzt, treffer, alle_fahrten, cache)
+            treffer = zeitgleich_treffer(jetzt, fahrten_je_schiff, abk)
+            overlap_jetzt = overlap_html(treffer)
 
         overlap_naechste = ""
         if naechste:
-            treffer = zeitgleich_treffer(naechste, alle_fahrten, abk)
-            overlap_naechste = overlap_html(naechste, treffer, alle_fahrten, cache)
+            treffer = zeitgleich_treffer(naechste, fahrten_je_schiff, abk)
+            overlap_naechste = overlap_html(treffer)
 
         karten = []
         karten.append(karte_html(letzte, "Letzte", "past", mit_details=True))
