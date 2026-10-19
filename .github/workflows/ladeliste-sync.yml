@@ -3,13 +3,17 @@ name: Ladeliste Sync
 # Erzeugt die mobile Ladeliste-Seite (docs/<SLUG>/ladeliste.html) aus der
 # aktuellen state.json + den Live-Ladelisten auf faehre2.de.
 #
-# Laeuft komplett im Hintergrund ueber GitHub Actions' eigenen "schedule"-
-# Trigger, alle 5 Minuten, aber nur waehrend der Betriebszeit der Faehren
-# (ca. 06:00-21:00 Uhr deutscher Zeit -> 04:00-20:59 UTC, mit Puffer fuer
-# Sommer-/Winterzeit). Ausserhalb dieses Fensters laeuft nichts - kein
-# Anstoss mehr von aussen noetig. workflow_dispatch bleibt als manueller
-# Fallback. Ueberlappt sich ein Lauf mit einem noch laufenden, wartet er
-# dank "concurrency" einfach, statt parallel zu laufen.
+# GitHubs eigener "schedule"-Trigger (unten) wird zwar angemeldet, feuert
+# aber auf diesem Repo nachweislich nicht (0 Laeufe ueber mehrere Tage -
+# bekanntes Problem bei 5-Minuten-Crons). Deshalb laeuft intern eine
+# Schleife: einmal pro Stunde angestossen (aktuell per workflow_dispatch),
+# aktualisiert dieser einzelne Lauf die Ladeliste anschliessend 11x im
+# 5-Minuten-Abstand selbststaendig weiter - "im Hintergrund" heisst hier:
+# kein weiterer Anstoss noetig, bis der naechste Stundenlauf beginnt.
+# Nur relevant waehrend der Betriebszeit der Faehren; ausserhalb (naechtens)
+# aendert sich eh nichts, die Laeufe committen dann einfach nichts.
+# Ueberlappt sich ein Lauf mit einem noch laufenden, wartet er dank
+# "concurrency" einfach, statt parallel zu laufen.
 
 on:
   workflow_dispatch: {}
@@ -26,7 +30,7 @@ concurrency:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 65
     steps:
       - uses: actions/checkout@v4
 
@@ -38,19 +42,25 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Ladeliste aktualisieren
+      - name: Ladeliste aktualisieren (11x im 5-Minuten-Abstand)
         env:
           WDR_USER: ${{ secrets.WDR_USER }}
           WDR_PASS: ${{ secrets.WDR_PASS }}
         run: |
           git config user.name "dienstplan-bot"
           git config user.email "actions@users.noreply.github.com"
-          python ladeliste_page.py
-          git add -A docs
-          if git diff --quiet --cached; then
-            echo "Keine Aenderungen."
-          else
-            git commit -m "Ladeliste aktualisiert"
-            git pull --rebase --autostash
-            git push
-          fi
+          for i in $(seq 1 11); do
+            echo "=== Durchlauf $i ==="
+            python ladeliste_page.py
+            git add -A docs
+            if git diff --quiet --cached; then
+              echo "Durchlauf $i: keine Aenderungen."
+            else
+              git commit -m "Ladeliste aktualisiert"
+              git pull --rebase --autostash
+              git push
+            fi
+            if [ "$i" -lt 11 ]; then
+              sleep 300
+            fi
+          done
