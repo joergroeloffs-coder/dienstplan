@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">08:19 · aus Dienstplan</div>
+    <div class="sub">08:24 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -207,14 +207,14 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>43</b><span>PKW</span></div>
+      <div class="stat"><b>44</b><span>PKW</span></div>
       <div class="stat"><b>1</b><span>Motorrad</span></div>
       <div class="stat"><b>1</b><span>Transporter</span></div>
       <div class="stat"><b>5</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">235,9 m</span>
+      <span class="val">240,2 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -233,14 +233,6 @@ select#schiff-select{
 <div class="schiff-block" data-abk="UTHLANDE" data-name="Uthlande" data-color="#f6dcdc" style="display:none">
 
   <section class="card is-past">
-    <div class="route-row">
-      <div class="time">06:10</div>
-      <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
-    </div>
-    
-    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
-  </section>
-  <section class="card" data-jetzt>
     <div class="route-row">
       <div class="time">08:20</div>
       <div class="route">FÖHR <span class="arrow">→</span> DAGEBÜLL</div>
@@ -266,7 +258,7 @@ select#schiff-select{
 <div class="special-row"><div class="kind">MEYNKÖHN AXEL</div><div class="plate">NFAA213</div><div class="len">8,7 m</div></div>
 </div>
   </section>
-  <section class="card">
+  <section class="card" data-jetzt>
     <div class="route-row">
       <div class="time">09:35</div>
       <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
@@ -285,6 +277,14 @@ select#schiff-select{
 <div class="special-row"><div class="kind">DETLEF COLDEWEY GMBH</div><div class="plate">WSTDC936</div><div class="len">7,8 m</div></div>
 </div>
   </section>
+  <section class="card">
+    <div class="route-row">
+      <div class="time">10:35</div>
+      <div class="route">FÖHR <span class="arrow">→</span> AMRUM</div>
+    </div>
+    
+    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
+  </section>
 </div>
 <div class="schiff-block" data-abk="NORDFRIES" data-name="Nordfriesland" data-color="#f7eec9" style="">
 
@@ -298,7 +298,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "08:19";
+const UHRZEIT = "08:24";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
