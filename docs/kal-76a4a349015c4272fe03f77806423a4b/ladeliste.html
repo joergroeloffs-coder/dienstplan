@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">08:54 · aus Dienstplan</div>
+    <div class="sub">08:59 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -190,31 +190,7 @@ select#schiff-select{
       <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
     </div>
     
-    <div class="stats">
-      <div class="stat"><b>12</b><span>PKW</span></div>
-      <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>4</b><span>Transporter</span></div>
-      <div class="stat"><b>10</b><span>Sonder</span></div>
-    </div>
-    <div class="total-bar">
-      <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">204,7 m</span>
-    </div>
-    <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
-<div class="special">
-<div class="group-label">LKW</div>
-<div class="special-row"><div class="kind">DEUTSCHE POST AG</div><div class="plate">FRLKW10</div><div class="len">21,0 m</div></div>
-<div class="special-row"><div class="kind">SPEDITION GIESKER + LAAKMANN</div><div class="plate">COEL547</div><div class="len">14,7 m</div></div>
-<div class="special-row"><div class="kind">REMONDIS GMBH + CO. KG</div><div class="plate">SLRE1028</div><div class="len">13,2 m</div></div>
-<div class="special-row"><div class="kind">JMM TRANSPORTE GMBH</div><div class="plate">SUQR440</div><div class="len">10,8 m</div></div>
-<div class="special-row"><div class="kind">DICKENBROK CARSTEN</div><div class="plate">HFAK5300</div><div class="len">10,1 m</div></div>
-<div class="special-row"><div class="kind">J.-H. KLINCK GMBH</div><div class="plate">HEIKL240</div><div class="len">9,0 m</div></div>
-<div class="group-label">Transporter</div>
-<div class="special-row"><div class="kind">PROSEGUR CASH SERVICES GERMANY</div><div class="plate">DSL955</div><div class="len">8,8 m</div></div>
-<div class="special-row"><div class="kind">HÄHNCHENGENUSS</div><div class="plate">SLAU1111</div><div class="len">8,7 m</div></div>
-<div class="special-row"><div class="kind">HTL GMBH</div><div class="plate">NFTL5000</div><div class="len">8,2 m</div></div>
-<div class="special-row"><div class="kind">TSG POWER SOLUTIONS GMBH</div><div class="plate">HLWS73</div><div class="len">8,1 m</div></div>
-</div>
+    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
   </section>
   <section class="card" data-jetzt>
     <div class="route-row">
@@ -335,7 +311,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "08:54";
+const UHRZEIT = "08:59";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
