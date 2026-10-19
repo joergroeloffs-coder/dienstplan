@@ -329,6 +329,17 @@ def lade_fahrplan():
         return {}
 
 
+# Die Fahrplan-Spalten sind feste Streckenabschnitte (Wittdün-Wyk /
+# Wyk-Dagebüll / Dagebüll-Wyk / Wyk-Wittdün). Ein "dir"-Vermerk im PDF
+# (Feld "direkt") bedeutet: diese Abfahrt laeuft Wyk NICHT an, sondern
+# faehrt direkt zum jeweils naechsten Hafen durch - das eigentliche Ziel
+# ist dann das der anschliessenden Spalte, nicht Wyk.
+FAHRPLAN_DIREKT_ZIEL = {
+    "Wittdün-Wyk": "Dagebüll",
+    "Dagebüll-Wyk": "Wittdün",
+}
+
+
 def offizielle_etappen(fahrplan, schiff_kategorie, datum_iso):
     """Die laut amtlichem Fahrplan heute tatsaechlich gefahrenen Etappen
     (inkl. Zwischenhalten mit eigener Abfahrzeit) fuer ein Schiff."""
@@ -336,10 +347,13 @@ def offizielle_etappen(fahrplan, schiff_kategorie, datum_iso):
     for eintrag in fahrplan.get("schiffe", {}).get(schiff_kategorie, []):
         if eintrag.get("datum") != datum_iso:
             continue
+        route = eintrag.get("route", "")
         try:
-            von, nach = (teil.strip() for teil in eintrag["route"].split("-", 1))
+            von, nach = (teil.strip() for teil in route.split("-", 1))
         except (KeyError, ValueError):
             continue
+        if eintrag.get("direkt") and route in FAHRPLAN_DIREKT_ZIEL:
+            nach = FAHRPLAN_DIREKT_ZIEL[route]
         etappen.append({
             "origin": FAHRPLAN_HAFEN_NAME.get(von, von.upper()),
             "ziel": FAHRPLAN_HAFEN_NAME.get(nach, nach.upper()),
