@@ -348,25 +348,32 @@ def offizielle_etappen(fahrplan, schiff_kategorie, datum_iso):
     return etappen
 
 
-def ladedaten_fuer_etappe(etappe, bloecke):
-    """Sucht den passenden Buchungsblock (gleicher Ursprungshafen, Zeit
-    +/- 5 Min.). Mehrere Bloecke koennen in dieses Zeitfenster fallen, z.B.
-    eine Durchgangsbuchung zu einem weiter entfernten Hafen neben der
-    eigentlichen Buchung fuer genau diese Etappe (Dagebuell-Wyk 09:35 vs.
-    eine zeitgleiche Dagebuell-Amrum-Durchgangsbuchung) - ein exaktes
-    Ziel-Match hat deshalb immer Vorrang vor einem Durchgangs-Treffer."""
-    treffer = [
+def _bloecke_bei(etappe, bloecke):
+    return [
         b for b in bloecke
         if b["origin"] == etappe["origin"] and b["zeit"]
         and abs(minuten(b["zeit"]) - minuten(etappe["zeit"])) <= 5
     ]
-    if not treffer:
-        return None
-    treffer.sort(key=lambda b: (
-        b["ziel"] != etappe["ziel"],
-        abs(minuten(b["zeit"]) - minuten(etappe["zeit"])),
-    ))
-    return treffer[0]
+
+
+def ladedaten_exakt(etappe, bloecke):
+    """Buchungsblock, der genau diese Etappe abdeckt (gleicher Ursprung,
+    gleiches Ziel, Zeit +/- 5 Min.)."""
+    treffer = [b for b in _bloecke_bei(etappe, bloecke) if b["ziel"] == etappe["ziel"]]
+    treffer.sort(key=lambda b: abs(minuten(b["zeit"]) - minuten(etappe["zeit"])))
+    return treffer[0] if treffer else None
+
+
+def ladedaten_durchgang(etappe, bloecke):
+    """Durchgangsbuchung ab dieser Etappe zu einem weiter entfernten Hafen
+    (z.B. Amrum-Dagebuell bei Etappe Amrum-Wyk) - unabhaengig davon, ob es
+    daneben auch eine eigene Buchung fuer genau diese Etappe gibt. Beide
+    koennen gleichzeitig existieren (ein Teil der Fahrgaeste steigt in Wyk
+    aus, andere fahren weiter nach Dagebuell) und muessen beide gezeigt
+    werden - die Durchgangsbuchung gehoert dann der naechsten Etappe."""
+    treffer = [b for b in _bloecke_bei(etappe, bloecke) if b["ziel"] != etappe["ziel"]]
+    treffer.sort(key=lambda b: abs(minuten(b["zeit"]) - minuten(etappe["zeit"])))
+    return treffer[0] if treffer else None
 
 
 def fahrten_nach_fahrplan(schiff_kategorie, bloecke, fahrplan, datum_iso):
@@ -401,16 +408,22 @@ def fahrten_nach_fahrplan(schiff_kategorie, bloecke, fahrplan, datum_iso):
             continue
 
         laufende_buchung = None
-        block = ladedaten_fuer_etappe(etappe, bloecke)
+        # Beide unabhaengig suchen: eine eigene Buchung genau fuer diese
+        # Etappe UND eine Durchgangsbuchung koennen gleichzeitig existieren
+        # (ein Teil der Fahrgaeste steigt hier aus, andere fahren weiter) -
+        # beide muessen erfasst werden, nicht nur die "bessere" der beiden.
+        exakt = ladedaten_exakt(etappe, bloecke)
+        durchgang = ladedaten_durchgang(etappe, bloecke)
+        block = exakt or durchgang
+        if durchgang:
+            laufende_buchung = {
+                "block": durchgang,
+                "start_origin": etappe["origin"],
+                "start_zeit": etappe["zeit"],
+                "naechster_origin": etappe["ziel"],
+            }
         if block:
             fahrten.append({**block, "origin": etappe["origin"], "ziel": etappe["ziel"], "zeit": etappe["zeit"]})
-            if block["ziel"] != etappe["ziel"]:
-                laufende_buchung = {
-                    "block": block,
-                    "start_origin": etappe["origin"],
-                    "start_zeit": etappe["zeit"],
-                    "naechster_origin": etappe["ziel"],
-                }
             continue
         fahrten.append({
             **etappe,
