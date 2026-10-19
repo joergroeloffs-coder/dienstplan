@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">05:12 · aus Dienstplan</div>
+    <div class="sub">05:17 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -183,7 +183,24 @@ select#schiff-select{
       <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
     </div>
     
-    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
+    <div class="stats">
+      <div class="stat"><b>5</b><span>PKW</span></div>
+      <div class="stat"><b>0</b><span>Motorrad</span></div>
+      <div class="stat"><b>3</b><span>Transporter</span></div>
+      <div class="stat"><b>6</b><span>Sonder</span></div>
+    </div>
+    <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
+<div class="special">
+<div class="group-label">LKW</div>
+<div class="special-row"><div class="kind">TRANSGOURMET DEUTSCHLAND</div><div class="plate">HHTG536</div><div class="len">13,9 m</div></div>
+<div class="special-row"><div class="kind">TEXTILPFLEGE UND WÄSCHEREI</div><div class="plate">HEIQQ338</div><div class="len">13,3 m</div></div>
+<div class="group-label">Transporter</div>
+<div class="special-row"><div class="kind">DEUTSCHE POST AG</div><div class="plate">FRSPR1</div><div class="len">8,8 m</div></div>
+<div class="special-row"><div class="kind">KLINIKUM NF SERVICE GMBH</div><div class="plate">NFKH7600</div><div class="len">8,8 m</div></div>
+<div class="special-row"><div class="kind">SYLT LOGISTIK GMBH + CO.KG</div><div class="plate">NFNF833</div><div class="len">8,8 m</div></div>
+<div class="group-label">PKW-Anhänger</div>
+<div class="special-row"><div class="kind">TEXTILPFLEGE UND WÄSCHEREI</div><div class="plate">HEIQQ336</div><div class="len">8,5 m</div></div>
+</div>
   </section>
 </div>
 <div class="schiff-block" data-abk="S-H" data-name="Schleswig - Holstein" data-color="#dce7f5" style="display:none">
@@ -312,7 +329,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "05:12";
+const UHRZEIT = "05:17";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
