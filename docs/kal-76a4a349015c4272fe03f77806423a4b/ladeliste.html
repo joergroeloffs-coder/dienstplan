@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">13:02 · aus Dienstplan</div>
+    <div class="sub">13:07 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -307,19 +307,19 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>22</b><span>PKW</span></div>
+      <div class="stat"><b>23</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>1</b><span>Transporter</span></div>
       <div class="stat"><b>3</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">168,3 m</span>
+      <span class="val">160,1 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
-<div class="special-row"><div class="kind">LIDL DIENSTLEISTUNG</div><div class="plate">—</div><div class="len">28,4 m</div></div>
+<div class="special-row"><div class="kind">LIDL DIENSTLEISTUNG</div><div class="plate">NMSAS229</div><div class="len">15,9 m</div></div>
 <div class="special-row"><div class="kind">SCHWENK HENNING TOBIAS</div><div class="plate">ECKBE73E</div><div class="len">10,2 m</div></div>
 <div class="group-label">Transporter</div>
 <div class="special-row"><div class="kind">KING TRANSPORTE</div><div class="plate">NFLL1416</div><div class="len">7,6 m</div></div>
@@ -374,7 +374,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "13:02";
+const UHRZEIT = "13:07";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
