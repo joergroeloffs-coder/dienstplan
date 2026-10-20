@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">07:07 · aus Dienstplan</div>
+    <div class="sub">07:12 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -138,7 +138,7 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>10</b><span>PKW</span></div>
+      <div class="stat"><b>11</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>3</b><span>Transporter</span></div>
       <div class="stat"><b>6</b><span>Sonder</span></div>
@@ -253,7 +253,7 @@ select#schiff-select{
       <div class="head"><span class="dot"></span>
         <div><b>Zeitgleich NORDFRIES</b> — ab FÖHR um 07:15: FÖHR → DAGEBÜLL → FÖHR</div>
       </div>
-      <div class="legs"><div class="leg"><span class="dest">FÖHR → DAGEBÜLL</span><span class="m">193,3 m</span></div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
+      <div class="legs"><div class="leg"><span class="dest">FÖHR → DAGEBÜLL</span><span class="m">189,7 m</span></div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
 <div class="special-row"><div class="kind">BELLI DENNIS</div><div class="plate">—</div><div class="len">50,0 m</div></div>
@@ -265,7 +265,7 @@ select#schiff-select{
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">KING TRANSPORTE</div><div class="plate">NFJK7070</div><div class="len">8,5 m</div></div>
 <div class="special-row"><div class="kind">SCHACHT DENNIS</div><div class="plate">HEIZX556</div><div class="len">8,2 m</div></div>
-</div><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">195,0 m</span></div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
+</div><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">190,5 m</span></div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
 <div class="special-row"><div class="kind">CHR. KETELSEN GMBH + CO.</div><div class="plate">NFCK233</div><div class="len">25,4 m</div></div>
@@ -292,7 +292,7 @@ select#schiff-select{
       <div class="head"><span class="dot"></span>
         <div><b>Zeitgleich NORDFRIES</b> — ab DAGEBÜLL um 08:25: DAGEBÜLL → FÖHR → DAGEBÜLL</div>
       </div>
-      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">195,0 m</span></div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
+      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">190,5 m</span></div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
 <div class="special-row"><div class="kind">CHR. KETELSEN GMBH + CO.</div><div class="plate">NFCK233</div><div class="len">25,4 m</div></div>
@@ -409,14 +409,14 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>17</b><span>PKW</span></div>
+      <div class="stat"><b>16</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>2</b><span>Transporter</span></div>
       <div class="stat"><b>7</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">193,3 m</span>
+      <span class="val">189,7 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -452,14 +452,14 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>14</b><span>PKW</span></div>
+      <div class="stat"><b>13</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>3</b><span>Transporter</span></div>
       <div class="stat"><b>9</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">195,0 m</span>
+      <span class="val">190,5 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -492,7 +492,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "07:07";
+const UHRZEIT = "07:12";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
