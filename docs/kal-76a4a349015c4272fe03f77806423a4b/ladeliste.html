@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">06:17 · aus Dienstplan</div>
+    <div class="sub">06:22 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -163,19 +163,22 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>7</b><span>PKW</span></div>
+      <div class="stat"><b>8</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>3</b><span>Transporter</span></div>
-      <div class="stat"><b>4</b><span>Sonder</span></div>
+      <div class="stat"><b>6</b><span>Sonder</span></div>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
+<div class="group-label">LKW</div>
+<div class="special-row"><div class="kind">ERWIN JESSEN GMBH + CO. KG</div><div class="plate">SLEJ38</div><div class="len">10,2 m</div></div>
 <div class="group-label">Transporter</div>
 <div class="special-row"><div class="kind">DEUTSCHE POST AG</div><div class="plate">FRSPR1</div><div class="len">8,8 m</div></div>
 <div class="special-row"><div class="kind">KLINIKUM NF SERVICE GMBH</div><div class="plate">NFKH7600</div><div class="len">8,8 m</div></div>
 <div class="special-row"><div class="kind">CHR. P. ANDRESEN GMBH</div><div class="plate">NFCP118</div><div class="len">7,4 m</div></div>
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">FÖHRER BAUM UND ROSENSCHULEN</div><div class="plate">NFR938</div><div class="len">8,8 m</div></div>
+<div class="special-row"><div class="kind">ERWIN JESSEN GMBH + CO. KG</div><div class="plate">SLEJ800</div><div class="len">7,8 m</div></div>
 </div>
   </section>
   <section class="card">
@@ -330,14 +333,14 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>4</b><span>PKW</span></div>
+      <div class="stat"><b>3</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>4</b><span>Transporter</span></div>
-      <div class="stat"><b>13</b><span>Sonder</span></div>
+      <div class="stat"><b>11</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">166,2 m</span>
+      <span class="val">148,3 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -348,14 +351,12 @@ select#schiff-select{
 <div class="special-row"><div class="kind">NORDFRIESLAND LOGISTIK GMBH</div><div class="plate">NFNV27</div><div class="len">13,5 m</div></div>
 <div class="special-row"><div class="kind">SYLT LOGISTIK GMBH + CO.KG</div><div class="plate">NFNF1433</div><div class="len">11,8 m</div></div>
 <div class="special-row"><div class="kind">KAI BRÜNING OBST- UND GEMÜSE-</div><div class="plate">RDB1095</div><div class="len">10,2 m</div></div>
-<div class="special-row"><div class="kind">ERWIN JESSEN GMBH + CO. KG</div><div class="plate">SLEJ38</div><div class="len">10,2 m</div></div>
 <div class="group-label">Transporter</div>
 <div class="special-row"><div class="kind">SVEN VOGT BAU GMBH</div><div class="plate">NFSV105</div><div class="len">8,8 m</div></div>
 <div class="special-row"><div class="kind">HAMBURGER BAUMASCHINEN GMBH</div><div class="plate">SEN3322</div><div class="len">8,8 m</div></div>
 <div class="special-row"><div class="kind">NORDFRIESLAND LOGISTIK GMBH</div><div class="plate">NFL6023</div><div class="len">8,7 m</div></div>
 <div class="special-row"><div class="kind">S.A.T. GMBH + CO. KG</div><div class="plate">NFEE132E</div><div class="len">8,0 m</div></div>
 <div class="group-label">PKW-Anhänger</div>
-<div class="special-row"><div class="kind">ERWIN JESSEN GMBH + CO. KG</div><div class="plate">SLEJ800</div><div class="len">7,8 m</div></div>
 <div class="special-row"><div class="kind">S.A.T. GMBH + CO. KG</div><div class="plate">NFEE4444</div><div class="len">5,9 m</div></div>
 </div>
   </section>
@@ -513,7 +514,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "06:17";
+const UHRZEIT = "06:22";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
