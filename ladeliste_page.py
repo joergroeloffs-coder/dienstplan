@@ -403,10 +403,12 @@ def fahrten_nach_fahrplan(schiff_kategorie, bloecke, fahrplan, datum_iso):
         return bloecke
 
     fahrten = []
+    verbrauchte_bloecke = set()  # id() der Bloecke, die einer Etappe zugeordnet wurden
     laufende_buchung = None  # (block, start_origin, start_zeit, ziel_erreicht)
     for etappe in etappen:
         if laufende_buchung and etappe["origin"] == laufende_buchung["naechster_origin"]:
             block = laufende_buchung["block"]
+            verbrauchte_bloecke.add(id(block))
             fahrten.append({
                 **block,
                 "origin": etappe["origin"], "ziel": etappe["ziel"], "zeit": etappe["zeit"],
@@ -430,6 +432,7 @@ def fahrten_nach_fahrplan(schiff_kategorie, bloecke, fahrplan, datum_iso):
         durchgang = ladedaten_durchgang(etappe, bloecke)
         block = exakt or durchgang
         if durchgang:
+            verbrauchte_bloecke.add(id(durchgang))
             laufende_buchung = {
                 "block": durchgang,
                 "start_origin": etappe["origin"],
@@ -437,6 +440,7 @@ def fahrten_nach_fahrplan(schiff_kategorie, bloecke, fahrplan, datum_iso):
                 "naechster_origin": etappe["ziel"],
             }
         if block:
+            verbrauchte_bloecke.add(id(block))
             fahrten.append({**block, "origin": etappe["origin"], "ziel": etappe["ziel"], "zeit": etappe["zeit"]})
             continue
         fahrten.append({
@@ -445,6 +449,19 @@ def fahrten_nach_fahrplan(schiff_kategorie, bloecke, fahrplan, datum_iso):
             "summe_pkw_spalte": None, "fahrzeuge": [],
             "leer_hinweis": "Noch keine eigene Buchung zu dieser Etappe",
         })
+
+    # Buchung hat Vorrang: eine Buchung, die zu keiner Fahrplan-Etappe passt
+    # (z.B. weil sich kurzfristig etwas geaendert hat und der Fahrplan noch
+    # nicht aktualisiert wurde), wird trotzdem angezeigt statt verworfen.
+    for block in bloecke:
+        if id(block) in verbrauchte_bloecke:
+            continue
+        fahrten.append({
+            **block,
+            "durchgangs_hinweis": "Nicht im Fahrplan enthalten — laut aktueller Buchung",
+        })
+
+    fahrten.sort(key=lambda f: minuten(f["zeit"]) if f.get("zeit") else 9999)
     return fahrten
 
 
