@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">08:58 · aus Dienstplan</div>
+    <div class="sub">09:09 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -287,20 +287,19 @@ select#schiff-select{
     <div class="stats">
       <div class="stat"><b>9</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>1</b><span>Transporter</span></div>
+      <div class="stat"><b>0</b><span>Transporter</span></div>
       <div class="stat"><b>5</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">141,0 m</span>
+      <span class="val">141,3 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
 <div class="special-row"><div class="kind">TEAM BAUCENTER GMBH + CO.KG</div><div class="plate">SLTM2022ZUG</div><div class="len">27,6 m</div></div>
 <div class="special-row"><div class="kind">HBK DETHLEFFSEN GMBH</div><div class="plate">NFD400</div><div class="len">14,4 m</div></div>
-<div class="group-label">Transporter</div>
-<div class="special-row"><div class="kind">CLAUßEN STEFFEN</div><div class="plate">HEIJ1019</div><div class="len">8,8 m</div></div>
+<div class="special-row"><div class="kind">CLAUßEN STEFFEN</div><div class="plate">HEIJ1019</div><div class="len">9,1 m</div></div>
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">AMRUMER BIERVERLAGS GMBH</div><div class="plate">NFTB1120</div><div class="len">8,2 m</div></div>
 <div class="special-row"><div class="kind">WILHELM JENSEN GMBH + CO. KG</div><div class="plate">FLWJ44</div><div class="len">6,9 m</div></div>
@@ -398,7 +397,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "08:58";
+const UHRZEIT = "09:09";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
