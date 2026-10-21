@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">10:33 · aus Dienstplan</div>
+    <div class="sub">10:38 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -168,16 +168,15 @@ select#schiff-select{
       <div class="stat"><b>30</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>3</b><span>Transporter</span></div>
-      <div class="stat"><b>9</b><span>Sonder</span></div>
+      <div class="stat"><b>8</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">285,3 m</span>
+      <span class="val">258,8 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
-<div class="special-row"><div class="kind">JOHS. OLDENBURG GMBH + CO. KG</div><div class="plate">NFJO2210</div><div class="len">26,5 m</div></div>
 <div class="special-row"><div class="kind">PETER JENSEN GMBH</div><div class="plate">NFPJ2012</div><div class="len">24,7 m</div></div>
 <div class="special-row"><div class="kind">DMK DEUTSCHES MILCHKONTOR</div><div class="plate">DMKZ1</div><div class="len">20,6 m</div></div>
 <div class="special-row"><div class="kind">DMK DEUTSCHES MILCHKONTOR</div><div class="plate">DMKZ2</div><div class="len">20,6 m</div></div>
@@ -211,16 +210,17 @@ select#schiff-select{
       <div class="stat"><b>18</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>2</b><span>Transporter</span></div>
-      <div class="stat"><b>8</b><span>Sonder</span></div>
+      <div class="stat"><b>9</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">178,9 m</span>
+      <span class="val">205,4 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
 <div class="special-row"><div class="kind">INSEL ENERGIE NF GMBH</div><div class="plate">NFAL737</div><div class="len">38,2 m</div></div>
+<div class="special-row"><div class="kind">JOHS. OLDENBURG GMBH + CO. KG</div><div class="plate">NFJO2210</div><div class="len">26,5 m</div></div>
 <div class="special-row"><div class="kind">ROELOFFS CARL-OLUF</div><div class="plate">NFCR1970</div><div class="len">13,8 m</div></div>
 <div class="special-row"><div class="kind">REMONDIS GMBH + CO. KG</div><div class="plate">SLRE1028</div><div class="len">13,2 m</div></div>
 <div class="group-label">Transporter</div>
@@ -265,14 +265,6 @@ select#schiff-select{
 
   <section class="card is-past">
     <div class="route-row">
-      <div class="time">09:35</div>
-      <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
-    </div>
-    
-    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
-  </section>
-  <section class="card" data-jetzt>
-    <div class="route-row">
       <div class="time">10:35</div>
       <div class="route">FÖHR <span class="arrow">→</span> AMRUM</div>
     </div>
@@ -289,7 +281,7 @@ select#schiff-select{
     </div>
     
   </section>
-  <section class="card">
+  <section class="card" data-jetzt>
     <div class="route-row">
       <div class="time">12:05</div>
       <div class="route">AMRUM <span class="arrow">→</span> DAGEBÜLL</div>
@@ -325,6 +317,14 @@ select#schiff-select{
 <div class="special-row"><div class="kind">GROSSOUNION NORD GMBH + CO. KG</div><div class="plate">NFCL111</div><div class="len">4,3 m</div></div>
 </div>
   </section>
+  <section class="card">
+    <div class="route-row">
+      <div class="time">14:05</div>
+      <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
+    </div>
+    
+    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
+  </section>
 </div>
 <div class="schiff-block" data-abk="NORDFRIES" data-name="Nordfriesland" data-color="#f7eec9" style="">
 
@@ -338,7 +338,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "10:33";
+const UHRZEIT = "10:38";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
