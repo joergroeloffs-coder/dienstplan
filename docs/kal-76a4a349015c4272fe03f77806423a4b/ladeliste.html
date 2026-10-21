@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">08:08 · aus Dienstplan</div>
+    <div class="sub">08:13 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -221,7 +221,7 @@ select#schiff-select{
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">211,5 m</span>
+      <span class="val">211,6 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -250,16 +250,15 @@ select#schiff-select{
       <div class="stat"><b>41</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>1</b><span>Transporter</span></div>
-      <div class="stat"><b>5</b><span>Sonder</span></div>
+      <div class="stat"><b>4</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">285,8 m</span>
+      <span class="val">261,5 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
-<div class="special-row"><div class="kind">CARSTENSEN JAN UND SVEN GBR</div><div class="plate">SLCT72</div><div class="len">24,3 m</div></div>
 <div class="special-row"><div class="kind">C.G. CHRISTIANSEN GMBH + CO.</div><div class="plate">NFTP904</div><div class="len">20,6 m</div></div>
 <div class="special-row"><div class="kind">DEUTSCHE POST AG</div><div class="plate">FSLKW10</div><div class="len">14,7 m</div></div>
 <div class="special-row"><div class="kind">TEXTILPFLEGE UND WÄSCHEREI</div><div class="plate">HEIQQ334</div><div class="len">10,2 m</div></div>
@@ -356,7 +355,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "08:08";
+const UHRZEIT = "08:13";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
