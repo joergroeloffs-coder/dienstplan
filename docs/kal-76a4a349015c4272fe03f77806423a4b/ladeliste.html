@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">10:18 · aus Dienstplan</div>
+    <div class="sub">10:23 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -165,14 +165,14 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>31</b><span>PKW</span></div>
+      <div class="stat"><b>30</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>3</b><span>Transporter</span></div>
       <div class="stat"><b>9</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">289,3 m</span>
+      <span class="val">285,3 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -208,14 +208,14 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>15</b><span>PKW</span></div>
+      <div class="stat"><b>17</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>2</b><span>Transporter</span></div>
-      <div class="stat"><b>7</b><span>Sonder</span></div>
+      <div class="stat"><b>8</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">162,5 m</span>
+      <span class="val">174,8 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -229,6 +229,7 @@ select#schiff-select{
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">KNUDSEN DIRK</div><div class="plate">NFRW1010</div><div class="len">8,6 m</div></div>
 <div class="special-row"><div class="kind">PS RESTAURATIONS GMBH</div><div class="plate">MEDRW500</div><div class="len">8,4 m</div></div>
+<div class="special-row"><div class="kind">B+T ELEKTRO SERVICE FÖHR GMBH</div><div class="plate">NFKG2022</div><div class="len">8,3 m</div></div>
 </div>
   </section>
   <section class="card">
@@ -337,7 +338,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "10:18";
+const UHRZEIT = "10:23";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
