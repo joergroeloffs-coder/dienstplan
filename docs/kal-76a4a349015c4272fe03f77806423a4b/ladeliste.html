@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">07:53 · aus Dienstplan</div>
+    <div class="sub">07:58 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -138,14 +138,14 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>1</b><span>PKW</span></div>
+      <div class="stat"><b>0</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>1</b><span>Transporter</span></div>
       <div class="stat"><b>1</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">11,4 m</span>
+      <span class="val">6,9 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -217,15 +217,16 @@ select#schiff-select{
       <div class="stat"><b>9</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>4</b><span>Transporter</span></div>
-      <div class="stat"><b>11</b><span>Sonder</span></div>
+      <div class="stat"><b>12</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">200,5 m</span>
+      <span class="val">224,7 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
+<div class="special-row"><div class="kind">C.G. CHRISTIANSEN GMBH + CO.</div><div class="plate">ADC4333</div><div class="len">24,3 m</div></div>
 <div class="special-row"><div class="kind">JYSK SE</div><div class="plate">HGNMF202</div><div class="len">24,3 m</div></div>
 <div class="special-row"><div class="kind">DEUTSCHE POST AG</div><div class="plate">FRLKW10</div><div class="len">21,0 m</div></div>
 <div class="special-row"><div class="kind">BAT AGRAR GMBH + CO. KG</div><div class="plate">RZUL5020</div><div class="len">14,4 m</div></div>
@@ -247,14 +248,14 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>40</b><span>PKW</span></div>
+      <div class="stat"><b>41</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>1</b><span>Transporter</span></div>
       <div class="stat"><b>5</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">281,1 m</span>
+      <span class="val">285,8 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -311,7 +312,7 @@ select#schiff-select{
       <div class="head"><span class="dot"></span>
         <div><b>Zeitgleich NA</b> — ab FÖHR um 08:15: FÖHR → AMRUM → FÖHR</div>
       </div>
-      <div class="legs"><div class="leg"><span class="dest">FÖHR → AMRUM</span><span class="m">11,4 m</span></div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
+      <div class="legs"><div class="leg"><span class="dest">FÖHR → AMRUM</span><span class="m">6,9 m</span></div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">Transporter</div>
 <div class="special-row"><div class="kind">B+T ELEKTRO SERVICE FÖHR GMBH</div><div class="plate">NFRA30</div><div class="len">6,9 m</div></div>
@@ -356,7 +357,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "07:53";
+const UHRZEIT = "07:58";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
