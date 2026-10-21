@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">06:12 · aus Dienstplan</div>
+    <div class="sub">06:17 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -367,7 +367,7 @@ select#schiff-select{
 </div>
     <div class="overlap" style="background:#e3e3e3">
       <div class="head"><span class="dot"></span>
-        <div><b>Zeitgleich NA</b> — ab FÖHR um 08:15: FÖHR → AMRUM → FÖHR</div>
+        <div><b>Zeitgleich NA</b> — ab FÖHR um 08:15: FÖHR → AMRUM</div>
       </div>
       <div class="legs"><div class="leg"><span class="dest">FÖHR → AMRUM</span><span class="m">150,7 m</span></div><div class="legs-label">Durchgehende Buchung ab DAGEBÜLL 07:15 Uhr</div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -385,7 +385,7 @@ select#schiff-select{
 <div class="special-row"><div class="kind">ISD INSEL SCHNELLDIENST GMBH</div><div class="plate">NFAT133</div><div class="len">8,8 m</div></div>
 <div class="special-row"><div class="kind">JB-TRANSPORTE INH. JAN PHILIP</div><div class="plate">NFBD2018</div><div class="len">6,4 m</div></div>
 <div class="special-row"><div class="kind">GROSSOUNION NORD GMBH + CO. KG</div><div class="plate">NFCL111</div><div class="len">4,3 m</div></div>
-</div><div class="leg"><span class="dest">AMRUM → FÖHR</span><span class="m">0 m</span></div><div class="legs-label">Noch keine eigene Buchung zu dieser Etappe</div></div>
+</div></div>
     </div>
   </section>
   <section class="card">
@@ -409,7 +409,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "06:12";
+const UHRZEIT = "06:17";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
