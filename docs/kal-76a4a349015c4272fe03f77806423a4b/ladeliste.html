@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">15:32 · aus Dienstplan</div>
+    <div class="sub">15:37 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -129,43 +129,14 @@ select#schiff-select{
       <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
     </div>
     
-    <div class="stats">
-      <div class="stat"><b>21</b><span>PKW</span></div>
-      <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>0</b><span>Transporter</span></div>
-      <div class="stat"><b>0</b><span>Sonder</span></div>
-    </div>
-    
+    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
   </section>
   <section class="card" data-jetzt>
     <div class="route-row">
       <div class="time">16:00</div>
       <div class="route">FÖHR <span class="arrow">→</span> AMRUM</div>
     </div>
-    <div class="legs-label">Durchgehende Buchung ab DAGEBÜLL 15:05 Uhr</div>
-    <div class="stats">
-      <div class="stat"><b>20</b><span>PKW</span></div>
-      <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>0</b><span>Transporter</span></div>
-      <div class="stat"><b>2</b><span>Sonder</span></div>
-    </div>
-    <div class="total-bar">
-      <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">101,0 m</span>
-    </div>
-    <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
-<div class="special">
-<div class="group-label">PKW-Anhänger</div>
-<div class="special-row"><div class="kind">NORDFRIESLAND LOGISTIK GMBH</div><div class="plate">NFNV50</div><div class="len">7,5 m</div></div>
-<div class="special-row"><div class="kind">BIA BAU- UND INDUSTRIEAUS-</div><div class="plate">NFBK118</div><div class="len">6,3 m</div></div>
-</div>
-  </section>
-  <section class="card">
-    <div class="route-row">
-      <div class="time">16:00</div>
-      <div class="route">FÖHR <span class="arrow">→</span> AMRUM</div>
-    </div>
-    <div class="legs-label">Nicht im Fahrplan enthalten — laut aktueller Buchung</div>
+    
     <div class="stats">
       <div class="stat"><b>5</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
@@ -180,6 +151,31 @@ select#schiff-select{
 <div class="special">
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">WULFERT SILKE UND PETER</div><div class="plate">NFHG3000</div><div class="len">6,6 m</div></div>
+</div>
+  </section>
+  <section class="card">
+    <div class="route-row">
+      <div class="time">17:25</div>
+      <div class="route">AMRUM <span class="arrow">→</span> FÖHR</div>
+    </div>
+    
+    <div class="stats">
+      <div class="stat"><b>14</b><span>PKW</span></div>
+      <div class="stat"><b>0</b><span>Motorrad</span></div>
+      <div class="stat"><b>0</b><span>Transporter</span></div>
+      <div class="stat"><b>3</b><span>Sonder</span></div>
+    </div>
+    <div class="total-bar">
+      <span class="label">Gesamt gebuchte Meter</span>
+      <span class="val">139,8 m</span>
+    </div>
+    <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
+<div class="special">
+<div class="group-label">LKW</div>
+<div class="special-row"><div class="kind">C.G. CHRISTIANSEN GMBH + CO.</div><div class="plate">NFCG1725CG9170</div><div class="len">27,6 m</div></div>
+<div class="group-label">PKW-Anhänger</div>
+<div class="special-row"><div class="kind">AMRUMER BIERVERLAGS GMBH</div><div class="plate">NFTB1120</div><div class="len">8,2 m</div></div>
+<div class="special-row"><div class="kind">ISD INSEL SCHNELLDIENST GMBH</div><div class="plate">NFBJ992</div><div class="len">7,9 m</div></div>
 </div>
   </section>
 </div>
@@ -348,7 +344,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "15:32";
+const UHRZEIT = "15:37";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
