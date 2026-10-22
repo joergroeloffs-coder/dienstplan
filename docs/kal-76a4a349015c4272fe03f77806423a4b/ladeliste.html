@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">13:29 · aus Dienstplan</div>
+    <div class="sub">13:34 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -197,28 +197,7 @@ select#schiff-select{
       <div class="route">DAGEBÜLL <span class="arrow">→</span> AMRUM</div>
     </div>
     
-    <div class="stats">
-      <div class="stat"><b>25</b><span>PKW</span></div>
-      <div class="stat"><b>1</b><span>Motorrad</span></div>
-      <div class="stat"><b>3</b><span>Transporter</span></div>
-      <div class="stat"><b>6</b><span>Sonder</span></div>
-    </div>
-    <div class="total-bar">
-      <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">181,2 m</span>
-    </div>
-    <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
-<div class="special">
-<div class="group-label">Transporter</div>
-<div class="special-row"><div class="kind">JECZMIEN MICHAL</div><div class="plate">NFHR223</div><div class="len">7,9 m</div></div>
-<div class="special-row"><div class="kind">EV.-REF. KIRCHE IN HAMBURG</div><div class="plate">HHH9587</div><div class="len">7,8 m</div></div>
-<div class="special-row"><div class="kind">SCHULT NANNING</div><div class="plate">NFJS844</div><div class="len">7,7 m</div></div>
-<div class="group-label">PKW-Anhänger</div>
-<div class="special-row"><div class="kind">ISD INSEL SCHNELLDIENST GMBH</div><div class="plate">NFBJ992</div><div class="len">7,9 m</div></div>
-<div class="special-row"><div class="kind">AMTRANS STEFAN THEUS</div><div class="plate">NFCR593</div><div class="len">5,3 m</div></div>
-<div class="group-label">Motorrad</div>
-<div class="special-row"><div class="kind">HAFEN 31</div><div class="plate">NFS570</div><div class="len">1,0 m</div></div>
-</div>
+    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
   </section>
   <section class="card" data-jetzt>
     <div class="route-row">
@@ -298,7 +277,7 @@ select#schiff-select{
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">242,9 m</span>
+      <span class="val">243,3 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -318,12 +297,12 @@ select#schiff-select{
     <div class="stats">
       <div class="stat"><b>25</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>7</b><span>Transporter</span></div>
-      <div class="stat"><b>15</b><span>Sonder</span></div>
+      <div class="stat"><b>8</b><span>Transporter</span></div>
+      <div class="stat"><b>16</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">250,4 m</span>
+      <span class="val">254,9 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -339,6 +318,7 @@ select#schiff-select{
 <div class="special-row"><div class="kind">MEESENBURG GMBH</div><div class="plate">FLME2112</div><div class="len">8,0 m</div></div>
 <div class="special-row"><div class="kind">DREES BUSCH GMBH</div><div class="plate">NFBU800</div><div class="len">8,0 m</div></div>
 <div class="special-row"><div class="kind">WDR NUR FÜR DIENSTFAHRTEN</div><div class="plate">NFWR150</div><div class="len">7,8 m</div></div>
+<div class="special-row"><div class="kind">STEINFELDT CLAUS</div><div class="plate">HEICS127</div><div class="len">4,6 m</div></div>
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">B+T ELEKTRO SERVICE FÖHR GMBH</div><div class="plate">NFKG2022</div><div class="len">8,3 m</div></div>
 <div class="special-row"><div class="kind">WDR NUR FÜR DIENSTFAHRTEN</div><div class="plate">GEPÄCK4</div><div class="len">7,4 m</div></div>
@@ -360,7 +340,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "13:29";
+const UHRZEIT = "13:34";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
