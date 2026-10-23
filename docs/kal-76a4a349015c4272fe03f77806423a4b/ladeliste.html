@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">11:50 · aus Dienstplan</div>
+    <div class="sub">11:55 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -145,7 +145,7 @@ select#schiff-select{
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">127,3 m</span>
+      <span class="val">127,2 m</span>
     </div>
     
     <div class="overlap" style="background:#f7eec9">
@@ -179,7 +179,7 @@ select#schiff-select{
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">127,3 m</span>
+      <span class="val">127,2 m</span>
     </div>
     
     <div class="overlap" style="background:#f7eec9">
@@ -239,19 +239,20 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>29</b><span>PKW</span></div>
+      <div class="stat"><b>30</b><span>PKW</span></div>
       <div class="stat"><b>1</b><span>Motorrad</span></div>
       <div class="stat"><b>0</b><span>Transporter</span></div>
-      <div class="stat"><b>2</b><span>Sonder</span></div>
+      <div class="stat"><b>3</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">179,8 m</span>
+      <span class="val">186,9 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">ISD INSEL SCHNELLDIENST GMBH</div><div class="plate">NFBJ992</div><div class="len">7,9 m</div></div>
+<div class="special-row"><div class="kind">IRK UND OKE MARTINEN GBR</div><div class="plate">NFOI1533</div><div class="len">7,1 m</div></div>
 <div class="group-label">Motorrad</div>
 <div class="special-row"><div class="kind">LAUX ANDRE</div><div class="plate">NFVX22</div><div class="len">0,9 m</div></div>
 </div>
@@ -263,19 +264,20 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>29</b><span>PKW</span></div>
+      <div class="stat"><b>30</b><span>PKW</span></div>
       <div class="stat"><b>1</b><span>Motorrad</span></div>
       <div class="stat"><b>0</b><span>Transporter</span></div>
-      <div class="stat"><b>2</b><span>Sonder</span></div>
+      <div class="stat"><b>3</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">179,8 m</span>
+      <span class="val">186,9 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">ISD INSEL SCHNELLDIENST GMBH</div><div class="plate">NFBJ992</div><div class="len">7,9 m</div></div>
+<div class="special-row"><div class="kind">IRK UND OKE MARTINEN GBR</div><div class="plate">NFOI1533</div><div class="len">7,1 m</div></div>
 <div class="group-label">Motorrad</div>
 <div class="special-row"><div class="kind">LAUX ANDRE</div><div class="plate">NFVX22</div><div class="len">0,9 m</div></div>
 </div>
@@ -383,7 +385,7 @@ select#schiff-select{
       <div class="head"><span class="dot"></span>
         <div><b>Zeitgleich NA</b> — ab DAGEBÜLL um 12:35: DAGEBÜLL → FÖHR</div>
       </div>
-      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">127,3 m</span></div></div>
+      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">127,2 m</span></div></div>
     </div>
   </section>
   <section class="card">
@@ -417,7 +419,7 @@ select#schiff-select{
       <div class="head"><span class="dot"></span>
         <div><b>Zeitgleich NA</b> — ab DAGEBÜLL um 12:35: DAGEBÜLL → FÖHR</div>
       </div>
-      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">127,3 m</span></div></div>
+      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">127,2 m</span></div></div>
     </div>
   </section>
 </div>
@@ -430,7 +432,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "11:50";
+const UHRZEIT = "11:55";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
