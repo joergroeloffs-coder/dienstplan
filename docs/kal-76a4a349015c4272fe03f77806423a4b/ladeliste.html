@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">14:26 · aus Dienstplan</div>
+    <div class="sub">14:32 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -241,7 +241,21 @@ select#schiff-select{
       <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
     </div>
     
-    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
+    <div class="stats">
+      <div class="stat"><b>56</b><span>PKW</span></div>
+      <div class="stat"><b>0</b><span>Motorrad</span></div>
+      <div class="stat"><b>0</b><span>Transporter</span></div>
+      <div class="stat"><b>1</b><span>Sonder</span></div>
+    </div>
+    <div class="total-bar">
+      <span class="label">Gesamt gebuchte Meter</span>
+      <span class="val">271,6 m</span>
+    </div>
+    <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
+<div class="special">
+<div class="group-label">PKW-Anhänger</div>
+<div class="special-row"><div class="kind">ARFSTEN ERIC</div><div class="plate">NFYV801</div><div class="len">8,2 m</div></div>
+</div>
   </section>
 </div>
 <div class="schiff-block" data-abk="UTHLANDE" data-name="Uthlande" data-color="#f6dcdc" style="display:none">
@@ -409,7 +423,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "14:26";
+const UHRZEIT = "14:32";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
