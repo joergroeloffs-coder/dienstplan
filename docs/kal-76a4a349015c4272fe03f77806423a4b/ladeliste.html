@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">13:56 · aus Dienstplan</div>
+    <div class="sub">14:01 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -152,14 +152,14 @@ select#schiff-select{
     </div>
     <div class="legs-label">Durchgehende Buchung ab AMRUM 15:15 Uhr</div>
     <div class="stats">
-      <div class="stat"><b>45</b><span>PKW</span></div>
+      <div class="stat"><b>46</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>3</b><span>Transporter</span></div>
-      <div class="stat"><b>5</b><span>Sonder</span></div>
+      <div class="stat"><b>4</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">271,1 m</span>
+      <span class="val">270,9 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -169,7 +169,6 @@ select#schiff-select{
 <div class="special-row"><div class="kind">SCHMIDT UWE</div><div class="plate">LSH3364</div><div class="len">7,3 m</div></div>
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">ISD INSEL SCHNELLDIENST GMBH</div><div class="plate">NFAT133</div><div class="len">8,8 m</div></div>
-<div class="special-row"><div class="kind">GROSSOUNION NORD GMBH + CO. KG</div><div class="plate">NFCL111</div><div class="len">4,3 m</div></div>
 </div>
     <div class="overlap" style="background:#f7eec9">
       <div class="head"><span class="dot"></span>
@@ -303,7 +302,7 @@ select#schiff-select{
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">193,0 m</span>
+      <span class="val">192,8 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -366,7 +365,7 @@ select#schiff-select{
       <div class="head"><span class="dot"></span>
         <div><b>Zeitgleich UTHLANDE</b> — ab DAGEBÜLL um 15:05: DAGEBÜLL → FÖHR → AMRUM</div>
       </div>
-      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">0 m</span></div><div class="leg"><span class="dest">FÖHR → AMRUM</span><span class="m">193,0 m</span></div><div class="legs-label">Durchgehende Buchung ab DAGEBÜLL 15:05 Uhr</div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
+      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">0 m</span></div><div class="leg"><span class="dest">FÖHR → AMRUM</span><span class="m">192,8 m</span></div><div class="legs-label">Durchgehende Buchung ab DAGEBÜLL 15:05 Uhr</div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
 <div class="special-row"><div class="kind">THEUS STEFAN</div><div class="plate">NFXN120</div><div class="len">14,0 m</div></div>
@@ -387,7 +386,7 @@ select#schiff-select{
       <div class="head"><span class="dot"></span>
         <div><b>Zeitgleich NA</b> — ab FÖHR um 16:30: FÖHR → DAGEBÜLL</div>
       </div>
-      <div class="legs"><div class="leg"><span class="dest">FÖHR → DAGEBÜLL</span><span class="m">271,1 m</span></div><div class="legs-label">Durchgehende Buchung ab AMRUM 15:15 Uhr</div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
+      <div class="legs"><div class="leg"><span class="dest">FÖHR → DAGEBÜLL</span><span class="m">270,9 m</span></div><div class="legs-label">Durchgehende Buchung ab AMRUM 15:15 Uhr</div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">Transporter</div>
 <div class="special-row"><div class="kind"></div><div class="plate">SIQE4835</div><div class="len">8,8 m</div></div>
@@ -395,7 +394,6 @@ select#schiff-select{
 <div class="special-row"><div class="kind">SCHMIDT UWE</div><div class="plate">LSH3364</div><div class="len">7,3 m</div></div>
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">ISD INSEL SCHNELLDIENST GMBH</div><div class="plate">NFAT133</div><div class="len">8,8 m</div></div>
-<div class="special-row"><div class="kind">GROSSOUNION NORD GMBH + CO. KG</div><div class="plate">NFCL111</div><div class="len">4,3 m</div></div>
 </div></div>
     </div>
   </section>
@@ -409,7 +407,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "13:56";
+const UHRZEIT = "14:01";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
