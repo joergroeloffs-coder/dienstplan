@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">11:32 · aus Dienstplan</div>
+    <div class="sub">11:37 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -124,14 +124,6 @@ select#schiff-select{
 <div class="schiff-block" data-abk="NA" data-name="Norderaue" data-color="#e3e3e3" style="display:none">
 
   <section class="card is-past">
-    <div class="route-row">
-      <div class="time">10:40</div>
-      <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
-    </div>
-    
-    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
-  </section>
-  <section class="card" data-jetzt>
     <div class="route-row">
       <div class="time">11:35</div>
       <div class="route">FÖHR <span class="arrow">→</span> DAGEBÜLL</div>
@@ -155,13 +147,56 @@ select#schiff-select{
 <div class="special-row"><div class="kind">NIEDZBALLA UWE</div><div class="plate">BILK1895</div><div class="len">7,2 m</div></div>
 </div>
   </section>
-  <section class="card">
+  <section class="card" data-jetzt>
     <div class="route-row">
       <div class="time">11:50</div>
       <div class="route">FÖHR <span class="arrow">→</span> DAGEBÜLL</div>
     </div>
     
     <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
+  </section>
+  <section class="card">
+    <div class="route-row">
+      <div class="time">12:30</div>
+      <div class="route">DAGEBÜLL <span class="arrow">→</span> AMRUM</div>
+    </div>
+    <div class="legs-label">Nicht im Fahrplan enthalten — laut aktueller Buchung</div>
+    <div class="stats">
+      <div class="stat"><b>43</b><span>PKW</span></div>
+      <div class="stat"><b>0</b><span>Motorrad</span></div>
+      <div class="stat"><b>1</b><span>Transporter</span></div>
+      <div class="stat"><b>2</b><span>Sonder</span></div>
+    </div>
+    <div class="total-bar">
+      <span class="label">Gesamt gebuchte Meter</span>
+      <span class="val">259,9 m</span>
+    </div>
+    <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
+<div class="special">
+<div class="group-label">Transporter</div>
+<div class="special-row"><div class="kind">VOß STEPHAN</div><div class="plate">OSHD2222</div><div class="len">7,9 m</div></div>
+<div class="group-label">PKW-Anhänger</div>
+<div class="special-row"><div class="kind">GÖPFERT VOLKER</div><div class="plate">NFIW259</div><div class="len">5,9 m</div></div>
+</div>
+    <div class="overlap" style="background:#dce7f5">
+      <div class="head"><span class="dot"></span>
+        <div><b>Zeitgleich S-H</b> — ab DAGEBÜLL um 12:35: DAGEBÜLL → FÖHR → DAGEBÜLL</div>
+      </div>
+      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">0 m</span></div><div class="legs-label">Noch keine eigene Buchung zu dieser Etappe</div><div class="leg"><span class="dest">FÖHR → DAGEBÜLL</span><span class="m">300,7 m</span></div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
+<div class="special">
+<div class="group-label">Transporter</div>
+<div class="special-row"><div class="kind">ZIMMEREI ANDREAS PETERSEN</div><div class="plate">NFZP1000</div><div class="len">8,2 m</div></div>
+<div class="special-row"><div class="kind">KÜHN ANDREAS</div><div class="plate">BMR7722</div><div class="len">7,2 m</div></div>
+<div class="group-label">PKW-Anhänger</div>
+<div class="special-row"><div class="kind">HANSEN MAREN</div><div class="plate">SLHH1981</div><div class="len">4,6 m</div></div>
+</div></div>
+    </div>
+    <div class="overlap" style="background:#f7eec9">
+      <div class="head"><span class="dot"></span>
+        <div><b>Zeitgleich NORDFRIES</b> — ab DAGEBÜLL um 12:35: DAGEBÜLL → FÖHR → DAGEBÜLL</div>
+      </div>
+      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">0 m</span></div><div class="legs-label">Noch keine eigene Buchung zu dieser Etappe</div><div class="leg"><span class="dest">FÖHR → DAGEBÜLL</span><span class="m">0 m</span></div><div class="legs-label">Noch keine eigene Buchung zu dieser Etappe</div></div>
+    </div>
   </section>
 </div>
 <div class="schiff-block" data-abk="S-H" data-name="Schleswig - Holstein" data-color="#dce7f5" style="display:none">
@@ -181,14 +216,14 @@ select#schiff-select{
     </div>
     <div class="legs-label">Nicht im Fahrplan enthalten — laut aktueller Buchung</div>
     <div class="stats">
-      <div class="stat"><b>40</b><span>PKW</span></div>
+      <div class="stat"><b>39</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>0</b><span>Transporter</span></div>
       <div class="stat"><b>4</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">255,9 m</span>
+      <span class="val">251,6 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -338,7 +373,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "11:32";
+const UHRZEIT = "11:37";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
