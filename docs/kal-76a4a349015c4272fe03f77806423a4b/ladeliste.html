@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">20:41 · aus Dienstplan</div>
+    <div class="sub">21:07 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -151,20 +151,6 @@ select#schiff-select{
 <div class="schiff-block" data-abk="S-H" data-name="Schleswig - Holstein" data-color="#dce7f5" style="display:none">
 
   <section class="card is-past">
-    <div class="route-row">
-      <div class="time">20:00</div>
-      <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
-    </div>
-    
-    <div class="stats">
-      <div class="stat"><b>6</b><span>PKW</span></div>
-      <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>0</b><span>Transporter</span></div>
-      <div class="stat"><b>0</b><span>Sonder</span></div>
-    </div>
-    
-  </section>
-  <section class="card" data-jetzt>
     <div class="route-row">
       <div class="time">20:55</div>
       <div class="route">FÖHR <span class="arrow">→</span> AMRUM</div>
@@ -234,7 +220,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "20:41";
+const UHRZEIT = "21:07";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
