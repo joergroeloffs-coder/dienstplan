@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">10:13 · aus Dienstplan</div>
+    <div class="sub">10:18 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -146,14 +146,14 @@ select#schiff-select{
     </div>
     <div class="legs-label">Nicht im Fahrplan enthalten — laut aktueller Buchung</div>
     <div class="stats">
-      <div class="stat"><b>31</b><span>PKW</span></div>
+      <div class="stat"><b>29</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>1</b><span>Transporter</span></div>
       <div class="stat"><b>7</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">251,6 m</span>
+      <span class="val">242,3 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -172,7 +172,7 @@ select#schiff-select{
       <div class="head"><span class="dot"></span>
         <div><b>Zeitgleich NORDFRIES</b> — ab DAGEBÜLL um 11:30: DAGEBÜLL → AMRUM</div>
       </div>
-      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → AMRUM</span><span class="m">196,3 m</span></div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
+      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → AMRUM</span><span class="m">174,1 m</span></div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">Transporter</div>
 <div class="special-row"><div class="kind">LENK JESSICA</div><div class="plate">KNJL979</div><div class="len">8,8 m</div></div>
@@ -199,7 +199,7 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>14</b><span>PKW</span></div>
+      <div class="stat"><b>16</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>3</b><span>Transporter</span></div>
       <div class="stat"><b>5</b><span>Sonder</span></div>
@@ -223,14 +223,14 @@ select#schiff-select{
     </div>
     <div class="legs-label">Durchgehende Buchung ab DAGEBÜLL 10:40 Uhr</div>
     <div class="stats">
-      <div class="stat"><b>5</b><span>PKW</span></div>
+      <div class="stat"><b>10</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>0</b><span>Transporter</span></div>
       <div class="stat"><b>0</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">24,0 m</span>
+      <span class="val">46,1 m</span>
     </div>
     
   </section>
@@ -311,14 +311,14 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>32</b><span>PKW</span></div>
+      <div class="stat"><b>27</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>1</b><span>Transporter</span></div>
       <div class="stat"><b>2</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">196,3 m</span>
+      <span class="val">174,1 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -331,7 +331,7 @@ select#schiff-select{
       <div class="head"><span class="dot"></span>
         <div><b>Zeitgleich NA</b> — ab DAGEBÜLL um 11:30: DAGEBÜLL → FÖHR</div>
       </div>
-      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">251,6 m</span></div><div class="legs-label">Nicht im Fahrplan enthalten — laut aktueller Buchung</div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
+      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">242,3 m</span></div><div class="legs-label">Nicht im Fahrplan enthalten — laut aktueller Buchung</div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
 <div class="special-row"><div class="kind">JOHS. OLDENBURG GMBH + CO. KG</div><div class="plate">NFJO2210</div><div class="len">26,5 m</div></div>
@@ -356,7 +356,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "10:13";
+const UHRZEIT = "10:18";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
