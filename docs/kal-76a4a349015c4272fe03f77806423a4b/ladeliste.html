@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">06:18 · aus Dienstplan</div>
+    <div class="sub">06:23 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -219,11 +219,13 @@ select#schiff-select{
       <div class="head"><span class="dot"></span>
         <div><b>Zeitgleich UTHLANDE</b> — ab FÖHR um 08:20: FÖHR → DAGEBÜLL → FÖHR</div>
       </div>
-      <div class="legs"><div class="leg"><span class="dest">FÖHR → DAGEBÜLL</span><span class="m">293,3 m</span></div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
+      <div class="legs"><div class="leg"><span class="dest">FÖHR → DAGEBÜLL</span><span class="m">302,0 m</span></div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
 <div class="special-row"><div class="kind">C.G. CHRISTIANSEN GMBH + CO.</div><div class="plate">NFTP900</div><div class="len">24,3 m</div></div>
 <div class="special-row"><div class="kind">REWE MARKT GMBH</div><div class="plate">RDNV6666</div><div class="len">21,8 m</div></div>
+<div class="group-label">Transporter</div>
+<div class="special-row"><div class="kind">GROSSOUNION NORD GMBH + CO. KG</div><div class="plate">NFGU101</div><div class="len">8,7 m</div></div>
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">FÖHRER BAUM UND ROSENSCHULEN</div><div class="plate">NFR938</div><div class="len">8,8 m</div></div>
 <div class="special-row"><div class="kind">MARTENSEN HARK</div><div class="plate">NFHM547</div><div class="len">6,6 m</div></div>
@@ -279,17 +281,15 @@ select#schiff-select{
     <div class="stats">
       <div class="stat"><b>19</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>1</b><span>Transporter</span></div>
-      <div class="stat"><b>2</b><span>Sonder</span></div>
+      <div class="stat"><b>0</b><span>Transporter</span></div>
+      <div class="stat"><b>1</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">102,9 m</span>
+      <span class="val">94,2 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
-<div class="group-label">Transporter</div>
-<div class="special-row"><div class="kind">GROSSOUNION NORD GMBH + CO. KG</div><div class="plate">NFGU101</div><div class="len">8,7 m</div></div>
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">GROTE LUDWIG</div><div class="plate">NFCH428</div><div class="len">5,0 m</div></div>
 </div>
@@ -344,18 +344,20 @@ select#schiff-select{
     <div class="stats">
       <div class="stat"><b>49</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>0</b><span>Transporter</span></div>
-      <div class="stat"><b>4</b><span>Sonder</span></div>
+      <div class="stat"><b>1</b><span>Transporter</span></div>
+      <div class="stat"><b>5</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">293,3 m</span>
+      <span class="val">302,0 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
 <div class="special-row"><div class="kind">C.G. CHRISTIANSEN GMBH + CO.</div><div class="plate">NFTP900</div><div class="len">24,3 m</div></div>
 <div class="special-row"><div class="kind">REWE MARKT GMBH</div><div class="plate">RDNV6666</div><div class="len">21,8 m</div></div>
+<div class="group-label">Transporter</div>
+<div class="special-row"><div class="kind">GROSSOUNION NORD GMBH + CO. KG</div><div class="plate">NFGU101</div><div class="len">8,7 m</div></div>
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">FÖHRER BAUM UND ROSENSCHULEN</div><div class="plate">NFR938</div><div class="len">8,8 m</div></div>
 <div class="special-row"><div class="kind">MARTENSEN HARK</div><div class="plate">NFHM547</div><div class="len">6,6 m</div></div>
@@ -435,7 +437,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "06:18";
+const UHRZEIT = "06:23";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
