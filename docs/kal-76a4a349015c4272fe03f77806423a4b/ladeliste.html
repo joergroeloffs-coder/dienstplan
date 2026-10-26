@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">15:52 · aus Dienstplan</div>
+    <div class="sub">15:58 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -248,22 +248,24 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>45</b><span>PKW</span></div>
+      <div class="stat"><b>46</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>2</b><span>Transporter</span></div>
-      <div class="stat"><b>4</b><span>Sonder</span></div>
+      <div class="stat"><b>3</b><span>Transporter</span></div>
+      <div class="stat"><b>6</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">224,1 m</span>
+      <span class="val">240,7 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">Transporter</div>
 <div class="special-row"><div class="kind">MEINERT KERSTIN</div><div class="plate">MIK3413</div><div class="len">8,8 m</div></div>
+<div class="special-row"><div class="kind">BRADONJIC</div><div class="plate">AA676ZJ</div><div class="len">8,2 m</div></div>
 <div class="special-row"><div class="kind">TOBIAS STAHL TISCHLEREI +</div><div class="plate">NFTS443</div><div class="len">8,0 m</div></div>
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">FÖHRER BAUM UND ROSENSCHULEN</div><div class="plate">NFR938</div><div class="len">8,8 m</div></div>
+<div class="special-row"><div class="kind">BAU- UND MÖBELTISCH. M. RANCK-</div><div class="plate">NFTW4000</div><div class="len">8,3 m</div></div>
 <div class="special-row"><div class="kind">MARTENSEN HARK</div><div class="plate">NFHM547</div><div class="len">6,6 m</div></div>
 </div>
   </section>
@@ -320,7 +322,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "15:52";
+const UHRZEIT = "15:58";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
