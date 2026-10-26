@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">14:46 · aus Dienstplan</div>
+    <div class="sub">14:52 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -133,11 +133,11 @@ select#schiff-select{
       <div class="stat"><b>35</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>6</b><span>Transporter</span></div>
-      <div class="stat"><b>13</b><span>Sonder</span></div>
+      <div class="stat"><b>14</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">338,4 m</span>
+      <span class="val">354,2 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -146,6 +146,7 @@ select#schiff-select{
 <div class="special-row"><div class="kind">REETDACHDECKEREI</div><div class="plate">HEIR2026A2026</div><div class="len">27,2 m</div></div>
 <div class="special-row"><div class="kind">DEUTSCHE POST AG</div><div class="plate">FRLKW10</div><div class="len">21,0 m</div></div>
 <div class="special-row"><div class="kind">MIETPARK JAPPSEN GMBH LEWE</div><div class="plate">NFMP737</div><div class="len">17,1 m</div></div>
+<div class="special-row"><div class="kind">LIDL DIENSTLEISTUNG</div><div class="plate">NMSAS229</div><div class="len">15,9 m</div></div>
 <div class="special-row"><div class="kind">TEXTILPFLEGE UND WÄSCHEREI</div><div class="plate">HEIQQ338</div><div class="len">13,3 m</div></div>
 <div class="special-row"><div class="kind">NISSEN YVONNE</div><div class="plate">NFTD2024</div><div class="len">9,8 m</div></div>
 <div class="group-label">Transporter</div>
@@ -290,12 +291,12 @@ select#schiff-select{
     <div class="stats">
       <div class="stat"><b>9</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>0</b><span>Transporter</span></div>
+      <div class="stat"><b>1</b><span>Transporter</span></div>
       <div class="stat"><b>8</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">206,3 m</span>
+      <span class="val">198,3 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -306,7 +307,8 @@ select#schiff-select{
 <div class="special-row"><div class="kind">DMK DEUTSCHES MILCHKONTOR</div><div class="plate">DMKZ1</div><div class="len">20,6 m</div></div>
 <div class="special-row"><div class="kind">DMK DEUTSCHES MILCHKONTOR</div><div class="plate">DMKZ2</div><div class="len">20,6 m</div></div>
 <div class="special-row"><div class="kind">DMK DEUTSCHES MILCHKONTOR</div><div class="plate">DMKZ3</div><div class="len">20,6 m</div></div>
-<div class="special-row"><div class="kind">LIDL DIENSTLEISTUNG</div><div class="plate">NMSAS229</div><div class="len">15,9 m</div></div>
+<div class="group-label">Transporter</div>
+<div class="special-row"><div class="kind">KPH GMBH</div><div class="plate">SLKP45</div><div class="len">7,9 m</div></div>
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">WIECKS TEXTILPFLEGE UND</div><div class="plate">NFVH175</div><div class="len">4,4 m</div></div>
 </div>
@@ -318,14 +320,14 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>41</b><span>PKW</span></div>
+      <div class="stat"><b>43</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>3</b><span>Transporter</span></div>
       <div class="stat"><b>5</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">213,0 m</span>
+      <span class="val">221,7 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -409,7 +411,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "14:46";
+const UHRZEIT = "14:52";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
