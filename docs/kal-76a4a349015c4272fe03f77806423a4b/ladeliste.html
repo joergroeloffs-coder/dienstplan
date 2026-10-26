@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">16:16 · aus Dienstplan</div>
+    <div class="sub">16:21 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -209,12 +209,10 @@ select#schiff-select{
       <div class="stat"><b>15</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>2</b><span>Transporter</span></div>
-      <div class="stat"><b>4</b><span>Sonder</span></div>
+      <div class="stat"><b>3</b><span>Sonder</span></div>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
-<div class="group-label">LKW</div>
-<div class="special-row"><div class="kind"></div><div class="plate">HHPS616</div><div class="len">9,3 m</div></div>
 <div class="group-label">Transporter</div>
 <div class="special-row"><div class="kind">BERGES DENNIS</div><div class="plate">NFNB2022</div><div class="len">8,8 m</div></div>
 <div class="special-row"><div class="kind">HEßMANN MARKUS</div><div class="plate">MMX8416</div><div class="len">7,3 m</div></div>
@@ -243,14 +241,16 @@ select#schiff-select{
       <div class="stat"><b>47</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>3</b><span>Transporter</span></div>
-      <div class="stat"><b>6</b><span>Sonder</span></div>
+      <div class="stat"><b>7</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">244,4 m</span>
+      <span class="val">253,7 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
+<div class="group-label">LKW</div>
+<div class="special-row"><div class="kind"></div><div class="plate">HHPS616</div><div class="len">9,3 m</div></div>
 <div class="group-label">Transporter</div>
 <div class="special-row"><div class="kind">BRADONJIC</div><div class="plate">AA676ZJ</div><div class="len">8,2 m</div></div>
 <div class="special-row"><div class="kind">MEINERT KERSTIN</div><div class="plate">MIK3413</div><div class="len">8,2 m</div></div>
@@ -314,7 +314,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "16:16";
+const UHRZEIT = "16:21";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
