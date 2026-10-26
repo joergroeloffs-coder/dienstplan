@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">08:48 · aus Dienstplan</div>
+    <div class="sub">08:54 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -289,27 +289,7 @@ select#schiff-select{
       <div class="route">FÖHR <span class="arrow">→</span> DAGEBÜLL</div>
     </div>
     
-    <div class="stats">
-      <div class="stat"><b>50</b><span>PKW</span></div>
-      <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>1</b><span>Transporter</span></div>
-      <div class="stat"><b>5</b><span>Sonder</span></div>
-    </div>
-    <div class="total-bar">
-      <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">305,6 m</span>
-    </div>
-    <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
-<div class="special">
-<div class="group-label">LKW</div>
-<div class="special-row"><div class="kind">C.G. CHRISTIANSEN GMBH + CO.</div><div class="plate">NFTP900</div><div class="len">24,3 m</div></div>
-<div class="special-row"><div class="kind">REWE MARKT GMBH</div><div class="plate">RDNV6666</div><div class="len">21,8 m</div></div>
-<div class="group-label">Transporter</div>
-<div class="special-row"><div class="kind">GROSSOUNION NORD GMBH + CO. KG</div><div class="plate">NFGU101</div><div class="len">8,7 m</div></div>
-<div class="group-label">PKW-Anhänger</div>
-<div class="special-row"><div class="kind">FÖHRER BAUM UND ROSENSCHULEN</div><div class="plate">NFR938</div><div class="len">8,8 m</div></div>
-<div class="special-row"><div class="kind">MARTENSEN HARK</div><div class="plate">NFHM547</div><div class="len">6,6 m</div></div>
-</div>
+    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
   </section>
   <section class="card" data-jetzt>
     <div class="route-row">
@@ -382,14 +362,14 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>23</b><span>PKW</span></div>
+      <div class="stat"><b>22</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>2</b><span>Transporter</span></div>
       <div class="stat"><b>8</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">227,5 m</span>
+      <span class="val">223,1 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -439,7 +419,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "08:48";
+const UHRZEIT = "08:54";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
