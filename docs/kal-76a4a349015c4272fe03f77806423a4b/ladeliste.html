@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">10:33 · aus Dienstplan</div>
+    <div class="sub">10:38 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -227,14 +227,14 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>43</b><span>PKW</span></div>
+      <div class="stat"><b>44</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>3</b><span>Transporter</span></div>
-      <div class="stat"><b>6</b><span>Sonder</span></div>
+      <div class="stat"><b>7</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">261,6 m</span>
+      <span class="val">268,8 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -246,20 +246,14 @@ select#schiff-select{
 <div class="special-row"><div class="kind">NORDFRIESLAND LOGISTIK GMBH</div><div class="plate">NFL6023</div><div class="len">8,7 m</div></div>
 <div class="special-row"><div class="kind">SOBOTTA BERND</div><div class="plate">KPA890</div><div class="len">8,0 m</div></div>
 <div class="special-row"><div class="kind">IMMOBILIEN AUF FÖHR</div><div class="plate">NFAZ114</div><div class="len">7,6 m</div></div>
+<div class="group-label">PKW-Anhänger</div>
+<div class="special-row"><div class="kind">THOMSEN BOHRTECHNIK GMBH +</div><div class="plate">DBRTT240</div><div class="len">7,2 m</div></div>
 </div>
   </section>
 </div>
 <div class="schiff-block" data-abk="UTHLANDE" data-name="Uthlande" data-color="#f6dcdc" style="display:none">
 
   <section class="card is-past">
-    <div class="route-row">
-      <div class="time">09:35</div>
-      <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
-    </div>
-    
-    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
-  </section>
-  <section class="card" data-jetzt>
     <div class="route-row">
       <div class="time">10:35</div>
       <div class="route">FÖHR <span class="arrow">→</span> AMRUM</div>
@@ -277,7 +271,7 @@ select#schiff-select{
     </div>
     
   </section>
-  <section class="card">
+  <section class="card" data-jetzt>
     <div class="route-row">
       <div class="time">12:05</div>
       <div class="route">AMRUM <span class="arrow">→</span> DAGEBÜLL</div>
@@ -308,6 +302,14 @@ select#schiff-select{
 <div class="special-row"><div class="kind">EVERT MAIK</div><div class="plate">RIDB48</div><div class="len">7,9 m</div></div>
 </div>
   </section>
+  <section class="card">
+    <div class="route-row">
+      <div class="time">14:05</div>
+      <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
+    </div>
+    
+    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
+  </section>
 </div>
 <div class="schiff-block" data-abk="NORDFRIES" data-name="Nordfriesland" data-color="#f7eec9" style="display:none">
 
@@ -321,7 +323,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "10:33";
+const UHRZEIT = "10:38";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
