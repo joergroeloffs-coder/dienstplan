@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">17:31 · aus Dienstplan</div>
+    <div class="sub">17:36 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -147,11 +147,11 @@ select#schiff-select{
       <div class="stat"><b>5</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>0</b><span>Transporter</span></div>
-      <div class="stat"><b>6</b><span>Sonder</span></div>
+      <div class="stat"><b>5</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">145,1 m</span>
+      <span class="val">132,0 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -159,7 +159,6 @@ select#schiff-select{
 <div class="special-row"><div class="kind">C.G. CHRISTIANSEN GMBH + CO.</div><div class="plate">NFCG1725CG9170</div><div class="len">27,6 m</div></div>
 <div class="special-row"><div class="kind">HBK DETHLEFFSEN GMBH</div><div class="plate">NFD920ZUG</div><div class="len">27,6 m</div></div>
 <div class="special-row"><div class="kind">KIRN SPEDITION</div><div class="plate">CWK2100</div><div class="len">24,3 m</div></div>
-<div class="special-row"><div class="kind">C.G. CHRISTIANSEN GMBH + CO.</div><div class="plate">NFCG9113</div><div class="len">13,1 m</div></div>
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">AMRUMER BIERVERLAGS GMBH</div><div class="plate">NFTB1120</div><div class="len">8,2 m</div></div>
 <div class="special-row"><div class="kind">ISD INSEL SCHNELLDIENST GMBH</div><div class="plate">NFBJ992</div><div class="len">7,9 m</div></div>
@@ -309,7 +308,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "17:31";
+const UHRZEIT = "17:36";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
