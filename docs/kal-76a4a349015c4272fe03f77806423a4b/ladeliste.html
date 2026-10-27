@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">17:51 · aus Dienstplan</div>
+    <div class="sub">17:57 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -204,14 +204,15 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>11</b><span>PKW</span></div>
+      <div class="stat"><b>12</b><span>PKW</span></div>
       <div class="stat"><b>1</b><span>Motorrad</span></div>
       <div class="stat"><b>0</b><span>Transporter</span></div>
-      <div class="stat"><b>2</b><span>Sonder</span></div>
+      <div class="stat"><b>3</b><span>Sonder</span></div>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
+<div class="special-row"><div class="kind">EDEKA LOGISTIK NEUMÜNSTER GMBH</div><div class="plate">NFJK888JK999</div><div class="len">27,6 m</div></div>
 <div class="special-row"><div class="kind">WILLI REIMER + SÖHNE SPEDITION</div><div class="plate">RDRD990</div><div class="len">24,3 m</div></div>
 <div class="group-label">Motorrad</div>
 <div class="special-row"><div class="kind"></div><div class="plate">DANVT85</div><div class="len">0,7 m</div></div>
@@ -274,20 +275,16 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>5</b><span>PKW</span></div>
+      <div class="stat"><b>4</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>0</b><span>Transporter</span></div>
-      <div class="stat"><b>1</b><span>Sonder</span></div>
+      <div class="stat"><b>0</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">50,9 m</span>
+      <span class="val">18,9 m</span>
     </div>
-    <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
-<div class="special">
-<div class="group-label">LKW</div>
-<div class="special-row"><div class="kind">EDEKA LOGISTIK NEUMÜNSTER GMBH</div><div class="plate">NFJK888JK999</div><div class="len">27,6 m</div></div>
-</div>
+    
   </section>
 </div>
 <div class="schiff-block" data-abk="NORDFRIES" data-name="Nordfriesland" data-color="#f7eec9" style="display:none">
@@ -302,7 +299,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "17:51";
+const UHRZEIT = "17:57";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
