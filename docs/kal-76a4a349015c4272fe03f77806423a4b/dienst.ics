@@ -337,11 +337,81 @@ SUMMARY:Dienst auf NORDFRIESLAND
 DESCRIPTION:KW 43/2026\, Stand: 2026-10-18 14:55\, Datei: 43KW2026 4.Aenderung.pdf\n\nAbfahrten:\nHW 0:29 / NW 6:58\n10:50 Wyk-Dagebüll\n12:35 Dagebüll-Wyk\n13:45 Wyk-Dagebüll\n15:05 Dagebüll-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n\nBesatzung:\nNK Englmaier\, Jan\nNEO Roeloffs\, Jörg\nTLM Possel\, Björn\nTWB Peters\, Harro\nNWB Lorenzen\, Klaus\nNWB Fabrizius\, Philipp\nNWB* Ben Saber\, Sami\n\nVorwoche (steigt aus):\nNK Hellmann\, Johann-Eck\nNEO Hacht\, Ole von\nTLM Andresen\, Dieter\nTWB Peters\, Harro\nNWB Hansen\, Kay\nNW Bohn\, Hauke\nNWB* Schulz\, Uwe
 END:VEVENT
 BEGIN:VEVENT
-UID:dienstplan-2026-W45@wdr-besatzungsliste
+UID:dienstplan-2026-W45-20261030@wdr-besatzungsliste
 DTSTAMP:20261015T152300Z
 LAST-MODIFIED:20261015T152300Z
 SEQUENCE:5
 DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:Dienst auf NORDFRIESLAND
+DESCRIPTION:KW 45/2026\, Stand: 2026-10-15 15:23\, Datei: 45KW2026 4.Aenderung.pdf\n\nBesatzung:\nNK Hinrichsen\, Jesper\nNEO Roeloffs\, Jörg\nTLM Andresen\, Dieter\nGSM Jähnig Martin\nNWB Fabrizius\, Philipp\nNWB Lorenzen\, Klaus\nNWB* Bukowicki\, Piotr\n\nVorwoche (steigt aus):\nNK Blank\, Marc\nNEO Gleike\, Falco\nTLM Hansen\, Boy Simon\nTWB Christiansen\, Uwe\nNWB Hansen\, Kay\nNWB Peters\, Erk\nNWB* Schulz\, Uwe
+END:VEVENT
+BEGIN:VEVENT
+UID:dienstplan-2026-W45-20261031@wdr-besatzungsliste
+DTSTAMP:20261015T152300Z
+LAST-MODIFIED:20261015T152300Z
+SEQUENCE:5
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261101
+SUMMARY:Dienst auf NORDFRIESLAND
+DESCRIPTION:KW 45/2026\, Stand: 2026-10-15 15:23\, Datei: 45KW2026 4.Aenderung.pdf\n\nAbfahrten:\nHW 4:55 / NW 11:44 / HW 17:30\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:50 Wyk-Dagebüll\n12:35 Dagebüll-Wyk\n13:45 Wyk-Dagebüll\n15:05 Dagebüll-Wyk\n\nBesatzung:\nNK Hinrichsen\, Jesper\nNEO Roeloffs\, Jörg\nTLM Andresen\, Dieter\nGSM Jähnig Martin\nNWB Fabrizius\, Philipp\nNWB Lorenzen\, Klaus\nNWB* Bukowicki\, Piotr\n\nVorwoche (steigt aus):\nNK Blank\, Marc\nNEO Gleike\, Falco\nTLM Hansen\, Boy Simon\nTWB Christiansen\, Uwe\nNWB Hansen\, Kay\nNWB Peters\, Erk\nNWB* Schulz\, Uwe
+END:VEVENT
+BEGIN:VEVENT
+UID:dienstplan-2026-W45-20261101@wdr-besatzungsliste
+DTSTAMP:20261015T152300Z
+LAST-MODIFIED:20261015T152300Z
+SEQUENCE:5
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:Dienst auf NORDFRIESLAND
+DESCRIPTION:KW 45/2026\, Stand: 2026-10-15 15:23\, Datei: 45KW2026 4.Aenderung.pdf\n\nAbfahrten:\nHW 5:43 / NW 0:00 / HW 18:24 / NW 12:34\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:50 Wyk-Dagebüll\n12:35 Dagebüll-Wyk\n13:45 Wyk-Dagebüll\n15:05 Dagebüll-Wyk\n\nBesatzung:\nNK Hinrichsen\, Jesper\nNEO Roeloffs\, Jörg\nTLM Andresen\, Dieter\nGSM Jähnig Martin\nNWB Fabrizius\, Philipp\nNWB Lorenzen\, Klaus\nNWB* Bukowicki\, Piotr\n\nVorwoche (steigt aus):\nNK Blank\, Marc\nNEO Gleike\, Falco\nTLM Hansen\, Boy Simon\nTWB Christiansen\, Uwe\nNWB Hansen\, Kay\nNWB Peters\, Erk\nNWB* Schulz\, Uwe
+END:VEVENT
+BEGIN:VEVENT
+UID:dienstplan-2026-W45-20261102@wdr-besatzungsliste
+DTSTAMP:20261015T152300Z
+LAST-MODIFIED:20261015T152300Z
+SEQUENCE:5
+DTSTART;VALUE=DATE:20261102
+DTEND;VALUE=DATE:20261103
+SUMMARY:Dienst auf NORDFRIESLAND
+DESCRIPTION:KW 45/2026\, Stand: 2026-10-15 15:23\, Datei: 45KW2026 4.Aenderung.pdf\n\nAbfahrten:\nHW 6:42 / NW 0:51 / HW 19:31 / NW 13:36\n6:00 Wyk-Dagebüll\n7:15 Dagebüll-Wyk\n8:15 Wyk-Wittdün\n9:30 Wittdün-Wyk\n10:50 Wyk-Dagebüll\n12:00 Dagebüll-Wyk\n13:20 Wyk-Dagebüll\n15:05 Dagebüll-Wyk\n16:00 Wyk-Wittdün\n17:25 Wittdün-Wyk\n18:40 Wyk-Dagebüll\n19:30 Dagebüll-Wyk (vorl.)\n\nBesatzung:\nNK Hinrichsen\, Jesper\nNEO Roeloffs\, Jörg\nTLM Andresen\, Dieter\nGSM Jähnig Martin\nNWB Fabrizius\, Philipp\nNWB Lorenzen\, Klaus\nNWB* Bukowicki\, Piotr\n\nVorwoche (steigt aus):\nNK Blank\, Marc\nNEO Gleike\, Falco\nTLM Hansen\, Boy Simon\nTWB Christiansen\, Uwe\nNWB Hansen\, Kay\nNWB Peters\, Erk\nNWB* Schulz\, Uwe
+END:VEVENT
+BEGIN:VEVENT
+UID:dienstplan-2026-W45-20261103@wdr-besatzungsliste
+DTSTAMP:20261015T152300Z
+LAST-MODIFIED:20261015T152300Z
+SEQUENCE:5
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:Dienst auf NORDFRIESLAND
+DESCRIPTION:KW 45/2026\, Stand: 2026-10-15 15:23\, Datei: 45KW2026 4.Aenderung.pdf\n\nBesatzung:\nNK Hinrichsen\, Jesper\nNEO Roeloffs\, Jörg\nTLM Andresen\, Dieter\nGSM Jähnig Martin\nNWB Fabrizius\, Philipp\nNWB Lorenzen\, Klaus\nNWB* Bukowicki\, Piotr\n\nVorwoche (steigt aus):\nNK Blank\, Marc\nNEO Gleike\, Falco\nTLM Hansen\, Boy Simon\nTWB Christiansen\, Uwe\nNWB Hansen\, Kay\nNWB Peters\, Erk\nNWB* Schulz\, Uwe
+END:VEVENT
+BEGIN:VEVENT
+UID:dienstplan-2026-W45-20261104@wdr-besatzungsliste
+DTSTAMP:20261015T152300Z
+LAST-MODIFIED:20261015T152300Z
+SEQUENCE:5
+DTSTART;VALUE=DATE:20261104
+DTEND;VALUE=DATE:20261105
+SUMMARY:Dienst auf NORDFRIESLAND
+DESCRIPTION:KW 45/2026\, Stand: 2026-10-15 15:23\, Datei: 45KW2026 4.Aenderung.pdf\n\nBesatzung:\nNK Hinrichsen\, Jesper\nNEO Roeloffs\, Jörg\nTLM Andresen\, Dieter\nGSM Jähnig Martin\nNWB Fabrizius\, Philipp\nNWB Lorenzen\, Klaus\nNWB* Bukowicki\, Piotr\n\nVorwoche (steigt aus):\nNK Blank\, Marc\nNEO Gleike\, Falco\nTLM Hansen\, Boy Simon\nTWB Christiansen\, Uwe\nNWB Hansen\, Kay\nNWB Peters\, Erk\nNWB* Schulz\, Uwe
+END:VEVENT
+BEGIN:VEVENT
+UID:dienstplan-2026-W45-20261105@wdr-besatzungsliste
+DTSTAMP:20261015T152300Z
+LAST-MODIFIED:20261015T152300Z
+SEQUENCE:5
+DTSTART;VALUE=DATE:20261105
+DTEND;VALUE=DATE:20261106
+SUMMARY:Dienst auf NORDFRIESLAND
+DESCRIPTION:KW 45/2026\, Stand: 2026-10-15 15:23\, Datei: 45KW2026 4.Aenderung.pdf\n\nBesatzung:\nNK Hinrichsen\, Jesper\nNEO Roeloffs\, Jörg\nTLM Andresen\, Dieter\nGSM Jähnig Martin\nNWB Fabrizius\, Philipp\nNWB Lorenzen\, Klaus\nNWB* Bukowicki\, Piotr\n\nVorwoche (steigt aus):\nNK Blank\, Marc\nNEO Gleike\, Falco\nTLM Hansen\, Boy Simon\nTWB Christiansen\, Uwe\nNWB Hansen\, Kay\nNWB Peters\, Erk\nNWB* Schulz\, Uwe
+END:VEVENT
+BEGIN:VEVENT
+UID:dienstplan-2026-W45-20261106@wdr-besatzungsliste
+DTSTAMP:20261015T152300Z
+LAST-MODIFIED:20261015T152300Z
+SEQUENCE:5
+DTSTART;VALUE=DATE:20261106
 DTEND;VALUE=DATE:20261107
 SUMMARY:Dienst auf NORDFRIESLAND
 DESCRIPTION:KW 45/2026\, Stand: 2026-10-15 15:23\, Datei: 45KW2026 4.Aenderung.pdf\n\nBesatzung:\nNK Hinrichsen\, Jesper\nNEO Roeloffs\, Jörg\nTLM Andresen\, Dieter\nGSM Jähnig Martin\nNWB Fabrizius\, Philipp\nNWB Lorenzen\, Klaus\nNWB* Bukowicki\, Piotr\n\nVorwoche (steigt aus):\nNK Blank\, Marc\nNEO Gleike\, Falco\nTLM Hansen\, Boy Simon\nTWB Christiansen\, Uwe\nNWB Hansen\, Kay\nNWB Peters\, Erk\nNWB* Schulz\, Uwe

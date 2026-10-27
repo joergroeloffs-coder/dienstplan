@@ -191,6 +191,11 @@
     "vorgaenger_text": null
   },
   "2026-W45": {
+    "abfahrten_pro_tag": {
+      "01.11.2026": "HW 5:43 / NW 0:00 / HW 18:24 / NW 12:34\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:50 Wyk-Dagebüll\n12:35 Dagebüll-Wyk\n13:45 Wyk-Dagebüll\n15:05 Dagebüll-Wyk",
+      "02.11.2026": "HW 6:42 / NW 0:51 / HW 19:31 / NW 13:36\n6:00 Wyk-Dagebüll\n7:15 Dagebüll-Wyk\n8:15 Wyk-Wittdün\n9:30 Wittdün-Wyk\n10:50 Wyk-Dagebüll\n12:00 Dagebüll-Wyk\n13:20 Wyk-Dagebüll\n15:05 Dagebüll-Wyk\n16:00 Wyk-Wittdün\n17:25 Wittdün-Wyk\n18:40 Wyk-Dagebüll\n19:30 Dagebüll-Wyk (vorl.)",
+      "31.10.2026": "HW 4:55 / NW 11:44 / HW 17:30\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:50 Wyk-Dagebüll\n12:35 Dagebüll-Wyk\n13:45 Wyk-Dagebüll\n15:05 Dagebüll-Wyk"
+    },
     "besatzung_text": "NK Hinrichsen, Jesper\nNEO Roeloffs, Jörg\nTLM Andresen, Dieter\nGSM Jähnig Martin\nNWB Fabrizius, Philipp\nNWB Lorenzen, Klaus\nNWB* Bukowicki, Piotr",
     "category": "NORDFRIESLAND",
     "date_from": "2026-10-30",
