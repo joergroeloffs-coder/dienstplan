@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">14:58 · aus Dienstplan</div>
+    <div class="sub">15:03 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -138,7 +138,7 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>19</b><span>PKW</span></div>
+      <div class="stat"><b>21</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>0</b><span>Transporter</span></div>
       <div class="stat"><b>0</b><span>Sonder</span></div>
@@ -210,15 +210,17 @@ select#schiff-select{
       <div class="stat"><b>9</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>1</b><span>Transporter</span></div>
-      <div class="stat"><b>3</b><span>Sonder</span></div>
+      <div class="stat"><b>5</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">73,8 m</span>
+      <span class="val">125,6 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
+<div class="special-row"><div class="kind">MAX KEMSKI FORSTBETRIEB</div><div class="plate">HEIMK48MK129</div><div class="len">27,6 m</div></div>
+<div class="special-row"><div class="kind">MAX KEMSKI FORSTBETRIEB</div><div class="plate">DBL3G21</div><div class="len">24,3 m</div></div>
 <div class="special-row"><div class="kind">BERALDI GMBH U. CO KG</div><div class="plate">SLER70</div><div class="len">9,7 m</div></div>
 <div class="group-label">Transporter</div>
 <div class="special-row"><div class="kind">ZSCHUMMEL HOLGER</div><div class="plate">RDZL550</div><div class="len">7,2 m</div></div>
@@ -272,14 +274,14 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>20</b><span>PKW</span></div>
+      <div class="stat"><b>18</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>3</b><span>Transporter</span></div>
       <div class="stat"><b>5</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">144,8 m</span>
+      <span class="val">136,0 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -306,7 +308,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "14:58";
+const UHRZEIT = "15:03";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
