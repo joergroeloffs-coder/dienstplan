@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">05:17 · aus Dienstplan</div>
+    <div class="sub">05:22 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -186,7 +186,21 @@ select#schiff-select{
       <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
     </div>
     
-    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
+    <div class="stats">
+      <div class="stat"><b>3</b><span>PKW</span></div>
+      <div class="stat"><b>0</b><span>Motorrad</span></div>
+      <div class="stat"><b>2</b><span>Transporter</span></div>
+      <div class="stat"><b>4</b><span>Sonder</span></div>
+    </div>
+    <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
+<div class="special">
+<div class="group-label">LKW</div>
+<div class="special-row"><div class="kind">KAI BRÜNING OBST- UND GEMÜSE-</div><div class="plate">—</div><div class="len">12,2 m</div></div>
+<div class="special-row"><div class="kind">SYLT LOGISTIK GMBH + CO.KG</div><div class="plate">NFNF1433</div><div class="len">11,8 m</div></div>
+<div class="group-label">Transporter</div>
+<div class="special-row"><div class="kind">DEUTSCHE POST AG</div><div class="plate">FRSPR1</div><div class="len">8,8 m</div></div>
+<div class="special-row"><div class="kind">KLINIKUM NF SERVICE GMBH</div><div class="plate">NFKH7600</div><div class="len">8,8 m</div></div>
+</div>
   </section>
 </div>
 <div class="schiff-block" data-abk="S-H" data-name="Schleswig - Holstein" data-color="#dce7f5" style="display:none">
@@ -300,7 +314,25 @@ select#schiff-select{
       <div class="head"><span class="dot"></span>
         <div><b>Zeitgleich NA</b> — ab FÖHR um 08:15: FÖHR → AMRUM → FÖHR</div>
       </div>
-      <div class="legs"><div class="leg"><span class="dest">FÖHR → AMRUM</span><span class="m">0 m</span></div><div class="legs-label">Noch keine eigene Buchung zu dieser Etappe</div><div class="leg"><span class="dest">AMRUM → FÖHR</span><span class="m">0 m</span></div><div class="legs-label">Noch keine eigene Buchung zu dieser Etappe</div></div>
+      <div class="legs"><div class="leg"><span class="dest">FÖHR → AMRUM</span><span class="m">241,6 m</span></div><div class="legs-label">Durchgehende Buchung ab DAGEBÜLL 07:15 Uhr</div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
+<div class="special">
+<div class="group-label">LKW</div>
+<div class="special-row"><div class="kind">C.G. CHRISTIANSEN GMBH + CO.</div><div class="plate">—</div><div class="len">27,6 m</div></div>
+<div class="special-row"><div class="kind">HBK DETHLEFFSEN GMBH</div><div class="plate">NFD920ZUG</div><div class="len">27,6 m</div></div>
+<div class="special-row"><div class="kind">KIRN SPEDITION</div><div class="plate">—</div><div class="len">24,3 m</div></div>
+<div class="special-row"><div class="kind">KIRN SPEDITION</div><div class="plate">BREITE</div><div class="len">24,3 m</div></div>
+<div class="special-row"><div class="kind">CHEFS CULINAR NORD</div><div class="plate">—</div><div class="len">14,7 m</div></div>
+<div class="special-row"><div class="kind">CHEFS CULINAR NORD</div><div class="plate">—</div><div class="len">14,7 m</div></div>
+<div class="special-row"><div class="kind">DEUTSCHE POST AG</div><div class="plate">ARLKW1</div><div class="len">14,7 m</div></div>
+<div class="special-row"><div class="kind">DEUTSCHE POST AG</div><div class="plate">ASLKW2</div><div class="len">14,7 m</div></div>
+<div class="special-row"><div class="kind">KAI BRÜNING OBST- UND GEMÜSE-</div><div class="plate">—</div><div class="len">12,2 m</div></div>
+<div class="group-label">Transporter</div>
+<div class="special-row"><div class="kind">DEUTSCHE POST AG</div><div class="plate">ARSPR1</div><div class="len">8,8 m</div></div>
+<div class="special-row"><div class="kind">PROSEGUR CASH SERVICES GERMANY</div><div class="plate">DSL955</div><div class="len">8,8 m</div></div>
+<div class="group-label">PKW-Anhänger</div>
+<div class="special-row"><div class="kind">ISD INSEL SCHNELLDIENST GMBH</div><div class="plate">NFAT133</div><div class="len">8,8 m</div></div>
+<div class="special-row"><div class="kind">GROSSOUNION NORD GMBH + CO. KG</div><div class="plate">NFCL111</div><div class="len">4,3 m</div></div>
+</div><div class="leg"><span class="dest">AMRUM → FÖHR</span><span class="m">0 m</span></div><div class="legs-label">Noch keine eigene Buchung zu dieser Etappe</div></div>
     </div>
   </section>
 </div>
@@ -316,7 +348,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "05:17";
+const UHRZEIT = "05:22";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
