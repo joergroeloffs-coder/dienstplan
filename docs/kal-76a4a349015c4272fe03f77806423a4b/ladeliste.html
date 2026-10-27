@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">15:18 · aus Dienstplan</div>
+    <div class="sub">15:23 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -237,14 +237,14 @@ select#schiff-select{
     </div>
     <div class="legs-label">Nicht im Fahrplan enthalten — laut aktueller Buchung</div>
     <div class="stats">
-      <div class="stat"><b>9</b><span>PKW</span></div>
+      <div class="stat"><b>10</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>1</b><span>Transporter</span></div>
       <div class="stat"><b>1</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">63,5 m</span>
+      <span class="val">67,9 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -297,12 +297,12 @@ select#schiff-select{
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">136,0 m</span>
+      <span class="val">135,9 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
-<div class="special-row"><div class="kind">NORDFRIESLAND LOGISTIK GMBH</div><div class="plate">—</div><div class="len">24,3 m</div></div>
+<div class="special-row"><div class="kind">NORDFRIESLAND LOGISTIK GMBH</div><div class="plate">SLCT2812</div><div class="len">24,3 m</div></div>
 <div class="group-label">Transporter</div>
 <div class="special-row"><div class="kind">WIESE BERND</div><div class="plate">TÜV2765</div><div class="len">8,8 m</div></div>
 <div class="special-row"><div class="kind">ANDREAS LORENZEN PKW</div><div class="plate">NFCT2025</div><div class="len">8,7 m</div></div>
@@ -332,7 +332,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "15:18";
+const UHRZEIT = "15:23";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
