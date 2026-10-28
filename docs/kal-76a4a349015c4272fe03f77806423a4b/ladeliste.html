@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">15:49 · aus Dienstplan</div>
+    <div class="sub">15:54 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -215,18 +215,16 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>16</b><span>PKW</span></div>
+      <div class="stat"><b>14</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>0</b><span>Transporter</span></div>
-      <div class="stat"><b>3</b><span>Sonder</span></div>
+      <div class="stat"><b>2</b><span>Sonder</span></div>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
 <div class="special-row"><div class="kind">EDEKA LOGISTIK NEUMÜNSTER GMBH</div><div class="plate">NFJK888JK999</div><div class="len">27,6 m</div></div>
 <div class="special-row"><div class="kind">EDEKA LOGISTIK NEUMÜNSTER GMBH</div><div class="plate">NFJK300</div><div class="len">14,8 m</div></div>
-<div class="group-label">PKW-Anhänger</div>
-<div class="special-row"><div class="kind">GROTE LUDWIG</div><div class="plate">NFCH428</div><div class="len">5,0 m</div></div>
 </div>
   </section>
 </div>
@@ -296,7 +294,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "15:49";
+const UHRZEIT = "15:54";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
