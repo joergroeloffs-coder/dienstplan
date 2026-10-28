@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">12:52 · aus Dienstplan</div>
+    <div class="sub">12:57 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -164,12 +164,12 @@ select#schiff-select{
     <div class="stats">
       <div class="stat"><b>28</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>6</b><span>Transporter</span></div>
-      <div class="stat"><b>12</b><span>Sonder</span></div>
+      <div class="stat"><b>7</b><span>Transporter</span></div>
+      <div class="stat"><b>13</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">289,7 m</span>
+      <span class="val">296,8 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -186,6 +186,7 @@ select#schiff-select{
 <div class="special-row"><div class="kind">AUDEHM EINE MARKE DER PS SOLUT</div><div class="plate">NMSAU666</div><div class="len">8,0 m</div></div>
 <div class="special-row"><div class="kind">HEßMANN MARKUS</div><div class="plate">MMX8416</div><div class="len">7,3 m</div></div>
 <div class="special-row"><div class="kind">E.T.S. GMBH + CO. KG THOMAS</div><div class="plate">SLES1999</div><div class="len">7,2 m</div></div>
+<div class="special-row"><div class="kind">DATAGROUP HAMBURG GMBH</div><div class="plate">HHDG215</div><div class="len">7,1 m</div></div>
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">MK BAUBEDARF NORD GMBH</div><div class="plate">NMSMK234</div><div class="len">6,6 m</div></div>
 </div>
@@ -298,12 +299,12 @@ select#schiff-select{
     <div class="stats">
       <div class="stat"><b>26</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>5</b><span>Transporter</span></div>
-      <div class="stat"><b>10</b><span>Sonder</span></div>
+      <div class="stat"><b>4</b><span>Transporter</span></div>
+      <div class="stat"><b>9</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">259,9 m</span>
+      <span class="val">252,8 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -318,7 +319,6 @@ select#schiff-select{
 <div class="special-row"><div class="kind">WIESE BERND</div><div class="plate">TÜV2765</div><div class="len">8,8 m</div></div>
 <div class="special-row"><div class="kind">REUSCH NICOLAI</div><div class="plate">SEVZ756</div><div class="len">7,8 m</div></div>
 <div class="special-row"><div class="kind">ANDREAS PETERSEN GMBH + CO. KG</div><div class="plate">NFXX7710</div><div class="len">7,7 m</div></div>
-<div class="special-row"><div class="kind">DATAGROUP HAMBURG GMBH</div><div class="plate">HHDG215</div><div class="len">7,1 m</div></div>
 </div>
   </section>
 </div>
@@ -334,7 +334,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "12:52";
+const UHRZEIT = "12:57";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
