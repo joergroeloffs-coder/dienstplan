@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">16:30 · aus Dienstplan</div>
+    <div class="sub">16:35 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -129,17 +129,7 @@ select#schiff-select{
       <div class="route">FÖHR <span class="arrow">→</span> AMRUM</div>
     </div>
     
-    <div class="stats">
-      <div class="stat"><b>3</b><span>PKW</span></div>
-      <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>0</b><span>Transporter</span></div>
-      <div class="stat"><b>0</b><span>Sonder</span></div>
-    </div>
-    <div class="total-bar">
-      <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">16,6 m</span>
-    </div>
-    
+    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
   </section>
   <section class="card" data-jetzt>
     <div class="route-row">
@@ -206,18 +196,17 @@ select#schiff-select{
       <div class="stat"><b>11</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>1</b><span>Transporter</span></div>
-      <div class="stat"><b>4</b><span>Sonder</span></div>
+      <div class="stat"><b>3</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">127,0 m</span>
+      <span class="val">113,8 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
 <div class="special-row"><div class="kind">PULTRUM RIJSSEN B.V.</div><div class="plate">59BTJ7</div><div class="len">25,7 m</div></div>
 <div class="special-row"><div class="kind">PULTRUM RIJSSEN B.V.</div><div class="plate">66BTZ8</div><div class="len">25,7 m</div></div>
-<div class="special-row"><div class="kind">REMONDIS GMBH + CO. KG</div><div class="plate">NFRE6060</div><div class="len">13,2 m</div></div>
 <div class="group-label">Transporter</div>
 <div class="special-row"><div class="kind">S.A.T. GMBH + CO. KG</div><div class="plate">NFEE737</div><div class="len">7,7 m</div></div>
 </div>
@@ -229,7 +218,7 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>14</b><span>PKW</span></div>
+      <div class="stat"><b>15</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>0</b><span>Transporter</span></div>
       <div class="stat"><b>2</b><span>Sonder</span></div>
@@ -298,15 +287,16 @@ select#schiff-select{
       <div class="stat"><b>5</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>0</b><span>Transporter</span></div>
-      <div class="stat"><b>1</b><span>Sonder</span></div>
+      <div class="stat"><b>2</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">42,4 m</span>
+      <span class="val">55,6 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
+<div class="special-row"><div class="kind">REMONDIS GMBH + CO. KG</div><div class="plate">NFRE6060</div><div class="len">13,2 m</div></div>
 <div class="special-row"><div class="kind">REMONDIS GMBH + CO. KG</div><div class="plate">SLRE1029</div><div class="len">13,2 m</div></div>
 </div>
   </section>
@@ -331,7 +321,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "16:30";
+const UHRZEIT = "16:35";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
