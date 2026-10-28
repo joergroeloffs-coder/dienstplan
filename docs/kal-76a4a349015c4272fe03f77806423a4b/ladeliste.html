@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">07:25 · aus Dienstplan</div>
+    <div class="sub">07:30 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -303,15 +303,15 @@ select#schiff-select{
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">246,7 m</span>
+      <span class="val">253,7 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
 <div class="special-row"><div class="kind">PROGAS GMBH</div><div class="plate">HEIW811</div><div class="len">35,3 m</div></div>
+<div class="special-row"><div class="kind">C.G. CHRISTIANSEN GMBH + CO.</div><div class="plate">BRAU1206B1206</div><div class="len">27,6 m</div></div>
 <div class="special-row"><div class="kind">C.G. CHRISTIANSEN GMBH + CO.</div><div class="plate">NFJO890</div><div class="len">24,3 m</div></div>
 <div class="special-row"><div class="kind">DEUTSCHE POST AG</div><div class="plate">FRLKW10</div><div class="len">21,0 m</div></div>
-<div class="special-row"><div class="kind">C.G. CHRISTIANSEN GMBH + CO.</div><div class="plate">BRAU1206</div><div class="len">20,6 m</div></div>
 <div class="special-row"><div class="kind">SEMCOGLAS GMBH</div><div class="plate">SLSG324</div><div class="len">15,4 m</div></div>
 <div class="special-row"><div class="kind">BAT AGRAR GMBH + CO. KG</div><div class="plate">RZUL5020</div><div class="len">14,4 m</div></div>
 <div class="special-row"><div class="kind">REMONDIS GMBH + CO. KG</div><div class="plate">SLRE1075</div><div class="len">13,2 m</div></div>
@@ -433,7 +433,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "07:25";
+const UHRZEIT = "07:30";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
