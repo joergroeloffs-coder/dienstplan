@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">13:29 · aus Dienstplan</div>
+    <div class="sub">13:34 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -194,25 +194,7 @@ select#schiff-select{
       <div class="route">DAGEBÜLL <span class="arrow">→</span> AMRUM</div>
     </div>
     
-    <div class="stats">
-      <div class="stat"><b>25</b><span>PKW</span></div>
-      <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>1</b><span>Transporter</span></div>
-      <div class="stat"><b>3</b><span>Sonder</span></div>
-    </div>
-    <div class="total-bar">
-      <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">169,2 m</span>
-    </div>
-    <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
-<div class="special">
-<div class="group-label">LKW</div>
-<div class="special-row"><div class="kind">HBK DETHLEFFSEN GMBH</div><div class="plate">NFD400Ü</div><div class="len">17,4 m</div></div>
-<div class="group-label">Transporter</div>
-<div class="special-row"><div class="kind">SCHLOSSER JAKOB</div><div class="plate">LIZA184</div><div class="len">7,2 m</div></div>
-<div class="group-label">PKW-Anhänger</div>
-<div class="special-row"><div class="kind">ISD INSEL SCHNELLDIENST GMBH</div><div class="plate">NFBJ992</div><div class="len">7,9 m</div></div>
-</div>
+    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
   </section>
   <section class="card" data-jetzt>
     <div class="route-row">
@@ -282,12 +264,12 @@ select#schiff-select{
     <div class="stats">
       <div class="stat"><b>34</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>3</b><span>Transporter</span></div>
-      <div class="stat"><b>6</b><span>Sonder</span></div>
+      <div class="stat"><b>2</b><span>Transporter</span></div>
+      <div class="stat"><b>5</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">228,5 m</span>
+      <span class="val">223,9 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -296,10 +278,9 @@ select#schiff-select{
 <div class="special-row"><div class="kind">PULTRUM RIJSSEN B.V.</div><div class="plate">66BTZ8</div><div class="len">25,0 m</div></div>
 <div class="group-label">Transporter</div>
 <div class="special-row"><div class="kind">BRODERSEN KARL-ERICH</div><div class="plate">NFJD89</div><div class="len">8,7 m</div></div>
-<div class="special-row"><div class="kind">AUTO RUF KORF</div><div class="plate">NFDM120</div><div class="len">7,8 m</div></div>
 <div class="special-row"><div class="kind">MERKER JESSICA</div><div class="plate">HHE4272</div><div class="len">7,6 m</div></div>
 <div class="group-label">PKW-Anhänger</div>
-<div class="special-row"><div class="kind">WALGER INGO</div><div class="plate">HWD6360</div><div class="len">2,9 m</div></div>
+<div class="special-row"><div class="kind">WALGER INGO</div><div class="plate">HWD6360</div><div class="len">4,1 m</div></div>
 </div>
   </section>
   <section class="card">
@@ -349,7 +330,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "13:29";
+const UHRZEIT = "13:34";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
