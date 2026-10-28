@@ -241,16 +241,19 @@
     "vorgaenger_text": null
   },
   "2026-W48": {
-    "category": null,
-    "date_from": null,
-    "date_to": null,
+    "besatzung_text": "NK Blank, Marc\nNEO Roeloffs, Jörg\nTLM Isermann, Tobias\nGSM Peters, Olaf\nNWB Allwörden, André von\nNWB Petersen, Ralf\nNWB* Moths, Holger\nAz Skora, Josse ab 24.11.",
+    "category": "UTHLANDE",
+    "date_from": "2026-11-20",
+    "date_to": "2026-11-27",
     "farbe_schiff": null,
-    "file": null,
-    "mtime": null,
-    "nachbar_links": null,
-    "rang": null,
-    "sequence": 0,
-    "summary": null
+    "file": "48KW2026.pdf",
+    "mtime": "2026-10-28 05:18",
+    "nachbar_links": "Freie Tage",
+    "rang": "NEO",
+    "revision": 0,
+    "sequence": 1,
+    "summary": "Dienst auf UTHLANDE",
+    "vorgaenger_text": "NK Sander, Maximilian\nNEO Gleike, Falco\nTLM Petersen, Lukas\nGSM Romischke, Willi\nNWB Bersuch, Sören\nNWB Woydack, Ole\nNWB* Müller, Jan\nAz Skora, Josse"
   },
   "2026-W49": {
     "category": null,
