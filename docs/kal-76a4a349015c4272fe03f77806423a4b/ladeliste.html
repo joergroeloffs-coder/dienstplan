@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">09:17 · aus Dienstplan</div>
+    <div class="sub">09:22 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -264,11 +264,12 @@ select#schiff-select{
       <div class="stat"><b>10</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>0</b><span>Transporter</span></div>
-      <div class="stat"><b>4</b><span>Sonder</span></div>
+      <div class="stat"><b>5</b><span>Sonder</span></div>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
+<div class="special-row"><div class="kind">C.G. CHRISTIANSEN GMBH + CO.</div><div class="plate">NFJO460</div><div class="len">24,3 m</div></div>
 <div class="special-row"><div class="kind">GÖRRISSEN PROJEKT GMBH</div><div class="plate">HHA5945</div><div class="len">10,2 m</div></div>
 <div class="special-row"><div class="kind">MK BAUBEDARF NORD GMBH</div><div class="plate">NMSMK888</div><div class="len">10,2 m</div></div>
 <div class="special-row"><div class="kind">HK-SERVICE HEIKO KOHN</div><div class="plate">NFHK1023</div><div class="len">10,0 m</div></div>
@@ -311,7 +312,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "09:17";
+const UHRZEIT = "09:22";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
