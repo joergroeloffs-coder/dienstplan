@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">11:15 · aus Dienstplan</div>
+    <div class="sub">11:20 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -158,14 +158,14 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>27</b><span>PKW</span></div>
+      <div class="stat"><b>28</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>1</b><span>Transporter</span></div>
       <div class="stat"><b>9</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">280,2 m</span>
+      <span class="val">285,2 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -209,23 +209,25 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>34</b><span>PKW</span></div>
+      <div class="stat"><b>37</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>3</b><span>Transporter</span></div>
-      <div class="stat"><b>9</b><span>Sonder</span></div>
+      <div class="stat"><b>11</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">261,2 m</span>
+      <span class="val">312,0 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
+<div class="special-row"><div class="kind">C.G. CHRISTIANSEN GMBH + CO.</div><div class="plate">NFJO460</div><div class="len">24,3 m</div></div>
 <div class="special-row"><div class="kind">CHEFS CULINAR NORD</div><div class="plate">KICC2217</div><div class="len">14,7 m</div></div>
 <div class="special-row"><div class="kind">BAUXPERT CHRISTIANSEN GMBH +</div><div class="plate">NFBX1020</div><div class="len">14,7 m</div></div>
 <div class="special-row"><div class="kind">CHEFS CULINAR NORD</div><div class="plate">KICC2312</div><div class="len">14,6 m</div></div>
 <div class="special-row"><div class="kind">FRESE TRANSPORT UND LOGISTIK</div><div class="plate">RDRN84</div><div class="len">13,7 m</div></div>
 <div class="special-row"><div class="kind">NORDFRIESLAND LOGISTIK GMBH</div><div class="plate">NFNV41</div><div class="len">13,6 m</div></div>
+<div class="special-row"><div class="kind">HBK DETHLEFFSEN GMBH</div><div class="plate">NFD173</div><div class="len">13,0 m</div></div>
 <div class="special-row"><div class="kind">GÖRRISSEN PROJEKT GMBH</div><div class="plate">HHA5945</div><div class="len">10,2 m</div></div>
 <div class="group-label">Transporter</div>
 <div class="special-row"><div class="kind">PROSEGUR CASH SERVICES GERMANY</div><div class="plate">DSL955</div><div class="len">8,8 m</div></div>
@@ -240,14 +242,14 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>26</b><span>PKW</span></div>
+      <div class="stat"><b>27</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>0</b><span>Transporter</span></div>
       <div class="stat"><b>1</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">168,4 m</span>
+      <span class="val">172,7 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -303,14 +305,14 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>25</b><span>PKW</span></div>
+      <div class="stat"><b>26</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>1</b><span>Transporter</span></div>
       <div class="stat"><b>2</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">158,3 m</span>
+      <span class="val">163,0 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -333,7 +335,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "11:15";
+const UHRZEIT = "11:20";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
