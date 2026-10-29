@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">17:49 · aus Dienstplan</div>
+    <div class="sub">17:54 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -209,15 +209,16 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>19</b><span>PKW</span></div>
+      <div class="stat"><b>21</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>0</b><span>Transporter</span></div>
-      <div class="stat"><b>1</b><span>Sonder</span></div>
+      <div class="stat"><b>2</b><span>Sonder</span></div>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
 <div class="special-row"><div class="kind">INSEL ENERGIE NF GMBH</div><div class="plate">NFPP115</div><div class="len">47,9 m</div></div>
+<div class="special-row"><div class="kind">WILLI REIMER + SÖHNE SPEDITION</div><div class="plate">RDRD26</div><div class="len">24,3 m</div></div>
 </div>
   </section>
   <section class="card">
@@ -280,14 +281,14 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>16</b><span>PKW</span></div>
+      <div class="stat"><b>15</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>0</b><span>Transporter</span></div>
       <div class="stat"><b>3</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">103,8 m</span>
+      <span class="val">99,0 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -311,7 +312,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "17:49";
+const UHRZEIT = "17:54";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
