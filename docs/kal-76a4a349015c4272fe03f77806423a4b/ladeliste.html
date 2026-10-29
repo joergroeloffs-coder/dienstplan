@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">05:47 · aus Dienstplan</div>
+    <div class="sub">05:52 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -166,8 +166,8 @@ select#schiff-select{
     <div class="stats">
       <div class="stat"><b>6</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>6</b><span>Transporter</span></div>
-      <div class="stat"><b>8</b><span>Sonder</span></div>
+      <div class="stat"><b>5</b><span>Transporter</span></div>
+      <div class="stat"><b>7</b><span>Sonder</span></div>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -177,7 +177,6 @@ select#schiff-select{
 <div class="special-row"><div class="kind">DEUTSCHE POST AG</div><div class="plate">FRSPR1</div><div class="len">8,8 m</div></div>
 <div class="special-row"><div class="kind">SATTELDEALER</div><div class="plate">NFCG6666</div><div class="len">8,8 m</div></div>
 <div class="special-row"><div class="kind">KLINIKUM NF SERVICE GMBH</div><div class="plate">NFKH7600</div><div class="len">8,8 m</div></div>
-<div class="special-row"><div class="kind">SYLT LOGISTIK GMBH + CO.KG</div><div class="plate">NFNF1033</div><div class="len">8,8 m</div></div>
 <div class="special-row"><div class="kind">ENERCON SERVICE GMBH</div><div class="plate">AUREN65</div><div class="len">8,7 m</div></div>
 <div class="special-row"><div class="kind">KRÄMER SANITÄTSHÄUSER</div><div class="plate">NFK243</div><div class="len">8,2 m</div></div>
 <div class="group-label">PKW-Anhänger</div>
@@ -252,12 +251,12 @@ select#schiff-select{
     <div class="stats">
       <div class="stat"><b>1</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>1</b><span>Transporter</span></div>
-      <div class="stat"><b>9</b><span>Sonder</span></div>
+      <div class="stat"><b>2</b><span>Transporter</span></div>
+      <div class="stat"><b>10</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">161,5 m</span>
+      <span class="val">170,3 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -266,11 +265,12 @@ select#schiff-select{
 <div class="special-row"><div class="kind">C.G. CHRISTIANSEN GMBH + CO.</div><div class="plate">NFTP900</div><div class="len">24,3 m</div></div>
 <div class="special-row"><div class="kind">BAT TIERNAHRUNG GMBH + CO. KG</div><div class="plate">NFJK100</div><div class="len">21,0 m</div></div>
 <div class="special-row"><div class="kind">JOHANNES FRIES GMBH + CO.KG</div><div class="plate">KIF1440</div><div class="len">19,3 m</div></div>
-<div class="special-row"><div class="kind">BAUXPERT CHRISTIANSEN GMBH +</div><div class="plate">—</div><div class="len">14,7 m</div></div>
+<div class="special-row"><div class="kind">BAUXPERT CHRISTIANSEN GMBH +</div><div class="plate">NFBX1020</div><div class="len">14,7 m</div></div>
 <div class="special-row"><div class="kind">NORDFRIESLAND LOGISTIK GMBH</div><div class="plate">NFNV41</div><div class="len">13,6 m</div></div>
 <div class="special-row"><div class="kind">SYLT LOGISTIK GMBH + CO.KG</div><div class="plate">NFNF1433</div><div class="len">11,8 m</div></div>
 <div class="special-row"><div class="kind">MAJA SERVICE GMBH</div><div class="plate">RDTS4010</div><div class="len">10,8 m</div></div>
 <div class="group-label">Transporter</div>
+<div class="special-row"><div class="kind">SYLT LOGISTIK GMBH + CO.KG</div><div class="plate">NFNF1033</div><div class="len">8,8 m</div></div>
 <div class="special-row"><div class="kind">NORDFRIESLAND LOGISTIK GMBH</div><div class="plate">NFL6023</div><div class="len">8,7 m</div></div>
 </div>
   </section>
@@ -336,7 +336,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "05:47";
+const UHRZEIT = "05:52";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
