@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Kein Schiff diese Woche</h1>
-    <div class="sub">10:30 · aus Dienstplan</div>
+    <div class="sub">10:35 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -261,14 +261,6 @@ select#schiff-select{
 
   <section class="card is-past">
     <div class="route-row">
-      <div class="time">09:35</div>
-      <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
-    </div>
-    
-    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
-  </section>
-  <section class="card" data-jetzt>
-    <div class="route-row">
       <div class="time">10:35</div>
       <div class="route">FÖHR <span class="arrow">→</span> AMRUM</div>
     </div>
@@ -285,7 +277,7 @@ select#schiff-select{
     </div>
     
   </section>
-  <section class="card">
+  <section class="card" data-jetzt>
     <div class="route-row">
       <div class="time">12:05</div>
       <div class="route">AMRUM <span class="arrow">→</span> DAGEBÜLL</div>
@@ -314,6 +306,14 @@ select#schiff-select{
 <div class="special-row"><div class="kind">LENK JESSICA</div><div class="plate">KNJL979</div><div class="len">8,7 m</div></div>
 </div>
   </section>
+  <section class="card">
+    <div class="route-row">
+      <div class="time">14:05</div>
+      <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
+    </div>
+    
+    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
+  </section>
 </div>
 <div class="schiff-block" data-abk="NORDFRIES" data-name="Nordfriesland" data-color="#f7eec9" style="display:none">
 
@@ -327,7 +327,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = null;
-const UHRZEIT = "10:30";
+const UHRZEIT = "10:35";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
