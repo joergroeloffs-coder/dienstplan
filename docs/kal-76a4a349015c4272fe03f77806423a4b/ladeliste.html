@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">10:53 · aus Dienstplan</div>
+    <div class="sub">10:58 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -132,18 +132,20 @@ select#schiff-select{
     <div class="stats">
       <div class="stat"><b>22</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>0</b><span>Transporter</span></div>
-      <div class="stat"><b>2</b><span>Sonder</span></div>
+      <div class="stat"><b>1</b><span>Transporter</span></div>
+      <div class="stat"><b>3</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">140,8 m</span>
+      <span class="val">148,1 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
 <div class="special-row"><div class="kind">NETZER TRANSPORT GMBH</div><div class="plate">NFHN808</div><div class="len">14,7 m</div></div>
 <div class="special-row"><div class="kind">TRANSGOURMET DEUTSCHLAND</div><div class="plate">HHTG536</div><div class="len">13,9 m</div></div>
+<div class="group-label">Transporter</div>
+<div class="special-row"><div class="kind">WERNER INGO</div><div class="plate">CEIW888</div><div class="len">7,3 m</div></div>
 </div>
   </section>
   <section class="card" data-jetzt>
@@ -153,14 +155,14 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>25</b><span>PKW</span></div>
+      <div class="stat"><b>26</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>1</b><span>Transporter</span></div>
       <div class="stat"><b>6</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">213,4 m</span>
+      <span class="val">217,9 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -182,14 +184,14 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>25</b><span>PKW</span></div>
+      <div class="stat"><b>26</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>1</b><span>Transporter</span></div>
       <div class="stat"><b>6</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">213,4 m</span>
+      <span class="val">217,9 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -391,7 +393,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "10:53";
+const UHRZEIT = "10:58";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
