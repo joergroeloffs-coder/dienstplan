@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">05:22 · aus Dienstplan</div>
+    <div class="sub">05:27 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -163,12 +163,12 @@ select#schiff-select{
     <div class="stats">
       <div class="stat"><b>11</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>1</b><span>Transporter</span></div>
-      <div class="stat"><b>4</b><span>Sonder</span></div>
+      <div class="stat"><b>2</b><span>Transporter</span></div>
+      <div class="stat"><b>5</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">96,8 m</span>
+      <span class="val">105,6 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -176,6 +176,7 @@ select#schiff-select{
 <div class="special-row"><div class="kind">PETER JENSEN GMBH</div><div class="plate">NFPJ2012</div><div class="len">24,7 m</div></div>
 <div class="special-row"><div class="kind">IVA ING. MBH + CO. KG</div><div class="plate">MKVA35</div><div class="len">9,4 m</div></div>
 <div class="group-label">Transporter</div>
+<div class="special-row"><div class="kind">OLAF SITTE GMBH FA. SITTE</div><div class="plate">LWLOS213</div><div class="len">8,8 m</div></div>
 <div class="special-row"><div class="kind">IVA ING. MBH + CO. KG</div><div class="plate">MKVA1133</div><div class="len">8,8 m</div></div>
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">KNUDSEN DIRK</div><div class="plate">NFD123</div><div class="len">6,8 m</div></div>
@@ -190,12 +191,12 @@ select#schiff-select{
     <div class="stats">
       <div class="stat"><b>11</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>1</b><span>Transporter</span></div>
-      <div class="stat"><b>4</b><span>Sonder</span></div>
+      <div class="stat"><b>2</b><span>Transporter</span></div>
+      <div class="stat"><b>5</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">96,8 m</span>
+      <span class="val">105,6 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -203,6 +204,7 @@ select#schiff-select{
 <div class="special-row"><div class="kind">PETER JENSEN GMBH</div><div class="plate">NFPJ2012</div><div class="len">24,7 m</div></div>
 <div class="special-row"><div class="kind">IVA ING. MBH + CO. KG</div><div class="plate">MKVA35</div><div class="len">9,4 m</div></div>
 <div class="group-label">Transporter</div>
+<div class="special-row"><div class="kind">OLAF SITTE GMBH FA. SITTE</div><div class="plate">LWLOS213</div><div class="len">8,8 m</div></div>
 <div class="special-row"><div class="kind">IVA ING. MBH + CO. KG</div><div class="plate">MKVA1133</div><div class="len">8,8 m</div></div>
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">KNUDSEN DIRK</div><div class="plate">NFD123</div><div class="len">6,8 m</div></div>
@@ -343,7 +345,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "05:22";
+const UHRZEIT = "05:27";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
