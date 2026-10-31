@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">10:32 · aus Dienstplan</div>
+    <div class="sub">10:37 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -176,14 +176,6 @@ select#schiff-select{
 
   <section class="card is-past">
     <div class="route-row">
-      <div class="time">09:35</div>
-      <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
-    </div>
-    
-    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
-  </section>
-  <section class="card" data-jetzt>
-    <div class="route-row">
       <div class="time">10:35</div>
       <div class="route">FÖHR <span class="arrow">→</span> AMRUM</div>
     </div>
@@ -200,7 +192,7 @@ select#schiff-select{
     </div>
     
   </section>
-  <section class="card">
+  <section class="card" data-jetzt>
     <div class="route-row">
       <div class="time">12:05</div>
       <div class="route">AMRUM <span class="arrow">→</span> DAGEBÜLL</div>
@@ -222,6 +214,14 @@ select#schiff-select{
 <div class="special-row"><div class="kind">GRUNWALD THORSTEN</div><div class="plate">GTTK1508</div><div class="len">7,3 m</div></div>
 <div class="special-row"><div class="kind">WOLGAST EIKE</div><div class="plate">HHEE5333</div><div class="len">7,2 m</div></div>
 </div>
+  </section>
+  <section class="card">
+    <div class="route-row">
+      <div class="time">14:05</div>
+      <div class="route">DAGEBÜLL <span class="arrow">→</span> FÖHR</div>
+    </div>
+    
+    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
   </section>
 </div>
 <div class="schiff-block" data-abk="UTHLANDE" data-name="Uthlande" data-color="#f6dcdc" style="display:none">
@@ -265,7 +265,7 @@ select#schiff-select{
 <div class="special-row"><div class="kind">VETTEN KATJA</div><div class="plate">MGVT10</div><div class="len">7,8 m</div></div>
 <div class="group-label">Motorrad</div>
 <div class="special-row"><div class="kind">HAASE JULIEN</div><div class="plate">HMJ194</div><div class="len">0,8 m</div></div>
-</div><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">200,0 m</span></div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
+</div><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">204,0 m</span></div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
 <div class="special-row"><div class="kind">DMK DEUTSCHES MILCHKONTOR</div><div class="plate">DMKZ1</div><div class="len">20,6 m</div></div>
@@ -285,7 +285,7 @@ select#schiff-select{
       <div class="head"><span class="dot"></span>
         <div><b>Zeitgleich NORDFRIES</b> — ab DAGEBÜLL um 12:35: DAGEBÜLL → FÖHR → DAGEBÜLL</div>
       </div>
-      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">200,0 m</span></div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
+      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">204,0 m</span></div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">LKW</div>
 <div class="special-row"><div class="kind">DMK DEUTSCHES MILCHKONTOR</div><div class="plate">DMKZ1</div><div class="len">20,6 m</div></div>
@@ -346,14 +346,14 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>28</b><span>PKW</span></div>
+      <div class="stat"><b>29</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>0</b><span>Transporter</span></div>
       <div class="stat"><b>3</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">200,0 m</span>
+      <span class="val">204,0 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -379,7 +379,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "10:32";
+const UHRZEIT = "10:37";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
