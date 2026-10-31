@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">08:42 · aus Dienstplan</div>
+    <div class="sub">08:47 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -175,14 +175,14 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>25</b><span>PKW</span></div>
+      <div class="stat"><b>24</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>0</b><span>Transporter</span></div>
       <div class="stat"><b>0</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">126,3 m</span>
+      <span class="val">122,0 m</span>
     </div>
     
   </section>
@@ -270,17 +270,7 @@ select#schiff-select{
       <div class="route">FÖHR <span class="arrow">→</span> AMRUM</div>
     </div>
     
-    <div class="stats">
-      <div class="stat"><b>2</b><span>PKW</span></div>
-      <div class="stat"><b>0</b><span>Motorrad</span></div>
-      <div class="stat"><b>0</b><span>Transporter</span></div>
-      <div class="stat"><b>0</b><span>Sonder</span></div>
-    </div>
-    <div class="total-bar">
-      <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">8,2 m</span>
-    </div>
-    
+    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
   </section>
   <section class="card" data-jetzt>
     <div class="route-row">
@@ -400,13 +390,13 @@ select#schiff-select{
     <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
     <div class="overlap" style="background:#f6dcdc">
       <div class="head"><span class="dot"></span>
-        <div><b>Zeitgleich UTHLANDE</b> — ab FÖHR um 10:50: FÖHR → DAGEBÜLL → FÖHR</div>
+        <div><b>Zeitgleich UTHLANDE</b> — ab FÖHR um 10:50: FÖHR → DAGEBÜLL</div>
       </div>
       <div class="legs"><div class="leg"><span class="dest">FÖHR → DAGEBÜLL</span><span class="m">204,5 m</span></div><div class="legs-label">Durchgehende Buchung ab AMRUM 09:30 Uhr</div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">Transporter</div>
 <div class="special-row"><div class="kind">JB-TRANSPORTE INH. JAN PHILIP</div><div class="plate">NFJB13</div><div class="len">8,2 m</div></div>
-</div><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">0 m</span></div><div class="legs-label">Noch keine eigene Buchung zu dieser Etappe</div></div>
+</div></div>
     </div>
   </section>
 </div>
@@ -419,7 +409,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "08:42";
+const UHRZEIT = "08:47";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
