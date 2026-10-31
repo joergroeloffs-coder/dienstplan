@@ -2,8 +2,9 @@
 """
 Erzeugt eine mobile Vollbild-Seite mit der aktuellen Ladeliste des
 eigenen Schiffs (automatisch aus state.json ermittelt): letzte, aktuelle
-und naechste Abfahrt, inkl. Hinweis auf zeitgleich ab demselben Hafen
-abfahrende andere Schiffe (gleicher Hafen, +/- 5 Minuten).
+und naechste Abfahrt, inkl. Hinweis auf zeitgleich (+/- 5 Minuten um die
+Abfahrt des eigenen Schiffs) abfahrende andere Schiffe - unabhaengig
+davon, von welchem Hafen sie abfahren.
 
 Quelle: https://faehre2.de/fileadmin/wdr/Schiffe/Ladeliste/<ABK>.html -
 live-System, aktualisiert sich dort alle 30s. Diese Seite wird per Cronjob
@@ -209,10 +210,11 @@ def klassifiziere(fahrten, jetzt_min):
 
 
 def zeitgleich_treffer(ref, fahrten_je_schiff, ref_abk):
-    """Andere Schiffe, die +/- 5 Min. ab demselben Hafen abfahren - jeweils
+    """Andere Schiffe, die +/- 5 Min. um die Abfahrt des Referenzschiffs
+    abfahren - unabhaengig davon, von welchem Hafen aus. Liefert jeweils
     deren passende Fahrplan-Etappe, plus eine direkt angeschlossene
     Folgeetappe (Durchgangsfahrt zu einem zweiten Hafen), genau wie beim
-    eigenen Schiff. So gilt die Logik symmetrisch fuer alle Haefen."""
+    eigenen Schiff."""
     if not ref or not ref["zeit"]:
         return []
     ref_min = minuten(ref["zeit"])
@@ -221,7 +223,7 @@ def zeitgleich_treffer(ref, fahrten_je_schiff, ref_abk):
         if abk == ref_abk:
             continue
         for i, f in enumerate(fahrten):
-            if not f["zeit"] or f["origin"] != ref["origin"]:
+            if not f["zeit"]:
                 continue
             if abs(minuten(f["zeit"]) - ref_min) > 5:
                 continue
