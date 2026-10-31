@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">16:18 · aus Dienstplan</div>
+    <div class="sub">16:23 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -152,7 +152,7 @@ select#schiff-select{
       <div class="head"><span class="dot"></span>
         <div><b>Zeitgleich S-H</b> — ab DAGEBÜLL um 16:30: DAGEBÜLL → FÖHR → DAGEBÜLL</div>
       </div>
-      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">87,2 m</span></div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
+      <div class="legs"><div class="leg"><span class="dest">DAGEBÜLL → FÖHR</span><span class="m">94,6 m</span></div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
 <div class="group-label">Transporter</div>
 <div class="special-row"><div class="kind">HOFMANN ULRIKE</div><div class="plate">AICMS822</div><div class="len">7,6 m</div></div>
@@ -201,14 +201,14 @@ select#schiff-select{
     </div>
     
     <div class="stats">
-      <div class="stat"><b>16</b><span>PKW</span></div>
+      <div class="stat"><b>18</b><span>PKW</span></div>
       <div class="stat"><b>0</b><span>Motorrad</span></div>
       <div class="stat"><b>1</b><span>Transporter</span></div>
       <div class="stat"><b>2</b><span>Sonder</span></div>
     </div>
     <div class="total-bar">
       <span class="label">Gesamt gebuchte Meter</span>
-      <span class="val">87,2 m</span>
+      <span class="val">94,6 m</span>
     </div>
     <div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
 <div class="special">
@@ -328,7 +328,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "16:18";
+const UHRZEIT = "16:23";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
