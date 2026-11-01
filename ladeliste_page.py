@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-Erzeugt eine mobile Vollbild-Seite mit der aktuellen Ladeliste ALLER 4
-Schiffe, die gerade unterwegs sind (je Schiff die laut Fahrplan aktuell
-anstehende Abfahrt) - unabhaengig davon, wer die Seite aufruft oder
-welches Schiff "das eigene" waere. Jedes Schiff bekommt einen eigenen,
-in seiner Schiffsfarbe gehaltenen Kasten mit Route, Ladedaten und
+Erzeugt eine mobile Vollbild-Seite mit ALLEN heutigen Abfahrten ALLER 4
+Schiffe (Live-Buchungsdaten + amtlicher Fahrplan zusammengefuehrt) -
+unabhaengig davon, wer die Seite aufruft oder welches Schiff "das
+eigene" waere. Chronologisch sortiert, ein Kasten je Abfahrt, jeweils
+in der Farbe des fahrenden Schiffs mit Route, Ladedaten und
 Sonderfahrzeugen.
 
 Quelle: https://faehre2.de/fileadmin/wdr/Schiffe/Ladeliste/<ABK>.html -
@@ -181,19 +181,6 @@ def minuten(zeit_str):
     return h * 60 + m
 
 
-def aktuelle_fahrt(fahrten, jetzt_min):
-    """Die gerade anstehende Abfahrt dieses Schiffs (juengste, deren Zeit
-    noch nicht mehr als 5 Min. zurueckliegt, oder die naechste kommende) -
-    oder None, wenn das Schiff aktuell nicht faehrt."""
-    mit_zeit = [f for f in fahrten if f["zeit"]]
-    mit_zeit.sort(key=lambda f: minuten(f["zeit"]))
-    vergangen = [f for f in mit_zeit if minuten(f["zeit"]) <= jetzt_min]
-    kommend = [f for f in mit_zeit if minuten(f["zeit"]) > jetzt_min]
-    if vergangen and jetzt_min - minuten(vergangen[-1]["zeit"]) <= 5:
-        return vergangen[-1]
-    return kommend[0] if kommend else None
-
-
 def esc(text):
     return (
         (text or "")
@@ -243,7 +230,7 @@ def route_html(origin, ziel):
 
 
 def karte_html(fahrt, label, farbe):
-    """Ein Schiffs-Kasten: Schiffsname, Route/Zeit, Ladedaten,
+    """Ein Abfahrts-Kasten: Schiffsname, Route/Zeit, Ladedaten,
     Sonderfahrzeuge - komplett in der Schiffsfarbe gehalten."""
     if fahrt is None:
         return ""
@@ -571,7 +558,6 @@ def main():
     for kategorie, abk in SCHIFF_ABK.items():
         alle_fahrten[abk] = fetch_fahrten(session, abk)
 
-    jetzt_min = minuten(datetime.now(TZ).strftime("%H:%M"))
     uhrzeit = datetime.now(TZ).strftime("%H:%M")
     heute_iso = date.today().isoformat()
     fahrplan = lade_fahrplan()
@@ -579,22 +565,28 @@ def main():
     # Die Etappen (inkl. Zwischenhalten) kommen aus dem amtlichen Fahrplan,
     # die Ladedaten je Etappe aus den Live-Buchungsbloecken - die Live-Seite
     # fasst Durchgangsbuchungen sonst zu einem Block zusammen und
-    # verschluckt dabei Zwischenhalte (z.B. Wyk).
-    karten = []
+    # verschluckt dabei Zwischenhalte (z.B. Wyk). Alle Abfahrten aller
+    # Schiffe werden gesammelt und am Ende gemeinsam chronologisch
+    # sortiert - unabhaengig davon, welches Schiff "das eigene" waere.
+    alle_abfahrten = []
     for kategorie, abk in SCHIFF_ABK.items():
         fahrten = fahrten_nach_fahrplan(kategorie, alle_fahrten[abk], fahrplan, heute_iso)
-        jetzt = aktuelle_fahrt(fahrten, jetzt_min)
-        karte = karte_html(jetzt, kategorie.title(), SCHIFF_FARBE.get(abk))
-        if karte:
-            karten.append(karte)
+        for fahrt in fahrten:
+            alle_abfahrten.append((fahrt.get("zeit"), kategorie.title(), SCHIFF_FARBE.get(abk), fahrt))
 
-    karten_html = "".join(karten) if karten else '<div id="no-ship">Aktuell fährt kein Schiff.</div>'
+    alle_abfahrten.sort(key=lambda e: minuten(e[0]) if e[0] else 9999)
+
+    karten = [
+        karte_html(fahrt, label, farbe)
+        for _zeit, label, farbe, fahrt in alle_abfahrten
+    ]
+    karten_html = "".join(karten) if karten else '<div id="no-ship">Keine Abfahrten gefunden.</div>'
 
     html = PAGE_TEMPLATE.format(uhrzeit=uhrzeit, karten=karten_html)
 
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.write_text(html, encoding="utf-8")
-    print(f"Ladeliste-Seite geschrieben mit {len(karten)} aktuell fahrenden Schiffen.")
+    print(f"Ladeliste-Seite geschrieben mit {len(karten)} Abfahrten.")
 
 
 if __name__ == "__main__":
