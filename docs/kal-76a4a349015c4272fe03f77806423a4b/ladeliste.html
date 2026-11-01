@@ -113,7 +113,7 @@ select#schiff-select{
 <header class="ship">
   <div>
     <h1>Nordfriesland</h1>
-    <div class="sub">07:27 · aus Dienstplan</div>
+    <div class="sub">07:32 · aus Dienstplan</div>
   </div>
   <select id="schiff-select"><option value="auto">Automatisch (eigenes Schiff)</option><option value="NA">Norderaue</option><option value="S-H">Schleswig - Holstein</option><option value="UTHLANDE">Uthlande</option><option value="NORDFRIES">Nordfriesland</option>
   </select>
@@ -201,7 +201,11 @@ select#schiff-select{
       <div class="head"><span class="dot"></span>
         <div><b>Zeitgleich S-H</b> — ab AMRUM um 09:30: AMRUM → FÖHR → DAGEBÜLL</div>
       </div>
-      <div class="legs"><div class="leg"><span class="dest">AMRUM → FÖHR</span><span class="m">0 m</span></div><div class="legs-label">Noch keine eigene Buchung zu dieser Etappe</div><div class="leg"><span class="dest">FÖHR → DAGEBÜLL</span><span class="m">0 m</span></div><div class="legs-label">Noch keine eigene Buchung zu dieser Etappe</div></div>
+      <div class="legs"><div class="leg"><span class="dest">AMRUM → FÖHR</span><span class="m">0 m</span></div><div class="leg"><span class="dest">FÖHR → DAGEBÜLL</span><span class="m">158,8 m</span></div><div class="legs-label">Durchgehende Buchung ab AMRUM 09:30 Uhr</div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
+<div class="special">
+<div class="group-label">LKW</div>
+<div class="special-row"><div class="kind">FRAHM SUSANNE</div><div class="plate">KYDU123</div><div class="len">10,0 m</div></div>
+</div></div>
     </div>
     <div class="overlap" style="background:#f6dcdc">
       <div class="head"><span class="dot"></span>
@@ -286,7 +290,13 @@ select#schiff-select{
       <div class="route">AMRUM <span class="arrow">→</span> FÖHR</div>
     </div>
     
-    <div class="special-head">Noch keine eigene Buchung zu dieser Etappe</div>
+    <div class="stats">
+      <div class="stat"><b>1</b><span>PKW</span></div>
+      <div class="stat"><b>0</b><span>Motorrad</span></div>
+      <div class="stat"><b>0</b><span>Transporter</span></div>
+      <div class="stat"><b>0</b><span>Sonder</span></div>
+    </div>
+    
     <div class="overlap" style="background:#e3e3e3">
       <div class="head"><span class="dot"></span>
         <div><b>Zeitgleich NA</b> — ab FÖHR um 09:35: FÖHR → DAGEBÜLL → FÖHR</div>
@@ -370,7 +380,7 @@ select#schiff-select{
 <div class="special">
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">GROSSOUNION NORD GMBH + CO. KG</div><div class="plate">NFCL444</div><div class="len">4,3 m</div></div>
-</div><div class="leg"><span class="dest">AMRUM → FÖHR</span><span class="m">0 m</span></div><div class="legs-label">Noch keine eigene Buchung zu dieser Etappe</div></div>
+</div><div class="leg"><span class="dest">AMRUM → FÖHR</span><span class="m">0 m</span></div></div>
     </div>
     <div class="overlap" style="background:#f7eec9">
       <div class="head"><span class="dot"></span>
@@ -470,7 +480,7 @@ select#schiff-select{
 <div class="special">
 <div class="group-label">PKW-Anhänger</div>
 <div class="special-row"><div class="kind">GROSSOUNION NORD GMBH + CO. KG</div><div class="plate">NFCL444</div><div class="len">4,3 m</div></div>
-</div><div class="leg"><span class="dest">AMRUM → FÖHR</span><span class="m">0 m</span></div><div class="legs-label">Noch keine eigene Buchung zu dieser Etappe</div></div>
+</div><div class="leg"><span class="dest">AMRUM → FÖHR</span><span class="m">0 m</span></div></div>
     </div>
     <div class="overlap" style="background:#f6dcdc">
       <div class="head"><span class="dot"></span>
@@ -510,7 +520,11 @@ select#schiff-select{
       <div class="head"><span class="dot"></span>
         <div><b>Zeitgleich S-H</b> — ab AMRUM um 09:30: AMRUM → FÖHR → DAGEBÜLL</div>
       </div>
-      <div class="legs"><div class="leg"><span class="dest">AMRUM → FÖHR</span><span class="m">0 m</span></div><div class="legs-label">Noch keine eigene Buchung zu dieser Etappe</div><div class="leg"><span class="dest">FÖHR → DAGEBÜLL</span><span class="m">0 m</span></div><div class="legs-label">Noch keine eigene Buchung zu dieser Etappe</div></div>
+      <div class="legs"><div class="leg"><span class="dest">AMRUM → FÖHR</span><span class="m">0 m</span></div><div class="leg"><span class="dest">FÖHR → DAGEBÜLL</span><span class="m">158,8 m</span></div><div class="legs-label">Durchgehende Buchung ab AMRUM 09:30 Uhr</div><div class="special-head">Sonderfahrzeuge — nach Art, je Länge absteigend</div>
+<div class="special">
+<div class="group-label">LKW</div>
+<div class="special-row"><div class="kind">FRAHM SUSANNE</div><div class="plate">KYDU123</div><div class="len">10,0 m</div></div>
+</div></div>
     </div>
     <div class="overlap" style="background:#f6dcdc">
       <div class="head"><span class="dot"></span>
@@ -529,7 +543,7 @@ if ("serviceWorker" in navigator) {
 }
 
 const EIGENE_ABK = "NORDFRIES";
-const UHRZEIT = "07:27";
+const UHRZEIT = "07:32";
 
 function anwenden(auswahl) {
   const blocks = document.querySelectorAll(".schiff-block");
