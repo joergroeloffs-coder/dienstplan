@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
-Erzeugt eine mobile Vollbild-Seite mit der aktuellen Ladeliste des
-eigenen Schiffs (automatisch aus state.json ermittelt): letzte, aktuelle
-und naechste Abfahrt, inkl. Hinweis auf zeitgleich (+/- 5 Minuten um die
-Abfahrt des eigenen Schiffs) abfahrende andere Schiffe - unabhaengig
-davon, von welchem Hafen sie abfahren.
+Erzeugt eine mobile Vollbild-Seite mit der aktuellen Ladeliste ALLER 4
+Schiffe, die gerade unterwegs sind (je Schiff die laut Fahrplan aktuell
+anstehende Abfahrt) - unabhaengig davon, wer die Seite aufruft oder
+welches Schiff "das eigene" waere. Jedes Schiff bekommt einen eigenen,
+in seiner Schiffsfarbe gehaltenen Kasten mit Route, Ladedaten und
+Sonderfahrzeugen.
 
 Quelle: https://faehre2.de/fileadmin/wdr/Schiffe/Ladeliste/<ABK>.html -
 live-System, aktualisiert sich dort alle 30s. Diese Seite wird per Cronjob
@@ -28,7 +29,6 @@ import requests
 HERE = Path(__file__).resolve().parent
 SLUG = "kal-76a4a349015c4272fe03f77806423a4b"
 OUTPUT_PATH = HERE / "docs" / SLUG / "ladeliste.html"
-STATE_PATH = HERE / "state.json"
 # Der echte, amtliche Fahrplan (von fahrplan_export_gps.py aus dem
 # Fahrplan-PDF erzeugt) nennt je Schiff die tatsaechlichen Etappen mit
 # Zwischenhalten (z.B. Uthlande 17:25 Wittduen-Wyk, dann 18:40 Wyk-
@@ -51,8 +51,7 @@ SCHIFF_ABK = {
 }
 
 # Gedaempfte (keine Volltoene) Hintergrundfarben je Schiff, nach
-# Abkuerzung - fuer den Kopfbereich des eigenen Schiffs und die Kachel
-# einer zeitgleichen Abfahrt eines anderen Schiffs.
+# Abkuerzung - je Schiff-Kasten in seiner eigenen Farbe.
 SCHIFF_FARBE = {
     "S-H": "#dce7f5",
     "UTHLANDE": "#f6dcdc",
@@ -177,62 +176,22 @@ def fetch_fahrten(session, abk):
     return parse_fahrten(resp.text)
 
 
-def aktuelles_schiff(state):
-    heute = date.today()
-    for entry in state.values():
-        d_from, d_to = entry.get("date_from"), entry.get("date_to")
-        category = entry.get("category")
-        if not (d_from and d_to and category):
-            continue
-        if category not in SCHIFF_ABK:
-            continue
-        if date.fromisoformat(d_from) <= heute <= date.fromisoformat(d_to):
-            return category
-    return None
-
-
 def minuten(zeit_str):
     h, m = map(int, zeit_str.split(":"))
     return h * 60 + m
 
 
-def klassifiziere(fahrten, jetzt_min):
-    """Letzte (juengste vergangene), Jetzt (naechste kommende), Nächste
-    (die danach) - sortiert nach Zeit."""
+def aktuelle_fahrt(fahrten, jetzt_min):
+    """Die gerade anstehende Abfahrt dieses Schiffs (juengste, deren Zeit
+    noch nicht mehr als 5 Min. zurueckliegt, oder die naechste kommende) -
+    oder None, wenn das Schiff aktuell nicht faehrt."""
     mit_zeit = [f for f in fahrten if f["zeit"]]
     mit_zeit.sort(key=lambda f: minuten(f["zeit"]))
     vergangen = [f for f in mit_zeit if minuten(f["zeit"]) <= jetzt_min]
     kommend = [f for f in mit_zeit if minuten(f["zeit"]) > jetzt_min]
-    letzte = vergangen[-1] if vergangen else None
-    jetzt = kommend[0] if kommend else None
-    naechste = kommend[1] if len(kommend) > 1 else None
-    return letzte, jetzt, naechste
-
-
-def zeitgleich_treffer(ref, fahrten_je_schiff, ref_abk):
-    """Andere Schiffe, die +/- 5 Min. um die Abfahrt des Referenzschiffs
-    abfahren - unabhaengig davon, von welchem Hafen aus. Liefert jeweils
-    deren passende Fahrplan-Etappe, plus eine direkt angeschlossene
-    Folgeetappe (Durchgangsfahrt zu einem zweiten Hafen), genau wie beim
-    eigenen Schiff."""
-    if not ref or not ref["zeit"]:
-        return []
-    ref_min = minuten(ref["zeit"])
-    treffer = []
-    for abk, fahrten in fahrten_je_schiff.items():
-        if abk == ref_abk:
-            continue
-        for i, f in enumerate(fahrten):
-            if not f["zeit"]:
-                continue
-            if abs(minuten(f["zeit"]) - ref_min) > 5:
-                continue
-            kette = [f]
-            if i + 1 < len(fahrten) and fahrten[i + 1]["origin"] == f["ziel"]:
-                kette.append(fahrten[i + 1])
-            treffer.append((abk, kette))
-            break
-    return treffer
+    if vergangen and jetzt_min - minuten(vergangen[-1]["zeit"]) <= 5:
+        return vergangen[-1]
+    return kommend[0] if kommend else None
 
 
 def esc(text):
@@ -279,7 +238,13 @@ def sonderfahrzeuge_html(fahrzeuge):
     return "\n".join(html)
 
 
-def karte_html(fahrt, status_label, status_class, mit_details, extra_html=""):
+def route_html(origin, ziel):
+    return f'{esc(origin)} <span class="arrow">→</span> {esc(ziel)}'
+
+
+def karte_html(fahrt, label, farbe):
+    """Ein Schiffs-Kasten: Schiffsname, Route/Zeit, Ladedaten,
+    Sonderfahrzeuge - komplett in der Schiffsfarbe gehalten."""
     if fahrt is None:
         return ""
     stats = ""
@@ -298,22 +263,23 @@ def karte_html(fahrt, status_label, status_class, mit_details, extra_html=""):
       <span class="label">Gesamt gebuchte Meter</span>
       <span class="val">{fahrt['summe_pkw_spalte']} m</span>
     </div>"""
-    sonder = sonderfahrzeuge_html(fahrt["fahrzeuge"]) if mit_details else ""
+    sonder = sonderfahrzeuge_html(fahrt["fahrzeuge"])
     if not stats:
         hinweis = fahrt.get("leer_hinweis") or "Noch keine Ladedaten — wird vor Buchungsschluss aktualisiert"
         sonder = f'<div class="special-head">{esc(hinweis)}</div>'
     durchgang = ""
     if fahrt.get("durchgangs_hinweis"):
         durchgang = f'<div class="legs-label">{esc(fahrt["durchgangs_hinweis"])}</div>'
-    jetzt_attr = " data-jetzt" if status_class == "now" else ""
+    style = f' style="background:{farbe}"' if farbe else ""
     return f"""
-  <section class="card{' is-past' if status_class == 'past' else ''}"{jetzt_attr}>
+  <section class="card"{style}>
+    <div class="ship-label">{esc(label)}</div>
     <div class="route-row">
       <div class="time">{esc(fahrt['zeit'])}</div>
       <div class="route">{route_html(fahrt['origin'], fahrt['ziel'])}</div>
     </div>
     {durchgang}{stats}{total}
-    {sonder}{extra_html}
+    {sonder}
   </section>"""
 
 
@@ -467,60 +433,12 @@ def fahrten_nach_fahrplan(schiff_kategorie, bloecke, fahrplan, datum_iso):
     return fahrten
 
 
-def route_html(origin, ziel):
-    return f'{esc(origin)} <span class="arrow">→</span> {esc(ziel)}'
-
-
-def overlap_leg_html(f):
-    """Eine Etappe eines zeitgleichen anderen Schiffs: PKW-Meter plus
-    Sonderfahrzeuge, oder der Hinweis, warum (noch) keine eigenen
-    Ladedaten da sind (Durchgangsbuchung/noch keine Buchung)."""
-    m = f"{f['summe_pkw_spalte']} m" if f.get("summe_pkw_spalte") else "0 m"
-    hinweis = f.get("durchgangs_hinweis") or f.get("leer_hinweis")
-    hinweis_html = f'<div class="legs-label">{esc(hinweis)}</div>' if hinweis else ""
-    sonder = sonderfahrzeuge_html(f.get("fahrzeuge", []))
-    return (
-        f'<div class="leg"><span class="dest">{esc(f["origin"])} → {esc(f["ziel"])}</span>'
-        f'<span class="m">{esc(m)}</span></div>'
-        f'{hinweis_html}{sonder}'
-    )
-
-
-def overlap_html(treffer):
-    if not treffer:
-        return ""
-    bloecke = []
-    for abk, kette in treffer:
-        kopf_zeit = kette[0]["zeit"]
-        kette_text = " → ".join([esc(kette[0]["origin"])] + [esc(f["ziel"]) for f in kette])
-        legs_html = "".join(overlap_leg_html(f) for f in kette)
-
-        farbe = SCHIFF_FARBE.get(abk)
-        style = f' style="background:{farbe}"' if farbe else ""
-        bloecke.append(f"""
-    <div class="overlap"{style}>
-      <div class="head"><span class="dot"></span>
-        <div><b>Zeitgleich {esc(abk)}</b> — ab {esc(kette[0]['origin'])} um {esc(kopf_zeit)}: {kette_text}</div>
-      </div>
-      <div class="legs">{legs_html}</div>
-    </div>""")
-    return "".join(bloecke)
-
-
-def schiff_block_html(abk, schiff_name, farbe, karten, aktiv):
-    style = "" if aktiv else "display:none"
-    return f"""
-<div class="schiff-block" data-abk="{esc(abk)}" data-name="{esc(schiff_name)}" data-color="{esc(farbe or '')}" style="{style}">
-{karten}
-</div>"""
-
-
 PAGE_TEMPLATE = """<!doctype html>
 <html lang="de">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Ladeliste Schiff</title>
+<title>Ladeliste</title>
 <link rel="manifest" href="ladeliste.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="icon-192.png">
@@ -537,7 +455,6 @@ PAGE_TEMPLATE = """<!doctype html>
   --bg:#f4f6f6; --panel:#ffffff; --panel-2:#eef2f2;
   --fg:#000000; --fg-dim:#333333; --rule:#c7d0d0;
   --accent:#0a7a68; --accent-fg:#ffffff;
-  --warn:#8a5600; --past:#555555;
   color-scheme: light;
   --font-display:'IBM Plex Sans',system-ui,sans-serif;
   --font-mono:'IBM Plex Mono',ui-monospace,monospace;
@@ -551,14 +468,13 @@ body{{
 }}
 body::before{{
   content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px);
-  z-index:10; background:var(--ship-bg, var(--panel-2));
+  z-index:10; background:var(--panel-2);
 }}
 header.ship{{
-  background:var(--ship-bg, var(--panel-2));
+  background:var(--panel-2);
   position:sticky; top:env(safe-area-inset-top,0px); z-index:5;
   margin:0 -16px; padding:8px 16px 9px;
   border-bottom:1px solid var(--rule);
-  display:flex; align-items:center; justify-content:space-between; gap:8px;
 }}
 header.ship h1{{margin:0; font-size:21px; font-weight:800; letter-spacing:.01em; color:var(--fg)}}
 header.ship .sub{{font-size:13px; color:var(--fg-dim)}}
@@ -566,10 +482,8 @@ main{{padding:10px 0 20px; display:flex; flex-direction:column; gap:10px}}
 .card{{
   background:var(--panel); border:1px solid var(--rule); border-radius:10px;
   padding:12px 14px; overflow:hidden;
-  scroll-margin-top:calc(54px + env(safe-area-inset-top,0px));
 }}
-.card.is-past{{opacity:.78}}
-html{{scroll-behavior:auto}}
+.card .ship-label{{font-size:13px; font-weight:800; letter-spacing:.03em; text-transform:uppercase; color:var(--fg-dim); margin-bottom:6px}}
 .route-row{{display:flex; align-items:center; gap:10px; flex-wrap:nowrap}}
 .time{{
   font-family:var(--font-mono); font-variant-numeric:tabular-nums;
@@ -607,37 +521,22 @@ html{{scroll-behavior:auto}}
 .special-row .kind{{grid-area:kind; font-size:13px; color:var(--fg-dim); min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}}
 .special-row .plate{{grid-area:plate; font-family:var(--font-mono); font-weight:800; font-size:13px; color:var(--fg-dim)}}
 .special-row .len{{grid-area:len; font-family:var(--font-mono); font-variant-numeric:tabular-nums; font-size:14px; font-weight:700; color:var(--fg)}}
-.overlap{{margin-top:8px; background:var(--panel-2); border-radius:8px; padding:8px 10px; font-size:13px; border:1.5px dashed var(--rule)}}
-.overlap .head{{display:flex; align-items:center; gap:7px}}
-.overlap .dot{{width:8px; height:8px; border-radius:99px; background:var(--warn); flex:none}}
-.overlap b{{font-weight:800; color:var(--fg)}}
-.overlap{{color:var(--fg)}}
-.overlap .legs{{display:flex; gap:14px; margin-top:6px; padding-top:6px; border-top:1px solid var(--rule); flex-wrap:wrap}}
-.overlap .legs-label{{margin-top:8px; font-size:11px; color:var(--fg-dim); font-weight:600}}
-.overlap .leg{{display:flex; flex-direction:column; gap:0}}
-.overlap .leg .dest{{color:var(--fg-dim); font-size:12px}}
-.overlap .leg .m{{font-family:var(--font-mono); font-variant-numeric:tabular-nums; font-weight:800; font-size:17px; color:var(--fg)}}
+.legs-label{{margin-top:8px; font-size:11px; color:var(--fg-dim); font-weight:600}}
 footer{{padding:4px 0 12px; font-size:11px; color:var(--fg-dim); text-align:center}}
-select#schiff-select{{
-  font-family:var(--font-display); font-size:13px; font-weight:700; color:var(--fg);
-  background:var(--panel); border:1px solid var(--rule); border-radius:7px;
-  padding:5px 8px; flex:none; max-width:46%;
-}}
+#no-ship{{padding:20px 4px; color:var(--fg-dim); text-align:center}}
 </style>
 </head>
-<body{body_style}>
+<body>
 
 <header class="ship">
   <div>
-    <h1>{schiff}</h1>
-    <div class="sub">{uhrzeit} · aus Dienstplan</div>
+    <h1>Ladeliste</h1>
+    <div class="sub">{uhrzeit} Uhr</div>
   </div>
-  <select id="schiff-select">{options}
-  </select>
 </header>
 
 <main>
-<div id="no-ship" style="{no_ship_style}">Kein Schiff diese Woche automatisch ermittelt — oben manuell wählen.</div>{karten}
+{karten}
 </main>
 
 <footer>Quelle: faehre2.de · Ladeliste · Seite aktualisiert sich alle 60s</footer>
@@ -645,48 +544,6 @@ select#schiff-select{{
 if ("serviceWorker" in navigator) {{
   navigator.serviceWorker.register("ladeliste-sw.js");
 }}
-
-const EIGENE_ABK = {eigene_abk_js};
-const UHRZEIT = {uhrzeit_js};
-
-function anwenden(auswahl) {{
-  const blocks = document.querySelectorAll(".schiff-block");
-  const zielAbk = auswahl === "auto" ? EIGENE_ABK : auswahl;
-  let aktiv = null;
-  blocks.forEach(b => {{
-    const istAktiv = zielAbk !== null && b.dataset.abk === zielAbk;
-    b.style.display = istAktiv ? "" : "none";
-    if (istAktiv) aktiv = b;
-  }});
-  document.getElementById("no-ship").style.display = aktiv ? "none" : "";
-
-  const h1 = document.querySelector("header.ship h1");
-  const sub = document.querySelector("header.ship .sub");
-  if (aktiv) {{
-    h1.textContent = aktiv.dataset.name;
-    document.body.style.setProperty("--ship-bg", aktiv.dataset.color || "");
-    sub.textContent = UHRZEIT + (auswahl === "auto" ? " · aus Dienstplan" : " · manuell gewählt");
-  }} else {{
-    h1.textContent = "Kein Schiff diese Woche";
-    sub.textContent = UHRZEIT;
-  }}
-
-  // Aktuelle Abfahrt ("Jetzt") immer oben zeigen - die vorherige Abfahrt
-  // steht im DOM darueber und ist nur durch Hochscrollen erreichbar.
-  const jetzt = aktiv ? aktiv.querySelector("[data-jetzt]") : null;
-  if (jetzt) {{
-    jetzt.scrollIntoView({{block: "start", behavior: "instant"}});
-  }}
-}}
-
-const select = document.getElementById("schiff-select");
-const gespeichert = sessionStorage.getItem("ladeliste_schiff") || "auto";
-select.value = gespeichert;
-anwenden(gespeichert);
-select.addEventListener("change", () => {{
-  sessionStorage.setItem("ladeliste_schiff", select.value);
-  anwenden(select.value);
-}});
 
 // Meta-Refresh laed dieselbe URL erneut und wird vom Browser-/CDN-Cache
 // bedient statt neu vom Server geholt zu werden - deshalb per JS mit
@@ -706,13 +563,6 @@ def main():
     if not username or not password:
         sys.exit("Fehlt: WDR_USER / WDR_PASS.")
 
-    if not STATE_PATH.exists():
-        sys.exit("state.json fehlt - erst dienstplan_cloud_sync.py laufen lassen.")
-    state = json.loads(STATE_PATH.read_text(encoding="utf-8"))
-
-    schiff = aktuelles_schiff(state)
-    eigene_abk = SCHIFF_ABK.get(schiff) if schiff else None
-
     session = requests.Session()
     session.auth = (username, password)
     session.headers["User-Agent"] = "dienstplan-sync/2.0"
@@ -729,72 +579,22 @@ def main():
     # Die Etappen (inkl. Zwischenhalten) kommen aus dem amtlichen Fahrplan,
     # die Ladedaten je Etappe aus den Live-Buchungsbloecken - die Live-Seite
     # fasst Durchgangsbuchungen sonst zu einem Block zusammen und
-    # verschluckt dabei Zwischenhalte (z.B. Wyk). Fuer alle 4 Schiffe vorab
-    # berechnet, damit "Zeitgleich" auch bei anderen Schiffen auf dieser
-    # Etappenstruktur aufbauen kann statt auf den rohen Buchungsbloecken.
-    fahrten_je_schiff = {
-        abk: fahrten_nach_fahrplan(kategorie, alle_fahrten[abk], fahrplan, heute_iso)
-        for kategorie, abk in SCHIFF_ABK.items()
-    }
-
-    # Fuer jedes der 4 Schiffe einen eigenen Block bauen (Letzte/Jetzt/
-    # Naechste + Zeitgleich-Hinweise bezogen auf dieses Schiff), damit das
-    # Dropdown ohne Serverkontakt zwischen allen Schiffen umschalten kann.
-    # Automatisch sichtbar ist nur der Block des per Dienstplan ermittelten
-    # eigenen Schiffs - die anderen stehen per Dropdown trotzdem bereit.
-    bloecke = []
-    options = ['<option value="auto">Automatisch (eigenes Schiff)</option>']
+    # verschluckt dabei Zwischenhalte (z.B. Wyk).
+    karten = []
     for kategorie, abk in SCHIFF_ABK.items():
-        fahrten = fahrten_je_schiff[abk]
-        letzte, jetzt, naechste = klassifiziere(fahrten, jetzt_min)
+        fahrten = fahrten_nach_fahrplan(kategorie, alle_fahrten[abk], fahrplan, heute_iso)
+        jetzt = aktuelle_fahrt(fahrten, jetzt_min)
+        karte = karte_html(jetzt, kategorie.title(), SCHIFF_FARBE.get(abk))
+        if karte:
+            karten.append(karte)
 
-        overlap_jetzt = ""
-        if jetzt:
-            treffer = zeitgleich_treffer(jetzt, fahrten_je_schiff, abk)
-            overlap_jetzt = overlap_html(treffer)
+    karten_html = "".join(karten) if karten else '<div id="no-ship">Aktuell fährt kein Schiff.</div>'
 
-        overlap_naechste = ""
-        if naechste:
-            treffer = zeitgleich_treffer(naechste, fahrten_je_schiff, abk)
-            overlap_naechste = overlap_html(treffer)
-
-        karten = []
-        karten.append(karte_html(letzte, "Letzte", "past", mit_details=True))
-        karten.append(karte_html(jetzt, "Jetzt", "now", mit_details=True, extra_html=overlap_jetzt))
-        karten.append(karte_html(naechste, "Nächste", "next", mit_details=True, extra_html=overlap_naechste))
-
-        bloecke.append(schiff_block_html(
-            abk, kategorie.title(), SCHIFF_FARBE.get(abk),
-            "".join(k for k in karten if k),
-            aktiv=(abk == eigene_abk),
-        ))
-        options.append(f'<option value="{esc(abk)}">{esc(kategorie.title())}</option>')
-
-    if eigene_abk:
-        farbe = SCHIFF_FARBE.get(eigene_abk)
-        body_style = f' style="--ship-bg:{farbe}"' if farbe else ""
-        kopf_schiff = esc(schiff.title())
-    else:
-        body_style = ""
-        kopf_schiff = "Kein Schiff diese Woche"
-
-    html = PAGE_TEMPLATE.format(
-        schiff=kopf_schiff,
-        uhrzeit=uhrzeit,
-        karten="".join(bloecke),
-        body_style=body_style,
-        options="".join(options),
-        no_ship_style="" if not eigene_abk else "display:none",
-        eigene_abk_js=json.dumps(eigene_abk),
-        uhrzeit_js=json.dumps(uhrzeit),
-    )
+    html = PAGE_TEMPLATE.format(uhrzeit=uhrzeit, karten=karten_html)
 
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.write_text(html, encoding="utf-8")
-    if eigene_abk:
-        print(f"Ladeliste-Seite geschrieben fuer {schiff} ({eigene_abk}), alle 4 Schiffe im Dropdown.")
-    else:
-        print("Kein Schiff fuer heute in state.json gefunden - Seite trotzdem mit allen 4 Schiffen im Dropdown geschrieben.")
+    print(f"Ladeliste-Seite geschrieben mit {len(karten)} aktuell fahrenden Schiffen.")
 
 
 if __name__ == "__main__":
