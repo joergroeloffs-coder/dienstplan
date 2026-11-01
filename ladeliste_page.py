@@ -5,7 +5,9 @@ Schiffe (Live-Buchungsdaten + amtlicher Fahrplan zusammengefuehrt) -
 unabhaengig davon, wer die Seite aufruft oder welches Schiff "das
 eigene" waere. Chronologisch sortiert, ein Kasten je Abfahrt, jeweils
 in der Farbe des fahrenden Schiffs mit Route, Ladedaten und
-Sonderfahrzeugen.
+Sonderfahrzeugen. Beim Oeffnen springt die Seite automatisch zur
+aktuellen Abfahrt; ein Jetzt-Button holt dahin zurueck, falls man sich
+weggescrollt hat.
 
 Quelle: https://faehre2.de/fileadmin/wdr/Schiffe/Ladeliste/<ABK>.html -
 live-System, aktualisiert sich dort alle 30s. Diese Seite wird per Cronjob
@@ -181,6 +183,23 @@ def minuten(zeit_str):
     return h * 60 + m
 
 
+def finde_aktuellen_index(abfahrten, jetzt_min):
+    """Index der Abfahrt, die gerade "aktuell" ist: die juengste
+    vergangene, wenn sie nicht mehr als 5 Min. zurueckliegt, sonst die
+    naechste kommende, sonst (nach Betriebsschluss) die letzte des Tages.
+    `abfahrten` muss bereits chronologisch sortiert sein."""
+    mit_zeit = [(i, minuten(e[0])) for i, e in enumerate(abfahrten) if e[0]]
+    if not mit_zeit:
+        return None
+    vergangen = [t for t in mit_zeit if t[1] <= jetzt_min]
+    kommend = [t for t in mit_zeit if t[1] > jetzt_min]
+    if vergangen and jetzt_min - vergangen[-1][1] <= 5:
+        return vergangen[-1][0]
+    if kommend:
+        return kommend[0][0]
+    return vergangen[-1][0]
+
+
 def esc(text):
     return (
         (text or "")
@@ -229,9 +248,10 @@ def route_html(origin, ziel):
     return f'{esc(origin)} <span class="arrow">→</span> {esc(ziel)}'
 
 
-def karte_html(fahrt, label, farbe):
+def karte_html(fahrt, label, farbe, aktuell=False):
     """Ein Abfahrts-Kasten: Schiffsname, Route/Zeit, Ladedaten,
-    Sonderfahrzeuge - komplett in der Schiffsfarbe gehalten."""
+    Sonderfahrzeuge - komplett in der Schiffsfarbe gehalten. `aktuell`
+    markiert den Kasten als Sprungziel fuer Auto-Scroll und Jetzt-Button."""
     if fahrt is None:
         return ""
     stats = ""
@@ -258,8 +278,9 @@ def karte_html(fahrt, label, farbe):
     if fahrt.get("durchgangs_hinweis"):
         durchgang = f'<div class="legs-label">{esc(fahrt["durchgangs_hinweis"])}</div>'
     style = f' style="background:{farbe}"' if farbe else ""
+    jetzt_attr = " data-jetzt" if aktuell else ""
     return f"""
-  <section class="card"{style}>
+  <section class="card"{style}{jetzt_attr}>
     <div class="ship-label">{esc(label)}</div>
     <div class="route-row">
       <div class="time">{esc(fahrt['zeit'])}</div>
@@ -447,6 +468,7 @@ PAGE_TEMPLATE = """<!doctype html>
   --font-mono:'IBM Plex Mono',ui-monospace,monospace;
 }}
 *{{box-sizing:border-box}}
+html{{scroll-behavior:auto}}
 body{{
   background:var(--bg); color:var(--fg);
   font-family:var(--font-display); font-size:17px; line-height:1.45;
@@ -469,7 +491,9 @@ main{{padding:10px 0 20px; display:flex; flex-direction:column; gap:10px}}
 .card{{
   background:var(--panel); border:1px solid var(--rule); border-radius:10px;
   padding:12px 14px; overflow:hidden;
+  scroll-margin-top:calc(54px + env(safe-area-inset-top,0px));
 }}
+.card[data-jetzt]{{border:2px solid var(--accent)}}
 .card .ship-label{{font-size:13px; font-weight:800; letter-spacing:.03em; text-transform:uppercase; color:var(--fg-dim); margin-bottom:6px}}
 .route-row{{display:flex; align-items:center; gap:10px; flex-wrap:nowrap}}
 .time{{
@@ -511,6 +535,12 @@ main{{padding:10px 0 20px; display:flex; flex-direction:column; gap:10px}}
 .legs-label{{margin-top:8px; font-size:11px; color:var(--fg-dim); font-weight:600}}
 footer{{padding:4px 0 12px; font-size:11px; color:var(--fg-dim); text-align:center}}
 #no-ship{{padding:20px 4px; color:var(--fg-dim); text-align:center}}
+#jump-now{{
+  position:fixed; right:16px; bottom:max(16px, env(safe-area-inset-bottom,0px));
+  z-index:6; background:var(--accent); color:var(--accent-fg); border:none;
+  border-radius:999px; padding:12px 20px; font-weight:800; font-size:14px;
+  font-family:var(--font-display); box-shadow:0 2px 10px rgba(0,0,0,.3);
+}}
 </style>
 </head>
 <body>
@@ -527,10 +557,24 @@ footer{{padding:4px 0 12px; font-size:11px; color:var(--fg-dim); text-align:cent
 </main>
 
 <footer>Quelle: faehre2.de · Ladeliste · Seite aktualisiert sich alle 60s</footer>
+<button id="jump-now" type="button">⏱ Jetzt</button>
+
 <script>
 if ("serviceWorker" in navigator) {{
   navigator.serviceWorker.register("ladeliste-sw.js");
 }}
+
+function zurAktuellenAbfahrt(verhalten) {{
+  const jetzt = document.querySelector("[data-jetzt]");
+  if (jetzt) {{
+    jetzt.scrollIntoView({{block: "start", behavior: verhalten}});
+  }}
+}}
+
+zurAktuellenAbfahrt("instant");
+document.getElementById("jump-now").addEventListener("click", () => {{
+  zurAktuellenAbfahrt("smooth");
+}});
 
 // Meta-Refresh laed dieselbe URL erneut und wird vom Browser-/CDN-Cache
 // bedient statt neu vom Server geholt zu werden - deshalb per JS mit
@@ -558,6 +602,7 @@ def main():
     for kategorie, abk in SCHIFF_ABK.items():
         alle_fahrten[abk] = fetch_fahrten(session, abk)
 
+    jetzt_min = minuten(datetime.now(TZ).strftime("%H:%M"))
     uhrzeit = datetime.now(TZ).strftime("%H:%M")
     heute_iso = date.today().isoformat()
     fahrplan = lade_fahrplan()
@@ -575,10 +620,11 @@ def main():
             alle_abfahrten.append((fahrt.get("zeit"), kategorie.title(), SCHIFF_FARBE.get(abk), fahrt))
 
     alle_abfahrten.sort(key=lambda e: minuten(e[0]) if e[0] else 9999)
+    aktueller_index = finde_aktuellen_index(alle_abfahrten, jetzt_min)
 
     karten = [
-        karte_html(fahrt, label, farbe)
-        for _zeit, label, farbe, fahrt in alle_abfahrten
+        karte_html(fahrt, label, farbe, aktuell=(i == aktueller_index))
+        for i, (_zeit, label, farbe, fahrt) in enumerate(alle_abfahrten)
     ]
     karten_html = "".join(karten) if karten else '<div id="no-ship">Keine Abfahrten gefunden.</div>'
 
