@@ -67,7 +67,10 @@ ZEIT_RE = re.compile(r"Abfahrzeit:\s*(\d{2}:\d{2})")
 GEBUCHT_RE = re.compile(
     r"gebuchte PKW (\d+), Motorr.der (\d+) und Transporter (\d+)"
 )
-NUM_IN_TD_RE = re.compile(r">([\d,]+)<BR>")
+# Zwischen der Zahl und dem "<BR>" steht manchmal noch Zusatztext (z.B. eine
+# Masseinheit) statt dass die Zahl direkt vom "<BR>" gefolgt wird - deshalb
+# [^<]* statt eines strikten direkten Anschlusses.
+NUM_IN_TD_RE = re.compile(r">([\d,]+)[^<]*<BR>")
 TR_RE = re.compile(r"<TR>(.*?)</TR>", re.S)
 TD_RE = re.compile(r"<TD[^>]*>(.*?)</TD>", re.S)
 TAG_RE = re.compile(r"<[^>]+>")
@@ -157,11 +160,6 @@ def parse_fahrten(html):
         # "Laenge(LKW)" und eine Spalte "Laenge(PKW)" - nur Letztere wird
         # hier verwendet (vom Nutzer bestaetigt: erste Spalte ist falsch).
         _, summe_pkw_spalte = zwei_meterwerte_nach(block, "Summe gebuchter Meter:")
-
-        if pkw is not None and not summe_pkw_spalte:
-            idx = block.find("Summe gebuchter Meter:")
-            snippet = block[idx:idx + 400] if idx != -1 else "(Marker 'Summe gebuchter Meter:' nicht gefunden)"
-            print(f"DEBUG summe fehlt: Fahrt {origin}-{ziel} {zeit}: {snippet!r}", file=sys.stderr)
 
         fahrten.append({
             "origin": origin,
