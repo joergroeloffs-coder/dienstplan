@@ -67,10 +67,7 @@ ZEIT_RE = re.compile(r"Abfahrzeit:\s*(\d{2}:\d{2})")
 GEBUCHT_RE = re.compile(
     r"gebuchte PKW (\d+), Motorr.der (\d+) und Transporter (\d+)"
 )
-# Zwischen der Zahl und dem "<BR>" steht manchmal noch Zusatztext (z.B. eine
-# Masseinheit) statt dass die Zahl direkt vom "<BR>" gefolgt wird - deshalb
-# [^<]* statt eines strikten direkten Anschlusses.
-NUM_IN_TD_RE = re.compile(r">([\d,]+)[^<]*<BR>")
+DEZIMALWERT_RE = re.compile(r"^\d+,\d+$")
 TR_RE = re.compile(r"<TR>(.*?)</TR>", re.S)
 TD_RE = re.compile(r"<TD[^>]*>(.*?)</TD>", re.S)
 TAG_RE = re.compile(r"<[^>]+>")
@@ -83,14 +80,25 @@ def td_text(td_html):
 
 
 def zwei_meterwerte_nach(slice_, marker):
-    """Die 2 Zahlen (Laenge-LKW-Spalte, Laenge-PKW-Spalte) in den beiden
-    TDs direkt nach `marker` - zweite Zahl ist die PKW-Spalte."""
+    """Die 2 Zahlen (Laenge-LKW-Spalte, Laenge-PKW-Spalte) in den TDs nach
+    `marker` - zweite Zahl ist die PKW-Spalte. Die zweite Zahl steckt
+    manchmal in einer verschachtelten TABLE/TR/TD-Struktur (Formatierungs-
+    Trick der Live-Seite) statt direkt in der naechsten TD - deshalb ueber
+    alle TDs im Fenster iterieren und per td_text() (entfernt verschachtelte
+    Tags) nach den ersten beiden reinen Dezimalwerten suchen, statt strikt
+    auf ein direktes "<BR>" nach der Zahl zu bestehen."""
     idx = slice_.find(marker)
     if idx == -1:
         return None, None
-    treffer = NUM_IN_TD_RE.findall(slice_[idx : idx + 600])
-    if len(treffer) >= 2:
-        return treffer[0], treffer[1]
+    werte = []
+    for td_html in TD_RE.findall(slice_[idx : idx + 1200]):
+        text = td_text(td_html)
+        if DEZIMALWERT_RE.match(text):
+            werte.append(text)
+        if len(werte) >= 2:
+            break
+    if len(werte) >= 2:
+        return werte[0], werte[1]
     return None, None
 
 # Beschreibungs-Praefixe, die eine Buchung als "Sonderfahrzeug" statt
