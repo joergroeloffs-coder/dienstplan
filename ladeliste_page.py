@@ -158,6 +158,11 @@ def parse_fahrten(html):
         # hier verwendet (vom Nutzer bestaetigt: erste Spalte ist falsch).
         _, summe_pkw_spalte = zwei_meterwerte_nach(block, "Summe gebuchter Meter:")
 
+        if pkw is not None and not summe_pkw_spalte:
+            idx = block.find("Summe gebuchter Meter:")
+            snippet = block[idx:idx + 400] if idx != -1 else "(Marker 'Summe gebuchter Meter:' nicht gefunden)"
+            print(f"DEBUG summe fehlt: Fahrt {origin}-{ziel} {zeit}: {snippet!r}", file=sys.stderr)
+
         fahrten.append({
             "origin": origin,
             "ziel": ziel,
