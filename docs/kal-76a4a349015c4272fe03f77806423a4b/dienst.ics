@@ -418,12 +418,12 @@ DESCRIPTION:KW 45/2026\, Stand: 2026-10-15 15:23\, Datei: 45KW2026 4.Aenderung.p
 END:VEVENT
 BEGIN:VEVENT
 UID:dienstplan-2026-W48@wdr-besatzungsliste
-DTSTAMP:20261104T062700Z
-LAST-MODIFIED:20261104T062700Z
-SEQUENCE:2
+DTSTAMP:20261105T061100Z
+LAST-MODIFIED:20261105T061100Z
+SEQUENCE:3
 DTSTART;VALUE=DATE:20261120
 DTEND;VALUE=DATE:20261128
 SUMMARY:Dienst auf UTHLANDE
-DESCRIPTION:KW 48/2026\, Stand: 2026-11-04 06:27\, Datei: 48KW2026 2. Änderung.pdf\n\nBesatzung:\nNK Blank\, Marc\nNEO Roeloffs\, Jörg\nTLM Isermann\, Tobias\nGSM Peters\, Olaf\nNWB Allwörden\, André von\nNWB Petersen\, Ralf\nNWB* Moths\, Holger\nAz Skora\, Josse ab 24.11.\n\nVorwoche (steigt aus):\nNK Sander\, Maximilian\nNEO Gleike\, Falco\nTLM Petersen\, Lukas\nGSM Romischke\, Willi\nNWB Bersuch\, Sören\nNWB Woydack\, Ole\nNWB* Müller\, Jan\nAz Skora\, Josse
+DESCRIPTION:KW 48/2026\, Stand: 2026-11-05 06:11\, Datei: 48KW2026 3. Änderung.pdf\n\nBesatzung:\nNK Blank\, Marc\nNEO Roeloffs\, Jörg\nTLM Isermann\, Tobias\nGSM Peters\, Olaf\nNWB Allwörden\, André von\nNWB Petersen\, Ralf\nNWB* Moths\, Holger\nAz Skora\, Josse ab 24.11.\n\nVorwoche (steigt aus):\nNK Sander\, Maximilian\nNEO Hacht\, Ole von\nTLM Petersen\, Lukas\nGSM Romischke\, Willi\nNWB Bersuch\, Sören\nNWB Woydack\, Ole\nNWB* Müller\, Jan\nAz Skora\, Josse
 END:VEVENT
 END:VCALENDAR
