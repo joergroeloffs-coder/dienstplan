@@ -1,0 +1,84 @@
+name: Cloudflare Ladeliste bereitstellen
+on:
+  workflow_dispatch:
+  push:
+    branches: [ladeliste-worker-neu]
+    paths:
+      - ladeliste-worker/**
+      - .github/workflows/ladeliste-cloudflare.yml
+permissions:
+  contents: read
+concurrency:
+  group: ladeliste-cloudflare-deploy
+  cancel-in-progress: false
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ladeliste-worker
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Zugänge prüfen
+        env:
+          WDR_USER: ${{ secrets.WDR_USER }}
+          WDR_PASS: ${{ secrets.WDR_PASS }}
+        run: |
+          python3 - <<'PY'
+          import os
+          required = ["CLOUDFLARE_API_TOKEN", "CLOUDFLARE_ACCOUNT_ID", "WDR_USER", "WDR_PASS"]
+          missing = [k for k in required if not os.environ.get(k)]
+          if missing:
+              raise SystemExit("Fehlende GitHub-Secrets: " + ", ".join(missing))
+          PY
+      - name: Tests
+        run: npm test
+      - name: KV-Speicher einrichten
+        run: |
+          python3 - <<'PY'
+          import json, os, pathlib, urllib.request
+          base = "https://api.cloudflare.com/client/v4/accounts/" + os.environ["CLOUDFLARE_ACCOUNT_ID"] + "/storage/kv/namespaces"
+          def call(url, data=None):
+              headers = {"Authorization": "Bearer " + os.environ["CLOUDFLARE_API_TOKEN"], "Content-Type": "application/json"}
+              req = urllib.request.Request(url, headers=headers, data=None if data is None else json.dumps(data).encode())
+              with urllib.request.urlopen(req, timeout=30) as response:
+                  result = json.load(response)
+              if not result.get("success"):
+                  raise SystemExit("Cloudflare KV-Anfrage fehlgeschlagen")
+              return result
+          title = "dienstplan-ladeliste-LADELISTE"
+          found = []
+          page = 1
+          while True:
+              result = call(base + "?per_page=100&page=" + str(page))
+              found.extend(n for n in result["result"] if n["title"] == title)
+              if page >= result.get("result_info", {}).get("total_pages", 1):
+                  break
+              page += 1
+          if len(found) > 1:
+              raise SystemExit("KV-Name mehrdeutig")
+          namespace = found[0] if found else call(base, {"title": title})["result"]
+          path = pathlib.Path("wrangler.toml")
+          path.write_text(path.read_text().replace("REPLACE_WITH_KV_NAMESPACE_ID", namespace["id"]))
+          PY
+      - name: Worker bereitstellen
+        run: npx --yes wrangler@4 deploy --keep-vars
+      - name: WDR-Secrets geschützt übertragen
+        env:
+          WDR_USER: ${{ secrets.WDR_USER }}
+          WDR_PASS: ${{ secrets.WDR_PASS }}
+        run: |
+          python3 - <<'PY' | npx --yes wrangler@4 secret bulk
+          import json, os
+          print(json.dumps({key: os.environ[key] for key in ["WDR_USER", "WDR_PASS"]}))
+          PY
+      - name: Ergebnis
+        run: |
+          echo "Worker bereitgestellt. Cron: alle zwei Minuten." >> "$GITHUB_STEP_SUMMARY"
+          echo "Live-Daten und Originalvergleich müssen vor der Umschaltung geprüft werden." >> "$GITHUB_STEP_SUMMARY"
