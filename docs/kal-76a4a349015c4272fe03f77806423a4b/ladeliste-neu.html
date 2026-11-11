@@ -25,7 +25,7 @@ const localDate=()=>new Intl.DateTimeFormat("sv-SE",{timeZone:"Europe/Berlin",ye
 const localTime=()=>new Intl.DateTimeFormat("de-DE",{timeZone:"Europe/Berlin",hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).format(new Date());
 const el=(name,cls,content)=>{let x=document.createElement(name);if(cls)x.className=cls;if(content!==undefined)x.textContent=content;return x};
 const show=x=>x===null||x===undefined?"–":String(x);
-let first=true;
+let first=true, lastData=null, connectionFailed=false;
 function render(data){
   list.replaceChildren();
   const items=data.abfahrten||[];
@@ -36,35 +36,45 @@ function render(data){
     a.append(el("div","top",""));
     const top=a.firstChild;top.append(el("div","ship",f.schiff),el("div","time",f.abfahrt));
     a.append(el("div","route",f.von+" → "+f.nach));
+    if(f.hinweis)a.append(el("p","",f.hinweis));
     const stats=el("div","stats");
     for(const [n,v] of [["PKW",f.pkw],["Motorräder",f.motorraeder],["Transporter",f.transporter],["Lademeter",f.lademeter===null?null:f.lademeter+" m"]]){
       const cell=el("div","stat");cell.append(el("b","",show(v)),el("span","",n));stats.append(cell);
     }
     a.append(stats);
     if(f.sonderfahrzeuge?.length){
-      const d=el("details");d.append(el("summary","",f.sonderfahrzeuge.length+" Sonderfahrzeuge"));
+      const d=el("details");d.open=true;d.append(el("summary","",f.sonderfahrzeuge.length+" Sonderfahrzeuge"));
       for(const s of f.sonderfahrzeuge){const row=el("div","special");row.append(el("span","",s.art),el("span","",s.laenge_m===null?"–":s.laenge_m+" m"));d.append(row)}a.append(d);
     }
     list.append(a);
     if(next===null&&f.abfahrt>=now)next=a;
   }
   if(!items.length)list.append(el("p","","Keine Abfahrten vorhanden."));
-  const updated=new Date(data.updatedAt);
-  const t=updated.toLocaleString("de-DE",{timeZone:"Europe/Berlin",dateStyle:"short",timeStyle:"short"});
-  const stale=data.status!=="aktuell"||data.datum!==localDate();
-  status.textContent=(stale?"VERALTETE DATEN – ":"")+"Letzter erfolgreicher Abruf: "+t+" Uhr";
-  status.className=stale?"warn":"";
+  lastData=data;
+  connectionFailed=false;
+  updateStatus();
   window.nextDeparture=next;
   if(first&&next){next.scrollIntoView({block:"start"});first=false}
+}
+function updateStatus(){
+  if(connectionFailed){status.textContent="ABRUF FEHLGESCHLAGEN – Anzeige möglicherweise veraltet";status.className="warn";return;}
+  if(!lastData)return;
+  const data=lastData;
+  const updated=new Date(data.updatedAt);
+  const t=updated.toLocaleString("de-DE",{timeZone:"Europe/Berlin",dateStyle:"short",timeStyle:"short"});
+  const stale=data.status!=="aktuell"||data.datum!==localDate()||Date.now()-updated.getTime()>300000;
+  status.textContent=(data.health?.ok===false?"ABRUFFEHLER – letzter erfolgreicher Stand: ":stale?"VERALTETE DATEN – ":"")+"Letzter erfolgreicher Abruf: "+t+" Uhr";
+  status.className=stale?"warn":"";
 }
 async function reload(){
   if(API_URL.includes("REPLACE_WITH_"))return;
   try{
-    const res=await fetch(API_URL+"?t="+Date.now(),{cache:"no-store"});
+    const res=await fetch(API_URL+"?t="+Date.now(),{cache:"no-store",signal:AbortSignal.timeout(20000)});
     if(!res.ok)throw Error("HTTP "+res.status);
     render(await res.json());
-  }catch(e){status.textContent="ABRUF FEHLGESCHLAGEN – Anzeige möglicherweise veraltet";status.className="warn"}
+  }catch(e){connectionFailed=true;status.textContent="ABRUF FEHLGESCHLAGEN – Anzeige möglicherweise veraltet";status.className="warn"}
 }
 document.getElementById("now").onclick=()=>window.nextDeparture?.scrollIntoView({behavior:"smooth",block:"start"});
-reload();setInterval(reload,60000);
+reload();setInterval(reload,60000);setInterval(updateStatus,10000);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)reload()});
 </script></body></html>
