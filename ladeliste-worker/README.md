@@ -19,7 +19,14 @@ Dieser Zweig trennt den Datenabruf von GitHub Actions und GitHub Pages.
 
 ## Wichtige Einschränkungen
 - Cloudflare-Cron ist nicht sekundengenau. Angegebene zwei Minuten sind ein Intervall, keine garantierte Datenfrische.
-- Die aktuelle Worker-Version bildet die **Buchungsblöcke** der WDR-Quelle ab. Die komplexe bestehende Zuordnung zum amtlichen Fahrplan, Zwischenhalte und Durchgangsbuchungen aus `ladeliste_page.py` ist **noch nicht portiert**. Vor produktiver Verwendung prüfen und ergänzen.
+- Die Fahrplanzuordnung aus `ladeliste_page.py` ist portiert: Zwischenhalte, Direktfahrten, Toleranz von fünf Minuten und separate Durchgangsbuchungen am Verladehafen. Unbekannte Zahlen werden nicht als null Fahrzeuge ausgegeben.
+- Der Worker lädt bei jedem Lauf den bestehenden Fahrplanexport aus `main/fahrplan_schedule.json`. Dessen stündlicher Export bleibt notwendig. Fehlende Tagesetappen werden als Hinweis angezeigt.
+- Abruffehler werden separat als `health` gespeichert; die letzte vollständige Momentaufnahme aller vier Schiffe bleibt erhalten. Die Oberfläche prüft das Alter auch ohne erfolgreichen neuen Abruf.
+- Automatische Tests: `cd ladeliste-worker && npm test`. Ein Live-Abgleich und zwei aufeinanderfolgende Cron-Läufe sind vor Umschaltung zusätzlich erforderlich.
 - Der Worker zeigt ausschließlich zusammengefasste Fahrzeugzahlen und Sonderfahrzeugarten/-längen an. Keine Namen, Kennzeichen oder Buchungsnummern. Öffentlich zugängliche Betriebs-/Buchungsdaten müssen vor Bereitstellung auf Freigabe durch Dateninhaber geprüft werden.
 - Ein fehlgeschlagener Abruf überschreibt den letzten erfolgreichen Stand nicht. Die API gibt bei Alter über fünf Minuten oder abweichendem Datum `status: veraltet` zurück.
 - Die HTML-Vorschauseite ist mangels Cloudflare-Einrichtung derzeit noch nicht mit Live-Daten verbunden.
+
+## Stand dieser Überarbeitung
+
+Worker und mobile Vorschau sind technisch überarbeitet und mit synthetischen Tests geprüft. Keine produktive Umschaltung: Cloudflare-Anmeldung, KV-ID, Secrets und Live-Vergleich fehlen noch. Alte Workflows und bestehende Dienstplan-/Ladelistenseiten bleiben aktiv. CORS ist kein Zugriffsschutz; die API enthält nur freigegebene Feldtypen, keine persönlichen Buchungsdetails.
