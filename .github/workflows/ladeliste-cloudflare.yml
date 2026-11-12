@@ -29,10 +29,11 @@ jobs:
         env:
           WDR_USER: ${{ secrets.WDR_USER }}
           WDR_PASS: ${{ secrets.WDR_PASS }}
+          API_TOKEN: ${{ secrets.WDR_WORKER_TOKEN }}
         run: |
           python3 - <<'PY'
           import os
-          required = ["CLOUDFLARE_API_TOKEN", "CLOUDFLARE_ACCOUNT_ID", "WDR_USER", "WDR_PASS"]
+          required = ["CLOUDFLARE_API_TOKEN", "CLOUDFLARE_ACCOUNT_ID", "WDR_USER", "WDR_PASS", "API_TOKEN"]
           missing = [k for k in required if not os.environ.get(k)]
           if missing:
               raise SystemExit("Fehlende GitHub-Secrets: " + ", ".join(missing))
@@ -73,10 +74,11 @@ jobs:
         env:
           WDR_USER: ${{ secrets.WDR_USER }}
           WDR_PASS: ${{ secrets.WDR_PASS }}
+          API_TOKEN: ${{ secrets.WDR_WORKER_TOKEN }}
         run: |
           python3 - <<'PY' | npx --yes wrangler@4 secret bulk
           import json, os
-          print(json.dumps({key: os.environ[key] for key in ["WDR_USER", "WDR_PASS"]}))
+          print(json.dumps({key: os.environ[key] for key in ["WDR_USER", "WDR_PASS", "API_TOKEN"]}))
           PY
       - name: Ergebnis
         run: |

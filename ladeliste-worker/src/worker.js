@@ -46,51 +46,44 @@ export function departures(blocks,schedule,ship,date){
   return output;
 }
 export async function refresh(env){
-  const attemptedAt=new Date().toISOString();
-  try{
-    if(!env.WDR_USER||!env.WDR_PASS)throw Error("Zugangsdaten fehlen");
-    const auth="Basic "+btoa(env.WDR_USER+":"+env.WDR_PASS);
-    const scheduleResponse=await fetch("https://raw.githubusercontent.com/joergroeloffs-coder/dienstplan/main/fahrplan_schedule.json",{cache:"no-store",signal:AbortSignal.timeout(15000)});
-    if(!scheduleResponse.ok)throw Error("Fahrplan nicht erreichbar");
-    const schedule=await scheduleResponse.json();
-    if(!schedule.schiffe)throw Error("Fahrplan ungültig");
-    const datum=dateBerlin();
-    const results=await Promise.allSettled(SHIPS.map(async ([code,name])=>{
-      const r=await fetch(BASE+"/"+code+".html",{headers:{Authorization:auth,"Cache-Control":"no-cache"},signal:AbortSignal.timeout(15000),redirect:"error"});
-      if(!r.ok)throw Error("HTTP "+r.status);
-      // WDR reports use legacy German encodings; never store the original HTML.
-      const bytes=await r.arrayBuffer();
+  const attemptedAt=new Date().toISOString(), datum=dateBerlin();
+  if(!env.WDR_USER||!env.WDR_PASS)throw Error("Zugangsdaten fehlen");
+  const auth="Basic "+btoa(env.WDR_USER+":"+env.WDR_PASS);
+  let schedule={};
+  try{const r=await fetch("https://raw.githubusercontent.com/joergroeloffs-coder/dienstplan/main/fahrplan_schedule.json",{cache:"no-store",signal:AbortSignal.timeout(15000)});if(r.ok)schedule=await r.json();}catch{}
+  const ships=await Promise.all(SHIPS.map(async([code,name])=>{
+    const previous=await env.LADELISTE.get("ship:"+code,"json");
+    try{
+      const r=await fetch(BASE+"/"+code+".html?t="+Date.now(),{headers:{Authorization:auth,"Cache-Control":"no-cache"},signal:AbortSignal.timeout(15000),redirect:"error"});
+      if(!r.ok)throw Error(r.status===401||r.status===403?"AUTH":"SOURCE");
       const charset=/charset=([^; ]+)/i.exec(r.headers.get("content-type")||"")?.[1]||"windows-1252";
-      const html=new TextDecoder(charset).decode(bytes);
-      return departures(parse(html,name),schedule,name,datum);
-    }));
-    const errors=results.flatMap((r,i)=>r.status==="rejected"?[SHIPS[i][1]+": Abruf oder Auswertung fehlgeschlagen"]:[]);
-    if(errors.length)throw Error(errors.join("; "));
-    if(dateBerlin()!==datum)throw Error("Datumswechsel während des Abrufs");
-    const abfahrten=results.flatMap(r=>r.value).sort((a,b)=>a.abfahrt.localeCompare(b.abfahrt)||a.schiff.localeCompare(b.schiff));
-    const result={updatedAt:new Date().toISOString(),datum,fahrplanStand:schedule.generated_at,abfahrten};
-    await env.LADELISTE.put("latest",JSON.stringify(result));
-    await env.LADELISTE.put("health",JSON.stringify({attemptedAt,ok:true}));
-    return result;
-  }catch(error){
-    // Never include source HTML, credentials, or arbitrary exception text in logs/API.
-    await env.LADELISTE.put("health",JSON.stringify({attemptedAt,ok:false,message:"Abruf mindestens einer Quelle fehlgeschlagen"}));
-    throw Error("Ladelisten-Aktualisierung fehlgeschlagen");
-  }
+      const html=new TextDecoder(charset).decode(await r.arrayBuffer());
+      const blocks=parse(html,name);
+      if(!blocks.length)throw Error("FORMAT");
+      if(dateBerlin()!==datum)throw Error("DATE");
+      const digest=Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(html)))).map(n=>n.toString(16).padStart(2,"0")).join("");
+      const result={code,name,datum,updatedAt:new Date().toISOString(),attemptedAt,ok:true,sourceModified:r.headers.get("last-modified"),sourceUnchangedSince:previous?.digest===digest?previous.sourceUnchangedSince:attemptedAt,digest,fahrplanStand:schedule.generated_at||null,fahrplanOk:!!schedule.schiffe?.[CATEGORIES[name]]?.some(e=>e.datum===datum),abfahrten:departures(blocks,schedule,name,datum)};
+      await env.LADELISTE.put("ship:"+code,JSON.stringify(result));return result;
+    }catch(e){
+      const result={...(previous||{code,name,abfahrten:[],updatedAt:null}),attemptedAt,ok:false,error:e.message==="AUTH"?"WDR-Anmeldung abgelehnt. Zugangsdaten prüfen.":"Quelle nicht erreichbar oder Format nicht lesbar. Letzter erfolgreicher Stand bleibt sichtbar."};
+      await env.LADELISTE.put("ship:"+code,JSON.stringify(result));return result;
+    }
+  }));
+  return {ships};
+}
+export function shipStatus(s,now=Date.now()){
+  const age=now-Date.parse(s.updatedAt),sourceAge=s.sourceModified?now-Date.parse(s.sourceModified):null;
+  return {...s,digest:undefined,status:!s.updatedAt?"fehlt":!Number.isFinite(age)||age<0||age>300000||s.datum!==dateBerlin()||sourceAge!==null&&sourceAge>300000?"veraltet":!s.ok?"fehler":"abgerufen",sourceWarning:!s.sourceModified?"Erstellungszeit der Quelle nicht bestätigt.":null};
 }
 export default{
-  async scheduled(event,env,ctx){ctx.waitUntil(refresh(env).catch(()=>console.error("Ladelisten-Aktualisierung fehlgeschlagen")))},
+  async scheduled(event,env,ctx){ctx.waitUntil(refresh(env).catch(()=>console.error("Aktualisierung fehlgeschlagen")))},
   async fetch(request,env){
-    const u=new URL(request.url);
-    if(u.pathname!=="/api/ladeliste")return new Response("Not found",{status:404});
-    if(request.method!=="GET")return new Response("Method not allowed",{status:405});
-    const headers={"Content-Type":"application/json;charset=utf-8","Cache-Control":"no-store","Access-Control-Allow-Origin":"https://joergroeloffs-coder.github.io","X-Content-Type-Options":"nosniff"};
-    try{
-      const [saved,health]=await Promise.all([env.LADELISTE.get("latest","json"),env.LADELISTE.get("health","json")]);
-      if(!saved)return Response.json({status:"nicht_bereit",health},{status:503,headers});
-      const age=Date.now()-Date.parse(saved.updatedAt);
-      const stale=!Number.isFinite(age)||age>300000||age<0||saved.datum!==dateBerlin();
-      return Response.json({...saved,health,status:stale?"veraltet":health?.ok===false?"abruffehler":"aktuell"},{headers});
-    }catch{return Response.json({status:"fehler"},{status:503,headers})}
+    const u=new URL(request.url),headers={"Cache-Control":"no-store","X-Content-Type-Options":"nosniff"};
+    if(!env.API_TOKEN||request.headers.get("Authorization")!=="Bearer "+env.API_TOKEN)return Response.json({error:"Nicht berechtigt"},{status:401,headers});
+    if(u.pathname==="/api/refresh"&&request.method==="POST"){
+      try{await refresh(env)}catch{return Response.json({error:"Zugangsdaten oder Speicher fehlen"},{status:503,headers})}
+    }else if(u.pathname!=="/api/ladeliste"||request.method!=="GET")return new Response("Not found",{status:404,headers});
+    const ships=await Promise.all(SHIPS.map(async([code,name])=>shipStatus(await env.LADELISTE.get("ship:"+code,"json")||{code,name,abfahrten:[],updatedAt:null})));
+    return Response.json({ships,abfahrten:ships.flatMap(s=>s.abfahrten).sort((a,b)=>a.abfahrt.localeCompare(b.abfahrt)||a.schiff.localeCompare(b.schiff)),checkedAt:new Date().toISOString(),datum:dateBerlin(),interval:120},{headers});
   }
 };
