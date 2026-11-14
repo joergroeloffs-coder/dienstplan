@@ -1,17 +1,4 @@
 {
-  "2026-W34": {
-    "besatzung_text": "NK Blank, Marc\nNEO Roeloffs, Jörg\nTLM Petersen, Lukas\nGSM Bersuch, Sören\nNWB Petersen, Ralf\nNWB Anders, Frank\nNWB* Heidemann, Marcel",
-    "category": "UTHLANDE",
-    "date_from": "2026-08-14",
-    "date_to": "2026-08-21",
-    "file": "34KW2026 2. Änderung.pdf",
-    "mtime": "2026-08-15 16:42",
-    "nachbar_links": "Freie Tage",
-    "revision": 2,
-    "sequence": 1,
-    "summary": "Dienst auf UTHLANDE",
-    "vorgaenger_text": "NK Krauledat, Norbert bis 11.08.\nNEO Kohn, Otis\nTLM Trost, Adrian\nGSM Sievers, Jon\nNWB Allwörden, André von\nNW Bohn, Hauke\nNWB* Moths, Holger"
-  },
   "2026-W35": {
     "category": "Freie Tage",
     "date_from": "2026-08-21",
