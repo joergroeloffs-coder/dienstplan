@@ -416,4 +416,24 @@ DTEND;VALUE=DATE:20261128
 SUMMARY:Dienst auf UTHLANDE
 DESCRIPTION:KW 48/2026\, Stand: 2026-11-05 06:11\, Datei: 48KW2026 3. Änderung.pdf\n\nBesatzung:\nNK Blank\, Marc\nNEO Roeloffs\, Jörg\nTLM Isermann\, Tobias\nGSM Peters\, Olaf\nNWB Allwörden\, André von\nNWB Petersen\, Ralf\nNWB* Moths\, Holger\nAz Skora\, Josse ab 24.11.\n\nVorwoche (steigt aus):\nNK Sander\, Maximilian\nNEO Hacht\, Ole von\nTLM Petersen\, Lukas\nGSM Romischke\, Willi\nNWB Bersuch\, Sören\nNWB Woydack\, Ole\nNWB* Müller\, Jan\nAz Skora\, Josse
 END:VEVENT
+BEGIN:VEVENT
+UID:dienstplan-2026-W51@wdr-besatzungsliste
+DTSTAMP:20261115T115200Z
+LAST-MODIFIED:20261115T115200Z
+SEQUENCE:1
+DTSTART;VALUE=DATE:20261211
+DTEND;VALUE=DATE:20261219
+SUMMARY:Dienst auf UTHLANDE
+DESCRIPTION:KW 51/2026\, Stand: 2026-11-15 11:52\, Datei: 51KW2026.pdf\n\nBesatzung:\nNK Heimann\, Mark\nNEO Roeloffs\, Jörg\nTLM Petersen\, Lukas\nGSM Romischke\, Willi\nNWB Spellien\, Henning\nNWB Woydack\, Ole\nNWB* Ben Saber\, Sami\nAz Skora\, Josse\n\nVorwoche (steigt aus):\nNK Sander\, Maximilian\nNEO Hacht\, Ole von\nTLM Trost\, Adrian\nGSM Peters\, Olaf\nNWB Allwörden\, André von\nNWB Petersen\, Ralf\nNWB* Heidemann\, Marcel\nAz Skora\, Josse
+END:VEVENT
+BEGIN:VEVENT
+UID:dienstplan-2026-W53@wdr-besatzungsliste
+DTSTAMP:20261115T121100Z
+LAST-MODIFIED:20261115T121100Z
+SEQUENCE:1
+DTSTART;VALUE=DATE:20261223
+DTEND;VALUE=DATE:20261231
+SUMMARY:Dienst auf UTHLANDE
+DESCRIPTION:KW 53/2026\, Stand: 2026-11-15 12:11\, Datei: 53KW2026 1. Änderung.pdf\n\nBesatzung:\nNK Krauledat\, Norbert\nNEO Roeloffs\, Jörg\nTLM Adam\, Matthies\nGSM Romischke\, Willi\nNWB Woydack\, Ole\nNWB Spellien\, Henning\nNWB* Heidemann\, Marcel\nAz Skora\, Josse\n\nVorwoche (steigt aus):\nNK Blank\, Marc\nNEO Kohn\, Otis\nTLM Trost\, Adrian\nGSM Peters\, Olaf\nNWB Bohn\, Hauke\nNWB Anders\, Frank\nNWB* Moths\, Holger\nAz Skora\, Josse
+END:VEVENT
 END:VCALENDAR
