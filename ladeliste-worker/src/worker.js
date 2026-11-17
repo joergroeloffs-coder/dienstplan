@@ -6,7 +6,6 @@ function cells(html){return [...html.matchAll(/<TD\b[^>]*>([\s\S]*?)<\/TD>/gi)].
 function meters(block){const i=block.indexOf("Summe gebuchter Meter:");if(i<0)return null;const v=cells(block.slice(i,i+1200)).filter(x=>/^\d+,\d+$/.test(x));return v.length>1?number(v[1]):null}
 export function parse(html,ship){
   const starts=[...html.matchAll(/Fahrt:\s*([^<]+?)-([^<]+?)</gi)];
-  if(!starts.length)throw Error("Keine Fahrten: "+ship);
   return starts.map((m,i)=>{
     const block=html.slice(m.index,starts[i+1]?.index??html.length);
     const time=/Abfahrzeit:\s*(\d{2}:\d{2})/i.exec(block)?.[1];
@@ -18,7 +17,7 @@ export function parse(html,ship){
       if(c.length<8||!/^\d+$/.test(c[0]))continue;
       const d=c[3]||"";
       const type=/LKW/i.test(d)?"LKW":/Transporter/i.test(d)?"Transporter":/PKW[- ]Anh/i.test(d)?"PKW-Anhänger":/Motorrad/i.test(d)?"Motorrad":null;
-      if(type)specials.push({art:type,laenge_m:number(c[7])});
+      if(type)specials.push({art:type,kunde:c[1]||null,laenge_m:number(c[7])});
     }
     return {schiff:ship,abfahrt:time,von:m[1].trim(),nach:m[2].trim(),
       pkw:counts?Number(counts[1]):null,motorraeder:counts?Number(counts[2]):null,
@@ -59,14 +58,13 @@ export async function refresh(env){
       const charset=/charset=([^; ]+)/i.exec(r.headers.get("content-type")||"")?.[1]||"windows-1252";
       const html=new TextDecoder(charset).decode(await r.arrayBuffer());
       const blocks=parse(html,name);
-      if(!blocks.length)throw Error("FORMAT");
       if(dateBerlin()!==datum)throw Error("DATE");
       const digest=Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(html)))).map(n=>n.toString(16).padStart(2,"0")).join("");
       const result={code,name,datum,updatedAt:new Date().toISOString(),attemptedAt,ok:true,sourceModified:r.headers.get("last-modified"),sourceUnchangedSince:previous?.digest===digest?previous.sourceUnchangedSince:attemptedAt,digest,fahrplanStand:schedule.generated_at||null,fahrplanOk:!!schedule.schiffe?.[CATEGORIES[name]]?.some(e=>e.datum===datum),abfahrten:departures(blocks,schedule,name,datum)};
       await env.LADELISTE.put("ship:"+code,JSON.stringify(result));return result;
     }catch(e){
       const msg=String(e&&e.message||e);
-      const friendly=msg.startsWith("AUTH")?"WDR-Anmeldung abgelehnt. Zugangsdaten prüfen.":msg.startsWith("SOURCE")?"Quelle antwortet mit Fehlerstatus ("+msg.split(":")[1]+").":msg==="FORMAT"?"Antwort der Quelle enthält keine lesbaren Fahrten.":msg==="DATE"?"Quelle meldet Datumswechsel während des Abrufs.":"Unerwarteter Fehler beim Abruf: "+msg;
+      const friendly=msg.startsWith("AUTH")?"WDR-Anmeldung abgelehnt. Zugangsdaten prüfen.":msg.startsWith("SOURCE")?"Quelle antwortet mit Fehlerstatus ("+msg.split(":")[1]+").":msg==="DATE"?"Quelle meldet Datumswechsel während des Abrufs.":"Unerwarteter Fehler beim Abruf: "+msg;
       const result={...(previous||{code,name,abfahrten:[],updatedAt:null}),attemptedAt,ok:false,error:friendly};
       await env.LADELISTE.put("ship:"+code,JSON.stringify(result));return result;
     }
