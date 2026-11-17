@@ -55,7 +55,7 @@ export async function refresh(env){
     const previous=await env.LADELISTE.get("ship:"+code,"json");
     try{
       const r=await fetch(BASE+"/"+code+".html?t="+Date.now(),{headers:{Authorization:auth,"Cache-Control":"no-cache"},signal:AbortSignal.timeout(15000),redirect:"error"});
-      if(!r.ok)throw Error(r.status===401||r.status===403?"AUTH":"SOURCE");
+      if(!r.ok)throw Error((r.status===401||r.status===403?"AUTH":"SOURCE")+":"+r.status);
       const charset=/charset=([^; ]+)/i.exec(r.headers.get("content-type")||"")?.[1]||"windows-1252";
       const html=new TextDecoder(charset).decode(await r.arrayBuffer());
       const blocks=parse(html,name);
@@ -65,7 +65,9 @@ export async function refresh(env){
       const result={code,name,datum,updatedAt:new Date().toISOString(),attemptedAt,ok:true,sourceModified:r.headers.get("last-modified"),sourceUnchangedSince:previous?.digest===digest?previous.sourceUnchangedSince:attemptedAt,digest,fahrplanStand:schedule.generated_at||null,fahrplanOk:!!schedule.schiffe?.[CATEGORIES[name]]?.some(e=>e.datum===datum),abfahrten:departures(blocks,schedule,name,datum)};
       await env.LADELISTE.put("ship:"+code,JSON.stringify(result));return result;
     }catch(e){
-      const result={...(previous||{code,name,abfahrten:[],updatedAt:null}),attemptedAt,ok:false,error:e.message==="AUTH"?"WDR-Anmeldung abgelehnt. Zugangsdaten prüfen.":"Quelle nicht erreichbar oder Format nicht lesbar. Letzter erfolgreicher Stand bleibt sichtbar."};
+      const msg=String(e&&e.message||e);
+      const friendly=msg.startsWith("AUTH")?"WDR-Anmeldung abgelehnt. Zugangsdaten prüfen.":msg.startsWith("SOURCE")?"Quelle antwortet mit Fehlerstatus ("+msg.split(":")[1]+").":msg==="FORMAT"?"Antwort der Quelle enthält keine lesbaren Fahrten.":msg==="DATE"?"Quelle meldet Datumswechsel während des Abrufs.":"Unerwarteter Fehler beim Abruf: "+msg;
+      const result={...(previous||{code,name,abfahrten:[],updatedAt:null}),attemptedAt,ok:false,error:friendly};
       await env.LADELISTE.put("ship:"+code,JSON.stringify(result));return result;
     }
   }));
