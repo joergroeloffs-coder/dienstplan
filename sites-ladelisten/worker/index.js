@@ -7,10 +7,10 @@ export default {async fetch(request,env){
   if(!['/api/ladeliste','/api/refresh'].includes(url.pathname))return new Response('Not found',{status:404});
   if(request.method!==(url.pathname==='/api/refresh'?'POST':'GET'))return new Response('Method not allowed',{status:405});
   if(request.method==='POST'&&request.headers.get('Origin')!==url.origin)return new Response('Forbidden',{status:403});
-  if(!env.WDR_WORKER_URL||!env.WDR_WORKER_TOKEN)return Response.json(empty(),{headers});
+  if(!env.WDR_WORKER_URL||!env.WDR_WORKER_TOKEN||!env.LADELISTE_WORKER)return Response.json(empty(),{headers});
   try{
    const base=new URL(env.WDR_WORKER_URL);if(base.protocol!=='https:')throw Error();
-   const res=await fetch(new URL(url.pathname,base),{method:request.method,headers:{Authorization:'Bearer '+env.WDR_WORKER_TOKEN},redirect:'error',signal:AbortSignal.timeout(60000)});
+   const res=await env.LADELISTE_WORKER.fetch(new URL(url.pathname,base),{method:request.method,headers:{Authorization:'Bearer '+env.WDR_WORKER_TOKEN},signal:AbortSignal.timeout(60000)});
    if(!res.ok)throw Error();const data=await res.json();if(!Array.isArray(data.ships)||data.ships.length!==4||!Array.isArray(data.abfahrten))throw Error();
    return Response.json({...data,configured:true},{headers});
   }catch{return Response.json({...empty(),configured:true,error:'Abrufdienst antwortet nicht oder liefert ungültige Daten. Verbindung und Freigabe prüfen.'},{status:502,headers})}
