@@ -228,6 +228,16 @@
     "vorgaenger_text": null
   },
   "2026-W48": {
+    "abfahrten_pro_tag": {
+      "20.11.2026": "HW 9:40 / NW 3:42 / HW 22:25 / NW 16:31\n6:00 Wyk-Dagebüll\n7:15 Dagebüll-Wyk\n8:15 Wyk-Wittdün\n9:30 Wittdün-Wyk\n10:50 Wyk-Dagebüll\n12:00 Dagebüll-Wyk\n13:20 Wyk-Dagebüll\n15:05 Dagebüll-Wyk\n16:00 Wyk-Wittdün\n17:25 Wittdün-Wyk\n18:40 Wyk-Dagebüll\n19:45 Dagebüll-Wyk\n20:40 Wyk-Wittdün",
+      "21.11.2026": "HW 10:48 / NW 4:56 / HW 23:25 / NW 17:36\n7:10 Wittdün-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk\n13:20 Wyk-Dagebüll\n15:05 Dagebüll-Wyk\n16:00 Wyk-Wittdün\n17:25 Wittdün-Wyk\n18:40 Wyk-Dagebüll\n19:45 Dagebüll-Wyk",
+      "22.11.2026": "HW 11:44 / NW 5:59 / NW 18:31\n15:15 Wyk-Dagebüll\n16:30 Dagebüll-Wyk\n17:40 Wyk-Dagebüll\n18:45 Dagebüll-Wyk\n19:40 Wyk-Wittdün",
+      "23.11.2026": "HW 0:16 / NW 6:54 / HW 12:35 / NW 19:23\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n11:00 Dagebüll-Wyk\n12:10 Wyk-Dagebüll\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:30 Dagebüll-Wyk\n17:40 Wyk-Dagebüll\n18:45 Dagebüll-Wyk\n19:40 Wyk-Wittdün",
+      "24.11.2026": "HW 1:04 / NW 7:46 / HW 13:26 / NW 20:12\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n11:00 Dagebüll-Wyk\n12:10 Wyk-Dagebüll\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:30 Dagebüll-Wyk\n17:40 Wyk-Dagebüll\n18:45 Dagebüll-Wyk\n19:40 Wyk-Wittdün",
+      "25.11.2026": "HW 1:50 / NW 8:34 / HW 14:15 / NW 20:57\n6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n11:00 Dagebüll-Wyk\n12:10 Wyk-Dagebüll\n14:05 Dagebüll-Wyk",
+      "26.11.2026": "HW 2:33 / NW 9:21 / HW 15:02 / NW 21:41\n6:00 Wyk-Dagebüll\n7:15 Dagebüll-Wyk\n8:15 Wyk-Wittdün\n9:30 Wittdün-Wyk\n10:50 Wyk-Dagebüll\n12:00 Dagebüll-Wyk",
+      "27.11.2026": "HW 3:17 / NW 10:10 / HW 15:51 / NW 22:27\n6:00 Wyk-Dagebüll\n7:15 Dagebüll-Wyk\n8:15 Wyk-Wittdün\n9:30 Wittdün-Wyk\n10:50 Wyk-Dagebüll\n12:00 Dagebüll-Wyk\n13:20 Wyk-Dagebüll\n15:05 Dagebüll-Wyk\n16:00 Wyk-Wittdün\n17:25 Wittdün-Wyk\n18:40 Wyk-Dagebüll\n19:45 Dagebüll-Wyk\n20:40 Wyk-Wittdün"
+    },
     "besatzung_text": "NK Blank, Marc\nNEO Roeloffs, Jörg\nTLM Isermann, Tobias\nGSM Peters, Olaf\nNWB Allwörden, André von\nNWB Petersen, Ralf\nNWB* Moths, Holger\nAz Skora, Josse ab 24.11.",
     "category": "UTHLANDE",
     "date_from": "2026-11-20",
