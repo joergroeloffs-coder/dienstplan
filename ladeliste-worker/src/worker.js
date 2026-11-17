@@ -54,7 +54,7 @@ export async function refresh(env){
   const ships=await Promise.all(SHIPS.map(async([code,name])=>{
     const previous=await env.LADELISTE.get("ship:"+code,"json");
     try{
-      const r=await fetch(BASE+"/"+code+".html?t="+Date.now(),{headers:{Authorization:auth,"Cache-Control":"no-cache"},signal:AbortSignal.timeout(15000),redirect:"error"});
+      const r=await fetch(BASE+"/"+code+".html?t="+Date.now(),{headers:{Authorization:auth,"Cache-Control":"no-cache"},signal:AbortSignal.timeout(15000),redirect:"manual"});
       if(!r.ok)throw Error((r.status===401||r.status===403?"AUTH":"SOURCE")+":"+r.status);
       const charset=/charset=([^; ]+)/i.exec(r.headers.get("content-type")||"")?.[1]||"windows-1252";
       const html=new TextDecoder(charset).decode(await r.arrayBuffer());
