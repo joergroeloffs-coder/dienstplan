@@ -6,24 +6,34 @@ function text(s){return (s||"").replace(/<[^>]+>/g,"").replace(/&nbsp;?/gi," ").
 function number(s){if(!s||!/^\d+(?:[,.]\d+)?$/.test(s))return null;return Number(s.replace(",","."))}
 function cells(html){return [...html.matchAll(/<TD\b[^>]*>([\s\S]*?)<\/TD>/gi)].map(m=>text(m[1]))}
 function meters(block){const i=block.indexOf("Summe gebuchter Meter:");if(i<0)return null;const v=cells(block.slice(i,i+1200)).filter(x=>/^\d+,\d+$/.test(x));return v.length>1?number(v[1]):null}
+// Die Boarding-Spalte (eine Zelle nach der Beschreibung) nennt ein- bis
+// zweistellig die Häfen, an denen das Fahrzeug den Check-in schon
+// durchlaufen hat (F=Föhr, D=Dagebüll, A=Amrum). "Eingecheckt für diese
+// Abfahrt" heißt: der Anfangsbuchstabe des Abfahrtshafens dieser Fahrt
+// steckt in der Boarding-Zelle - sonst koennte bei Durchgangsbuchungen
+// faelschlich ein anderer Hafen der Reise mitgezaehlt werden.
 export function parse(html,ship){
   const starts=[...html.matchAll(/Fahrt:\s*([^<]+?)-([^<]+?)</gi)];
   return starts.map((m,i)=>{
     const block=html.slice(m.index,starts[i+1]?.index??html.length);
     const time=/Abfahrzeit:\s*(\d{2}:\d{2})/i.exec(block)?.[1];
     if(!time)return null;
+    const von=m[1].trim();
+    const originLetter=von.charAt(0).toUpperCase();
     const counts=/gebuchte PKW (\d+), Motorr.der (\d+) und Transporter (\d+)/i.exec(block);
-    const specials=[];
+    const specials=[],checkedIn={};
     for(const row of block.matchAll(/<TR>([\s\S]*?)<\/TR>/gi)){
       const c=cells(row[1]).filter((_,i)=>i%2===0);
       if(c.length<8||!/^\d+$/.test(c[0]))continue;
       const d=c[3]||"";
-      const type=/LKW/i.test(d)?"LKW":/Transporter/i.test(d)?"Transporter":/PKW[- ]Anh/i.test(d)?"PKW-Anhänger":/Motorrad/i.test(d)?"Motorrad":null;
-      if(type)specials.push({art:type,kunde:c[1]||null,kennzeichen:c[5]||null,laenge_m:number(c[7])});
+      const specialType=/LKW/i.test(d)?"LKW":/Transporter/i.test(d)?"Transporter":/PKW[- ]Anh/i.test(d)?"PKW-Anhänger":/Motorrad/i.test(d)?"Motorrad":null;
+      const category=specialType||"PKW";
+      if((c[4]||"").toUpperCase().includes(originLetter))checkedIn[category]=(checkedIn[category]||0)+1;
+      if(specialType)specials.push({art:specialType,kunde:c[1]||null,kennzeichen:c[5]||null,laenge_m:number(c[7])});
     }
-    return {schiff:ship,abfahrt:time,von:m[1].trim(),nach:m[2].trim(),
+    return {schiff:ship,abfahrt:time,von,nach:m[2].trim(),
       pkw:counts?Number(counts[1]):null,motorraeder:counts?Number(counts[2]):null,
-      transporter:counts?Number(counts[3]):null,lademeter:meters(block),sonderfahrzeuge:specials};
+      transporter:counts?Number(counts[3]):null,lademeter:meters(block),sonderfahrzeuge:specials,checkedIn};
   }).filter(Boolean);
 }
 const CATEGORIES={Norderaue:"NORDERAUE",Nordfriesland:"NORDFRIESLAND",Uthlande:"UTHLANDE","Schleswig-Holstein":"SCHLESWIG - HOLSTEIN"};
@@ -40,7 +50,7 @@ export function departures(blocks,schedule,ship,date){
     if(!from||!to||!/^\d{2}:\d{2}$/.test(leg.zeit))throw Error("Ungültiger Fahrplan");
     const target=leg.direkt&&DIRECT[leg.route]||to;
     const matches=blocks.filter(b=>b.von===(PORTS[from]||from.toUpperCase())&&Math.abs(minutes(b.abfahrt)-minutes(leg.zeit))<=5);
-    if(!matches.length)output.push({schiff:ship,abfahrt:leg.zeit,von:PORTS[from]||from,nach:PORTS[target]||target,pkw:null,motorraeder:null,transporter:null,lademeter:null,sonderfahrzeuge:[],hinweis:"Noch keine eigene Buchung zu dieser Etappe"});
+    if(!matches.length)output.push({schiff:ship,abfahrt:leg.zeit,von:PORTS[from]||from,nach:PORTS[target]||target,pkw:null,motorraeder:null,transporter:null,lademeter:null,sonderfahrzeuge:[],checkedIn:{},hinweis:"Noch keine eigene Buchung zu dieser Etappe"});
     for(const b of matches){used.add(b);output.push({...b,abfahrt:leg.zeit});}
   }
   for(const b of blocks)if(!used.has(b))output.push({...b,hinweis:"Nicht im Fahrplan enthalten – laut aktueller Buchung"});
@@ -60,7 +70,9 @@ export async function refresh(env){
   const ships=await Promise.all(SHIPS.map(async([code,name])=>{
     const previous=await env.LADELISTE.get("ship:"+code,"json");
     try{
-      const r=await fetch(BASE+"/"+code+".html?t="+Date.now(),{headers:{Authorization:auth,"Cache-Control":"no-cache"},signal:AbortSignal.timeout(15000),redirect:"manual"});
+      // "-PKW" liefert zusätzlich zur Basis-Datei jede normale PKW-Buchung
+      // einzeln (inkl. Boarding-Spalte) statt nur die Sonderfahrzeuge.
+      const r=await fetch(BASE+"/"+code+"-PKW.html?t="+Date.now(),{headers:{Authorization:auth,"Cache-Control":"no-cache"},signal:AbortSignal.timeout(15000),redirect:"manual"});
       if(!r.ok)throw Error((r.status===401||r.status===403?"AUTH":"SOURCE")+":"+r.status);
       const charset=/charset=([^; ]+)/i.exec(r.headers.get("content-type")||"")?.[1]||"windows-1252";
       const html=new TextDecoder(charset).decode(await r.arrayBuffer());
