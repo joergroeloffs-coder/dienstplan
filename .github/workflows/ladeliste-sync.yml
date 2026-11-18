@@ -1,24 +1,17 @@
 name: Ladeliste Sync
 
-# Erzeugt die mobile Ladeliste-Seite (docs/<SLUG>/ladeliste.html) aus der
-# aktuellen state.json + den Live-Ladelisten auf faehre2.de.
+# War: erzeugte die mobile Ladeliste-Seite (docs/<SLUG>/ladeliste.html)
+# per Cronjob aus den Live-Ladelisten auf faehre2.de.
 #
-# GitHubs eigener "schedule"-Trigger (unten) wird zwar angemeldet, feuert
-# aber auf diesem Repo nachweislich nicht (0 Laeufe ueber mehrere Tage -
-# bekanntes Problem bei 5-Minuten-Crons). Deshalb laeuft intern eine
-# Schleife: einmal pro Stunde angestossen (aktuell per workflow_dispatch),
-# aktualisiert dieser einzelne Lauf die Ladeliste anschliessend 11x im
-# 5-Minuten-Abstand selbststaendig weiter - "im Hintergrund" heisst hier:
-# kein weiterer Anstoss noetig, bis der naechste Stundenlauf beginnt.
-# Nur relevant waehrend der Betriebszeit der Faehren; ausserhalb (naechtens)
-# aendert sich eh nichts, die Laeufe committen dann einfach nichts.
-# Ueberlappt sich ein Lauf mit einem noch laufenden, wartet er dank
-# "concurrency" einfach, statt parallel zu laufen.
+# Abgeloest durch die Cloudflare-Worker-Loesung (ladeliste-worker/,
+# sites-ladelisten/, PR 14): dort aktualisiert sich die Ladeliste
+# zuverlaessig alle 2 Minuten im Hintergrund, ohne dass GitHub Actions
+# dafuer angestossen werden muss. Der automatische Schedule-Trigger hier
+# ist deshalb deaktiviert; workflow_dispatch bleibt als manueller
+# Fallback nutzbar, falls die neue Loesung einmal ausfallen sollte.
 
 on:
   workflow_dispatch: {}
-  schedule:
-    - cron: "2-59/5 4-20 * * *"
 
 permissions:
   contents: write
