@@ -10,10 +10,16 @@ aktuellen Abfahrt; ein Jetzt-Button holt dahin zurueck, falls man sich
 weggescrollt hat.
 
 Quelle: https://faehre2.de/fileadmin/wdr/Schiffe/Ladeliste/<ABK>.html -
-live-System, aktualisiert sich dort alle 30s. Diese Seite wird per Cronjob
+live-System, aktualisiert sich dort alle 30s. Diese Seite wurde per Cronjob
 (siehe .github/workflows/ladeliste-sync.yml) alle paar Minuten neu erzeugt
 und ueber GitHub Pages veroeffentlicht; die Seite selbst laedt sich per
 Meta-Refresh alle 60s neu nach.
+
+Abgeloest durch die Cloudflare-Worker-Loesung (ladeliste-worker/,
+sites-ladelisten/, PR 14) - die dortige Seite aktualisiert sich zuverlaessig
+alle 2 Minuten im Hintergrund, auch ohne GitHub-Actions-Anstoss. Der
+automatische Sync hier ist deaktiviert; dieses Skript bleibt als manueller
+Fallback nutzbar.
 
 Zugangsdaten kommen aus WDR_USER / WDR_PASS (GitHub Actions Secrets).
 """
@@ -43,6 +49,8 @@ FAHRPLAN_PATH = HERE / "fahrplan_schedule.json"
 
 BASE_URL = "https://faehre2.de/fileadmin/wdr/Schiffe/Ladeliste"
 TZ = ZoneInfo("Europe/Berlin")
+
+NEUE_SEITE_URL = "https://dienstplan-ladelisten-sites.joerg-roeloffs.workers.dev"
 
 # Nur diese 4 Schiffe - Hilligenlei ausdruecklich nicht gewuenscht.
 SCHIFF_ABK = {
@@ -452,6 +460,8 @@ header.ship{{
 }}
 header.ship h1{{margin:0; font-size:21px; font-weight:800; letter-spacing:.01em; color:var(--fg)}}
 header.ship .sub{{font-size:13px; color:var(--fg-dim)}}
+header.ship .neu{{font-size:13px; margin-top:3px}}
+header.ship .neu a{{color:var(--accent); font-weight:700; text-decoration:none}}
 main{{padding:10px 0 20px; display:flex; flex-direction:column; gap:10px}}
 .card{{
   background:var(--panel); border:1px solid var(--rule); border-radius:10px;
@@ -513,7 +523,8 @@ footer{{padding:4px 0 12px; font-size:11px; color:var(--fg-dim); text-align:cent
 <header class="ship">
   <div>
     <h1>Ladeliste</h1>
-    <div class="sub">{uhrzeit} Uhr</div>
+    <div class="sub">{uhrzeit} Uhr · dieser Stand aktualisiert sich nicht mehr automatisch</div>
+    <div class="neu"><a href="{neue_seite_url}">→ Neue Live-Version (aktualisiert sich automatisch alle 2 Minuten)</a></div>
   </div>
 </header>
 
@@ -521,14 +532,10 @@ footer{{padding:4px 0 12px; font-size:11px; color:var(--fg-dim); text-align:cent
 {karten}
 </main>
 
-<footer>Quelle: faehre2.de · Ladeliste · Seite aktualisiert sich alle 60s</footer>
+<footer>Quelle: faehre2.de · Ladeliste · Diese Seite wird nicht mehr automatisch aktualisiert, siehe Link oben.</footer>
 <button id="jump-now" type="button">⏱ Jetzt</button>
 
 <script>
-if ("serviceWorker" in navigator) {{
-  navigator.serviceWorker.register("ladeliste-sw.js");
-}}
-
 function zurAktuellenAbfahrt(verhalten) {{
   const jetzt = document.querySelector("[data-jetzt]");
   if (jetzt) {{
@@ -540,13 +547,6 @@ zurAktuellenAbfahrt("instant");
 document.getElementById("jump-now").addEventListener("click", () => {{
   zurAktuellenAbfahrt("smooth");
 }});
-
-// Meta-Refresh laed dieselbe URL erneut und wird vom Browser-/CDN-Cache
-// bedient statt neu vom Server geholt zu werden - deshalb per JS mit
-// Cache-Busting-Query und explizit "no-store" neu laden.
-setTimeout(() => {{
-  location.href = location.pathname + "?t=" + Date.now();
-}}, 60000);
 </script>
 </body>
 </html>
@@ -593,7 +593,7 @@ def main():
     ]
     karten_html = "".join(karten) if karten else '<div id="no-ship">Keine Abfahrten gefunden.</div>'
 
-    html = PAGE_TEMPLATE.format(uhrzeit=uhrzeit, karten=karten_html)
+    html = PAGE_TEMPLATE.format(uhrzeit=uhrzeit, karten=karten_html, neue_seite_url=NEUE_SEITE_URL)
 
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.write_text(html, encoding="utf-8")
