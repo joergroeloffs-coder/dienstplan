@@ -1,0 +1,26 @@
+name: Ladeliste Diagnose PKW
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  dump:
+    runs-on: ubuntu-latest
+    steps:
+      - name: -pkw-Dateien aller Schiffe abrufen
+        env:
+          WDR_USER: ${{ secrets.WDR_USER }}
+          WDR_PASS: ${{ secrets.WDR_PASS }}
+        run: |
+          for ABK in NA S-H UTHLANDE NORDFRIES; do
+            for SUFFIX in "" "-pkw"; do
+              URL="https://faehre2.de/fileadmin/wdr/Schiffe/Ladeliste/${ABK}${SUFFIX}.html"
+              echo "=================================================="
+              echo "=== $URL ==="
+              echo "=================================================="
+              STATUS=$(curl -s -o /tmp/out.html -w "%{http_code}" -u "$WDR_USER:$WDR_PASS" "$URL")
+              echo "HTTP $STATUS"
+              cat /tmp/out.html
+              echo
+            done
+          done
