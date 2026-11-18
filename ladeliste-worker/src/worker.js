@@ -51,12 +51,31 @@ function dueForWrite(previous,attemptedAt){
   const elapsed=Date.parse(attemptedAt)-Date.parse(previous.attemptedAt);
   return !Number.isFinite(elapsed)||elapsed>=WRITE_THROTTLE_MS;
 }
+// Die WDR-Quelle wird ausschliesslich rund um den heutigen Fahrbetrieb abgefragt.
+// Bei fehlendem Fahrplan wird bewusst NICHT rund um die Uhr weitergepollt.
+export function withinServiceWindow(schedule, datum, now=new Date()){
+  const times=Object.values(schedule?.schiffe||{}).flat()
+    .filter(e=>e.datum===datum&&/^\d{2}:\d{2}$/.test(e.zeit))
+    .map(e=>minutes(e.zeit)).filter(m=>m>=0&&m<1440);
+  if(!times.length)return {active:false,reason:"Kein gueltiger Fahrplan fuer heute"};
+  const earliest=Math.min(...times),latest=Math.max(...times);
+  const local=new Intl.DateTimeFormat("en-GB",{timeZone:"Europe/Berlin",hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).format(now);
+  const current=minutes(local);
+  return {active:current>=earliest-30&&current<=latest+15,
+    first:earliest,last:latest,start:earliest-30,end:latest+15};
+}
 export async function refresh(env){
   const attemptedAt=new Date().toISOString(), datum=dateBerlin();
+  let schedule={};
+  try{
+    const r=await fetch("https://raw.githubusercontent.com/joergroeloffs-coder/dienstplan/main/fahrplan_schedule.json",{cache:"no-store",signal:AbortSignal.timeout(15000)});
+    if(!r.ok)throw Error("Fahrplan HTTP "+r.status);
+    schedule=await r.json();
+  }catch(e){console.error("Fahrplan nicht verfuegbar; WDR-Abruf ausgesetzt",String(e));return {skipped:true,reason:"Fahrplan nicht verfuegbar"}}
+  const window=withinServiceWindow(schedule,datum);
+  if(!window.active)return {skipped:true,reason:window.reason||"Ausserhalb des Fahrbetriebs",window};
   if(!env.WDR_USER||!env.WDR_PASS)throw Error("Zugangsdaten fehlen");
   const auth="Basic "+btoa(env.WDR_USER+":"+env.WDR_PASS);
-  let schedule={};
-  try{const r=await fetch("https://raw.githubusercontent.com/joergroeloffs-coder/dienstplan/main/fahrplan_schedule.json",{cache:"no-store",signal:AbortSignal.timeout(15000)});if(r.ok)schedule=await r.json();}catch{}
   const ships=await Promise.all(SHIPS.map(async([code,name])=>{
     const previous=await env.LADELISTE.get("ship:"+code,"json");
     try{
