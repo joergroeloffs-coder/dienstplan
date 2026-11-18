@@ -7,20 +7,18 @@ jobs:
   dump:
     runs-on: ubuntu-latest
     steps:
-      - name: -PKW-Dateien aller Schiffe abrufen
+      - name: -PKW-Dateien aller Schiffe pruefen (nur Status+Titel+Groesse)
         env:
           WDR_USER: ${{ secrets.WDR_USER }}
           WDR_PASS: ${{ secrets.WDR_PASS }}
         run: |
           for ABK in NA S-H UTHLANDE NORDFRIES; do
-            for SUFFIX in "" "-PKW"; do
+            for SUFFIX in "" "-PKW" "-pkw"; do
               URL="https://faehre2.de/fileadmin/wdr/Schiffe/Ladeliste/${ABK}${SUFFIX}.html"
-              echo "=================================================="
-              echo "=== $URL ==="
-              echo "=================================================="
               STATUS=$(curl -s -o /tmp/out.html -w "%{http_code}" -u "$WDR_USER:$WDR_PASS" "$URL")
-              echo "HTTP $STATUS"
-              cat /tmp/out.html
-              echo
+              SIZE=$(wc -c < /tmp/out.html)
+              TITLE=$(grep -io '<title>[^<]*</title>' /tmp/out.html | head -1)
+              FAHRTEN=$(grep -o 'Fahrt:' /tmp/out.html | wc -l)
+              echo "$URL -> HTTP $STATUS, ${SIZE} bytes, $TITLE, ${FAHRTEN}x Fahrt:"
             done
           done
