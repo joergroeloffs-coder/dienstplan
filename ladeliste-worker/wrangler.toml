@@ -1,0 +1,12 @@
+name = "dienstplan-ladeliste"
+main = "src/worker.js"
+compatibility_date = "2026-11-01"
+workers_dev = true
+
+# Replace with your Cloudflare KV namespace identifier after creating it.
+[[kv_namespaces]]
+binding = "LADELISTE"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
+
+[triggers]
+crons = ["*/2 * * * *"]
