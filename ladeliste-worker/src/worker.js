@@ -1,5 +1,7 @@
 const BASE="https://faehre2.de/fileadmin/wdr/Schiffe/Ladeliste";
 const SHIPS=[["NA","Norderaue"],["NORDFRIES","Nordfriesland"],["UTHLANDE","Uthlande"],["S-H","Schleswig-Holstein"]];
+const WRITE_THROTTLE_MS=8*60*1000;
+const STALE_MS=10*60*1000;
 function text(s){return (s||"").replace(/<[^>]+>/g,"").replace(/&nbsp;?/gi," ").replace(/&amp;/gi,"&").trim()}
 function number(s){if(!s||!/^\d+(?:[,.]\d+)?$/.test(s))return null;return Number(s.replace(",","."))}
 function cells(html){return [...html.matchAll(/<TD\b[^>]*>([\s\S]*?)<\/TD>/gi)].map(m=>text(m[1]))}
@@ -44,6 +46,11 @@ export function departures(blocks,schedule,ship,date){
   for(const b of blocks)if(!used.has(b))output.push({...b,hinweis:"Nicht im Fahrplan enthalten – laut aktueller Buchung"});
   return output;
 }
+function dueForWrite(previous,attemptedAt){
+  if(!previous?.attemptedAt)return true;
+  const elapsed=Date.parse(attemptedAt)-Date.parse(previous.attemptedAt);
+  return !Number.isFinite(elapsed)||elapsed>=WRITE_THROTTLE_MS;
+}
 export async function refresh(env){
   const attemptedAt=new Date().toISOString(), datum=dateBerlin();
   if(!env.WDR_USER||!env.WDR_PASS)throw Error("Zugangsdaten fehlen");
@@ -60,20 +67,27 @@ export async function refresh(env){
       const blocks=parse(html,name);
       if(dateBerlin()!==datum)throw Error("DATE");
       const digest=Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(html)))).map(n=>n.toString(16).padStart(2,"0")).join("");
-      const result={code,name,datum,updatedAt:new Date().toISOString(),attemptedAt,ok:true,sourceModified:r.headers.get("last-modified"),sourceUnchangedSince:previous?.digest===digest?previous.sourceUnchangedSince:attemptedAt,digest,fahrplanStand:schedule.generated_at||null,fahrplanOk:!!schedule.schiffe?.[CATEGORIES[name]]?.some(e=>e.datum===datum),abfahrten:departures(blocks,schedule,name,datum)};
-      await env.LADELISTE.put("ship:"+code,JSON.stringify(result));return result;
+      const changed=previous?.digest!==digest;
+      const result={code,name,datum,updatedAt:new Date().toISOString(),attemptedAt,ok:true,sourceModified:r.headers.get("last-modified"),sourceUnchangedSince:changed?attemptedAt:previous?.sourceUnchangedSince,digest,fahrplanStand:schedule.generated_at||null,fahrplanOk:!!schedule.schiffe?.[CATEGORIES[name]]?.some(e=>e.datum===datum),abfahrten:departures(blocks,schedule,name,datum)};
+      // KV-Schreibvorgänge sind auf dem kostenlosen Cloudflare-Tarif auf 1000/Tag begrenzt.
+      // Bei unveraenderter Quelle (haeufigster Fall) nur alle WRITE_THROTTLE_MS schreiben,
+      // echte Aenderungen werden weiterhin sofort beim naechsten 2-Minuten-Poll gespeichert.
+      if(changed||dueForWrite(previous,attemptedAt))await env.LADELISTE.put("ship:"+code,JSON.stringify(result));
+      return result;
     }catch(e){
       const msg=String(e&&e.message||e);
       const friendly=msg.startsWith("AUTH")?"WDR-Anmeldung abgelehnt. Zugangsdaten prüfen.":msg.startsWith("SOURCE")?"Quelle antwortet mit Fehlerstatus ("+msg.split(":")[1]+").":msg==="DATE"?"Quelle meldet Datumswechsel während des Abrufs.":"Unerwarteter Fehler beim Abruf: "+msg;
       const result={...(previous||{code,name,abfahrten:[],updatedAt:null}),attemptedAt,ok:false,error:friendly};
-      await env.LADELISTE.put("ship:"+code,JSON.stringify(result));return result;
+      const wasAlreadyError=previous?.ok===false;
+      if(!wasAlreadyError||dueForWrite(previous,attemptedAt))await env.LADELISTE.put("ship:"+code,JSON.stringify(result));
+      return result;
     }
   }));
   return {ships};
 }
 export function shipStatus(s,now=Date.now()){
   const age=now-Date.parse(s.updatedAt),sourceAge=s.sourceModified?now-Date.parse(s.sourceModified):null;
-  return {...s,digest:undefined,status:!s.updatedAt?"fehlt":!Number.isFinite(age)||age<0||age>300000||s.datum!==dateBerlin()||sourceAge!==null&&sourceAge>300000?"veraltet":!s.ok?"fehler":"abgerufen",sourceWarning:!s.sourceModified?"Erstellungszeit der Quelle nicht bestätigt.":null};
+  return {...s,digest:undefined,status:!s.updatedAt?"fehlt":!Number.isFinite(age)||age<0||age>STALE_MS||s.datum!==dateBerlin()||sourceAge!==null&&sourceAge>STALE_MS?"veraltet":!s.ok?"fehler":"abgerufen",sourceWarning:!s.sourceModified?"Erstellungszeit der Quelle nicht bestätigt.":null};
 }
 export default{
   async scheduled(event,env,ctx){ctx.waitUntil(refresh(env).catch(()=>console.error("Aktualisierung fehlgeschlagen")))},
