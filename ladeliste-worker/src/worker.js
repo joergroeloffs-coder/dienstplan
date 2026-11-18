@@ -28,7 +28,7 @@ export function parse(html,ship){
       const d=c[3]||"";
       const specialType=/LKW/i.test(d)?"LKW":/Transporter/i.test(d)?"Transporter":/PKW[- ]Anh/i.test(d)?"PKW-Anhänger":/Motorrad/i.test(d)?"Motorrad":null;
       const category=specialType||"PKW";
-      if((c[4]||"").toUpperCase().includes(originLetter))checkedIn[category]=(checkedIn[category]||0)+1;
+      checkedIn[category]=(checkedIn[category]||0)+((c[4]||"").toUpperCase().includes(originLetter)?1:0);
       if(specialType)specials.push({art:specialType,kunde:c[1]||null,kennzeichen:c[5]||null,laenge_m:number(c[7])});
     }
     return {schiff:ship,abfahrt:time,von,nach:m[2].trim(),
