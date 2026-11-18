@@ -7,7 +7,7 @@ jobs:
   dump:
     runs-on: ubuntu-latest
     steps:
-      - name: Fahrzeugzeilen in Basis- vs -PKW-Datei vergleichen
+      - name: Ladeart der zusaetzlichen -PKW-Zeilen klassifizieren
         env:
           WDR_USER: ${{ secrets.WDR_USER }}
           WDR_PASS: ${{ secrets.WDR_PASS }}
@@ -15,12 +15,11 @@ jobs:
           pip install requests >/dev/null
           python3 << 'EOF'
           import requests, re, os
+          from collections import Counter
 
           auth = (os.environ["WDR_USER"], os.environ["WDR_PASS"])
           BASE = "https://faehre2.de/fileadmin/wdr/Schiffe/Ladeliste"
 
-          # Gleiche Zeilenerkennung wie ladeliste_page.py: TR/TD-Struktur,
-          # Fahrzeugzeile = 8 Inhalts-TDs, erste davon eine Buchungsnummer.
           TR_RE = re.compile(r"<TR>(.*?)</TR>", re.S)
           TD_RE = re.compile(r"<TD[^>]*>(.*?)</TD>", re.S)
           TAG_RE = re.compile(r"<[^>]+>")
@@ -29,23 +28,24 @@ jobs:
               return TAG_RE.sub("", td_html).replace("&nbsp", "").strip()
 
           def vehicle_rows(html):
-              buchungsnummern = []
+              rows = {}
               for tr_html in TR_RE.findall(html):
                   tds = [td_text(td) for td in TD_RE.findall(tr_html)]
                   inhalt = tds[0::2]
                   if len(inhalt) >= 8 and inhalt[0].isdigit():
-                      buchungsnummern.append(inhalt[0])
-              return buchungsnummern
+                      buchungsnr, kurzname, ladeart, beschreibung = inhalt[:4]
+                      rows[buchungsnr] = (ladeart, beschreibung)
+              return rows
 
           for abk in ["NA", "UTHLANDE", "NORDFRIES"]:
               r1 = requests.get(f"{BASE}/{abk}.html", auth=auth, timeout=30)
               r2 = requests.get(f"{BASE}/{abk}-PKW.html", auth=auth, timeout=30)
               v1 = vehicle_rows(r1.text)
               v2 = vehicle_rows(r2.text)
-              s1, s2 = set(v1), set(v2)
-              print(f"=== {abk} ===")
-              print(f"  Basis:  {len(v1)} Fahrzeugzeilen, Buchungsnrn: {sorted(s1)}")
-              print(f"  -PKW:   {len(v2)} Fahrzeugzeilen, Buchungsnrn: {sorted(s2)}")
-              print(f"  Nur in -PKW (fehlt in Basis): {sorted(s2 - s1)}")
-              print(f"  Nur in Basis (fehlt in -PKW): {sorted(s1 - s2)}")
+              nur_pkw = set(v2) - set(v1)
+              ladearten = Counter(v2[b][0] for b in nur_pkw)
+              print(f"=== {abk}: Ladearten der {len(nur_pkw)} nur-in-PKW-Zeilen ===")
+              for ladeart, anzahl in ladearten.most_common():
+                  beispiel = next(v2[b][1] for b in nur_pkw if v2[b][0] == ladeart)
+                  print(f"  {ladeart}: {anzahl}x  (Beschreibung z.B. '{beispiel}')")
           EOF
