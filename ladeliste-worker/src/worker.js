@@ -1,7 +1,7 @@
 const BASE="https://faehre2.de/fileadmin/wdr/Schiffe/Ladeliste";
 const SHIPS=[["NA","Norderaue"],["NORDFRIES","Nordfriesland"],["UTHLANDE","Uthlande"],["S-H","Schleswig-Holstein"]];
 const WRITE_THROTTLE_MS=8*60*1000;
-const STALE_MS=10*60*1000;
+const STALE_MS=60*60*1000;
 function text(s){return (s||"").replace(/<[^>]+>/g,"").replace(/&nbsp;?/gi," ").replace(/&amp;/gi,"&").trim()}
 function number(s){if(!s||!/^\d+(?:[,.]\d+)?$/.test(s))return null;return Number(s.replace(",","."))}
 function cells(html){return [...html.matchAll(/<TD\b[^>]*>([\s\S]*?)<\/TD>/gi)].map(m=>text(m[1]))}
@@ -81,9 +81,9 @@ export async function refresh(env){
       const digest=Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(html)))).map(n=>n.toString(16).padStart(2,"0")).join("");
       const changed=previous?.digest!==digest;
       const result={code,name,datum,updatedAt:new Date().toISOString(),attemptedAt,ok:true,sourceModified:r.headers.get("last-modified"),sourceUnchangedSince:changed?attemptedAt:previous?.sourceUnchangedSince,digest,fahrplanStand:schedule.generated_at||null,fahrplanOk:!!schedule.schiffe?.[CATEGORIES[name]]?.some(e=>e.datum===datum),abfahrten:departures(blocks,schedule,name,datum)};
-      // KV-Schreibvorgänge sind auf dem kostenlosen Cloudflare-Tarif auf 1000/Tag begrenzt.
-      // Bei unveraenderter Quelle (haeufigster Fall) nur alle WRITE_THROTTLE_MS schreiben,
-      // echte Aenderungen werden weiterhin sofort beim naechsten 2-Minuten-Poll gespeichert.
+      // Abruf laeuft nur noch auf Anforderung (Button/erster Seitenaufruf),
+      // kein Hintergrund-Cron mehr - die Drosselung schuetzt lediglich vor
+      // mehrfachen Schreibvorgaengen bei schnell aufeinanderfolgenden Klicks.
       if(changed||dueForWrite(previous,attemptedAt))await env.LADELISTE.put("ship:"+code,JSON.stringify(result));
       return result;
     }catch(e){
@@ -102,7 +102,6 @@ export function shipStatus(s,now=Date.now()){
   return {...s,digest:undefined,status:!s.updatedAt?"fehlt":!Number.isFinite(age)||age<0||age>STALE_MS||s.datum!==dateBerlin()||sourceAge!==null&&sourceAge>STALE_MS?"veraltet":!s.ok?"fehler":"abgerufen",sourceWarning:!s.sourceModified?"Erstellungszeit der Quelle nicht bestätigt.":null};
 }
 export default{
-  async scheduled(event,env,ctx){ctx.waitUntil(refresh(env).catch(()=>console.error("Aktualisierung fehlgeschlagen")))},
   async fetch(request,env){
     const u=new URL(request.url),headers={"Cache-Control":"no-store","X-Content-Type-Options":"nosniff"};
     if(!env.API_TOKEN||request.headers.get("Authorization")!=="Bearer "+env.API_TOKEN)return Response.json({error:"Nicht berechtigt"},{status:401,headers});
