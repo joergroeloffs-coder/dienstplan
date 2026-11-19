@@ -16,10 +16,10 @@ und ueber GitHub Pages veroeffentlicht; die Seite selbst laedt sich per
 Meta-Refresh alle 60s neu nach.
 
 Abgeloest durch die Cloudflare-Worker-Loesung (ladeliste-worker/,
-sites-ladelisten/, PR 14) - die dortige Seite aktualisiert sich zuverlaessig
-alle 2 Minuten im Hintergrund, auch ohne GitHub-Actions-Anstoss. Der
-automatische Sync hier ist deaktiviert; dieses Skript bleibt als manueller
-Fallback nutzbar.
+sites-ladelisten/, PR 14) - die dortige Seite ruft auf Anforderung ab
+(Knopfdruck, nicht fortlaufend im Hintergrund). Der automatische Sync
+hier ist deaktiviert; dieses Skript bleibt als manueller Fallback
+nutzbar. Die generierte Seite leitet sofort zur neuen Version weiter.
 
 Zugangsdaten kommen aus WDR_USER / WDR_PASS (GitHub Actions Secrets).
 """
@@ -418,6 +418,8 @@ PAGE_TEMPLATE = """<!doctype html>
 <html lang="de">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="refresh" content="0; url={neue_seite_url}">
+<script>location.replace("{neue_seite_url}");</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ladeliste</title>
 <link rel="manifest" href="ladeliste.webmanifest">
@@ -523,8 +525,8 @@ footer{{padding:4px 0 12px; font-size:11px; color:var(--fg-dim); text-align:cent
 <header class="ship">
   <div>
     <h1>Ladeliste</h1>
-    <div class="sub">{uhrzeit} Uhr · dieser Stand aktualisiert sich nicht mehr automatisch</div>
-    <div class="neu"><a href="{neue_seite_url}">→ Neue Live-Version (aktualisiert sich automatisch alle 2 Minuten)</a></div>
+    <div class="sub">Weiterleitung zur Live-Version läuft …</div>
+    <div class="neu"><a href="{neue_seite_url}">Falls die Weiterleitung nicht automatisch startet: hier klicken →</a></div>
   </div>
 </header>
 
