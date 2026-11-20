@@ -6,6 +6,17 @@ const block={schiff:'Uthlande',abfahrt:'10:02',von:'DAGEBÜLL',nach:'AMRUM',pkw:
 const schedule={schiffe:{UTHLANDE:[{datum:date,route:'Dagebüll-Wyk',zeit:'10:00'},{datum:date,route:'Wyk-Wittdün',zeit:'11:00'}]}};
 test('Through bookings stay at boarding port; intermediate counts unknown',()=>{const rows=departures([block],schedule,'Uthlande',date);assert.equal(rows[0].nach,'AMRUM');assert.equal(rows[0].abfahrt,'10:00');assert.equal(rows[1].von,'FÖHR');assert.equal(rows[1].pkw,null)});
 test('Direct sailings and unmatched bookings survive',()=>{const s=structuredClone(schedule);s.schiffe.UTHLANDE[0].direkt=true;const rows=departures([{...block,abfahrt:'14:00'}],s,'Uthlande',date);assert.equal(rows[0].nach,'AMRUM');assert.equal(rows.at(-1).pkw,8)});
+test('Duplicate schedule entries (route+time repeated) do not duplicate the departure',()=>{
+  const dupedSchedule={schiffe:{UTHLANDE:[
+    {datum:date,route:'Dagebüll-Wyk',zeit:'10:00'},
+    {datum:date,route:'Dagebüll-Wyk',zeit:'10:00'},
+    {datum:date,route:'Wyk-Wittdün',zeit:'11:00'},
+  ]}};
+  const rows=departures([block],dupedSchedule,'Uthlande',date);
+  assert.equal(rows.length,2);
+  assert.equal(rows[0].nach,'AMRUM');
+  assert.equal(rows[1].von,'FÖHR');
+});
 test('Parser uses PKW meter column and keeps customer designation and plate but drops booking number',()=>{const values=['12345','Muster GmbH','','LKW','','AB-CD 123','9,0','12,5'];const row='<TR>'+values.map(v=>'<TD>'+v+'</TD><TD></TD>').join('')+'</TR>';const result=parse('Fahrt: DAGEBÜLL-AMRUM<BR>Abfahrzeit: 10:00 gebuchte PKW 8, Motorräder 2 und Transporter 1'+row+'Summe gebuchter Meter:<TD>9,0</TD><TD>12,5</TD>','Uthlande');assert.equal(result[0].lademeter,12.5);assert.equal(result[0].sonderfahrzeuge[0].kunde,'Muster GmbH');assert.equal(result[0].sonderfahrzeuge[0].kennzeichen,'AB-CD 123');assert.doesNotMatch(JSON.stringify(result),/12345/)});
 test('Source with zero current bookings is a valid, successful result',()=>{const result=parse('<HTML>Keine aktuellen Buchungen</HTML>','Schleswig-Holstein');assert.deepEqual(result,[])});
 test('Boarding column counts check-in only for the matching departure port, not any port in a through-booking',()=>{
