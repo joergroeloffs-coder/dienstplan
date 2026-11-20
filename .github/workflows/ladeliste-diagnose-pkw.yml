@@ -7,52 +7,28 @@ jobs:
   dump:
     runs-on: ubuntu-latest
     steps:
-      - name: Boarding-Spalte in Basis- vs -PKW-Datei pruefen
-        env:
-          WDR_USER: ${{ secrets.WDR_USER }}
-          WDR_PASS: ${{ secrets.WDR_PASS }}
+      - name: Live-API abrufen und auf doppelte Abfahrten pruefen
         run: |
           pip install requests >/dev/null
           python3 << 'EOF'
-          import requests, re, os
+          import requests, json
           from collections import Counter
 
-          auth = (os.environ["WDR_USER"], os.environ["WDR_PASS"])
-          BASE = "https://faehre2.de/fileadmin/wdr/Schiffe/Ladeliste"
+          r = requests.get("https://dienstplan-ladelisten-sites.joerg-roeloffs.workers.dev/api/ladeliste", timeout=30)
+          print("HTTP", r.status_code)
+          data = r.json()
+          print("configured:", data.get("configured"), "error:", data.get("error"))
+          abfahrten = data.get("abfahrten", [])
+          print(f"Gesamtzahl Abfahrten im Feed: {len(abfahrten)}")
 
-          FAHRT_SPLIT_RE = re.compile(r"(?=Fahrt:\s*[^<]+-[^<]+<)")
-          FAHRT_RE = re.compile(r"Fahrt:\s*([^<]+?)-([^<]+?)<")
-          TR_RE = re.compile(r"<TR>(.*?)</TR>", re.S)
-          TD_RE = re.compile(r"<TD[^>]*>(.*?)</TD>", re.S)
-          TAG_RE = re.compile(r"<[^>]+>")
+          # Schluessel: Schiff+Zeit+Route - zeigt echte Duplikate (gleiche Abfahrt zweimal)
+          keys = Counter((a["schiff"], a["abfahrt"], a["von"], a["nach"]) for a in abfahrten)
+          dupes = {k: n for k, n in keys.items() if n > 1}
+          print(f"Eindeutige Abfahrten: {len(keys)}  |  Davon mit Duplikat: {len(dupes)}")
+          for k, n in sorted(dupes.items()):
+              print(f"  DUPLIKAT x{n}: {k}")
 
-          def td_text(td_html):
-              return TAG_RE.sub("", td_html).replace("&nbsp", "").strip()
-
-          def analyse(html, label):
-              bloecke = FAHRT_SPLIT_RE.split(html)
-              alle_boarding = Counter()
-              zeilen = 0
-              for block in bloecke:
-                  fm = FAHRT_RE.search(block)
-                  if not fm:
-                      continue
-                  origin, ziel = fm.group(1).strip(), fm.group(2).strip()
-                  for tr_html in TR_RE.findall(block):
-                      tds = [td_text(td) for td in TD_RE.findall(tr_html)]
-                      inhalt = tds[0::2]
-                      if len(inhalt) >= 8 and inhalt[0].isdigit():
-                          zeilen += 1
-                          boarding = inhalt[4]
-                          alle_boarding[(origin, ziel, boarding)] += 1
-              print(f"  [{label}] {zeilen} Fahrzeugzeilen total")
-              for (origin, ziel, boarding), n in sorted(alle_boarding.items()):
-                  print(f"    Fahrt {origin}-{ziel}: Boarding='{boarding}' x{n}")
-
-          for abk in ["NA", "UTHLANDE", "NORDFRIES"]:
-              print(f"=== {abk} ===")
-              r1 = requests.get(f"{BASE}/{abk}.html", auth=auth, timeout=30)
-              r2 = requests.get(f"{BASE}/{abk}-PKW.html", auth=auth, timeout=30)
-              analyse(r1.text, "Basis")
-              analyse(r2.text, "-PKW")
+          print("--- Beispiel erste 5 Abfahrten (roh) ---")
+          for a in abfahrten[:5]:
+              print({k: a[k] for k in ("schiff","abfahrt","von","nach","pkw") if k in a})
           EOF
