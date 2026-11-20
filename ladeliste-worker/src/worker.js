@@ -12,11 +12,14 @@ function meters(block){const i=block.indexOf("Summe gebuchter Meter:");if(i<0)re
 // Transporter, Wohnmobil, Wohnwagenanhaenger, ...). Dazu werden reine
 // Buchungszusaetze (Hin-/Rueckfahrt, Reservierung, Einfach, Doppelt) vom
 // Ende der Beschreibung abgeschnitten, bis nur noch die Fahrzeugart uebrig
-// bleibt.
+// bleibt, und gaengige Abkuerzungen vereinheitlicht (z.B. "PKW-Anh." und
+// "PKW Anhänger" sollen dieselbe Kategorie sein).
 const SUFFIX_RE=/\s*(?:hin-?\s*&?\s*r(?:ü|ue)ckf(?:ahrt)?\.?|hin\/?rf\.?|r(?:ü|ue)ckf(?:ahrt)?\.?|reservierung|einfach|doppelt)\.?$/i;
+const ANHAENGER_RE=/[-\s]*anh(?:\.|ä?nger)?$/i;
 function kategorieVon(beschreibung){
   let s=(beschreibung||"").trim(),prev;
   do{prev=s;s=s.replace(SUFFIX_RE,"").trim();}while(s&&s!==prev);
+  s=s.replace(ANHAENGER_RE," Anhänger").trim();
   return s||"Sonstige";
 }
 // Die Boarding-Spalte (eine Zelle nach der Beschreibung) nennt ein- bis
