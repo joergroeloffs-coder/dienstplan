@@ -6,6 +6,19 @@ function text(s){return (s||"").replace(/<[^>]+>/g,"").replace(/&nbsp;?/gi," ").
 function number(s){if(!s||!/^\d+(?:[,.]\d+)?$/.test(s))return null;return Number(s.replace(",","."))}
 function cells(html){return [...html.matchAll(/<TD\b[^>]*>([\s\S]*?)<\/TD>/gi)].map(m=>text(m[1]))}
 function meters(block){const i=block.indexOf("Summe gebuchter Meter:");if(i<0)return null;const v=cells(block.slice(i,i+1200)).filter(x=>/^\d+,\d+$/.test(x));return v.length>1?number(v[1]):null}
+// Jede Fahrzeugkategorie wird direkt aus der Beschreibung der Buchung
+// abgeleitet statt aus einer festen Liste - so entsteht automatisch ein
+// eigenes Feld fuer jede tatsaechlich vorkommende Art (PKW, LKW,
+// Transporter, Wohnmobil, Wohnwagenanhaenger, ...). Dazu werden reine
+// Buchungszusaetze (Hin-/Rueckfahrt, Reservierung, Einfach, Doppelt) vom
+// Ende der Beschreibung abgeschnitten, bis nur noch die Fahrzeugart uebrig
+// bleibt.
+const SUFFIX_RE=/\s*(?:hin-?\s*&?\s*r(?:ü|ue)ckf(?:ahrt)?\.?|hin\/?rf\.?|r(?:ü|ue)ckf(?:ahrt)?\.?|reservierung|einfach|doppelt)\.?$/i;
+function kategorieVon(beschreibung){
+  let s=(beschreibung||"").trim(),prev;
+  do{prev=s;s=s.replace(SUFFIX_RE,"").trim();}while(s&&s!==prev);
+  return s||"Sonstige";
+}
 // Die Boarding-Spalte (eine Zelle nach der Beschreibung) nennt ein- bis
 // zweistellig die Häfen, an denen das Fahrzeug den Check-in schon
 // durchlaufen hat (F=Föhr, D=Dagebüll, A=Amrum). "Eingecheckt für diese
@@ -20,20 +33,17 @@ export function parse(html,ship){
     if(!time)return null;
     const von=m[1].trim();
     const originLetter=von.charAt(0).toUpperCase();
-    const counts=/gebuchte PKW (\d+), Motorr.der (\d+) und Transporter (\d+)/i.exec(block);
-    const specials=[],checkedIn={};
+    const fahrzeuge=[],checkedIn={},kategorien={};
     for(const row of block.matchAll(/<TR>([\s\S]*?)<\/TR>/gi)){
       const c=cells(row[1]).filter((_,i)=>i%2===0);
       if(c.length<8||!/^\d+$/.test(c[0]))continue;
-      const d=c[3]||"";
-      const specialType=/LKW/i.test(d)?"LKW":/Transporter/i.test(d)?"Transporter":/PKW[- ]Anh/i.test(d)?"PKW-Anhänger":/Motorrad/i.test(d)?"Motorrad":null;
-      const category=specialType||"PKW";
-      checkedIn[category]=(checkedIn[category]||0)+((c[4]||"").toUpperCase().includes(originLetter)?1:0);
-      if(specialType)specials.push({art:specialType,kunde:c[1]||null,kennzeichen:c[5]||null,laenge_m:number(c[7])});
+      const kategorie=kategorieVon(c[3]);
+      kategorien[kategorie]=(kategorien[kategorie]||0)+1;
+      checkedIn[kategorie]=(checkedIn[kategorie]||0)+((c[4]||"").toUpperCase().includes(originLetter)?1:0);
+      if(kategorie!=="PKW")fahrzeuge.push({art:kategorie,kunde:c[1]||null,kennzeichen:c[5]||null,laenge_m:number(c[7])});
     }
     return {schiff:ship,abfahrt:time,von,nach:m[2].trim(),
-      pkw:counts?Number(counts[1]):null,motorraeder:counts?Number(counts[2]):null,
-      transporter:counts?Number(counts[3]):null,lademeter:meters(block),sonderfahrzeuge:specials,checkedIn};
+      kategorien,lademeter:meters(block),sonderfahrzeuge:fahrzeuge,checkedIn};
   }).filter(Boolean);
 }
 const CATEGORIES={Norderaue:"NORDERAUE",Nordfriesland:"NORDFRIESLAND",Uthlande:"UTHLANDE","Schleswig-Holstein":"SCHLESWIG - HOLSTEIN"};
@@ -60,7 +70,7 @@ export function departures(blocks,schedule,ship,date){
     if(!from||!to||!/^\d{2}:\d{2}$/.test(leg.zeit))throw Error("Ungültiger Fahrplan");
     const target=leg.direkt&&DIRECT[leg.route]||to;
     const matches=blocks.filter(b=>b.von===(PORTS[from]||from.toUpperCase())&&Math.abs(minutes(b.abfahrt)-minutes(leg.zeit))<=5);
-    if(!matches.length)output.push({schiff:ship,abfahrt:leg.zeit,von:PORTS[from]||from,nach:PORTS[target]||target,pkw:null,motorraeder:null,transporter:null,lademeter:null,sonderfahrzeuge:[],checkedIn:{},hinweis:"Noch keine eigene Buchung zu dieser Etappe"});
+    if(!matches.length)output.push({schiff:ship,abfahrt:leg.zeit,von:PORTS[from]||from,nach:PORTS[target]||target,lademeter:null,sonderfahrzeuge:[],checkedIn:{},kategorien:{},hinweis:"Noch keine eigene Buchung zu dieser Etappe"});
     for(const b of matches){used.add(b);output.push({...b,abfahrt:leg.zeit});}
   }
   for(const b of blocks)if(!used.has(b))output.push({...b,hinweis:"Nicht im Fahrplan enthalten – laut aktueller Buchung"});
