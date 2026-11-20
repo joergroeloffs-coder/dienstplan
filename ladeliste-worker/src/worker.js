@@ -42,7 +42,17 @@ const DIRECT={"Wittdün-Wyk":"Dagebüll","Dagebüll-Wyk":"Wittdün"};
 const dateBerlin=()=>new Intl.DateTimeFormat("sv-SE",{timeZone:"Europe/Berlin",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
 const minutes=t=>Number(t.slice(0,2))*60+Number(t.slice(3));
 export function departures(blocks,schedule,ship,date){
-  const legs=(schedule.schiffe?.[CATEGORIES[ship]]||[]).filter(e=>e.datum===date);
+  // fahrplan_schedule.json kann je Route+Zeit doppelte Eintraege enthalten
+  // (Fehler in der vorgelagerten Fahrplan-Generierung) - deshalb hier je
+  // Schiff/Tag auf eindeutige Route+Zeit-Kombinationen eindampfen, sonst
+  // erscheint jede Abfahrt zweimal.
+  const seenLegs=new Set();
+  const legs=(schedule.schiffe?.[CATEGORIES[ship]]||[]).filter(e=>e.datum===date).filter(e=>{
+    const key=e.route+"|"+e.zeit;
+    if(seenLegs.has(key))return false;
+    seenLegs.add(key);
+    return true;
+  });
   if(!legs.length)return blocks.map(b=>({...b,hinweis:"Kein Fahrplan für diesen Tag verfügbar – laut Buchung"}));
   const used=new Set(), output=[];
   for(const leg of legs){
