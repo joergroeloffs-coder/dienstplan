@@ -17,18 +17,19 @@ test('Duplicate schedule entries (route+time repeated) do not duplicate the depa
   assert.equal(rows[0].nach,'AMRUM');
   assert.equal(rows[1].von,'FÖHR');
 });
-test('Categories are discovered from the description, not a fixed list, and booking suffixes are stripped',()=>{
+test('Categories are discovered from the description, not a fixed list, and booking suffixes/abbreviations are normalized',()=>{
   const row=(beschreibung,kurzname,kennzeichen)=>'<TR>'+['1',kurzname,'',beschreibung,'','',kennzeichen,'3,0','5,0'.split(' ')[0]].slice(0,8).map(v=>'<TD>'+v+'</TD><TD></TD>').join('')+'</TR>';
   const html='Fahrt: FÖHR-DAGEBÜLL<BR>Abfahrzeit: 09:00'
     +row('PKW Hin- & Rückfahrt','Muster','AB-1')
     +row('Wohnmobil Hin- & Rückfahrt','Camper','AB-2')
     +row('Wohnwagenanhänger Hin/Rf.','Camper','AB-3')
     +row('LKW-Gefahrgut Einfach','Spedition','AB-4')
+    +row('PKW-Anh. Hin/Rf.','Camper2','AB-5')
     +'Summe gebuchter Meter:<TD>1,0</TD><TD>2,0</TD>';
   const result=parse(html,'Uthlande');
-  assert.deepEqual(result[0].kategorien,{PKW:1,Wohnmobil:1,Wohnwagenanhänger:1,'LKW-Gefahrgut':1});
+  assert.deepEqual(result[0].kategorien,{PKW:1,Wohnmobil:1,'Wohnwagen Anhänger':1,'LKW-Gefahrgut':1,'PKW Anhänger':1});
   const arten=result[0].sonderfahrzeuge.map(f=>f.art).sort();
-  assert.deepEqual(arten,['LKW-Gefahrgut','Wohnmobil','Wohnwagenanhänger']);
+  assert.deepEqual(arten,['LKW-Gefahrgut','PKW Anhänger','Wohnmobil','Wohnwagen Anhänger']);
   assert.ok(!result[0].sonderfahrzeuge.some(f=>f.art==='PKW'));
 });
 test('Parser keeps customer designation and plate but drops booking number',()=>{const values=['12345','Muster GmbH','','LKW','','AB-CD 123','9,0','12,5'];const row='<TR>'+values.map(v=>'<TD>'+v+'</TD><TD></TD>').join('')+'</TR>';const result=parse('Fahrt: DAGEBÜLL-AMRUM<BR>Abfahrzeit: 10:00'+row+'Summe gebuchter Meter:<TD>9,0</TD><TD>12,5</TD>','Uthlande');assert.equal(result[0].lademeter,12.5);assert.equal(result[0].sonderfahrzeuge[0].kunde,'Muster GmbH');assert.equal(result[0].sonderfahrzeuge[0].kennzeichen,'AB-CD 123');assert.doesNotMatch(JSON.stringify(result),/12345/)});
