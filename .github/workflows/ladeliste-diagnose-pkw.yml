@@ -7,28 +7,28 @@ jobs:
   dump:
     runs-on: ubuntu-latest
     steps:
-      - name: Live-API abrufen und auf doppelte Abfahrten pruefen
+      - name: Frischen Abruf anstossen, dann auf doppelte Abfahrten pruefen
         run: |
           pip install requests >/dev/null
           python3 << 'EOF'
-          import requests, json
+          import requests, json, time
           from collections import Counter
 
-          r = requests.get("https://dienstplan-ladelisten-sites.joerg-roeloffs.workers.dev/api/ladeliste", timeout=30)
-          print("HTTP", r.status_code)
+          base = "https://dienstplan-ladelisten-sites.joerg-roeloffs.workers.dev"
+          rr = requests.post(base + "/api/refresh", headers={"Origin": base}, timeout=60)
+          print("refresh HTTP", rr.status_code, rr.text[:300])
+          time.sleep(2)
+
+          r = requests.get(base + "/api/ladeliste", timeout=30)
+          print("ladeliste HTTP", r.status_code)
           data = r.json()
           print("configured:", data.get("configured"), "error:", data.get("error"))
           abfahrten = data.get("abfahrten", [])
           print(f"Gesamtzahl Abfahrten im Feed: {len(abfahrten)}")
 
-          # Schluessel: Schiff+Zeit+Route - zeigt echte Duplikate (gleiche Abfahrt zweimal)
           keys = Counter((a["schiff"], a["abfahrt"], a["von"], a["nach"]) for a in abfahrten)
           dupes = {k: n for k, n in keys.items() if n > 1}
           print(f"Eindeutige Abfahrten: {len(keys)}  |  Davon mit Duplikat: {len(dupes)}")
           for k, n in sorted(dupes.items()):
               print(f"  DUPLIKAT x{n}: {k}")
-
-          print("--- Beispiel erste 5 Abfahrten (roh) ---")
-          for a in abfahrten[:5]:
-              print({k: a[k] for k in ("schiff","abfahrt","von","nach","pkw") if k in a})
           EOF
