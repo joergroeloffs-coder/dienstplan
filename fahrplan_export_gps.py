@@ -90,6 +90,7 @@ def main():
         sys.exit("Keine Abfahrten gefunden - Export abgebrochen, alte Datei bleibt bestehen.")
 
     schiffe = {}
+    tiden = {}
     for a in alle_abfahrten:
         iso_datum = datum_zu_iso(a["datum"])
         if not iso_datum:
@@ -105,6 +106,11 @@ def main():
             "direkt": a["direkt"],
             "vorlaeufig": a["vorlaeufig"],
         })
+        # Tide (Hoch-/Niedrigwasser) steht einmal pro Kalendertag im PDF und
+        # gilt fuer alle Schiffe/Routen dieses Tages gleich - deshalb separat
+        # pro Datum statt an jedem einzelnen Abfahrts-Eintrag gespeichert.
+        if a.get("tide") and iso_datum not in tiden:
+            tiden[iso_datum] = a["tide"]
     for eintraege in schiffe.values():
         eintraege.sort(key=lambda e: (e["datum"], e["zeit"]))
 
@@ -112,6 +118,7 @@ def main():
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "quellen": quellen,
         "schiffe": schiffe,
+        "tiden": tiden,
     }
     OUT_PATH.write_text(
         json.dumps(ausgabe, indent=2, ensure_ascii=False, sort_keys=True),

@@ -58,6 +58,20 @@ test('A shuttle back to the same departure port is not a stopover and gets no pr
   const rows=departures([block,rueckBlock],hinSchedule,'Uthlande',date);
   assert.equal(rows[0].zuladungNaechsteEtappe,null);
 });
+test('Departure shows the tide events bracketing its own departure time',()=>{
+  const tideSchedule={...schedule,tiden:{[date]:'HW 3:04 / NW 9:31 / HW 15:15 / NW 22:09'}};
+  const rows=departures([block],tideSchedule,'Uthlande',date);
+  assert.deepEqual(rows[0].tide,{vorherige:{typ:'NW',zeit:'09:31'},naechste:{typ:'HW',zeit:'15:15'}});
+});
+test('A departure before the first tide of the day only gets the next one',()=>{
+  const fruehSchedule={schiffe:{UTHLANDE:[{datum:date,route:'Dagebüll-Wyk',zeit:'01:00'}]},tiden:{[date]:'HW 3:04 / NW 9:31 / HW 15:15 / NW 22:09'}};
+  const rows=departures([{...block,abfahrt:'01:02'}],fruehSchedule,'Uthlande',date);
+  assert.deepEqual(rows[0].tide,{vorherige:null,naechste:{typ:'HW',zeit:'03:04'}});
+});
+test('Missing tide data for the day yields no tide field crash',()=>{
+  const rows=departures([block],schedule,'Uthlande',date);
+  assert.equal(rows[0].tide,null);
+});
 test('Fresh retrieval cannot hide old source',()=>{const s={updatedAt:new Date().toISOString(),datum:date,ok:true,sourceModified:'2000-01-01'};assert.equal(shipStatus(s).status,'veraltet');assert.equal(shipStatus({...s,sourceModified:null}).sourceWarning,'Erstellungszeit der Quelle nicht bestätigt.')});
 test('Missing timestamps and date rollover fail closed',()=>{assert.equal(shipStatus({}).status,'fehlt');assert.equal(shipStatus({updatedAt:'invalid',datum:date}).status,'veraltet');assert.equal(shipStatus({updatedAt:new Date().toISOString(),datum:'2000-01-01'}).status,'veraltet')});
 test('API rejects unauthenticated requests',async()=>{assert.equal((await worker.fetch(new Request('https://test/api/ladeliste'),{})).status,401)});

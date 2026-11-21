@@ -54,6 +54,28 @@ const PORTS={"Wittdün":"AMRUM",Wyk:"FÖHR","Dagebüll":"DAGEBÜLL"};
 const DIRECT={"Wittdün-Wyk":"Dagebüll","Dagebüll-Wyk":"Wittdün"};
 const dateBerlin=()=>new Intl.DateTimeFormat("sv-SE",{timeZone:"Europe/Berlin",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
 const minutes=t=>Number(t.slice(0,2))*60+Number(t.slice(3));
+// Tide-Text aus dem Fahrplan-PDF, z.B. "HW 3:04 / NW 9:31 / HW 15:15 /
+// NW 22:09" - ein Wert pro Kalendertag, gilt fuer alle Schiffe/Routen
+// dieses Tages gleich.
+function parseTiden(text){
+  if(!text)return[];
+  return text.split("/").map(s=>s.trim()).map(s=>{
+    const m=/^(HW|NW)\s+(\d{1,2}):(\d{2})$/.exec(s);
+    return m?{typ:m[1],zeit:m[2].padStart(2,"0")+":"+m[3]}:null;
+  }).filter(Boolean);
+}
+// Fuer eine Abfahrtszeit die zeitlich davor- und danachliegende Tide
+// ermitteln (Trend: steigend/fallend Richtung des naechsten Extrems).
+function tideFuerAbfahrt(tiden,abfahrtZeit){
+  if(!tiden.length)return null;
+  const t=minutes(abfahrtZeit);
+  let vorherige=null,naechste=null;
+  for(const e of tiden){
+    if(minutes(e.zeit)<=t)vorherige=e;
+    else if(!naechste)naechste=e;
+  }
+  return vorherige||naechste?{vorherige,naechste}:null;
+}
 export function departures(blocks,schedule,ship,date){
   // fahrplan_schedule.json kann je Route+Zeit doppelte Eintraege enthalten
   // (Fehler in der vorgelagerten Fahrplan-Generierung) - deshalb hier je
@@ -84,6 +106,7 @@ export function departures(blocks,schedule,ship,date){
     return {leg,origin,ziel,matches,lademeterGesamt};
   }).sort((a,b)=>minutes(a.leg.zeit)-minutes(b.leg.zeit));
 
+  const tidenDesTages=parseTiden(schedule.tiden?.[date]);
   const used=new Set(), output=[];
   for(let i=0;i<etappen.length;i++){
     const {leg,origin,ziel,matches,lademeterGesamt}=etappen[i];
@@ -93,8 +116,9 @@ export function departures(blocks,schedule,ship,date){
     // ist das schon auf der naechsten Abfahrtskarte selbst zu sehen.
     const naechste=etappen.slice(i+1).find(e=>e.origin===ziel);
     const zuladungNaechsteEtappe=(naechste&&naechste.ziel!==origin)?{hafen:naechste.origin,lademeter:naechste.lademeterGesamt}:null;
-    if(!matches.length)output.push({schiff:ship,abfahrt:leg.zeit,von:origin,nach:ziel,lademeter:null,sonderfahrzeuge:[],checkedIn:{},kategorien:{},hinweis:"Noch keine eigene Buchung zu dieser Etappe",zuladungNaechsteEtappe});
-    for(const b of matches){used.add(b);output.push({...b,abfahrt:leg.zeit,zuladungNaechsteEtappe});}
+    const tide=tideFuerAbfahrt(tidenDesTages,leg.zeit);
+    if(!matches.length)output.push({schiff:ship,abfahrt:leg.zeit,von:origin,nach:ziel,lademeter:null,sonderfahrzeuge:[],checkedIn:{},kategorien:{},hinweis:"Noch keine eigene Buchung zu dieser Etappe",zuladungNaechsteEtappe,tide});
+    for(const b of matches){used.add(b);output.push({...b,abfahrt:leg.zeit,zuladungNaechsteEtappe,tide});}
   }
   for(const b of blocks)if(!used.has(b))output.push({...b,hinweis:"Nicht im Fahrplan enthalten – laut aktueller Buchung"});
   return output;
