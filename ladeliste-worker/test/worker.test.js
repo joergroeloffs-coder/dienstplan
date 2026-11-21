@@ -52,6 +52,12 @@ test('Departure card shows the total lademeter already booked for the next physi
   assert.equal(rows[1].von,'FÖHR');
   assert.equal(rows[1].zuladungNaechsteEtappe,null);
 });
+test('A shuttle back to the same departure port is not a stopover and gets no preview box',()=>{
+  const hinSchedule={schiffe:{UTHLANDE:[{datum:date,route:'Dagebüll-Wyk',zeit:'10:00'},{datum:date,route:'Wyk-Dagebüll',zeit:'11:00'}]}};
+  const rueckBlock={schiff:'Uthlande',abfahrt:'11:02',von:'FÖHR',nach:'DAGEBÜLL',kategorien:{PKW:2},lademeter:5};
+  const rows=departures([block,rueckBlock],hinSchedule,'Uthlande',date);
+  assert.equal(rows[0].zuladungNaechsteEtappe,null);
+});
 test('Fresh retrieval cannot hide old source',()=>{const s={updatedAt:new Date().toISOString(),datum:date,ok:true,sourceModified:'2000-01-01'};assert.equal(shipStatus(s).status,'veraltet');assert.equal(shipStatus({...s,sourceModified:null}).sourceWarning,'Erstellungszeit der Quelle nicht bestätigt.')});
 test('Missing timestamps and date rollover fail closed',()=>{assert.equal(shipStatus({}).status,'fehlt');assert.equal(shipStatus({updatedAt:'invalid',datum:date}).status,'veraltet');assert.equal(shipStatus({updatedAt:new Date().toISOString(),datum:'2000-01-01'}).status,'veraltet')});
 test('API rejects unauthenticated requests',async()=>{assert.equal((await worker.fetch(new Request('https://test/api/ladeliste'),{})).status,401)});

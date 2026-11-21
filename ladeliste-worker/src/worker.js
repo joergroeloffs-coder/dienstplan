@@ -87,8 +87,12 @@ export function departures(blocks,schedule,ship,date){
   const used=new Set(), output=[];
   for(let i=0;i<etappen.length;i++){
     const {leg,origin,ziel,matches,lademeterGesamt}=etappen[i];
-    const naechste=etappen[i+1];
-    const zuladungNaechsteEtappe=(naechste&&naechste.origin===ziel)?{hafen:naechste.origin,lademeter:naechste.lademeterGesamt}:null;
+    // Nur ein echter Zwischenstopp auf dem Weg zu einem anderen Hafen ist
+    // relevant: faehrt das Schiff ab dem Zwischenhafen nur wieder zurueck
+    // zum Ausgangshafen (reiner Pendelverkehr, keine Durchgangsladung),
+    // ist das schon auf der naechsten Abfahrtskarte selbst zu sehen.
+    const naechste=etappen.slice(i+1).find(e=>e.origin===ziel);
+    const zuladungNaechsteEtappe=(naechste&&naechste.ziel!==origin)?{hafen:naechste.origin,lademeter:naechste.lademeterGesamt}:null;
     if(!matches.length)output.push({schiff:ship,abfahrt:leg.zeit,von:origin,nach:ziel,lademeter:null,sonderfahrzeuge:[],checkedIn:{},kategorien:{},hinweis:"Noch keine eigene Buchung zu dieser Etappe",zuladungNaechsteEtappe});
     for(const b of matches){used.add(b);output.push({...b,abfahrt:leg.zeit,zuladungNaechsteEtappe});}
   }
