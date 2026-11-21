@@ -59,10 +59,14 @@ const minutes=t=>Number(t.slice(0,2))*60+Number(t.slice(3));
 // dieses Tages gleich.
 function parseTiden(text){
   if(!text)return[];
+  // Die Reihenfolge im PDF-Text folgt der Spaltenposition auf der Seite,
+  // nicht zwingend der Uhrzeit (z.B. "HW 10:48 / NW 4:56 / HW 23:25 /
+  // NW 17:36") - deshalb hier zusaetzlich chronologisch sortieren, sonst
+  // liefert die Vorher/Nachher-Suche unten falsche Ereignisse.
   return text.split("/").map(s=>s.trim()).map(s=>{
     const m=/^(HW|NW)\s+(\d{1,2}):(\d{2})$/.exec(s);
     return m?{typ:m[1],zeit:m[2].padStart(2,"0")+":"+m[3]}:null;
-  }).filter(Boolean);
+  }).filter(Boolean).sort((a,b)=>minutes(a.zeit)-minutes(b.zeit));
 }
 // Fuer eine Abfahrtszeit die zeitlich davor- und danachliegende Tide
 // ermitteln (Trend: steigend/fallend Richtung des naechsten Extrems).

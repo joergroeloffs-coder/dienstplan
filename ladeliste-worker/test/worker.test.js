@@ -63,6 +63,11 @@ test('Departure shows the tide events bracketing its own departure time',()=>{
   const rows=departures([block],tideSchedule,'Uthlande',date);
   assert.deepEqual(rows[0].tide,{vorherige:{typ:'NW',zeit:'09:31'},naechste:{typ:'HW',zeit:'15:15'}});
 });
+test('Tide text whose entries are not in chronological order (PDF column order, not time order) is sorted before use',()=>{
+  const mittagsSchedule={schiffe:{UTHLANDE:[{datum:date,route:'Dagebüll-Wyk',zeit:'12:00'}]},tiden:{[date]:'HW 10:48 / NW 4:56 / HW 23:25 / NW 17:36'}};
+  const rows=departures([{...block,abfahrt:'12:02'}],mittagsSchedule,'Uthlande',date);
+  assert.deepEqual(rows[0].tide,{vorherige:{typ:'HW',zeit:'10:48'},naechste:{typ:'NW',zeit:'17:36'}});
+});
 test('A departure before the first tide of the day only gets the next one',()=>{
   const fruehSchedule={schiffe:{UTHLANDE:[{datum:date,route:'Dagebüll-Wyk',zeit:'01:00'}]},tiden:{[date]:'HW 3:04 / NW 9:31 / HW 15:15 / NW 22:09'}};
   const rows=departures([{...block,abfahrt:'01:02'}],fruehSchedule,'Uthlande',date);
