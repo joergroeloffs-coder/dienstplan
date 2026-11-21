@@ -45,6 +45,13 @@ test('Boarding column counts check-in only for the matching departure port, not 
   assert.equal(result[0].checkedIn.PKW,1);
   assert.equal(result[0].checkedIn.LKW,1);
 });
+test('Departure card shows the total lademeter already booked for the next physical stop',()=>{
+  const naechsterBlock={schiff:'Uthlande',abfahrt:'11:02',von:'FÖHR',nach:'AMRUM',kategorien:{PKW:3},lademeter:7.5};
+  const rows=departures([block,naechsterBlock],schedule,'Uthlande',date);
+  assert.deepEqual(rows[0].zuladungNaechsteEtappe,{hafen:'FÖHR',lademeter:7.5});
+  assert.equal(rows[1].von,'FÖHR');
+  assert.equal(rows[1].zuladungNaechsteEtappe,null);
+});
 test('Fresh retrieval cannot hide old source',()=>{const s={updatedAt:new Date().toISOString(),datum:date,ok:true,sourceModified:'2000-01-01'};assert.equal(shipStatus(s).status,'veraltet');assert.equal(shipStatus({...s,sourceModified:null}).sourceWarning,'Erstellungszeit der Quelle nicht bestätigt.')});
 test('Missing timestamps and date rollover fail closed',()=>{assert.equal(shipStatus({}).status,'fehlt');assert.equal(shipStatus({updatedAt:'invalid',datum:date}).status,'veraltet');assert.equal(shipStatus({updatedAt:new Date().toISOString(),datum:'2000-01-01'}).status,'veraltet')});
 test('API rejects unauthenticated requests',async()=>{assert.equal((await worker.fetch(new Request('https://test/api/ladeliste'),{})).status,401)});

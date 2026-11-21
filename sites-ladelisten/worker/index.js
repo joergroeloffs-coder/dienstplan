@@ -34,6 +34,9 @@ const HTML=String.raw`<!doctype html><html lang="de"><head><meta charset="utf-8"
 .total-bar{margin-top:8px;background:rgba(255,255,255,.55);border-radius:7px;padding:9px 12px;display:flex;align-items:baseline;justify-content:space-between;gap:8px}
 .total-bar .label{font-size:13px;color:rgba(25,49,60,.75);font-weight:650}
 .total-bar .val{font-family:ui-monospace,monospace;font-size:19px;font-weight:800;color:#0a7a68;white-space:nowrap}
+.next-leg{margin-top:6px;background:rgba(255,255,255,.4);border:1px dashed rgba(74,90,155,.45);border-radius:7px;padding:7px 12px;display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.next-leg .label{font-size:12px;color:rgba(25,49,60,.7);font-weight:600}
+.next-leg .val{font-family:ui-monospace,monospace;font-size:15px;font-weight:800;color:#4a5a9b;white-space:nowrap}
 .special-head{margin-top:12px;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:rgba(25,49,60,.6);font-weight:750}
 .group-label{font-size:12px;font-weight:750;letter-spacing:.02em;color:#0a7a68;padding-top:8px;margin-top:4px;border-top:1px solid rgba(0,0,0,.08)}
 .special-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 0 6px 10px;border-left:3px solid rgba(0,0,0,.15)}
@@ -70,6 +73,7 @@ for(const f of rows){
   }
   n.append(stats);
   if(f.lademeter!==null&&f.lademeter!==undefined){const tb=el('div','total-bar');tb.append(el('span','label','Gesamt gebuchte Meter'),el('span','val',f.lademeter+' m'));n.append(tb)}
+  if(f.zuladungNaechsteEtappe){const nb=el('div','next-leg');nb.append(el('span','label','Bereits gebucht ab '+f.zuladungNaechsteEtappe.hafen),el('span','val',f.zuladungNaechsteEtappe.lademeter+' m'));n.append(nb)}
   const s=ships.find(s=>s.name===f.schiff);if(status(s)!=='abgerufen')n.append(el('p','note','Stand prüfen: '+status(s)));
   if(f.hinweis)n.append(el('p','note',f.hinweis));
   if(sonder.length){

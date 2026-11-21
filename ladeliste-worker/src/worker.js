@@ -67,14 +67,30 @@ export function departures(blocks,schedule,ship,date){
     return true;
   });
   if(!legs.length)return blocks.map(b=>({...b,hinweis:"Kein Fahrplan für diesen Tag verfügbar – laut Buchung"}));
-  const used=new Set(), output=[];
-  for(const leg of legs){
+
+  // Vorberechnung je Etappe (Hafen, Ziel, passende Buchungsbloecke, deren
+  // Lademeter-Summe): so kann am Abfahrtshafen schon angezeigt werden, wie
+  // viel an der naechsten Etappe (sofern direkt anschliessend, Hafen=Ziel
+  // dieser Etappe) bereits zugeladen ist - die Ladung reist ja an Bord
+  // weiter und blockiert dort schon Kapazitaet.
+  const etappen=legs.map(leg=>{
     const [from,to]=leg.route.split("-").map(s=>s.trim());
     if(!from||!to||!/^\d{2}:\d{2}$/.test(leg.zeit))throw Error("Ungültiger Fahrplan");
     const target=leg.direkt&&DIRECT[leg.route]||to;
-    const matches=blocks.filter(b=>b.von===(PORTS[from]||from.toUpperCase())&&Math.abs(minutes(b.abfahrt)-minutes(leg.zeit))<=5);
-    if(!matches.length)output.push({schiff:ship,abfahrt:leg.zeit,von:PORTS[from]||from,nach:PORTS[target]||target,lademeter:null,sonderfahrzeuge:[],checkedIn:{},kategorien:{},hinweis:"Noch keine eigene Buchung zu dieser Etappe"});
-    for(const b of matches){used.add(b);output.push({...b,abfahrt:leg.zeit});}
+    const origin=PORTS[from]||from.toUpperCase();
+    const ziel=PORTS[target]||target;
+    const matches=blocks.filter(b=>b.von===origin&&Math.abs(minutes(b.abfahrt)-minutes(leg.zeit))<=5);
+    const lademeterGesamt=matches.reduce((sum,b)=>sum+(b.lademeter||0),0);
+    return {leg,origin,ziel,matches,lademeterGesamt};
+  }).sort((a,b)=>minutes(a.leg.zeit)-minutes(b.leg.zeit));
+
+  const used=new Set(), output=[];
+  for(let i=0;i<etappen.length;i++){
+    const {leg,origin,ziel,matches,lademeterGesamt}=etappen[i];
+    const naechste=etappen[i+1];
+    const zuladungNaechsteEtappe=(naechste&&naechste.origin===ziel)?{hafen:naechste.origin,lademeter:naechste.lademeterGesamt}:null;
+    if(!matches.length)output.push({schiff:ship,abfahrt:leg.zeit,von:origin,nach:ziel,lademeter:null,sonderfahrzeuge:[],checkedIn:{},kategorien:{},hinweis:"Noch keine eigene Buchung zu dieser Etappe",zuladungNaechsteEtappe});
+    for(const b of matches){used.add(b);output.push({...b,abfahrt:leg.zeit,zuladungNaechsteEtappe});}
   }
   for(const b of blocks)if(!used.has(b))output.push({...b,hinweis:"Nicht im Fahrplan enthalten – laut aktueller Buchung"});
   return output;
