@@ -1,15 +1,4 @@
 {
-  "2026-W35": {
-    "category": "Freie Tage",
-    "date_from": "2026-08-21",
-    "date_to": "2026-08-28",
-    "file": "35KW2026 6. Änderung.pdf",
-    "mtime": "2026-08-26 06:51",
-    "nachbar_links": "UTHLANDE",
-    "revision": 6,
-    "sequence": 0,
-    "summary": "Freie Tage"
-  },
   "2026-W36": {
     "abfahrten_pro_tag": {
       "01.09.2026": "6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün",
