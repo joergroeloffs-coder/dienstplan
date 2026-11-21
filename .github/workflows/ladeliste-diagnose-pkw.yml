@@ -1,0 +1,33 @@
+name: Diagnose Ladeliste PKW
+on:
+  workflow_dispatch:
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Abruf erzwingen und Uthlande-Etappen prüfen
+        env:
+          TOKEN: ${{ secrets.WDR_WORKER_TOKEN }}
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.request
+
+          base = "https://dienstplan-ladelisten-sites.joerg-roeloffs.workers.dev"
+          token = os.environ["TOKEN"]
+
+          req = urllib.request.Request(base + "/api/refresh", method="POST",
+              headers={"Authorization": "Bearer " + token, "Origin": base})
+          with urllib.request.urlopen(req, timeout=60) as r:
+              print("refresh status:", r.status)
+
+          req = urllib.request.Request(base + "/api/ladeliste",
+              headers={"Authorization": "Bearer " + token})
+          with urllib.request.urlopen(req, timeout=60) as r:
+              data = json.load(r)
+
+          uth = [a for a in data["abfahrten"] if a["schiff"] == "Uthlande"]
+          uth.sort(key=lambda a: a["abfahrt"])
+          for a in uth:
+              print(a["abfahrt"], a["von"], "->", a["nach"], "lademeter=", a.get("lademeter"),
+                    "zuladungNaechsteEtappe=", a.get("zuladungNaechsteEtappe"))
+          PY
