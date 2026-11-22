@@ -217,6 +217,25 @@ def hues_close(a, b, tolerance=HUE_TOLERANCE_DEGREES):
     return min(diff, 360 - diff) <= tolerance
 
 
+def hue_distance(a, b):
+    diff = abs(a - b) % 360
+    return min(diff, 360 - diff)
+
+
+def aenderungshinweis_hue(words, rects):
+    """Farbton des Hinweiskastens oben rechts ("n. Änderung: TT.MM."), falls
+    auf der Seite vorhanden - gleicher Ockerton wie bei manchen Namen in
+    Freie-Tage/Urlaub-Bloecken (siehe farbe_fuer_namen)."""
+    for word in words:
+        if "nderung" in word["text"]:
+            cx = (word["x0"] + word["x1"]) / 2
+            cy = (word["top"] + word["bottom"]) / 2
+            hue = cell_hue(color_at(rects, cx, cy))
+            if hue is not None:
+                return hue
+    return None
+
+
 def load_state():
     if STATE_PATH.exists():
         return json.loads(STATE_PATH.read_text(encoding="utf-8"))
@@ -533,12 +552,22 @@ def headers_in_band(page, table, top, bottom, pairs):
     return found
 
 
-def farbe_fuer_namen(words, rects, ship_hue, xrange, row_bbox, fragment):
+def farbe_fuer_namen(words, rects, ship_hue, xrange, row_bbox, fragment, aenderung_hue=None):
     """Schiff, dessen Kopf-Farbton zur Fuellfarbe der Namenszelle passt, oder
     None. `ship_hue` ist eine {schiffsname: hue}-Zuordnung fuer die gesamte
     Seite - die Faerbung eines Namens kann sich auf ein Schiff in einem
     anderen Tabellenblock derselben Seite beziehen (z.B. Urlaubsspalte neben
-    Besatzungsliste)."""
+    Besatzungsliste).
+
+    `aenderung_hue` ist der Farbton des Hinweiskastens "n. Änderung: TT.MM."
+    (siehe aenderungshinweis_hue). Er liegt zufaellig nur rund 5 Grad neben
+    dem Farbton von Nordfriesland - innerhalb der normalen Toleranz. Ohne
+    Gegenpruefung wuerde deshalb jede Zeile, die lediglich als "in dieser
+    Fassung geaendert" markiert ist (unabhaengig vom Schiff), faelschlich
+    als Vorhersage "naechste Woche Nordfriesland" gelesen. Bei mehreren
+    Schiffsfarben innerhalb der Toleranz gewinnt die naechstliegende; sie
+    zaehlt nur, wenn sie dem Aenderungshinweis-Ton nicht mindestens ebenso
+    nahe ist."""
     if not xrange or not ship_hue:
         return None
     x0, x1 = xrange
@@ -557,10 +586,17 @@ def farbe_fuer_namen(words, rects, ship_hue, xrange, row_bbox, fragment):
             break
     if own_hue is None:
         return None
+    best_schiff, best_diff = None, None
     for schiff, hue in ship_hue.items():
         if hues_close(own_hue, hue):
-            return schiff
-    return None
+            diff = hue_distance(own_hue, hue)
+            if best_diff is None or diff < best_diff:
+                best_schiff, best_diff = schiff, diff
+    if best_schiff is None:
+        return None
+    if aenderung_hue is not None and hue_distance(own_hue, aenderung_hue) <= best_diff:
+        return None
+    return best_schiff
 
 
 def find_status_for_name(pdf, target_name_fragment):
@@ -573,6 +609,7 @@ def find_status_for_name(pdf, target_name_fragment):
         rects = fill_rects(page)
         words = page.extract_words()
         ship_hue = {}
+        aenderung_hue = aenderungshinweis_hue(words, rects)
         row_bands = []
         for table in page.find_tables():
             rows = table.extract()
@@ -618,7 +655,7 @@ def find_status_for_name(pdf, target_name_fragment):
                     links = headers.get(i - 2) if i >= 2 else None
                     farbe = farbe_fuer_namen(
                         words, rects, ship_hue, pairs.get(i), meta.bbox,
-                        target_name_fragment,
+                        target_name_fragment, aenderung_hue,
                     )
                     hits.append((category, rank_cell, name_cell, links, farbe))
     return hits
