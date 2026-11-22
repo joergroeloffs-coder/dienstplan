@@ -1,0 +1,103 @@
+name: Diagnose Dienstplan Farbe
+on:
+  workflow_dispatch:
+    inputs:
+      kw:
+        description: "Kalenderwoche"
+        required: true
+        default: "27"
+      jahr:
+        description: "Jahr"
+        required: true
+        default: "2027"
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pdfplumber requests
+      - name: Besatzungsliste analysieren
+        env:
+          WDR_USER: ${{ secrets.WDR_USER }}
+          WDR_PASS: ${{ secrets.WDR_PASS }}
+          KW: ${{ inputs.kw }}
+          JAHR: ${{ inputs.jahr }}
+        run: |
+          python3 - <<'PY'
+          import os, sys
+          from io import BytesIO
+          import pdfplumber, requests
+          import dienstplan_cloud_sync as ds
+
+          session = requests.Session()
+          session.auth = (os.environ["WDR_USER"], os.environ["WDR_PASS"])
+          session.headers["User-Agent"] = "dienstplan-diagnose/1.0"
+
+          jahr, kw = int(os.environ["JAHR"]), int(os.environ["KW"])
+          index = ds.fetch_index(session)
+          key = (jahr, kw)
+          if key not in index:
+              print("Nicht gefunden:", key, "verfuegbar:", sorted(index.keys()))
+              sys.exit(1)
+          revision, href, name, mtime = index[key]
+          print("Datei:", name, "Revision:", revision, "Stand:", mtime)
+          resp = session.get(f"{ds.BASE_URL}/{href}", timeout=30)
+          resp.raise_for_status()
+
+          with pdfplumber.open(BytesIO(resp.content)) as pdf:
+              for pnr, page in enumerate(pdf.pages):
+                  rects = ds.fill_rects(page)
+                  words = page.extract_words()
+
+                  aenderungs_woerter = [w for w in words if "nderung" in w["text"]]
+                  if not aenderungs_woerter:
+                      continue
+                  print(f"--- Seite {pnr} ---")
+                  for w in aenderungs_woerter:
+                      cx, cy = (w["x0"]+w["x1"])/2, (w["top"]+w["bottom"]) / 2
+                      color = ds.color_at(rects, cx, cy)
+                      hue = ds.cell_hue(color)
+                      print(f"  Wort '{w['text']}' bei ({cx:.0f},{cy:.0f}): color={color} hue={hue}")
+                      # Auch direkt rechts daneben (Datum der Aenderung) und
+                      # die ganze Kopfzeile des Hinweiskastens abtasten.
+                      for dx in (20, 40, 60, 80, 100):
+                          c2 = ds.color_at(rects, cx+dx, cy)
+                          print(f"    +{dx}px: color={c2} hue={ds.cell_hue(c2)}")
+
+                  ship_hue = {}
+                  headers = {}
+                  for table in page.find_tables():
+                      rows = table.extract()
+                      pairs = ds.column_pairs(table)
+                      for row, meta in zip(rows, table.rows):
+                          ncols = len(row)
+                          is_header = True
+                          any_text = False
+                          for i in range(0, ncols, 2):
+                              even = (row[i] or "").strip()
+                              odd = row[i+1].strip() if i+1 < ncols and row[i+1] else ""
+                              if even:
+                                  any_text = True
+                                  if odd or even.upper() in ds.KNOWN_RANKS:
+                                      is_header = False
+                          if not any_text:
+                              continue
+                          if is_header:
+                              headers = ds.headers_in_band(page, table, meta.bbox[1], meta.bbox[3], pairs)
+                              for idx, header_text in headers.items():
+                                  if idx not in pairs or not ds.ist_schiff(header_text):
+                                      continue
+                                  x0, x1 = pairs[idx]
+                                  cx, cy = (x0+x1)/2, (meta.bbox[1]+meta.bbox[3])/2
+                                  hue = ds.cell_hue(ds.color_at(rects, cx, cy))
+                                  if hue is not None:
+                                      ship_hue[ds.SCHIFFE_NORM[ds.norm(header_text)]] = hue
+                  if ship_hue:
+                      print("  Schiffsfarben (Hue):", ship_hue)
+
+                  for target in ["Roeloffs", "Schumacher", "Helms", "Gleike"]:
+                      hits = ds.find_status_for_name.__wrapped__(pdf, target) if hasattr(ds.find_status_for_name, "__wrapped__") else None
+          PY
