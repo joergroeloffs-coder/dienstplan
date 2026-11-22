@@ -96,8 +96,8 @@ jobs:
                   if ship_hue:
                       print("  Schiffsfarben (Hue):", ship_hue)
 
-          print("=== Namens-Treffer ===")
-          for target in ["Roeloffs", "Schumacher", "Helms", "Gleike"]:
-              hits = ds.find_status_for_name(pdf, target)
-              print(target, "->", hits)
+              print("=== Namens-Treffer ===")
+              for target in ["Roeloffs", "Schumacher", "Helms", "Gleike"]:
+                  hits = ds.find_status_for_name(pdf, target)
+                  print(target, "->", hits)
           PY
