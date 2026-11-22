@@ -10,7 +10,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install pdfplumber requests
-      - name: own_hue vs Badge-Hue vs Schiffsfarben
+      - name: own_hue der Namenszelle direkt ausgeben
         env:
           WDR_USER: ${{ secrets.WDR_USER }}
           WDR_PASS: ${{ secrets.WDR_PASS }}
@@ -26,13 +26,34 @@ jobs:
           session.headers["User-Agent"] = "dienstplan-diagnose/1.0"
 
           index = ds.fetch_index(session)
-          # (jahr, kw, name) Faelle, die zuvor als farbe=NORDFRIESLAND auffielen.
           faelle = [
               (2026, 46, "Gleike"), (2026, 49, "Schumacher"), (2026, 49, "Gleike"),
-              (2026, 50, "Roeloffs"), (2026, 51, "Roeloffs"), (2026, 52, "Roeloffs"),
-              (2026, 53, "Roeloffs"), (2027, 1, "Roeloffs"), (2027, 1, "Schumacher"),
-              (2027, 1, "Helms"), (2027, 1, "Gleike"),
+              (2026, 50, "Roeloffs"), (2027, 1, "Gleike"),
           ]
+
+          # Monkeypatch: farbe_fuer_namen so erweitern, dass own_hue mit
+          # ausgegeben wird, ohne die Originalfunktion zu veraendern.
+          orig = ds.farbe_fuer_namen
+          def patched(words, rects, ship_hue, xrange, row_bbox, fragment):
+              if not xrange or not ship_hue:
+                  return None, None
+              x0, x1 = xrange
+              row_top, row_bottom = row_bbox[1], row_bbox[3]
+              nachname = fragment.split(",")[0].strip().lower()
+              own_hue = None
+              for word in words:
+                  if (nachname in word["text"].lower() and x0 <= word["x0"] <= x1
+                          and row_top - 1 <= word["top"] <= row_bottom + 1):
+                      cx = (word["x0"] + word["x1"]) / 2
+                      cy = (word["top"] + word["bottom"]) / 2
+                      own_hue = ds.cell_hue(ds.color_at(rects, cx, cy))
+                      break
+              if own_hue is None:
+                  return None, None
+              for schiff, hue in ship_hue.items():
+                  if ds.hues_close(own_hue, hue):
+                      return schiff, own_hue
+              return None, own_hue
 
           for jahr, kw, target in faelle:
               revision, href, name, mtime = index[(jahr, kw)]
@@ -43,12 +64,6 @@ jobs:
                       words = page.extract_words()
                       if not any(target.lower() in w["text"].lower() for w in words):
                           continue
-                      badge_hue = None
-                      for w in words:
-                          if "nderung" in w["text"]:
-                              cx, cy = (w["x0"]+w["x1"])/2, (w["top"]+w["bottom"])/2
-                              badge_hue = ds.cell_hue(ds.color_at(rects, cx, cy))
-                              break
                       ship_hue = {}
                       headers = {}
                       for table in page.find_tables():
@@ -77,12 +92,13 @@ jobs:
                                       if hue is not None:
                                           ship_hue[ds.SCHIFFE_NORM[ds.norm(header_text)]] = hue
 
-                      hits = ds.find_status_for_name(pdf, target)
-                      for h in hits:
-                          category, rank, name_cell, links, farbe = h
-                          if not farbe:
-                              continue
-                          print(f"{jahr}/{kw} {target} (Seite {pnr}): farbe={farbe} "
-                                f"badge_hue={badge_hue} ship_hue={ship_hue}")
+                          for row, meta in zip(rows, table.rows):
+                              ncols = len(row)
+                              for i in range(0, ncols, 2):
+                                  name_cell = row[i+1].strip() if i+1 < ncols and row[i+1] else ""
+                                  if target.lower() in name_cell.lower():
+                                      farbe, own_hue = patched(words, rects, ship_hue, pairs.get(i), meta.bbox, target)
+                                      print(f"{jahr}/{kw} {target}: own_hue={own_hue} -> farbe={farbe} "
+                                            f"(NF={ship_hue.get('NORDFRIESLAND')})")
           print("fertig")
           PY
