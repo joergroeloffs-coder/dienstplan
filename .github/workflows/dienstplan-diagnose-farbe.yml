@@ -10,7 +10,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install pdfplumber requests
-      - name: own_hue der Namenszelle direkt ausgeben
+      - name: Alle verfügbaren Wochen durchsuchen (mit Fix)
         env:
           WDR_USER: ${{ secrets.WDR_USER }}
           WDR_PASS: ${{ secrets.WDR_PASS }}
@@ -26,79 +26,18 @@ jobs:
           session.headers["User-Agent"] = "dienstplan-diagnose/1.0"
 
           index = ds.fetch_index(session)
-          faelle = [
-              (2026, 46, "Gleike"), (2026, 49, "Schumacher"), (2026, 49, "Gleike"),
-              (2026, 50, "Roeloffs"), (2027, 1, "Gleike"),
-          ]
+          names = ["Roeloffs", "Schumacher", "Helms", "Gleike"]
 
-          # Monkeypatch: farbe_fuer_namen so erweitern, dass own_hue mit
-          # ausgegeben wird, ohne die Originalfunktion zu veraendern.
-          orig = ds.farbe_fuer_namen
-          def patched(words, rects, ship_hue, xrange, row_bbox, fragment):
-              if not xrange or not ship_hue:
-                  return None, None
-              x0, x1 = xrange
-              row_top, row_bottom = row_bbox[1], row_bbox[3]
-              nachname = fragment.split(",")[0].strip().lower()
-              own_hue = None
-              for word in words:
-                  if (nachname in word["text"].lower() and x0 <= word["x0"] <= x1
-                          and row_top - 1 <= word["top"] <= row_bottom + 1):
-                      cx = (word["x0"] + word["x1"]) / 2
-                      cy = (word["top"] + word["bottom"]) / 2
-                      own_hue = ds.cell_hue(ds.color_at(rects, cx, cy))
-                      break
-              if own_hue is None:
-                  return None, None
-              for schiff, hue in ship_hue.items():
-                  if ds.hues_close(own_hue, hue):
-                      return schiff, own_hue
-              return None, own_hue
-
-          for jahr, kw, target in faelle:
-              revision, href, name, mtime = index[(jahr, kw)]
+          print("=== Alle Treffer (farbe gesetzt oder nicht) ===")
+          for (jahr, kw), (revision, href, name, mtime) in sorted(index.items()):
               resp = session.get(f"{ds.BASE_URL}/{href}", timeout=30)
+              if resp.status_code != 200:
+                  continue
               with pdfplumber.open(BytesIO(resp.content)) as pdf:
-                  for pnr, page in enumerate(pdf.pages):
-                      rects = ds.fill_rects(page)
-                      words = page.extract_words()
-                      if not any(target.lower() in w["text"].lower() for w in words):
-                          continue
-                      ship_hue = {}
-                      headers = {}
-                      for table in page.find_tables():
-                          rows = table.extract()
-                          pairs = ds.column_pairs(table)
-                          for row, meta in zip(rows, table.rows):
-                              ncols = len(row)
-                              is_header, any_text = True, False
-                              for i in range(0, ncols, 2):
-                                  even = (row[i] or "").strip()
-                                  odd = row[i+1].strip() if i+1 < ncols and row[i+1] else ""
-                                  if even:
-                                      any_text = True
-                                      if odd or even.upper() in ds.KNOWN_RANKS:
-                                          is_header = False
-                              if not any_text:
-                                  continue
-                              if is_header:
-                                  headers = ds.headers_in_band(page, table, meta.bbox[1], meta.bbox[3], pairs)
-                                  for idx, header_text in headers.items():
-                                      if idx not in pairs or not ds.ist_schiff(header_text):
-                                          continue
-                                      x0, x1 = pairs[idx]
-                                      cx, cy = (x0+x1)/2, (meta.bbox[1]+meta.bbox[3])/2
-                                      hue = ds.cell_hue(ds.color_at(rects, cx, cy))
-                                      if hue is not None:
-                                          ship_hue[ds.SCHIFFE_NORM[ds.norm(header_text)]] = hue
-
-                          for row, meta in zip(rows, table.rows):
-                              ncols = len(row)
-                              for i in range(0, ncols, 2):
-                                  name_cell = row[i+1].strip() if i+1 < ncols and row[i+1] else ""
-                                  if target.lower() in name_cell.lower():
-                                      farbe, own_hue = patched(words, rects, ship_hue, pairs.get(i), meta.bbox, target)
-                                      print(f"{jahr}/{kw} {target}: own_hue={own_hue} -> farbe={farbe} "
-                                            f"(NF={ship_hue.get('NORDFRIESLAND')})")
+                  for target in names:
+                      hits = ds.find_status_for_name(pdf, target)
+                      for h in hits:
+                          category, rank, name_cell, links, farbe = h
+                          print(f"{jahr}/{kw} ({name}): {name_cell} [{category}] farbe={farbe}")
           print("fertig")
           PY
