@@ -61,8 +61,6 @@ jobs:
                       color = ds.color_at(rects, cx, cy)
                       hue = ds.cell_hue(color)
                       print(f"  Wort '{w['text']}' bei ({cx:.0f},{cy:.0f}): color={color} hue={hue}")
-                      # Auch direkt rechts daneben (Datum der Aenderung) und
-                      # die ganze Kopfzeile des Hinweiskastens abtasten.
                       for dx in (20, 40, 60, 80, 100):
                           c2 = ds.color_at(rects, cx+dx, cy)
                           print(f"    +{dx}px: color={c2} hue={ds.cell_hue(c2)}")
@@ -98,6 +96,8 @@ jobs:
                   if ship_hue:
                       print("  Schiffsfarben (Hue):", ship_hue)
 
-                  for target in ["Roeloffs", "Schumacher", "Helms", "Gleike"]:
-                      hits = ds.find_status_for_name.__wrapped__(pdf, target) if hasattr(ds.find_status_for_name, "__wrapped__") else None
+          print("=== Namens-Treffer ===")
+          for target in ["Roeloffs", "Schumacher", "Helms", "Gleike"]:
+              hits = ds.find_status_for_name(pdf, target)
+              print(target, "->", hits)
           PY
