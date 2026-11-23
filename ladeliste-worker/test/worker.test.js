@@ -60,6 +60,20 @@ test('A shuttle back to the same departure port is not a stopover and gets no pr
   const rows=departures([block,rueckBlock],hinSchedule,'Uthlande',date);
   assert.equal(rows[0].zuladungNaechsteEtappe,null);
 });
+test('Simultaneous direct and stopover departures from the same port cross-reference each other\'s lademeter',()=>{
+  const zweigleisigSchedule={schiffe:{UTHLANDE:[
+    {datum:date,route:'Dagebüll-Wyk',zeit:'10:00'},
+    {datum:date,route:'Dagebüll-Wyk',zeit:'10:00',direkt:true},
+  ]}};
+  const wykBlock={schiff:'Uthlande',abfahrt:'10:02',von:'DAGEBÜLL',nach:'FÖHR',kategorien:{PKW:4},lademeter:100};
+  const amrumBlock={schiff:'Uthlande',abfahrt:'10:01',von:'DAGEBÜLL',nach:'AMRUM',kategorien:{PKW:2},lademeter:50};
+  const rows=departures([wykBlock,amrumBlock],zweigleisigSchedule,'Uthlande',date);
+  const wykRow=rows.find(r=>r.nach==='FÖHR'),amrumRow=rows.find(r=>r.nach==='AMRUM');
+  assert.equal(wykRow.lademeter,100);
+  assert.deepEqual(wykRow.zuladungAndereRichtung,{ziel:'AMRUM',lademeter:50});
+  assert.equal(amrumRow.lademeter,50);
+  assert.deepEqual(amrumRow.zuladungAndereRichtung,{ziel:'FÖHR',lademeter:100});
+});
 test('Departure shows the tide events bracketing its own departure time',()=>{
   const tideSchedule={...schedule,tiden:{[date]:'HW 3:04 / NW 9:31 / HW 15:15 / NW 22:09'}};
   const rows=departures([block],tideSchedule,'Uthlande',date);
