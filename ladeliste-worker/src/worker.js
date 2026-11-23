@@ -41,9 +41,10 @@ export function parse(html,ship){
       const c=cells(row[1]).filter((_,i)=>i%2===0);
       if(c.length<8||!/^\d+$/.test(c[0]))continue;
       const kategorie=kategorieVon(c[3]);
+      const eingecheckt=(c[4]||"").toUpperCase().includes(originLetter);
       kategorien[kategorie]=(kategorien[kategorie]||0)+1;
-      checkedIn[kategorie]=(checkedIn[kategorie]||0)+((c[4]||"").toUpperCase().includes(originLetter)?1:0);
-      if(kategorie!=="PKW")fahrzeuge.push({art:kategorie,kunde:c[1]||null,kennzeichen:c[5]||null,laenge_m:number(c[7])});
+      checkedIn[kategorie]=(checkedIn[kategorie]||0)+(eingecheckt?1:0);
+      if(kategorie!=="PKW")fahrzeuge.push({art:kategorie,kunde:c[1]||null,kennzeichen:c[5]||null,laenge_m:number(c[7]),eingecheckt});
     }
     return {schiff:ship,abfahrt:time,von,nach:m[2].trim(),
       kategorien,lademeter:meters(block),sonderfahrzeuge:fahrzeuge,checkedIn};

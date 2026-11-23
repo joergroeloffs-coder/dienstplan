@@ -44,6 +44,7 @@ const HTML=String.raw`<!doctype html><html lang="de"><head><meta charset="utf-8"
 .special-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 0 6px 10px;border-left:3px solid rgba(0,0,0,.15)}
 .special-row .info{display:flex;flex-direction:column;gap:1px;min-width:0}
 .special-row .kind{font-size:13px;color:rgba(25,49,60,.78);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.special-row .check{color:#0a7a68;font-weight:800;margin-left:5px}
 .special-row .plate{font-family:ui-monospace,monospace;font-weight:800;font-size:13px;color:rgba(25,49,60,.78)}
 .special-row .len{font-family:ui-monospace,monospace;font-size:14px;font-weight:750;white-space:nowrap}
 .empty{padding:50px 18px;text-align:center;border:1px dashed #bacbd1;border-radius:6px;background:#f9fbfa}.empty b{display:block;font-size:18px;margin:12px 0 8px}.empty p{max-width:480px;margin:0 auto;color:#5c707a;line-height:1.7;font-size:14px}.empty svg{width:46px;color:#7b939d}.foot{margin-top:28px;border-top:1px solid #d4dfe2;padding-top:18px;font-size:12px;line-height:1.7;color:#5a737d}details{margin-top:20px;font-size:13px;line-height:1.8}summary{cursor:pointer;font-weight:650}code{font-family:ui-monospace,monospace;font-size:12px}.offline{color:#9b3827!important}@media(max-width:800px){.fleet{grid-template-columns:repeat(2,minmax(0,1fr))}.toolbar{align-items:flex-start;flex-direction:column}.filter-groups{align-items:flex-start}.filter-row{justify-content:flex-start}main{padding-top:24px}}@media(max-width:430px){header small,header a{display:none}.action-bar{flex-direction:column;align-items:stretch;padding:10px 16px}.action-bar .meta{text-align:center}.fleet{gap:8px}.ship{padding:13px}.ship h3{font-size:13px}.actions{width:100%}.actions button{flex:1;padding:10px}.route-row .route{font-size:16px}.departure{padding:13px 14px}.stats{gap:6px}.stat{flex-basis:60px;min-width:60px}.stat b{font-size:18px}}
@@ -88,7 +89,9 @@ for(const f of rows){
       n.append(el('div','group-label',cat+(checkedCat!==undefined&&checkedCat!==null?' ('+checkedCat+' von '+groups[cat].length+' eingecheckt)':'')));
       for(const v of groups[cat]){
         const row=el('div','special-row'),info=el('div','info');
-        info.append(el('div','kind',v.kunde||'—'));
+        const kind=el('div','kind',v.kunde||'—');
+        if(v.eingecheckt)kind.append(el('span','check','✓'));
+        info.append(kind);
         if(v.kennzeichen)info.append(el('div','plate',v.kennzeichen));
         row.append(info,el('div','len',v.laenge_m===null?'–':v.laenge_m+' m'));
         n.append(row);

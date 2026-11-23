@@ -45,6 +45,7 @@ test('Boarding column counts check-in only for the matching departure port, not 
   const result=parse(html,'Uthlande');
   assert.equal(result[0].checkedIn.PKW,1);
   assert.equal(result[0].checkedIn.LKW,1);
+  assert.equal(result[0].sonderfahrzeuge[0].eingecheckt,true);
 });
 test('Departure card shows the total lademeter already booked for the next physical stop',()=>{
   const naechsterBlock={schiff:'Uthlande',abfahrt:'11:02',von:'FÖHR',nach:'AMRUM',kategorien:{PKW:3},lademeter:7.5};
