@@ -1,0 +1,33 @@
+name: Diagnose Ladeliste PKW
+on:
+  workflow_dispatch:
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Abruf erzwingen und 16:30-Uthlande-Abfahrt prüfen
+        env:
+          TOKEN: ${{ secrets.WDR_WORKER_TOKEN }}
+        run: |
+          python3 - <<'PY'
+          import json, urllib.error, urllib.request
+
+          base = "https://dienstplan-ladelisten-sites.joerg-roeloffs.workers.dev"
+
+          req = urllib.request.Request(base + "/api/refresh", method="POST",
+              headers={"Origin": base})
+          try:
+              with urllib.request.urlopen(req, timeout=60) as r:
+                  print("refresh status:", r.status)
+          except urllib.error.HTTPError as e:
+              print("refresh fehlgeschlagen:", e.code, e.read().decode(errors="replace"))
+
+          req = urllib.request.Request(base + "/api/ladeliste")
+          with urllib.request.urlopen(req, timeout=60) as r:
+              data = json.load(r)
+
+          rows = [a for a in data["abfahrten"] if a["schiff"] == "Uthlande" and a["abfahrt"] == "16:30"]
+          print("Treffer:", len(rows))
+          for r in rows:
+              print(json.dumps(r, ensure_ascii=False, indent=2))
+          PY
