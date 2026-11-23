@@ -25,9 +25,10 @@ test('Categories are discovered from the description, not a fixed list, and book
     +row('Wohnwagenanhänger Hin/Rf.','Camper','AB-3')
     +row('LKW-Gefahrgut Einfach','Spedition','AB-4')
     +row('PKW-Anh. Hin/Rf.','Camper2','AB-5')
+    +row('PKW Spartarif','Sparfuchs','AB-6')
     +'Summe gebuchter Meter:<TD>1,0</TD><TD>2,0</TD>';
   const result=parse(html,'Uthlande');
-  assert.deepEqual(result[0].kategorien,{PKW:1,Wohnmobil:1,'Wohnwagen Anhänger':1,'LKW-Gefahrgut':1,'PKW Anhänger':1});
+  assert.deepEqual(result[0].kategorien,{PKW:2,Wohnmobil:1,'Wohnwagen Anhänger':1,'LKW-Gefahrgut':1,'PKW Anhänger':1});
   const arten=result[0].sonderfahrzeuge.map(f=>f.art).sort();
   assert.deepEqual(arten,['LKW-Gefahrgut','PKW Anhänger','Wohnmobil','Wohnwagen Anhänger']);
   assert.ok(!result[0].sonderfahrzeuge.some(f=>f.art==='PKW'));
