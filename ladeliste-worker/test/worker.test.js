@@ -60,14 +60,11 @@ test('A shuttle back to the same departure port is not a stopover and gets no pr
   const rows=departures([block,rueckBlock],hinSchedule,'Uthlande',date);
   assert.equal(rows[0].zuladungNaechsteEtappe,null);
 });
-test('Simultaneous direct and stopover departures from the same port cross-reference each other\'s lademeter',()=>{
-  const zweigleisigSchedule={schiffe:{UTHLANDE:[
-    {datum:date,route:'Dagebüll-Wyk',zeit:'10:00'},
-    {datum:date,route:'Dagebüll-Wyk',zeit:'10:00',direkt:true},
-  ]}};
+test('Simultaneous departures from the same port to different destinations cross-reference each other\'s lademeter',()=>{
+  const einGleisSchedule={schiffe:{UTHLANDE:[{datum:date,route:'Dagebüll-Wyk',zeit:'10:00'}]}};
   const wykBlock={schiff:'Uthlande',abfahrt:'10:02',von:'DAGEBÜLL',nach:'FÖHR',kategorien:{PKW:4},lademeter:100};
   const amrumBlock={schiff:'Uthlande',abfahrt:'10:01',von:'DAGEBÜLL',nach:'AMRUM',kategorien:{PKW:2},lademeter:50};
-  const rows=departures([wykBlock,amrumBlock],zweigleisigSchedule,'Uthlande',date);
+  const rows=departures([wykBlock,amrumBlock],einGleisSchedule,'Uthlande',date);
   const wykRow=rows.find(r=>r.nach==='FÖHR'),amrumRow=rows.find(r=>r.nach==='AMRUM');
   assert.equal(wykRow.lademeter,100);
   assert.deepEqual(wykRow.zuladungAndereRichtung,{ziel:'AMRUM',lademeter:50});

@@ -85,14 +85,10 @@ export function departures(blocks,schedule,ship,date){
   // fahrplan_schedule.json kann je Route+Zeit doppelte Eintraege enthalten
   // (Fehler in der vorgelagerten Fahrplan-Generierung) - deshalb hier je
   // Schiff/Tag auf eindeutige Route+Zeit-Kombinationen eindampfen, sonst
-  // erscheint jede Abfahrt zweimal. "direkt" gehoert bewusst mit in den
-  // Schluessel: Route+Zeit koennen sich legitim doppeln, wenn das Schiff
-  // gleichzeitig eine Direktverbindung zum Endziel UND eine Verbindung mit
-  // Zwischenstopp anbietet (z.B. Dagebuell-Wyk normal und Dagebuell-Wyk
-  // direkt nach Wittduen/Amrum durch) - das ist keine Dublette.
+  // erscheint jede Abfahrt zweimal.
   const seenLegs=new Set();
   const legs=(schedule.schiffe?.[CATEGORIES[ship]]||[]).filter(e=>e.datum===date).filter(e=>{
-    const key=e.route+"|"+e.zeit+"|"+!!e.direkt;
+    const key=e.route+"|"+e.zeit;
     if(seenLegs.has(key))return false;
     seenLegs.add(key);
     return true;
@@ -104,31 +100,34 @@ export function departures(blocks,schedule,ship,date){
   // viel an der naechsten Etappe (sofern direkt anschliessend, Hafen=Ziel
   // dieser Etappe) bereits zugeladen ist - die Ladung reist ja an Bord
   // weiter und blockiert dort schon Kapazitaet.
-  const etappenRaw=legs.map(leg=>{
+  const etappen=legs.map(leg=>{
     const [from,to]=leg.route.split("-").map(s=>s.trim());
     if(!from||!to||!/^\d{2}:\d{2}$/.test(leg.zeit))throw Error("Ungültiger Fahrplan");
     const target=leg.direkt&&DIRECT[leg.route]||to;
     const origin=PORTS[from]||from.toUpperCase();
     const ziel=PORTS[target]||target;
-    return {leg,origin,ziel};
-  });
-  const gruppenGroesse={};
-  for(const e of etappenRaw){
-    const key=e.origin+"|"+e.leg.zeit;
-    gruppenGroesse[key]=(gruppenGroesse[key]||0)+1;
-  }
-  const etappen=etappenRaw.map(e=>{
-    // Bei mehreren gleichzeitigen Abfahrten ab demselben Hafen (z.B. direkt
-    // zum Endziel vs. mit Zwischenstopp) zusaetzlich nach Ziel filtern,
-    // sonst wuerden Buchungen beiden Karten doppelt zugeordnet. Bei nur
-    // einer Etappe bewusst ohne Ziel-Abgleich, damit Durchgangsbuchungen
-    // (deren Endziel vom naechsten Zwischenstopp abweicht) weiterhin auf
-    // der passenden Etappe erscheinen.
-    const mehrdeutig=gruppenGroesse[e.origin+"|"+e.leg.zeit]>1;
-    const matches=blocks.filter(b=>b.von===e.origin&&(!mehrdeutig||b.nach===e.ziel)&&Math.abs(minutes(b.abfahrt)-minutes(e.leg.zeit))<=5);
+    const matches=blocks.filter(b=>b.von===origin&&Math.abs(minutes(b.abfahrt)-minutes(leg.zeit))<=5);
     const lademeterGesamt=matches.reduce((sum,b)=>sum+(b.lademeter||0),0);
-    return {...e,matches,lademeterGesamt};
+    return {leg,origin,ziel,matches,lademeterGesamt};
   }).sort((a,b)=>minutes(a.leg.zeit)-minutes(b.leg.zeit));
+
+  // Faehrt ein Schiff zur gleichen Zeit ab demselben Hafen gleichzeitig zu
+  // zwei verschiedenen Zielen (z.B. Wittduen-Foehr und gleichzeitig
+  // Wittduen-Dagebuell direkt durch), teilen sich beide Buchungen dieselbe
+  // Kapazitaet an Bord - deshalb auf jeder der beiden Karten klein die
+  // jeweils andere Zielrichtung mit anzeigen. Das wird direkt anhand der
+  // Buchungsbloecke (von/nach/abfahrt) ermittelt, unabhaengig vom
+  // Fahrplan-Eintrag, damit es unabhaengig davon funktioniert, ob die
+  // Direktverbindung als eigener Fahrplan-Eintrag vorliegt oder nicht. Bei
+  // mehreren in Frage kommenden Zielen zaehlt die zeitlich naechste.
+  function andereRichtung(von,abfahrt,nach){
+    const kandidaten=blocks.filter(b=>b.von===von&&b.nach!==nach&&Math.abs(minutes(b.abfahrt)-minutes(abfahrt))<=5);
+    if(!kandidaten.length)return null;
+    const naechsteDiff=Math.min(...kandidaten.map(b=>Math.abs(minutes(b.abfahrt)-minutes(abfahrt))));
+    const naechstesZiel=kandidaten.find(b=>Math.abs(minutes(b.abfahrt)-minutes(abfahrt))===naechsteDiff).nach;
+    const passende=kandidaten.filter(b=>b.nach===naechstesZiel);
+    return {ziel:naechstesZiel,lademeter:passende.reduce((sum,b)=>sum+(b.lademeter||0),0)};
+  }
 
   const tidenDesTages=parseTiden(schedule.tiden?.[date]);
   const used=new Set(), output=[];
@@ -140,16 +139,9 @@ export function departures(blocks,schedule,ship,date){
     // ist das schon auf der naechsten Abfahrtskarte selbst zu sehen.
     const naechste=etappen.slice(i+1).find(e=>e.origin===ziel);
     const zuladungNaechsteEtappe=(naechste&&naechste.ziel!==origin)?{hafen:naechste.origin,lademeter:naechste.lademeterGesamt}:null;
-    // Bei gleichzeitigen Abfahrten ab demselben Hafen mit unterschiedlichem
-    // Ziel (z.B. Dagebuell-Wyk und gleichzeitig Dagebuell-Amrum durch),
-    // auf jeder der beiden Karten zusaetzlich klein zeigen, wie viele Meter
-    // fuer das jeweils andere Ziel geladen werden - beides gehoert zur
-    // selben Abfahrt und teilt sich die Kapazitaet an Bord.
-    const geschwister=etappen.filter((e,j)=>j!==i&&e.origin===origin&&e.leg.zeit===leg.zeit&&e.ziel!==ziel);
-    const zuladungAndereRichtung=geschwister.length?{ziel:[...new Set(geschwister.map(e=>e.ziel))].join(" + "),lademeter:geschwister.reduce((sum,e)=>sum+e.lademeterGesamt,0)}:null;
     const tide=tideFuerAbfahrt(tidenDesTages,leg.zeit);
-    if(!matches.length)output.push({schiff:ship,abfahrt:leg.zeit,von:origin,nach:ziel,lademeter:null,sonderfahrzeuge:[],checkedIn:{},kategorien:{},hinweis:"Noch keine eigene Buchung zu dieser Etappe",zuladungNaechsteEtappe,zuladungAndereRichtung,tide});
-    for(const b of matches){used.add(b);output.push({...b,abfahrt:leg.zeit,zuladungNaechsteEtappe,zuladungAndereRichtung,tide});}
+    if(!matches.length)output.push({schiff:ship,abfahrt:leg.zeit,von:origin,nach:ziel,lademeter:null,sonderfahrzeuge:[],checkedIn:{},kategorien:{},hinweis:"Noch keine eigene Buchung zu dieser Etappe",zuladungNaechsteEtappe,zuladungAndereRichtung:andereRichtung(origin,leg.zeit,ziel),tide});
+    for(const b of matches){used.add(b);output.push({...b,abfahrt:leg.zeit,zuladungNaechsteEtappe,zuladungAndereRichtung:andereRichtung(b.von,b.abfahrt,b.nach),tide});}
   }
   for(const b of blocks)if(!used.has(b))output.push({...b,hinweis:"Nicht im Fahrplan enthalten – laut aktueller Buchung"});
   return output;
