@@ -34,7 +34,7 @@ const HTML=String.raw`<!doctype html><html lang="de"><head><meta charset="utf-8"
 .stat b small{font-size:12px;font-weight:700;opacity:.7}
 .stat span{font-size:10px;color:rgba(25,49,60,.65);text-transform:uppercase;font-weight:700;letter-spacing:.02em;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .total-bar{margin-top:8px;background:rgba(255,255,255,.55);border-radius:7px;padding:9px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px}
-.total-bar .label{font-size:13px;color:rgba(25,49,60,.75);font-weight:650}
+.total-bar .label{font-size:13px;color:rgba(25,49,60,.75);font-weight:650;white-space:nowrap;flex-shrink:0}
 .total-bar .zahlen{display:flex;flex-direction:column;align-items:flex-end;gap:1px}
 .total-bar .val{font-family:ui-monospace,monospace;font-size:19px;font-weight:800;color:#0a7a68;white-space:nowrap;line-height:1.1}
 .total-bar .nebenan{font-family:ui-monospace,monospace;font-size:11px;font-weight:600;color:rgba(25,49,60,.55);white-space:nowrap;line-height:1.1}
@@ -78,7 +78,7 @@ for(const f of rows){
     v.append(b,el('span','',kategorie));stats.append(v);
   }
   n.append(stats);
-  if(f.lademeter!==null&&f.lademeter!==undefined){const tb=el('div','total-bar'),zahlen=el('div','zahlen');zahlen.append(el('span','val',f.lademeter+' m'));if(f.zuladungAndereRichtung)zahlen.append(el('span','nebenan',f.zuladungAndereRichtung.lademeter+' m nach '+f.zuladungAndereRichtung.ziel));tb.append(el('span','label','Gesamt nach '+f.nach),zahlen);n.append(tb)}
+  if(f.lademeter!==null&&f.lademeter!==undefined){const tb=el('div','total-bar'),zahlen=el('div','zahlen');zahlen.append(el('span','val',f.lademeter+' m'));if(f.zuladungAndereRichtung)zahlen.append(el('span','nebenan','+'+f.zuladungAndereRichtung.lademeter+' m nach '+f.zuladungAndereRichtung.ziel));tb.append(el('span','label','Gesamt nach '+f.nach),zahlen);n.append(tb)}
   if(f.zuladungNaechsteEtappe){const nb=el('div','next-leg');nb.append(el('span','label','Bereits gebucht ab '+f.zuladungNaechsteEtappe.hafen),el('span','val',f.zuladungNaechsteEtappe.lademeter+' m'));n.append(nb)}
   const s=ships.find(s=>s.name===f.schiff);if(status(s)!=='abgerufen')n.append(el('p','note','Stand prüfen: '+status(s)));
   if(f.hinweis)n.append(el('p','note',f.hinweis));
