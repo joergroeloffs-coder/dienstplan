@@ -339,7 +339,7 @@ def fetch_fahrplan_index(session):
 def find_fahrplan_eintrag(entries, jahr, kw):
     """Der Eintrag mit passender KW, dessen Aenderungsdatum am naechsten am
     Montag der gesuchten Kalenderwoche liegt."""
-    kandidaten = [e for e in entries if e[0] == kw]
+    kandidaten = [e for e in entries if e[0] == kw and FAHRPLAN_FILE_RE.match(e[3])]
     if not kandidaten:
         return None
     ziel = date.fromisocalendar(jahr, kw, 1)
