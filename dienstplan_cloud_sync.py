@@ -329,7 +329,7 @@ def fetch_fahrplan_index(session):
     entries = []
     for href, mtime in ROW_RE.findall(resp.text):
         name = safe_decode_href(href)
-        m = FAHRPLAN_FILE_RE.match(name)
+        m = re.search(r"^(\d{1,2})\D*KW", name, re.IGNORECASE) if name.lower().endswith(".pdf") else None
         if not m:
             continue
         entries.append((int(m.group(1)), mtime or "", href, name))
@@ -352,6 +352,65 @@ def find_fahrplan_eintrag(entries, jahr, kw):
         return abs(mtime_datum - ziel)
 
     return min(kandidaten, key=distanz)
+
+
+def fahrplan_tage(pdf):
+    """Geltungstage aus Kopfzeilen, auch bei komplett entfallenen Abfahrten."""
+    tage = set()
+    for page in pdf.pages:
+        for row in fahrplan_rows_from_words(page.extract_words()):
+            text = "".join(w["text"] for w in row)
+            if not re.search(r"KW\d{1,2}(?!\d)", text, re.IGNORECASE):
+                continue
+            m = re.search(r"\d{1,2}\.\d{1,2}\.\d{4}", text)
+            if m:
+                tage.add(datetime.strptime(m.group(), "%d.%m.%Y").strftime("%d.%m.%Y"))
+    return tage
+
+
+def lade_fahrplan_woche(session, entries, jahr, kw, cache):
+    """Neuere PDFs ersetzen nur die darin ausdruecklich genannten Tage.
+
+    Bei gleichem Uploadzeitpunkt wird ein engerer Tagesplan zuletzt angewandt.
+    Alte Jahrgaenge werden anhand des Uploadjahrs ausgeschlossen; die
+    Kopfzeilendaten werden ausserdem gegen die Dienstwoche geprueft.
+    """
+    montag = date.fromisocalendar(jahr, kw, 1)
+    kandidaten = []
+    for e in entries:
+        if e[0] != kw:
+            continue
+        if e[1]:
+            uploaded = datetime.strptime(e[1], "%Y-%m-%d %H:%M").date()
+            if abs((uploaded - montag).days) > 180:
+                continue
+        kandidaten.append(e)
+    dokumente = []
+    for e in kandidaten:
+        _, mtime, href, name = e
+        if href not in cache:
+            resp = session.get(f"{FAHRPLAN_BASE_URL}/{href}", timeout=30)
+            resp.raise_for_status()
+            if not resp.content.startswith(b"%PDF"):
+                raise ValueError(f"Fahrplan {name}: keine PDF-Datei")
+            with pdfplumber.open(BytesIO(resp.content)) as pdf:
+                tage = fahrplan_tage(pdf)
+                rows = parse_fahrplan_pdf(pdf)
+            if not tage:
+                raise ValueError(f"Fahrplan {name}: keine lesbaren Tageskopfzeilen")
+            cache[href] = (tage, rows)
+        tage, rows = cache[href]
+        tage = {t for t in tage if montag - timedelta(days=3) <= datetime.strptime(t, "%d.%m.%Y").date() <= montag + timedelta(days=7)}
+        if tage:
+            revision = re.search(r"(\d+)\.\s*(?:Dienstplan)?(?:Ä|Ae|A)nderung", name, re.IGNORECASE)
+            dokumente.append((mtime, int(revision.group(1)) if revision else 0, -len(tage), name, e, tage, rows))
+    pro_tag = {}
+    quellen = []
+    for _, _, _, _, e, tage, rows in sorted(dokumente):
+        for tag in tage:
+            pro_tag[tag] = [r for r in rows if r["datum"] == tag]
+        quellen.append(e)
+    return [r for rows in pro_tag.values() for r in rows], quellen
 
 
 def fahrplan_rows_from_words(words, toleranz=2.5):
@@ -397,16 +456,13 @@ def parse_fahrplan_pdf(pdf):
         tide = None
         for zeile in zeilen:
             texte = [w["text"] for w in zeile]
-            if texte[:1] == ["Dienstplan"]:
-                kw = texte[2] if len(texte) > 2 else None
+            kopf = "".join(texte)
+            wochen_match = re.search(r"KW(\d{1,2})(?!\d)", kopf, re.IGNORECASE)
+            datums_match = re.search(r"(\d{1,2}\.\d{1,2}\.\d{4})", kopf)
+            if wochen_match and datums_match:
+                kw = wochen_match.group(1)
+                datum = datetime.strptime(datums_match.group(1), "%d.%m.%Y").strftime("%d.%m.%Y")
                 tide = None
-                # Wochentag+Datum stehen mal als ein zusammenhaengender
-                # Token ("Freitag31.07.2026"), mal auf mehrere Woerter
-                # verteilt - deshalb Suche im zusammengefuegten Rest der
-                # Zeile statt Annahme einer festen Tokenposition.
-                rest = "".join(texte[3:])
-                match = FAHRPLAN_WOCHENTAG_DATUM_RE.search(rest)
-                datum = match.group(2) if match else None
                 spalten_x = None
                 continue
             # "Wittd" statt "Wittdün", um unempfindlich gegen abweichende
@@ -735,7 +791,7 @@ def build_vevent(iso_year, iso_week, entry):
     dtstart = d_from.strftime("%Y%m%d")
     dtend = (d_to + timedelta(days=1)).strftime("%Y%m%d")
     uid = f"dienstplan-{iso_year}-W{iso_week:02d}@wdr-besatzungsliste"
-    stamp = ics_stamp(entry.get("mtime"))
+    stamp = ics_stamp(max(entry.get("mtime") or "", entry.get("fahrplan_mtime") or ""))
     stand = entry.get("mtime") or "unbekannt"
     beschreibung = (
         f"KW {iso_week}/{iso_year}\\, Stand: {ics_escape(stand)}\\, "
@@ -774,7 +830,7 @@ def build_tages_vevents(iso_year, iso_week, entry):
     letzten Kalendertag noch einzuschliessen."""
     d_from = date.fromisoformat(entry["date_from"])
     d_to = date.fromisoformat(entry["date_to"])
-    stamp = ics_stamp(entry.get("mtime"))
+    stamp = ics_stamp(max(entry.get("mtime") or "", entry.get("fahrplan_mtime") or ""))
     stand = entry.get("mtime") or "unbekannt"
     pro_tag = entry.get("abfahrten_pro_tag") or {}
     events = []
@@ -788,6 +844,8 @@ def build_tages_vevents(iso_year, iso_week, entry):
             f"KW {iso_week}/{iso_year}\\, Stand: {ics_escape(stand)}\\, "
             f"Datei: {ics_escape(entry.get('file', '?'))}"
         )
+        if entry.get("fahrplan_dateien"):
+            beschreibung += "\\nFahrplan: " + ics_escape(entry["fahrplan_dateien"])
         tages_abfahrten = pro_tag.get(tag.strftime("%d.%m.%Y"))
         if tages_abfahrten:
             beschreibung += "\\n\\nAbfahrten:\\n" + ics_escape(tages_abfahrten)
@@ -842,7 +900,7 @@ def build_prognose_vevent(key, entry, schiff, grund):
     d_to = d_from + timedelta(days=7)
     folge = next_week_key(key)
     uid = f"prognose-{folge}@wdr-besatzungsliste"
-    stamp = ics_stamp(entry.get("mtime"))
+    stamp = ics_stamp(max(entry.get("mtime") or "", entry.get("fahrplan_mtime") or ""))
     quelle = key.replace("-W", "/KW ")
     if grund == "farbe":
         hinweis = (
@@ -875,7 +933,7 @@ def build_prognose_frei_vevent(key, entry, grund="abgeloest"):
     d_to = d_from + timedelta(days=7)
     folge = next_week_key(key)
     uid = f"prognose-frei-{folge}@wdr-besatzungsliste"
-    stamp = ics_stamp(entry.get("mtime"))
+    stamp = ics_stamp(max(entry.get("mtime") or "", entry.get("fahrplan_mtime") or ""))
     quelle = key.replace("-W", "/KW ")
     kategorie = entry.get("category", "") or "?"
     if grund == "frei_fortsetzung":
@@ -1189,25 +1247,19 @@ def main():
         print(f"\nFahrplan-Verzeichnislisting: {len(fahrplan_index)} Dateien gefunden")
         fahrplan_cache = {}
         for iso_year, iso_week, entry in dienst_wochen:
-            gefunden = find_fahrplan_eintrag(fahrplan_index, iso_year, iso_week)
-            if not gefunden:
+            abfahrten, quellen = lade_fahrplan_woche(
+                session, fahrplan_index, iso_year, iso_week, fahrplan_cache
+            )
+            if not quellen:
                 print(f"  KW {iso_week}/{iso_year}: kein Fahrplan gefunden")
-                entry.pop("abfahrten_pro_tag", None)
                 continue
-            _, mtime, href, filename = gefunden
-            if filename not in fahrplan_cache:
-                resp = session.get(f"{FAHRPLAN_BASE_URL}/{href}", timeout=30)
-                if resp.status_code != 200 or resp.content[:4] != b"%PDF":
-                    print(
-                        f"  Warnung: Fahrplan {filename} -> "
-                        f"HTTP {resp.status_code}, uebersprungen"
-                    )
-                    continue
-                with pdfplumber.open(BytesIO(resp.content)) as pdf:
-                    fahrplan_cache[filename] = parse_fahrplan_pdf(pdf)
-            abfahrten = fahrplan_cache[filename]
+            filename = ", ".join(q[3] for q in quellen)
             pro_tag = gruppiere_abfahrten_pro_tag(abfahrten, entry["category"])
+            if pro_tag != entry.get("abfahrten_pro_tag"):
+                entry["sequence"] = entry.get("sequence", 0) + 1
             entry["abfahrten_pro_tag"] = pro_tag
+            entry["fahrplan_mtime"] = max(q[1] for q in quellen)
+            entry["fahrplan_dateien"] = filename
             anzahl = sum(text.count("\n") + 1 for text in pro_tag.values())
             if not abfahrten:
                 print(
