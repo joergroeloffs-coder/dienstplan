@@ -44,6 +44,7 @@ const HTML=String.raw`<!doctype html><html lang="de"><head><meta charset="utf-8"
 .special-head{margin-top:12px;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:rgba(25,49,60,.6);font-weight:750}
 .group-label{font-size:12px;font-weight:750;letter-spacing:.02em;color:#0a7a68;padding-top:8px;margin-top:4px;border-top:1px solid rgba(0,0,0,.08)}
 .special-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 0 6px 10px;border-left:3px solid rgba(0,0,0,.15)}
+.special-row.gefahrgut{border-left:3px solid #c0392b;background:rgba(192,57,43,.08)}
 .special-row .info{display:flex;flex-direction:column;gap:1px;min-width:0}
 .special-row .kind{font-size:13px;color:rgba(25,49,60,.78);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .special-row .check{color:#0a7a68;font-weight:800;margin-left:5px}
@@ -90,7 +91,7 @@ for(const f of rows){
       const checkedCat=f.checkedIn?.[cat];
       n.append(el('div','group-label',cat+(checkedCat!==undefined&&checkedCat!==null?' ('+checkedCat+' von '+groups[cat].length+' eingecheckt)':'')));
       for(const v of groups[cat]){
-        const row=el('div','special-row'),info=el('div','info');
+        const row=el('div','special-row'+(/gefahrgut/i.test(v.art)?' gefahrgut':'')),info=el('div','info');
         const kind=el('div','kind',v.kunde||'—');
         if(v.eingecheckt)kind.append(el('span','check','✓'));
         info.append(kind);
