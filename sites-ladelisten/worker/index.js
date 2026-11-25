@@ -30,6 +30,7 @@ const HTML=String.raw`<!doctype html><html lang="de"><head><meta charset="utf-8"
 .route .arrow{color:#0a7a68;font-weight:400}
 .stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .stat{background:rgba(255,255,255,.55);border-radius:7px;padding:8px 6px;text-align:center;flex:1 1 68px;min-width:68px}
+.stat.gefahrgut{border:2px solid #c0392b}
 .stat b{font-size:20px;display:block;font-variant-numeric:tabular-nums}
 .stat b small{font-size:12px;font-weight:700;opacity:.7}
 .stat span{font-size:10px;color:rgba(25,49,60,.65);text-transform:uppercase;font-weight:700;letter-spacing:.02em;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -74,7 +75,7 @@ for(const f of rows){
   const stats=el('div','stats');
   for(const kategorie of kategorienSortiert(kategorien)){
     const val=kategorien[kategorie],checked=f.checkedIn?.[kategorie];
-    const v=el('div','stat'),b=el('b');
+    const v=el('div','stat'+(/gefahrgut/i.test(kategorie)?' gefahrgut':'')),b=el('b');
     b.append(String(val)+' ');if(checked!==undefined&&checked!==null){const small=el('small','','('+checked+')');b.append(small)}
     v.append(b,el('span','',kategorie));stats.append(v);
   }
