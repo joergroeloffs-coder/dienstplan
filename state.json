@@ -1,28 +1,4 @@
 {
-  "2026-W36": {
-    "abfahrten_pro_tag": {
-      "01.09.2026": "6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün",
-      "02.09.2026": "6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün",
-      "03.09.2026": "6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün",
-      "04.09.2026": "6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün",
-      "28.08.2026": "6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n8:25 Dagebüll-Wyk\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk",
-      "29.08.2026": "6:00 Wyk-Dagebüll\n7:15 Dagebüll-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk (direkt)\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:30 Dagebüll-Wyk (direkt)\n18:15 Wittdün-Wyk (direkt)\n20:00 Dagebüll-Wyk\n20:55 Wyk-Wittdün",
-      "30.08.2026": "7:10 Wittdün-Wyk\n8:20 Wyk-Dagebüll\n9:35 Dagebüll-Wyk\n10:35 Wyk-Wittdün\n12:05 Wittdün-Wyk (direkt)\n14:05 Dagebüll-Wyk\n15:15 Wyk-Dagebüll\n16:30 Dagebüll-Wyk (direkt)\n18:15 Wittdün-Wyk (direkt)\n20:00 Dagebüll-Wyk\n20:55 Wyk-Wittdün",
-      "31.08.2026": "6:00 Wittdün-Wyk\n7:15 Wyk-Dagebüll\n9:35 Wyk-Dagebüll\n10:40 Dagebüll-Wyk\n11:50 Wyk-Dagebüll\n13:00 Dagebüll-Wyk (direkt)\n15:15 Wittdün-Wyk\n16:30 Wyk-Dagebüll\n18:00 Dagebüll-Wyk\n19:00 Wyk-Wittdün"
-    },
-    "abfahrten_text": "28.08.2026 6:00 Wittdün-Wyk\n28.08.2026 7:15 Wyk-Dagebüll\n28.08.2026 8:25 Dagebüll-Wyk\n28.08.2026 9:35 Wyk-Dagebüll\n28.08.2026 10:40 Dagebüll-Wyk\n28.08.2026 11:50 Wyk-Dagebüll\n28.08.2026 13:00 Dagebüll-Wyk (direkt)\n28.08.2026 15:15 Wittdün-Wyk\n28.08.2026 16:30 Wyk-Dagebüll\n28.08.2026 18:00 Dagebüll-Wyk\n29.08.2026 6:00 Wyk-Dagebüll\n29.08.2026 7:15 Dagebüll-Wyk\n29.08.2026 8:20 Wyk-Dagebüll\n29.08.2026 9:35 Dagebüll-Wyk\n29.08.2026 10:35 Wyk-Wittdün\n29.08.2026 12:05 Wittdün-Wyk (direkt)\n29.08.2026 14:05 Dagebüll-Wyk\n29.08.2026 15:15 Wyk-Dagebüll\n29.08.2026 16:30 Dagebüll-Wyk (direkt)\n29.08.2026 18:15 Wittdün-Wyk (direkt)\n29.08.2026 20:00 Dagebüll-Wyk\n29.08.2026 20:55 Wyk-Wittdün\n30.08.2026 7:10 Wittdün-Wyk\n30.08.2026 8:20 Wyk-Dagebüll\n30.08.2026 9:35 Dagebüll-Wyk\n30.08.2026 10:35 Wyk-Wittdün\n30.08.2026 12:05 Wittdün-Wyk (direkt)\n30.08.2026 14:05 Dagebüll-Wyk\n30.08.2026 15:15 Wyk-Dagebüll\n30.08.2026 16:30 Dagebüll-Wyk (direkt)\n30.08.2026 18:15 Wittdün-Wyk (direkt)\n30.08.2026 20:00 Dagebüll-Wyk\n30.08.2026 20:55 Wyk-Wittdün\n31.08.2026 6:00 Wittdün-Wyk\n31.08.2026 7:15 Wyk-Dagebüll\n31.08.2026 9:35 Wyk-Dagebüll\n31.08.2026 10:40 Dagebüll-Wyk\n31.08.2026 11:50 Wyk-Dagebüll\n31.08.2026 13:00 Dagebüll-Wyk (direkt)\n31.08.2026 15:15 Wittdün-Wyk\n31.08.2026 16:30 Wyk-Dagebüll\n31.08.2026 18:00 Dagebüll-Wyk\n31.08.2026 19:00 Wyk-Wittdün\n01.09.2026 6:00 Wittdün-Wyk\n01.09.2026 7:15 Wyk-Dagebüll\n01.09.2026 8:25 Dagebüll-Wyk\n01.09.2026 9:35 Wyk-Dagebüll\n01.09.2026 10:40 Dagebüll-Wyk\n01.09.2026 11:50 Wyk-Dagebüll\n01.09.2026 13:00 Dagebüll-Wyk (direkt)\n01.09.2026 15:15 Wittdün-Wyk\n01.09.2026 16:30 Wyk-Dagebüll\n01.09.2026 18:00 Dagebüll-Wyk\n01.09.2026 19:00 Wyk-Wittdün\n02.09.2026 6:00 Wittdün-Wyk\n02.09.2026 7:15 Wyk-Dagebüll\n02.09.2026 8:25 Dagebüll-Wyk\n02.09.2026 9:35 Wyk-Dagebüll\n02.09.2026 10:40 Dagebüll-Wyk\n02.09.2026 11:50 Wyk-Dagebüll\n02.09.2026 13:00 Dagebüll-Wyk (direkt)\n02.09.2026 15:15 Wittdün-Wyk\n02.09.2026 16:30 Wyk-Dagebüll\n02.09.2026 18:00 Dagebüll-Wyk\n02.09.2026 19:00 Wyk-Wittdün\n03.09.2026 6:00 Wittdün-Wyk\n03.09.2026 7:15 Wyk-Dagebüll\n03.09.2026 8:25 Dagebüll-Wyk\n03.09.2026 9:35 Wyk-Dagebüll\n03.09.2026 10:40 Dagebüll-Wyk\n03.09.2026 11:50 Wyk-Dagebüll\n03.09.2026 13:00 Dagebüll-Wyk (direkt)\n03.09.2026 15:15 Wittdün-Wyk\n03.09.2026 16:30 Wyk-Dagebüll\n03.09.2026 18:00 Dagebüll-Wyk\n03.09.2026 19:00 Wyk-Wittdün\n04.09.2026 6:00 Wittdün-Wyk\n04.09.2026 7:15 Wyk-Dagebüll\n04.09.2026 8:25 Dagebüll-Wyk\n04.09.2026 9:35 Wyk-Dagebüll\n04.09.2026 10:40 Dagebüll-Wyk\n04.09.2026 11:50 Wyk-Dagebüll\n04.09.2026 13:00 Dagebüll-Wyk (direkt)\n04.09.2026 15:15 Wittdün-Wyk\n04.09.2026 16:30 Wyk-Dagebüll\n04.09.2026 18:00 Dagebüll-Wyk\n04.09.2026 19:00 Wyk-Wittdün",
-    "besatzung_text": "NK Stier, Falk\nNEO Roeloffs, Jörg\nTLM Petersen, Lukas\nGSM Romischke, Willi\nNWB Christiansen, Timo\nNWB Woydack, Ole\nNWB* Anders, Frank\nAz Skora, Jesse",
-    "category": "UTHLANDE",
-    "date_from": "2026-08-28",
-    "date_to": "2026-09-04",
-    "file": "36KW2026 5. Änderung.pdf",
-    "mtime": "2026-09-02 17:17",
-    "nachbar_links": "Freie Tage",
-    "revision": 5,
-    "sequence": 1,
-    "summary": "Dienst auf UTHLANDE",
-    "vorgaenger_text": "NK Krauledat, Norbert\nNK Stier, Falk\nNEO Kohn, Otis\nTLM Trost, Adrian\nGSM Sievers, Jon\nNWB Allwörden, André von\nNW Bohn, Hauke\nNWB* Moths, Holger"
-  },
   "2026-W37": {
     "category": "Freie Tage",
     "date_from": "2026-09-04",
